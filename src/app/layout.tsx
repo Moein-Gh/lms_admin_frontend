@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
 import { APP_CONFIG } from "@/config/app-config";
+import { QueryProvider } from "@/providers/query-provider";
 import { getPreference } from "@/server/server-actions";
 import { PreferencesStoreProvider } from "@/stores/preferences/preferences-provider";
 import {
@@ -29,12 +30,12 @@ export default async function RootLayout({
   const themeMode = await getPreference<ThemeMode>(
     "theme_mode",
     THEME_MODE_VALUES,
-    "light"
+    "light",
   );
   const themePreset = await getPreference<ThemePreset>(
     "theme_preset",
     THEME_PRESET_VALUES,
-    "default"
+    "default",
   );
 
   return (
@@ -46,13 +47,15 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${inter.className} min-h-screen antialiased`}>
-        <PreferencesStoreProvider
-          themeMode={themeMode}
-          themePreset={themePreset}
-        >
-          {children}
-          <Toaster />
-        </PreferencesStoreProvider>
+        <QueryProvider>
+          <PreferencesStoreProvider
+            themeMode={themeMode}
+            themePreset={themePreset}
+          >
+            {children}
+            <Toaster />
+          </PreferencesStoreProvider>
+        </QueryProvider>
       </body>
     </html>
   );

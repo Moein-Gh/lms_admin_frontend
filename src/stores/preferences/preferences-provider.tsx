@@ -30,7 +30,7 @@ export const PreferencesStoreProvider = ({
 };
 
 export const usePreferencesStore = <T,>(
-  selector: (state: PreferencesState) => T
+  selector: (state: PreferencesState) => T,
 ): T => {
   const store = useContext(PreferencesStoreContext);
   if (!store) throw new Error("Missing PreferencesStoreProvider");
