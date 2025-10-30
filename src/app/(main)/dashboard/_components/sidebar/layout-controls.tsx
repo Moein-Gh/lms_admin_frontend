@@ -72,7 +72,7 @@ export function LayoutControls(props: LayoutControlsProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button size="icon">
+        <Button size="icon" variant={"ghost"}>
           <Settings />
         </Button>
       </PopoverTrigger>

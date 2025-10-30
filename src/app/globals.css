@@ -156,11 +156,68 @@ These serve as the fallback; there is no separate default.css file. */
     @apply border-border outline-ring/50;
   }
 
+  html {
+    overflow-y: scroll; /* Force scrollbar to always be visible */
+
+  }
+
   body {
     @apply bg-background text-foreground overscroll-none;
+  }
+
+  /* Prevent body scroll lock from Radix Select component */
+  body[data-scroll-locked] {
+    overflow: visible !important;
+    padding-right: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
 .disable-transitions * {
   transition: none !important;
 }
+
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+}
+
+/* Flip text alignment */
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* Flip margins */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* Flip padding */
+[dir="rtl"] .pl-0 { padding-left: 0; padding-right: 0; }
+[dir="rtl"] .pr-0 { padding-right: 0; padding-left: 0; }
+
+/* Flip borders */
+[dir="rtl"] .border-l { border-left: 0; border-right: var(--tw-border-opacity, 1px) solid; }
+[dir="rtl"] .border-r { border-right: 0; border-left: var(--tw-border-opacity, 1px) solid; }
+
+/* Flip rounded corners */
+[dir="rtl"] .rounded-l { border-radius: 0 var(--radius) var(--radius) 0; }
+[dir="rtl"] .rounded-r { border-radius: var(--radius) 0 0 var(--radius); }
+
+/* Flip positioning */
+[dir="rtl"] .left-0 { left: auto; right: 0; }
+[dir="rtl"] .right-0 { right: auto; left: 0; }
+
+/* Flip transforms */
+[dir="rtl"] .translate-x-full { transform: translateX(-100%); }
+[dir="rtl"] .-translate-x-full { transform: translateX(100%); }
