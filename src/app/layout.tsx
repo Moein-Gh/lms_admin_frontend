@@ -1,10 +1,8 @@
 import { ReactNode } from "react";
 
-import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
-import { APP_CONFIG } from "@/config/app-config";
 import { QueryProvider } from "@/providers/query-provider";
 import { getPreference } from "@/server/server-actions";
 import { PreferencesStoreProvider } from "@/stores/preferences/preferences-provider";
@@ -21,11 +19,6 @@ const vazirmatn = Vazirmatn({
   subsets: ["latin", "arabic"],
   variable: "--font-display",
 });
-
-export const metadata: Metadata = {
-  title: APP_CONFIG.meta.title,
-  description: APP_CONFIG.meta.description,
-};
 
 export default async function RootLayout({
   children,

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { LoginForm } from "../../_components/login-form";
+import { LoginForm } from "../_components/login-form";
 
 export default function LoginV1() {
   const [title, setTitle] = useState("ورود");

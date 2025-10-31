@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ChevronLeft, MailIcon, PlusCircleIcon } from "lucide-react";
+import { ChevronLeft, PlusCircleIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -38,12 +37,6 @@ interface NavMainProps {
   readonly items: readonly NavGroup[];
 }
 
-const IsComingSoon = () => (
-  <span className="ml-auto rounded-md bg-gray-200 px-2 py-1 text-xs dark:text-gray-800">
-    Soon
-  </span>
-);
-
 const NavItemExpanded = ({
   item,
   isActive,
@@ -70,7 +63,7 @@ const NavItemExpanded = ({
             >
               {item.icon && <item.icon />}
               <span>{item.title}</span>
-              {item.comingSoon && <IsComingSoon />}
+
               <ChevronLeft className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:-rotate-90" />
             </SidebarMenuButton>
           ) : (
@@ -83,7 +76,6 @@ const NavItemExpanded = ({
               <Link href={item.url} target={item.newTab ? "_blank" : undefined}>
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
-                {item.comingSoon && <IsComingSoon />}
               </Link>
             </SidebarMenuButton>
           )}
@@ -104,7 +96,6 @@ const NavItemExpanded = ({
                     >
                       {subItem.icon && <subItem.icon />}
                       <span>{subItem.title}</span>
-                      {subItem.comingSoon && <IsComingSoon />}
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
@@ -160,7 +151,6 @@ const NavItemCollapsed = ({
                     <subItem.icon className="[&>svg]:text-sidebar-foreground" />
                   )}
                   <span>{subItem.title}</span>
-                  {subItem.comingSoon && <IsComingSoon />}
                 </Link>
               </SidebarMenuSubButton>
             </DropdownMenuItem>
@@ -193,20 +183,20 @@ export function NavMain({ items }: NavMainProps) {
           <SidebarMenu>
             <SidebarMenuItem className="flex items-center gap-2">
               <SidebarMenuButton
-                tooltip="Quick Create"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+                tooltip="اقزودن سریع"
+                className="bg-primary flex justify-center text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
               >
                 <PlusCircleIcon />
-                <span>Quick Create</span>
+                {state === "expanded" && <span>افزودن سریع</span>}
               </SidebarMenuButton>
-              <Button
+              {/* <Button
                 size="icon"
                 className="h-9 w-9 shrink-0 group-data-[collapsible=icon]:opacity-0"
                 variant="outline"
               >
                 <MailIcon />
                 <span className="sr-only">Inbox</span>
-              </Button>
+              </Button> */}
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroupContent>
