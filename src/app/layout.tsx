@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Vazirmatn } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
 import { APP_CONFIG } from "@/config/app-config";
@@ -17,7 +17,10 @@ import {
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const vazirmatn = Vazirmatn({
+  subsets: ["latin", "arabic"],
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
   title: APP_CONFIG.meta.title,
@@ -46,7 +49,7 @@ export default async function RootLayout({
       data-theme-preset={themePreset}
       suppressHydrationWarning
     >
-      <body className={`${inter.className} min-h-screen antialiased`}>
+      <body className={`${vazirmatn.className} min-h-screen antialiased`}>
         <QueryProvider>
           <PreferencesStoreProvider
             themeMode={themeMode}

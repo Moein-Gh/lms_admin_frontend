@@ -33,6 +33,11 @@ type PhoneInputProps = Omit<
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
   React.forwardRef<React.ElementRef<typeof RPNInput.default>, PhoneInputProps>(
     ({ className, onChange, value, ...props }, ref) => {
+      // Ensure only E.164 values (starting with "+") are passed to react-phone-number-input
+      const normalizedValue =
+        typeof value === "string" && value.trim().startsWith("+")
+          ? (value as RPNInput.Value)
+          : undefined;
       return (
         <RPNInput.default
           ref={ref}
@@ -41,7 +46,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
           countrySelectComponent={CountrySelect}
           inputComponent={InputComponent}
           smartCaret={false}
-          value={value || undefined}
+          value={normalizedValue}
           onChange={(value) => onChange?.(value || ("" as RPNInput.Value))}
           {...props}
         />

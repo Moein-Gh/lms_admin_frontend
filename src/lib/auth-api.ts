@@ -15,10 +15,11 @@ type VerifySmsPayload = {
 type AuthResponse = {
   accessToken: string;
   refreshToken: string;
+  sessionId: string;
 };
 
 export async function requestSms(payload: RequestSmsPayload): Promise<void> {
-  await api.post("/auth/request-sms", payload);
+  await api.post("/auth/request-sms/", payload);
 }
 
 export async function verifySms(
@@ -31,4 +32,12 @@ export async function verifySms(
 export async function refreshToken(): Promise<AuthResponse> {
   const response = await api.post<AuthResponse>("/auth/refresh");
   return response.data;
+}
+
+export type LogoutPayload = {
+  sessionId?: string;
+};
+
+export async function logout(payload?: LogoutPayload): Promise<void> {
+  await api.post("/auth/logout", payload ?? {});
 }

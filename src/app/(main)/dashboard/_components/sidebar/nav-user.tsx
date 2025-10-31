@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  EllipsisVertical,
   CircleUser,
   CreditCard,
-  MessageSquareDot,
+  EllipsisVertical,
   LogOut,
+  MessageSquareDot,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -24,6 +24,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useLogout } from "@/hooks/use-auth";
 import { getInitials } from "@/lib/utils";
 
 export function NavUser({
@@ -36,6 +37,7 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const logout = useLogout();
 
   return (
     <SidebarMenu>
@@ -99,9 +101,15 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={logout.isPending}
+              onSelect={(e) => {
+                e.preventDefault();
+                logout.mutate();
+              }}
+            >
               <LogOut />
-              Log out
+              {logout.isPending ? "خروج..." : "خروج"}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

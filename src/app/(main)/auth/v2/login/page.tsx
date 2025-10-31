@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import Link from "next/link";
 
 import { Globe } from "lucide-react";
@@ -8,14 +12,17 @@ import { LoginForm } from "../../_components/login-form";
 import { GoogleButton } from "../../_components/social-auth/google-button";
 
 export default function LoginV2() {
+  const [title, setTitle] = useState("Login to your account");
+  const [description, setDescription] = useState(
+    "Please enter your details to login.",
+  );
+
   return (
     <>
       <div className="mx-auto flex w-full flex-col justify-center space-y-8 sm:w-[350px]">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-medium">Login to your account</h1>
-          <p className="text-muted-foreground text-sm">
-            Please enter your details to login.
-          </p>
+          <h1 className="text-3xl font-medium">{title}</h1>
+          <p className="text-muted-foreground text-sm">{description}</p>
         </div>
         <div className="space-y-4">
           <GoogleButton className="w-full" />
@@ -24,7 +31,12 @@ export default function LoginV2() {
               Or continue with
             </span>
           </div>
-          <LoginForm />
+          <LoginForm
+            onTitleChange={(newTitle, newDescription) => {
+              setTitle(newTitle);
+              setDescription(newDescription);
+            }}
+          />
         </div>
       </div>
 
