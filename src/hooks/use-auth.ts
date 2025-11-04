@@ -71,7 +71,7 @@ export function useLogout() {
       }
       // Clear react-query cache and navigate to login
       queryClient.clear();
-      router.replace("/auth/v1/login");
+      router.replace("/auth/login");
     },
   });
 }

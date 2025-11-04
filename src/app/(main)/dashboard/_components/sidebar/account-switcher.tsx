@@ -1,6 +1,6 @@
 "use client";
 
-import { BadgeCheck, Bell, CircleUser, CreditCard, LogOut } from "lucide-react";
+import { CircleUser, LogOut, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -39,7 +39,7 @@ export function AccountSwitcher({
       <DropdownMenuContent
         className="min-w-56 space-y-1 rounded-lg"
         side="bottom"
-        align="end"
+        align="start"
         sideOffset={4}
       >
         <div>
@@ -63,17 +63,9 @@ export function AccountSwitcher({
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <BadgeCheck />
-            Account
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CreditCard />
-            Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Bell />
-            Notifications
+          <DropdownMenuItem className="justify-end gap-3">
+            حساب کاربری
+            <User />
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -83,9 +75,10 @@ export function AccountSwitcher({
             e.preventDefault();
             logout.mutate();
           }}
+          className="justify-end gap-3"
         >
-          <LogOut />
           {logout.isPending ? "خروج..." : "خروج"}
+          <LogOut />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

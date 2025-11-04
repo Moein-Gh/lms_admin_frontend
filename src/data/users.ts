@@ -1,11 +1,11 @@
 export const users = [
   {
     id: "1",
-    name: "Arham Khan",
+    name: "معین قربانعلی",
     username: "Aarhamkhnz",
     email: "hello@arhamkhnz.com",
     avatar: "/avatars/avatar.jpg",
-    role: "administrator",
+    role: "مدیر",
   },
   {
     id: "2",
