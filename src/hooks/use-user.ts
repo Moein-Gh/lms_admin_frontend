@@ -1,0 +1,159 @@
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  type UseQueryOptions,
+} from "@tanstack/react-query";
+
+import {
+  createUser,
+  deleteUser,
+  getUserById,
+  listUsers,
+  registerUser,
+  updateUser,
+  type CreateUserRequest,
+  type ListUsersParams,
+  type RegisterUserInput,
+  type UpdateUserRequest,
+} from "@/lib/user-api";
+import { User } from "@/types/entities/user.type";
+
+// Query keys for user-related queries
+export const userKeys = {
+  all: ["users"] as const,
+  lists: () => [...userKeys.all, "list"] as const,
+  list: (params?: ListUsersParams) => [...userKeys.lists(), params] as const,
+  details: () => [...userKeys.all, "detail"] as const,
+  detail: (id: string) => [...userKeys.details(), id] as const,
+};
+
+/**
+ * Hook to fetch a paginated list of users
+ */
+export function useUsers(
+  params?: ListUsersParams,
+  options?: Omit<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof listUsers>>,
+      Error,
+      Awaited<ReturnType<typeof listUsers>>,
+      ReturnType<typeof userKeys.list>
+    >,
+    "queryKey" | "queryFn"
+  >,
+) {
+  return useQuery({
+    queryKey: userKeys.list(params),
+    queryFn: () => listUsers(params),
+    ...options,
+  });
+}
+
+/**
+ * Hook to fetch a single user by ID
+ */
+export function useUser(
+  userId: string,
+  options?: Omit<
+    UseQueryOptions<User, Error, User, ReturnType<typeof userKeys.detail>>,
+    "queryKey" | "queryFn"
+  >,
+) {
+  return useQuery({
+    queryKey: userKeys.detail(userId),
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
+    ...options,
+  });
+}
+
+/**
+ * Hook to create a new user
+ */
+export function useCreateUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreateUserRequest) => createUser(data),
+    onSuccess: () => {
+      // Invalidate and refetch user lists
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+    },
+  });
+}
+
+/**
+ * Hook to register a new user (with full identity)
+ */
+export function useRegisterUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: RegisterUserInput) => registerUser(data),
+    onSuccess: () => {
+      // Invalidate and refetch user lists
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+    },
+  });
+}
+
+/**
+ * Hook to update an existing user
+ */
+export function useUpdateUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      userId,
+      data,
+    }: {
+      userId: string;
+      data: UpdateUserRequest;
+    }) => updateUser(userId, data),
+    onSuccess: (updatedUser) => {
+      // Invalidate the specific user detail query
+      queryClient.invalidateQueries({
+        queryKey: userKeys.detail(updatedUser.id),
+      });
+      // Invalidate user lists to reflect changes
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+    },
+  });
+}
+
+/**
+ * Hook to delete a user
+ */
+export function useDeleteUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (userId: string) => deleteUser(userId),
+    onSuccess: (_data, userId) => {
+      // Remove the deleted user from cache
+      queryClient.removeQueries({ queryKey: userKeys.detail(userId) });
+      // Invalidate user lists
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+    },
+  });
+}
+
+/**
+ * Hook to toggle user active status
+ */
+export function useToggleUserStatus() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, isActive }: { userId: string; isActive: boolean }) =>
+      updateUser(userId, { isActive }),
+    onSuccess: (updatedUser) => {
+      // Update cache optimistically
+      queryClient.setQueryData(userKeys.detail(updatedUser.id), updatedUser);
+      // Invalidate lists to reflect the change
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+    },
+  });
+}

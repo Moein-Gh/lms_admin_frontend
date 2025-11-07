@@ -58,32 +58,30 @@ function SheetContent({
   // visually on the "right" in RTL we must use `left-0` (which will be
   // flipped to `right:0`). Similarly handle border side classes so the
   // divider is on the inner edge of the sheet.
-  const dir =
-    typeof document !== "undefined"
-      ? document.documentElement?.dir || document.dir || "ltr"
-      : "ltr";
+  // Use useMemo to compute synchronously and match SSR/CSR.
+  const positionClasses = React.useMemo(() => {
+    // During SSR, assume RTL since layout.tsx sets dir="rtl"
+    const dir =
+      typeof document !== "undefined"
+        ? document.documentElement?.dir || document.dir || "ltr"
+        : "rtl";
 
-  let positionClasses = "";
-
-  if (side === "right") {
-    // Visual right anchor
-    positionClasses =
-      dir === "rtl"
+    if (side === "right") {
+      // Visual right anchor
+      return dir === "rtl"
         ? "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm"
         : "data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm";
-  } else if (side === "left") {
-    // Visual left anchor
-    positionClasses =
-      dir === "rtl"
+    } else if (side === "left") {
+      // Visual left anchor
+      return dir === "rtl"
         ? "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm"
         : "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm";
-  } else if (side === "top") {
-    positionClasses =
-      "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b";
-  } else {
-    positionClasses =
-      "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t";
-  }
+    } else if (side === "top") {
+      return "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b";
+    } else {
+      return "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t";
+    }
+  }, [side]);
 
   return (
     <SheetPortal>

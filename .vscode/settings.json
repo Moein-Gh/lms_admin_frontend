@@ -1,0 +1,16 @@
+{
+  // Run ESLint auto-fixes on save and prevent TypeScript organizeImports from reordering imports
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  // Keep Prettier as default formatter but let ESLint handle import ordering fixes
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}

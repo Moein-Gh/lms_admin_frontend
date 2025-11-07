@@ -31,3 +31,6 @@ export async function getPreference<T extends string>(
   const value = cookie ? cookie.value.trim() : undefined;
   return allowed.includes(value as T) ? (value as T) : fallback;
 }
+
+// refreshAccessToken removed: we no longer refresh on the server. The client
+// will handle refreshing after requests as needed.

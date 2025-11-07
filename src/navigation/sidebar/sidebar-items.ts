@@ -1,4 +1,4 @@
-import { LayoutDashboard, type LucideIcon } from "lucide-react";
+import { LayoutDashboard, User, type LucideIcon } from "lucide-react";
 
 export interface NavSubItem {
   title: string;
@@ -34,6 +34,11 @@ export const sidebarItems: NavGroup[] = [
         title: "داشبورد",
         url: "/dashboard/default",
         icon: LayoutDashboard,
+      },
+      {
+        title: "کاربران",
+        url: "/dashboard/users",
+        icon: User,
       },
       // {
       //   title: "CRM",

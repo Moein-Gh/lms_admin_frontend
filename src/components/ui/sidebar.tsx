@@ -168,21 +168,20 @@ function Sidebar({
   // Compute effective side. If a `side` prop is provided, use it.
   // Otherwise infer from document direction so RTL layouts open the
   // mobile sheet from the visual start (right in RTL).
-  const [effectiveSide, setEffectiveSide] = React.useState<"left" | "right">(
-    () => side ?? "left"
-  );
-
-  React.useEffect(() => {
+  // Use useMemo to compute synchronously and avoid hydration mismatch.
+  const effectiveSide = React.useMemo<"left" | "right">(() => {
     if (side) {
-      setEffectiveSide(side);
-      return;
+      return side;
     }
 
-    const dir =
-      typeof document !== "undefined"
-        ? document.documentElement?.dir || document.dir || "ltr"
-        : "ltr";
-    setEffectiveSide(dir === "rtl" ? "right" : "left");
+    // During SSR, we can't access document, so default to "right" for RTL
+    // since the layout.tsx sets dir="rtl" on the html element
+    if (typeof document === "undefined") {
+      return "right";
+    }
+
+    const dir = document.documentElement?.dir || document.dir || "ltr";
+    return dir === "rtl" ? "right" : "left";
   }, [side]);
 
   if (collapsible === "none") {

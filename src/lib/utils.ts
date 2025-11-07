@@ -46,3 +46,14 @@ export function formatCurrency(
 
   return new Intl.NumberFormat(locale, formatOptions).format(amount);
 }
+
+export function formatDate(
+  date: Date | string,
+  opts?: Intl.DateTimeFormatOptions & { locale?: string },
+) {
+  const { locale = "fa-IR", ...formatOptions } = opts ?? {};
+
+  const dateObj = typeof date === "string" ? new Date(date) : date;
+
+  return new Intl.DateTimeFormat(locale, formatOptions).format(dateObj);
+}

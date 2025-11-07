@@ -172,6 +172,10 @@ These serve as the fallback; there is no separate default.css file. */
     padding-right: 0 !important;
     margin-right: 0 !important;
   }
+
+  .card-container {
+    @apply bg-card text-card-foreground rounded-xl shadow-sm p-3 border @container/card;
+  }
 }
 
 .disable-transitions * {

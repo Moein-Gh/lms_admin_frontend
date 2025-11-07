@@ -24,6 +24,26 @@ export function useVerifySms() {
   });
 }
 
+export function useRefreshToken() {
+  return useMutation({
+    mutationFn: async (refreshToken: string) => {
+      // Call backend refresh token endpoint
+      return await fetch("/api/auth/refresh-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ refreshToken }),
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to refresh token");
+        }
+        return res.json();
+      });
+    },
+  });
+}
+
 export function useLogout() {
   const queryClient = useQueryClient();
   const router = useRouter();
