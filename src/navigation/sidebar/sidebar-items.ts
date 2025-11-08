@@ -1,4 +1,4 @@
-import { LayoutDashboard, User, type LucideIcon } from "lucide-react";
+import { IdCard, LayoutDashboard, User, type LucideIcon } from "lucide-react";
 
 export interface NavSubItem {
   title: string;
@@ -33,25 +33,25 @@ export const sidebarItems: NavGroup[] = [
       {
         title: "داشبورد",
         url: "/dashboard/default",
-        icon: LayoutDashboard,
+        icon: LayoutDashboard
       },
       {
         title: "کاربران",
         url: "/dashboard/users",
-        icon: User,
+        icon: User
       },
-      // {
-      //   title: "CRM",
-      //   url: "/dashboard/crm",
-      //   icon: ChartBar,
-      // },
+      {
+        title: "حساب ها",
+        url: "/dashboard/accounts",
+        icon: IdCard
+      }
       // {
       //   title: "Finance",
       //   url: "/dashboard/finance",
       //   icon: Banknote,
       // },
-    ],
-  },
+    ]
+  }
   // {
   //   id: 2,
   //   label: "Pages",

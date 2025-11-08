@@ -36,7 +36,15 @@ export default defineConfig([
   {
     rules: {
       // Prettier integration rules
-      "prettier/prettier": "warn",
+      // Enforce Prettier with explicit options so ESLint doesn't report
+      // mismatches for trailing commas (project-wide setting).
+      "prettier/prettier": [
+        "warn",
+        {
+          trailingComma: "none",
+          printWidth: 120,
+        },
+      ],
 
       // File Naming
       "unicorn/filename-case": [
@@ -71,7 +79,7 @@ export default defineConfig([
             },
           ],
           pathGroupsExcludedImportTypes: [],
-          "newlines-between": "always",
+          "newlines-between": "ignore",
           alphabetize: {
             order: "asc",
             caseInsensitive: true,

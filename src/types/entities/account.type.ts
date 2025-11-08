@@ -1,0 +1,25 @@
+import { AccountType } from "./account-type.type";
+import { User } from "./user.type";
+
+export enum AccountStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  RESTRICTED = "restricted"
+}
+
+export interface Account {
+  id: string;
+  code: number;
+  accountTypeId: string;
+  name: string;
+  userId: string;
+  cardNumber: string;
+  bankName: string;
+  status: AccountStatus;
+
+  createdAt: Date;
+  updatedAt: Date;
+
+  accountType?: AccountType;
+  user?: User;
+}

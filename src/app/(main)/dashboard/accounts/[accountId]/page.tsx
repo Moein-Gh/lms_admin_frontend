@@ -6,8 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/hooks/use-user";
 
-import UserAccounts from "./_Components/user-accounts";
-import UserCard from "./_Components/user-card";
+import UserCard from "./_Components/account-card";
 
 export default function UserPage() {
   const { userId } = useParams();
@@ -49,7 +48,7 @@ export default function UserPage() {
               <TabsTrigger value="password">وام ها</TabsTrigger>
             </TabsList>
             <div className="w-full ">
-              <UserAccounts userId={userId as string} />
+              {/* <UserAccounts userId={userId as string} /> */}
               <TabsContent value="password">hello 2</TabsContent>
             </div>
           </Tabs>

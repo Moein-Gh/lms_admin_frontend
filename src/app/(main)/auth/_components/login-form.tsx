@@ -12,14 +12,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 // Replaced OTP component with a simple input for reliability
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
@@ -27,13 +20,11 @@ import { useRequestSms, useVerifySms } from "@/hooks/use-auth";
 import type { ProblemDetails } from "@/types/api";
 
 const PhoneSchema = z.object({
-  phone: z
-    .string()
-    .refine(isValidPhoneNumber, { message: "شماره تلفن معتبر وارد کنید" }),
+  phone: z.string().refine(isValidPhoneNumber, { message: "شماره تلفن معتبر وارد کنید" })
 });
 
 const CodeSchema = z.object({
-  code: z.string().length(6, { message: "کد باید ۶ رقم باشد" }),
+  code: z.string().length(6, { message: "کد باید ۶ رقم باشد" })
 });
 
 type LoginFormProps = {
@@ -55,15 +46,15 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
   const phoneForm = useForm<z.infer<typeof PhoneSchema>>({
     resolver: zodResolver(PhoneSchema),
     defaultValues: {
-      phone: "",
-    },
+      phone: ""
+    }
   });
 
   const codeForm = useForm<z.infer<typeof CodeSchema>>({
     resolver: zodResolver(CodeSchema),
     defaultValues: {
-      code: "",
-    },
+      code: ""
+    }
   });
 
   // Countdown timer effect
@@ -77,15 +68,9 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
   // Update title when step changes
   useEffect(() => {
     if (step === "phone") {
-      onTitleChange?.(
-        "ورود",
-        "برای ورود به سیستم، شماره موبایل خود را وارد کنید",
-      );
+      onTitleChange?.("ورود", "برای ورود به سیستم، شماره موبایل خود را وارد کنید");
     } else {
-      onTitleChange?.(
-        "تایید کد",
-        `کد تایید ارسال شده به شماره ${phone} را وارد کنید`,
-      );
+      onTitleChange?.("تایید کد", `کد تایید ارسال شده به شماره ${phone} را وارد کنید`);
     }
   }, [step, phone, onTitleChange]);
 
@@ -106,7 +91,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
       {
         phone: extractedPhone,
         countryCode: extractedCountryCode,
-        purpose: "login",
+        purpose: "login"
       },
       {
         onSuccess: () => {
@@ -120,12 +105,10 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
         },
         onError: (error: Error) => {
           const axiosError = error as AxiosError<ProblemDetails>;
-          const message =
-            axiosError.response?.data.detail ??
-            "خطا در ارسال کد. دوباره تلاش کنید";
+          const message = axiosError.response?.data.detail ?? "خطا در ارسال کد. دوباره تلاش کنید";
           toast.error(message);
-        },
-      },
+        }
+      }
     );
   };
 
@@ -134,7 +117,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
       {
         phone,
         code: data.code,
-        purpose: "login",
+        purpose: "login"
       },
       {
         onSuccess: () => {
@@ -145,18 +128,15 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
           const axiosError = error as AxiosError<ProblemDetails>;
           const message = axiosError.response?.data.detail ?? "کد نامعتبر است";
           toast.error(message);
-        },
-      },
+        }
+      }
     );
   };
 
   if (step === "phone") {
     return (
       <Form {...phoneForm}>
-        <form
-          onSubmit={phoneForm.handleSubmit(onPhoneSubmit)}
-          className="space-y-4"
-        >
+        <form onSubmit={phoneForm.handleSubmit(onPhoneSubmit)} className="space-y-4">
           <FormField
             control={phoneForm.control}
             name="phone"
@@ -164,24 +144,14 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
               <FormItem>
                 <FormLabel>شماره موبایل</FormLabel>
                 <FormControl>
-                  <PhoneInput
-                    placeholder="9xxxxxxxxx"
-                    defaultCountry="IR"
-                    {...field}
-                  />
+                  <PhoneInput placeholder="9xxxxxxxxx" defaultCountry="IR" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button
-            className="w-full"
-            type="submit"
-            disabled={requestSmsMutation.isPending}
-          >
-            {requestSmsMutation.isPending
-              ? "در حال ارسال..."
-              : "دریافت کد تایید"}
+          <Button className="w-full" type="submit" disabled={requestSmsMutation.isPending}>
+            {requestSmsMutation.isPending ? "در حال ارسال..." : "دریافت کد تایید"}
           </Button>
         </form>
       </Form>
@@ -190,10 +160,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
 
   return (
     <Form {...codeForm}>
-      <form
-        onSubmit={codeForm.handleSubmit(onCodeSubmit)}
-        className="space-y-4"
-      >
+      <form onSubmit={codeForm.handleSubmit(onCodeSubmit)} className="space-y-4">
         <FormField
           control={codeForm.control}
           name="code"
@@ -213,7 +180,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
                     // Keep RHF in sync without triggering validation while typing
                     codeForm.setValue("code", val, {
                       shouldValidate: false,
-                      shouldDirty: true,
+                      shouldDirty: true
                     });
                     // Hide any prior validation error until submit
                     codeForm.clearErrors("code");
@@ -225,11 +192,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
             </FormItem>
           )}
         />
-        <Button
-          className="w-full"
-          type="submit"
-          disabled={verifySmsMutation.isPending || rawCode.length !== 6}
-        >
+        <Button className="w-full" type="submit" disabled={verifySmsMutation.isPending || rawCode.length !== 6}>
           {verifySmsMutation.isPending ? "در حال ورود..." : "ورود"}
         </Button>
         <Button
@@ -245,9 +208,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
           }}
           disabled={countdown > 0}
         >
-          {countdown > 0
-            ? `درخواست کد جدید (${countdown} ثانیه)`
-            : "درخواست کد جدید"}
+          {countdown > 0 ? `درخواست کد جدید (${countdown} ثانیه)` : "درخواست کد جدید"}
         </Button>
       </form>
     </Form>
