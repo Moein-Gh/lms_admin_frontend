@@ -1,7 +1,7 @@
 "use client";
-
-import * as React from "react";
+import { useState } from "react";
 import { PlusIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
 
@@ -23,38 +23,48 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useCreateUser } from "@/hooks/use-user";
 
 export function CreateUserDialog() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const isMobile = useIsMobile();
 
   const createUser = useCreateUser();
 
-  const [phoneValue, setPhoneValue] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [nationalCode, setNationalCode] = React.useState("");
+  type FormValues = {
+    phone: string;
+    name: string;
+    nationalCode: string;
+  };
 
-  const onSubmit = (e?: React.FormEvent) => {
-    e?.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors }
+  } = useForm<FormValues>({
+    defaultValues: {
+      phone: "",
+      name: "",
+      nationalCode: ""
+    }
+  });
 
-    const parsed = parsePhoneNumber(phoneValue || "");
+  const onSubmit = (data: FormValues) => {
+    const parsed = parsePhoneNumber(data.phone || "");
     if (!parsed || !parsed.countryCallingCode) {
       toast.error("لطفاً شماره تلفن معتبر وارد کنید");
       return;
     }
-
     const payload = {
       countryCode: `+${parsed.countryCallingCode}`,
       phone: parsed.nationalNumber,
-      name: name.trim(),
-      nationalCode: nationalCode.trim() || undefined
+      name: data.name.trim(),
+      nationalCode: data.nationalCode.trim() || undefined
     } as const;
-
     createUser.mutate(payload, {
       onSuccess: () => {
         toast.success("کاربر با موفقیت ایجاد شد");
         setOpen(false);
-        setPhoneValue("");
-        setName("");
-        setNationalCode("");
+        reset();
       },
       onError: (err: unknown) => {
         let msg = "خطا در ایجاد کاربر";
@@ -67,7 +77,7 @@ export function CreateUserDialog() {
   };
 
   const formContent = (
-    <form onSubmit={onSubmit} className="space-y-4 py-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
       <div className="space-y-2">
         <Label htmlFor="phone" className="text-sm font-medium">
           شماره موبایل
@@ -77,28 +87,25 @@ export function CreateUserDialog() {
           id="phone"
           placeholder="9xxxxxxxxx"
           defaultCountry="IR"
-          value={phoneValue}
-          onChange={(v) => setPhoneValue(v || "")}
+          value={undefined}
+          onChange={(v) => setValue("phone", v || "", { shouldValidate: true })}
         />
+        {errors.phone && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="national" className="text-sm font-medium">
           کد ملی
         </Label>
-        <Input
-          id="national"
-          placeholder="کد ملی"
-          value={nationalCode}
-          onChange={(e) => setNationalCode(e.target.value)}
-        />
+        <Input id="national" placeholder="کد ملی" {...register("nationalCode")} />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="name" className="text-sm font-medium">
           نام و نام خانوادگی
         </Label>
-        <Input id="name" placeholder="نام" value={name} onChange={(e) => setName(e.target.value)} />
+        <Input id="name" placeholder="نام" {...register("name", { required: true })} />
+        {errors.name && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
       </div>
 
       {!isMobile && (
@@ -106,15 +113,7 @@ export function CreateUserDialog() {
           <Button type="submit" className="flex-1" disabled={createUser.isPending}>
             {createUser.isPending ? "در حال ایجاد..." : "ایجاد کاربر"}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => {
-              setPhoneValue("");
-              setName("");
-              setNationalCode("");
-            }}
-          >
+          <Button type="button" variant="outline" onClick={() => reset()}>
             پاک کردن
           </Button>
         </div>
