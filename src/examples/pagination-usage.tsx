@@ -18,7 +18,7 @@ export function UserListExample() {
   // Initialize pagination state
   const pagination = usePagination({
     initialPage: 1,
-    initialPageSize: 10,
+    initialPageSize: 10
   });
 
   // Fetch users with pagination
@@ -27,7 +27,7 @@ export function UserListExample() {
     pageSize: pagination.pageSize,
     // Additional filters
     isActive: true,
-    search: "",
+    search: ""
   });
 
   if (isLoading) return <div>در حال بارگذاری...</div>;
@@ -66,35 +66,23 @@ export function UserListWithManualNavigation() {
   const pagination = usePagination({ initialPage: 1, initialPageSize: 20 });
   const { data } = useUsers({
     page: pagination.page,
-    pageSize: pagination.pageSize,
+    pageSize: pagination.pageSize
   });
 
   return (
     <div>
       {/* Custom navigation using pagination helpers */}
       <div className="flex gap-2">
-        <button
-          onClick={pagination.goToFirstPage}
-          disabled={!pagination.canGoPrev()}
-        >
+        <button onClick={pagination.goToFirstPage} disabled={!pagination.canGoPrev()}>
           اولین صفحه
         </button>
-        <button
-          onClick={pagination.goToPrevPage}
-          disabled={!pagination.canGoPrev()}
-        >
+        <button onClick={pagination.goToPrevPage} disabled={!pagination.canGoPrev()}>
           قبلی
         </button>
-        <button
-          onClick={() => pagination.goToNextPage(data?.meta)}
-          disabled={!pagination.canGoNext(data?.meta)}
-        >
+        <button onClick={() => pagination.goToNextPage(data?.meta)} disabled={!pagination.canGoNext(data?.meta)}>
           بعدی
         </button>
-        <button
-          onClick={() => pagination.goToLastPage(data?.meta)}
-          disabled={!pagination.canGoNext(data?.meta)}
-        >
+        <button onClick={() => pagination.goToLastPage(data?.meta)} disabled={!pagination.canGoNext(data?.meta)}>
           آخرین صفحه
         </button>
       </div>
@@ -133,7 +121,7 @@ export function UserListWithFilters() {
     page: pagination.page,
     pageSize: pagination.pageSize,
     search,
-    isActive,
+    isActive
   });
 
   // Reset to first page when filters change
@@ -146,18 +134,11 @@ export function UserListWithFilters() {
     <div className="space-y-4">
       {/* Filters */}
       <div className="flex gap-2">
-        <input
-          type="text"
-          placeholder="جستجو..."
-          value={search}
-          onChange={(e) => handleSearchChange(e.target.value)}
-        />
+        <input type="text" placeholder="جستجو..." value={search} onChange={(e) => handleSearchChange(e.target.value)} />
         <select
           value={isActive === undefined ? "" : String(isActive)}
           onChange={(e) => {
-            setIsActive(
-              e.target.value === "" ? undefined : e.target.value === "true",
-            );
+            setIsActive(e.target.value === "" ? undefined : e.target.value === "true");
             pagination.goToFirstPage();
           }}
         >
@@ -199,7 +180,7 @@ export function UserListWithLinks() {
   const pagination = usePagination();
   const { data } = useUsers({
     page: pagination.page,
-    pageSize: pagination.pageSize,
+    pageSize: pagination.pageSize
   });
 
   // If your backend provides links, you can access them

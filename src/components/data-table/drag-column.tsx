@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
-    id,
+    id
   });
 
   return (
@@ -28,5 +28,5 @@ export const dragColumn: ColumnDef<any> = {
   header: () => null,
   cell: ({ row }) => <DragHandle id={row.original.id} />,
   enableSorting: false,
-  enableHiding: false,
+  enableHiding: false
 };

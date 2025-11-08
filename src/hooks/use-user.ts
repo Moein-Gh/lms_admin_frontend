@@ -1,9 +1,4 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  type UseQueryOptions,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
 
 import {
   createUser,
@@ -15,7 +10,7 @@ import {
   type CreateUserRequest,
   type ListUsersParams,
   type RegisterUserInput,
-  type UpdateUserRequest,
+  type UpdateUserRequest
 } from "@/lib/user-api";
 import { User } from "@/types/entities/user.type";
 
@@ -25,7 +20,7 @@ export const userKeys = {
   lists: () => [...userKeys.all, "list"] as const,
   list: (params?: ListUsersParams) => [...userKeys.lists(), params] as const,
   details: () => [...userKeys.all, "detail"] as const,
-  detail: (id: string) => [...userKeys.details(), id] as const,
+  detail: (id: string) => [...userKeys.details(), id] as const
 };
 
 /**
@@ -41,12 +36,12 @@ export function useUsers(
       ReturnType<typeof userKeys.list>
     >,
     "queryKey" | "queryFn"
-  >,
+  >
 ) {
   return useQuery({
     queryKey: userKeys.list(params),
     queryFn: () => listUsers(params),
-    ...options,
+    ...options
   });
 }
 
@@ -55,16 +50,13 @@ export function useUsers(
  */
 export function useUser(
   userId: string,
-  options?: Omit<
-    UseQueryOptions<User, Error, User, ReturnType<typeof userKeys.detail>>,
-    "queryKey" | "queryFn"
-  >,
+  options?: Omit<UseQueryOptions<User, Error, User, ReturnType<typeof userKeys.detail>>, "queryKey" | "queryFn">
 ) {
   return useQuery({
     queryKey: userKeys.detail(userId),
     queryFn: () => getUserById(userId),
     enabled: !!userId,
-    ...options,
+    ...options
   });
 }
 
@@ -79,7 +71,7 @@ export function useCreateUser() {
     onSuccess: () => {
       // Invalidate and refetch user lists
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
-    },
+    }
   });
 }
 
@@ -94,7 +86,7 @@ export function useRegisterUser() {
     onSuccess: () => {
       // Invalidate and refetch user lists
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
-    },
+    }
   });
 }
 
@@ -105,21 +97,15 @@ export function useUpdateUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      userId,
-      data,
-    }: {
-      userId: string;
-      data: UpdateUserRequest;
-    }) => updateUser(userId, data),
+    mutationFn: ({ userId, data }: { userId: string; data: UpdateUserRequest }) => updateUser(userId, data),
     onSuccess: (updatedUser) => {
       // Invalidate the specific user detail query
       queryClient.invalidateQueries({
-        queryKey: userKeys.detail(updatedUser.id),
+        queryKey: userKeys.detail(updatedUser.id)
       });
       // Invalidate user lists to reflect changes
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
-    },
+    }
   });
 }
 
@@ -136,7 +122,7 @@ export function useDeleteUser() {
       queryClient.removeQueries({ queryKey: userKeys.detail(userId) });
       // Invalidate user lists
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
-    },
+    }
   });
 }
 
@@ -147,13 +133,12 @@ export function useToggleUserStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, isActive }: { userId: string; isActive: boolean }) =>
-      updateUser(userId, { isActive }),
+    mutationFn: ({ userId, isActive }: { userId: string; isActive: boolean }) => updateUser(userId, { isActive }),
     onSuccess: (updatedUser) => {
       // Update cache optimistically
       queryClient.setQueryData(userKeys.detail(updatedUser.id), updatedUser);
       // Invalidate lists to reflect the change
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
-    },
+    }
   });
 }

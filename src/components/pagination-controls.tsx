@@ -1,18 +1,7 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronsLeftIcon,
-  ChevronsRightIcon,
-} from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import type { PageMetaDto } from "@/types/api";
 
@@ -35,7 +24,7 @@ export function PaginationControls({
   onPageSizeChange,
   pageSizeOptions = [10, 20, 50, 100],
   className,
-  showPageSizeSelector = true,
+  showPageSizeSelector = true
 }: PaginationControlsProps) {
   if (!meta) {
     return null;
@@ -47,12 +36,7 @@ export function PaginationControls({
   const endItem = (page - 1) * pageSize + itemCount;
 
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-between gap-4 sm:flex-row",
-        className,
-      )}
-    >
+    <div className={cn("flex flex-col items-center justify-between gap-4 sm:flex-row", className)}>
       {/* Info Text */}
       <div className="text-muted-foreground text-sm">
         نمایش {startItem} تا {endItem} از {totalItems} مورد
@@ -63,9 +47,7 @@ export function PaginationControls({
         {/* Page Size Selector */}
         {showPageSizeSelector && (
           <div className="flex items-center gap-2">
-            <span className="text-muted-foreground text-sm">
-              تعداد در صفحه:
-            </span>
+            <span className="text-muted-foreground text-sm">تعداد در صفحه:</span>
             <Select
               value={String(pageSize)}
               onValueChange={(value) => {

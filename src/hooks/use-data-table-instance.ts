@@ -11,7 +11,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable,
+  useReactTable
 } from "@tanstack/react-table";
 
 type UseDataTableInstanceProps<TData, TValue> = {
@@ -29,18 +29,15 @@ export function useDataTableInstance<TData, TValue>({
   enableRowSelection = true,
   defaultPageIndex,
   defaultPageSize,
-  getRowId,
+  getRowId
 }: UseDataTableInstanceProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
     pageIndex: defaultPageIndex ?? 0,
-    pageSize: defaultPageSize ?? 10,
+    pageSize: defaultPageSize ?? 10
   });
 
   const table = useReactTable({
@@ -51,7 +48,7 @@ export function useDataTableInstance<TData, TValue>({
       columnVisibility,
       rowSelection,
       columnFilters,
-      pagination,
+      pagination
     },
     enableRowSelection,
     getRowId: getRowId ?? ((row) => (row as any).id.toString()),
@@ -65,7 +62,7 @@ export function useDataTableInstance<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
+    getFacetedUniqueValues: getFacetedUniqueValues()
   });
 
   return table;

@@ -24,9 +24,7 @@ export interface UsePaginationReturn {
 /**
  * Hook for managing pagination state
  */
-export function usePagination(
-  options: UsePaginationOptions = {},
-): UsePaginationReturn {
+export function usePagination(options: UsePaginationOptions = {}): UsePaginationReturn {
   const { initialPage = 1, initialPageSize = 10 } = options;
 
   const [page, setPage] = useState(initialPage);
@@ -74,6 +72,6 @@ export function usePagination(
     goToPrevPage,
     canGoNext,
     canGoPrev,
-    reset,
+    reset
   };
 }

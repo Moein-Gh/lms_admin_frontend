@@ -6,9 +6,7 @@ import { LoginForm } from "../_components/login-form";
 
 export default function LoginV1() {
   const [title, setTitle] = useState("ورود");
-  const [description, setDescription] = useState(
-    "برای ورود به سیستم، شماره موبایل خود را وارد کنید",
-  );
+  const [description, setDescription] = useState("برای ورود به سیستم، شماره موبایل خود را وارد کنید");
 
   return (
     <div className="relative flex min-h-dvh overflow-hidden">
@@ -17,7 +15,7 @@ export default function LoginV1() {
       <div
         className="absolute inset-0 bg-primary/5 dark:bg-primary/10"
         style={{
-          clipPath: "polygon(0 0, 60% 0, 40% 100%, 0 100%)",
+          clipPath: "polygon(0 0, 60% 0, 40% 100%, 0 100%)"
         }}
       />
 
@@ -34,7 +32,7 @@ export default function LoginV1() {
             <div
               className="absolute left-0 top-0 size-20 bg-primary/10 dark:bg-primary/20"
               style={{
-                clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                clipPath: "polygon(0 0, 100% 0, 0 100%)"
               }}
             />
             <div className="space-y-8 rounded-2xl border border-border/50 bg-background/80 p-8 shadow-2xl backdrop-blur-xl dark:bg-background/90 md:p-10">
@@ -43,9 +41,7 @@ export default function LoginV1() {
                   <div className="size-1.5 rounded-full bg-primary" />
                   <div className="h-px flex-1 bg-linear-to-l from-primary/50 to-transparent dark:from-primary/60" />
                 </div>
-                <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
-                  {title}
-                </h1>
+                <h1 className="text-3xl font-bold tracking-tight md:text-4xl">{title}</h1>
                 <p className="text-muted-foreground">{description}</p>
               </div>
 

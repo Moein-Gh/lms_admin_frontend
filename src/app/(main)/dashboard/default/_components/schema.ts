@@ -7,5 +7,5 @@ export const sectionSchema = z.object({
   status: z.string(),
   target: z.string(),
   limit: z.string(),
-  reviewer: z.string(),
+  reviewer: z.string()
 });

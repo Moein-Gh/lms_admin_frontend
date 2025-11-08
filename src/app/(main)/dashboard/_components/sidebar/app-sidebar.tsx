@@ -2,15 +2,7 @@
 
 import Link from "next/link";
 
-import {
-  CircleHelp,
-  ClipboardList,
-  Command,
-  Database,
-  File,
-  Search,
-  Settings,
-} from "lucide-react";
+import { CircleHelp, ClipboardList, Command, Database, File, Search, Settings } from "lucide-react";
 
 import {
   Sidebar,
@@ -18,7 +10,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem
 } from "@/components/ui/sidebar";
 import { APP_CONFIG } from "@/config/app-config";
 import { sidebarItems } from "@/navigation/sidebar/sidebar-items";
@@ -30,36 +22,36 @@ const data = {
     {
       title: "Settings",
       url: "#",
-      icon: Settings,
+      icon: Settings
     },
     {
       title: "Get Help",
       url: "#",
-      icon: CircleHelp,
+      icon: CircleHelp
     },
     {
       title: "Search",
       url: "#",
-      icon: Search,
-    },
+      icon: Search
+    }
   ],
   documents: [
     {
       name: "Data Library",
       url: "#",
-      icon: Database,
+      icon: Database
     },
     {
       name: "Reports",
       url: "#",
-      icon: ClipboardList,
+      icon: ClipboardList
     },
     {
       name: "Word Assistant",
       url: "#",
-      icon: File,
-    },
-  ],
+      icon: File
+    }
+  ]
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -68,15 +60,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
-            >
+            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:p-1.5!">
               <Link href="/dashboard/default">
                 <Command />
-                <span className="text-base font-semibold">
-                  {APP_CONFIG.name}
-                </span>
+                <span className="text-base font-semibold">{APP_CONFIG.name}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

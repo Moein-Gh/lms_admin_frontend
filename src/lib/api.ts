@@ -4,8 +4,8 @@ const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3200",
   withCredentials: true, // Send cookies with requests
   headers: {
-    "Content-Type": "application/json",
-  },
+    "Content-Type": "application/json"
+  }
 });
 
 let isRefreshing = false;
@@ -26,10 +26,8 @@ const processQueue = (error: AxiosError | null) => {
 };
 
 const clearAuthAndRedirect = () => {
-  document.cookie =
-    "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-  document.cookie =
-    "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
   document.cookie = "sessionId=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
   if (typeof window !== "undefined") {
@@ -39,11 +37,7 @@ const clearAuthAndRedirect = () => {
 
 const isAuthEndpoint = (url?: string) => {
   if (!url) return false;
-  return (
-    url.includes("/auth/refresh") ||
-    url.includes("/auth/login") ||
-    url.includes("/auth/verify-sms")
-  );
+  return url.includes("/auth/refresh") || url.includes("/auth/login") || url.includes("/auth/verify-sms");
 };
 
 // Response interceptor for 401 handling with refresh
@@ -100,7 +94,7 @@ api.interceptors.response.use(
       clearAuthAndRedirect();
       return Promise.reject(refreshError);
     }
-  },
+  }
 );
 
 export default api;

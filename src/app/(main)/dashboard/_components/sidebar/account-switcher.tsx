@@ -10,13 +10,13 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useLogout } from "@/hooks/use-auth";
 import { getInitials } from "@/lib/utils";
 
 export function AccountSwitcher({
-  users,
+  users
 }: {
   readonly users: ReadonlyArray<{
     readonly id: string;
@@ -36,28 +36,16 @@ export function AccountSwitcher({
           <CircleUser />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        className="min-w-56 space-y-1 rounded-lg"
-        side="bottom"
-        align="start"
-        sideOffset={4}
-      >
+      <DropdownMenuContent className="min-w-56 space-y-1 rounded-lg" side="bottom" align="start" sideOffset={4}>
         <div>
           <div className="flex w-full items-center justify-between gap-2 px-1 py-1.5">
             <Avatar className="size-9 rounded-lg">
-              <AvatarImage
-                src={activeUser.avatar || undefined}
-                alt={activeUser.name}
-              />
-              <AvatarFallback className="rounded-lg">
-                {getInitials(activeUser.name)}
-              </AvatarFallback>
+              <AvatarImage src={activeUser.avatar || undefined} alt={activeUser.name} />
+              <AvatarFallback className="rounded-lg">{getInitials(activeUser.name)}</AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-semibold">{activeUser.name}</span>
-              <span className="truncate text-xs capitalize">
-                {activeUser.role}
-              </span>
+              <span className="truncate text-xs capitalize">{activeUser.role}</span>
             </div>
           </div>
         </div>

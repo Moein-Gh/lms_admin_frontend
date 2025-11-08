@@ -22,9 +22,7 @@ export async function requestSms(payload: RequestSmsPayload): Promise<void> {
   await api.post("/auth/request-sms/", payload);
 }
 
-export async function verifySms(
-  payload: VerifySmsPayload,
-): Promise<AuthResponse> {
+export async function verifySms(payload: VerifySmsPayload): Promise<AuthResponse> {
   const response = await api.post<AuthResponse>("/auth/verify-sms", payload);
   return response.data;
 }

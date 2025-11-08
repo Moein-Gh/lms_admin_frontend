@@ -70,7 +70,7 @@ These serve as the fallback; there is no separate default.css file. */
   --chart-1: oklch(0.3211 0 0);
   --chart-2: oklch(0.4495 0 0);
   --chart-3: oklch(0.5693 0 0);
-  --chart-4: oklch(0.6830 0 0);
+  --chart-4: oklch(0.683 0 0);
   --chart-5: oklch(0.7921 0 0);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
@@ -159,7 +159,6 @@ These serve as the fallback; there is no separate default.css file. */
 
   html {
     overflow-y: scroll; /* Force scrollbar to always be visible */
-
   }
 
   body {
@@ -208,21 +207,47 @@ These serve as the fallback; there is no separate default.css file. */
 }
 
 /* Flip padding */
-[dir="rtl"] .pl-0 { padding-left: 0; padding-right: 0; }
-[dir="rtl"] .pr-0 { padding-right: 0; padding-left: 0; }
+[dir="rtl"] .pl-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+[dir="rtl"] .pr-0 {
+  padding-right: 0;
+  padding-left: 0;
+}
 
 /* Flip borders */
-[dir="rtl"] .border-l { border-left: 0; border-right: var(--tw-border-opacity, 1px) solid; }
-[dir="rtl"] .border-r { border-right: 0; border-left: var(--tw-border-opacity, 1px) solid; }
+[dir="rtl"] .border-l {
+  border-left: 0;
+  border-right: var(--tw-border-opacity, 1px) solid;
+}
+[dir="rtl"] .border-r {
+  border-right: 0;
+  border-left: var(--tw-border-opacity, 1px) solid;
+}
 
 /* Flip rounded corners */
-[dir="rtl"] .rounded-l { border-radius: 0 var(--radius) var(--radius) 0; }
-[dir="rtl"] .rounded-r { border-radius: var(--radius) 0 0 var(--radius); }
+[dir="rtl"] .rounded-l {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+[dir="rtl"] .rounded-r {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
 
 /* Flip positioning */
-[dir="rtl"] .left-0 { left: auto; right: 0; }
-[dir="rtl"] .right-0 { right: auto; left: 0; }
+[dir="rtl"] .left-0 {
+  left: auto;
+  right: 0;
+}
+[dir="rtl"] .right-0 {
+  right: auto;
+  left: 0;
+}
 
 /* Flip transforms */
-[dir="rtl"] .translate-x-full { transform: translateX(-100%); }
-[dir="rtl"] .-translate-x-full { transform: translateX(100%); }
+[dir="rtl"] .translate-x-full {
+  transform: translateX(-100%);
+}
+[dir="rtl"] .-translate-x-full {
+  transform: translateX(100%);
+}

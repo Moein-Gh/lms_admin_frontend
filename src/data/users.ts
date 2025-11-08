@@ -5,7 +5,7 @@ export const users = [
     username: "Aarhamkhnz",
     email: "hello@arhamkhnz.com",
     avatar: "/avatars/avatar.jpg",
-    role: "مدیر",
+    role: "مدیر"
   },
   {
     id: "2",
@@ -13,8 +13,8 @@ export const users = [
     username: "ammarkhnz",
     email: "hello@ammarkhnz.com",
     avatar: "",
-    role: "admin",
-  },
+    role: "admin"
+  }
 ];
 
 export const rootUser = users[0];

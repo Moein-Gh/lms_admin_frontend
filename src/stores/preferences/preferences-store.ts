@@ -14,5 +14,5 @@ export const createPreferencesStore = (init?: Partial<PreferencesState>) =>
     themeMode: init?.themeMode ?? "light",
     themePreset: init?.themePreset ?? "default",
     setThemeMode: (mode) => set({ themeMode: mode }),
-    setThemePreset: (preset) => set({ themePreset: preset }),
+    setThemePreset: (preset) => set({ themePreset: preset })
   }));

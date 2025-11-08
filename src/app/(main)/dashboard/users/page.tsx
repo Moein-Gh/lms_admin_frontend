@@ -14,14 +14,14 @@ export default function UsersPage() {
   const pagination = usePagination({ initialPage: 1, initialPageSize: 10 });
   const [filters, setFilters] = useState<UserFilters>({
     search: "",
-    isActive: undefined,
+    isActive: undefined
   });
 
   const { data, isLoading, error } = useUsers({
     page: pagination.page,
     pageSize: pagination.pageSize,
     search: filters.search,
-    isActive: filters.isActive,
+    isActive: filters.isActive
   });
 
   const handleFiltersChange = (newFilters: UserFilters) => {
@@ -36,11 +36,7 @@ export default function UsersPage() {
 
   return (
     <div className="space-y-6">
-      <UsersHeader
-        filters={filters}
-        onFiltersChange={handleFiltersChange}
-        onReset={handleResetFilters}
-      />
+      <UsersHeader filters={filters} onFiltersChange={handleFiltersChange} onReset={handleResetFilters} />
 
       <ActiveFilters filters={filters} onReset={handleResetFilters} />
 

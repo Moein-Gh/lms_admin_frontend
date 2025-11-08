@@ -13,7 +13,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import {
   Drawer,
@@ -22,7 +22,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
   DrawerFooter,
-  DrawerClose,
+  DrawerClose
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -75,8 +75,8 @@ export function EditUserDialog({ user, onUpdated }: Props) {
       phone: identity.phone ?? "",
       nationalCode: identity.nationalCode ?? "",
       countryCode: identity.countryCode ?? "",
-      email: identity.email ?? "",
-    },
+      email: identity.email ?? ""
+    }
   });
 
   React.useEffect(() => {
@@ -86,7 +86,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
       phone: identity.phone ?? "",
       nationalCode: identity.nationalCode ?? "",
       countryCode: identity.countryCode ?? "",
-      email: identity.email ?? "",
+      email: identity.email ?? ""
     });
   }, [
     identity.name,
@@ -95,7 +95,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
     identity.countryCode,
     identity.email,
     user.isActive,
-    reset,
+    reset
   ]);
 
   const onSubmit = async (values: FormValues) => {
@@ -114,13 +114,13 @@ export function EditUserDialog({ user, onUpdated }: Props) {
           phone: values.phone ?? baseIdentity.phone,
           nationalCode: values.nationalCode ?? baseIdentity.nationalCode,
           countryCode: values.countryCode ?? baseIdentity.countryCode,
-          email: values.email ?? baseIdentity.email,
+          email: values.email ?? baseIdentity.email
         };
 
         const updatedUser: User = {
           ...user,
           isActive: updatedIsActive,
-          identity: updatedIdentity,
+          identity: updatedIdentity
         };
 
         onUpdated(updatedUser);
@@ -179,12 +179,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
               name="isActive"
               control={control}
               render={({ field }) => (
-                <Switch
-                  checked={!!field.value}
-                  onCheckedChange={field.onChange}
-                  dir="ltr"
-                  disabled={disabled}
-                />
+                <Switch checked={!!field.value} onCheckedChange={field.onChange} dir="ltr" disabled={disabled} />
               )}
             />
           </div>
@@ -204,12 +199,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
                     fill="none"
                     strokeOpacity="0.25"
                   />
-                  <path
-                    d="M22 12a10 10 0 00-10-10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
+                  <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
                 </svg>
                 در حال ذخیره...
               </span>
@@ -222,12 +212,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
               "ذخیره تغییرات"
             )}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => reset()}
-            disabled={disabled}
-          >
+          <Button type="button" variant="outline" onClick={() => reset()} disabled={disabled}>
             بازنشانی
           </Button>
         </div>
@@ -274,9 +259,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
       <DialogContent className="sm:max-w-[520px]">
         <DialogHeader>
           <DialogTitle>ویرایش کاربر</DialogTitle>
-          <DialogDescription>
-            فیلدهای قابل ویرایش را تغییر دهید
-          </DialogDescription>
+          <DialogDescription>فیلدهای قابل ویرایش را تغییر دهید</DialogDescription>
         </DialogHeader>
 
         {form}

@@ -6,14 +6,7 @@ import { DataTable } from "@/components/data-table/data-table";
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardDescription,
-  CardAction,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardAction } from "@/components/ui/card";
 import { useDataTableInstance } from "@/hooks/use-data-table-instance";
 
 import { recentLeadsColumns } from "./columns.crm";
@@ -23,7 +16,7 @@ export function TableCards() {
   const table = useDataTableInstance({
     data: recentLeadsData,
     columns: recentLeadsColumns,
-    getRowId: (row) => row.id.toString(),
+    getRowId: (row) => row.id.toString()
   });
 
   return (
@@ -31,9 +24,7 @@ export function TableCards() {
       <Card>
         <CardHeader>
           <CardTitle>Recent Leads</CardTitle>
-          <CardDescription>
-            Track and manage your latest leads and their status.
-          </CardDescription>
+          <CardDescription>Track and manage your latest leads and their status.</CardDescription>
           <CardAction>
             <div className="flex items-center gap-2">
               <DataTableViewOptions table={table} />

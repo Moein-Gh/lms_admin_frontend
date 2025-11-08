@@ -6,7 +6,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 
 export function DraggableRow<TData>({ row }: { row: Row<TData> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: (row.original as { id: number }).id,
+    id: (row.original as { id: number }).id
   });
   return (
     <TableRow
@@ -16,13 +16,11 @@ export function DraggableRow<TData>({ row }: { row: Row<TData> }) {
       className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
       style={{
         transform: CSS.Transform.toString(transform),
-        transition: transition,
+        transition: transition
       }}
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
-          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-        </TableCell>
+        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
       ))}
     </TableRow>
   );

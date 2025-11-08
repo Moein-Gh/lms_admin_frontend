@@ -8,19 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { PaginatedResponseDto } from "@/types/api";
 import { User } from "@/types/entities/user.type";
 
@@ -80,9 +69,7 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                   <TableCell className="w-3/12">
                     <div className="flex items-center gap-3">
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-medium">
-                          {user.identity.name ?? "نام نامشخص"}
-                        </p>
+                        <p className="truncate font-medium">{user.identity.name ?? "نام نامشخص"}</p>
                       </div>
                     </div>
                   </TableCell>
@@ -94,16 +81,10 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                     </div>
                   </TableCell>
 
-                  <TableCell className="w-2/12 text-start">
-                    {user.identity.phone ?? "-"}
-                  </TableCell>
-                  <TableCell className="w-2/12 text-start">
-                    {user.identity.nationalCode ?? "-"}
-                  </TableCell>
+                  <TableCell className="w-2/12 text-start">{user.identity.phone ?? "-"}</TableCell>
+                  <TableCell className="w-2/12 text-start">{user.identity.nationalCode ?? "-"}</TableCell>
                   <TableCell className="w-1/12">
-                    <Badge variant={user.isActive ? "active" : "inactive"}>
-                      {user.isActive ? "فعال" : "غیرفعال"}
-                    </Badge>
+                    <Badge variant={user.isActive ? "active" : "inactive"}>{user.isActive ? "فعال" : "غیرفعال"}</Badge>
                   </TableCell>
                   <TableCell className="w-2/12">
                     <div className="flex items-center justify-center gap-2">

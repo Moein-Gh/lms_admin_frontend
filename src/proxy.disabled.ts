@@ -21,5 +21,5 @@ export function proxy(req: NextRequest) {
  * To skip assets or APIs, use a negative matcher from docs.
  */
 export const config = {
-  matcher: "/:path*",
+  matcher: "/:path*"
 };

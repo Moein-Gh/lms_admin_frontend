@@ -6,7 +6,7 @@ import { logout as apiLogout, requestSms, verifySms } from "@/lib/auth-api";
 
 export function useRequestSms() {
   return useMutation({
-    mutationFn: requestSms,
+    mutationFn: requestSms
   });
 }
 
@@ -20,7 +20,7 @@ export function useVerifySms() {
       } catch {
         // ignore
       }
-    },
+    }
   });
 }
 
@@ -31,16 +31,16 @@ export function useRefreshToken() {
       return await fetch("/api/auth/refresh-token", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ refreshToken }),
+        body: JSON.stringify({ refreshToken })
       }).then((res) => {
         if (!res.ok) {
           throw new Error("Failed to refresh token");
         }
         return res.json();
       });
-    },
+    }
   });
 }
 
@@ -76,13 +76,7 @@ export function useLogout() {
       try {
         const expire = "expires=Thu, 01 Jan 1970 00:00:00 GMT";
         const path = "path=/";
-        const names = [
-          "accessToken",
-          "refreshToken",
-          "access_token",
-          "refresh_token",
-          "token",
-        ];
+        const names = ["accessToken", "refreshToken", "access_token", "refresh_token", "token"];
         for (const name of names) {
           document.cookie = `${name}=; ${expire}; ${path}`;
         }
@@ -92,6 +86,6 @@ export function useLogout() {
       // Clear react-query cache and navigate to login
       queryClient.clear();
       router.replace("/auth/login");
-    },
+    }
   });
 }

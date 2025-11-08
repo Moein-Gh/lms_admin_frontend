@@ -27,30 +27,21 @@ export function formatCurrency(
     minimumFractionDigits?: number;
     maximumFractionDigits?: number;
     noDecimals?: boolean;
-  },
+  }
 ) {
-  const {
-    currency = "USD",
-    locale = "en-US",
-    minimumFractionDigits,
-    maximumFractionDigits,
-    noDecimals,
-  } = opts ?? {};
+  const { currency = "USD", locale = "en-US", minimumFractionDigits, maximumFractionDigits, noDecimals } = opts ?? {};
 
   const formatOptions: Intl.NumberFormatOptions = {
     style: "currency",
     currency,
     minimumFractionDigits: noDecimals ? 0 : minimumFractionDigits,
-    maximumFractionDigits: noDecimals ? 0 : maximumFractionDigits,
+    maximumFractionDigits: noDecimals ? 0 : maximumFractionDigits
   };
 
   return new Intl.NumberFormat(locale, formatOptions).format(amount);
 }
 
-export function formatDate(
-  date: Date | string,
-  opts?: Intl.DateTimeFormatOptions & { locale?: string },
-) {
+export function formatDate(date: Date | string, opts?: Intl.DateTimeFormatOptions & { locale?: string }) {
   const { locale = "fa-IR", ...formatOptions } = opts ?? {};
 
   const dateObj = typeof date === "string" ? new Date(date) : date;

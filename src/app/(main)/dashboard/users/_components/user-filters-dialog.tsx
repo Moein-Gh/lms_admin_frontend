@@ -11,7 +11,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import {
   Drawer,
@@ -21,17 +21,11 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
+  DrawerTrigger
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface UserFilters {
@@ -45,11 +39,7 @@ interface UserFiltersDialogProps {
   onReset: () => void;
 }
 
-export function UserFiltersDialog({
-  filters,
-  onFiltersChange,
-  onReset,
-}: UserFiltersDialogProps) {
+export function UserFiltersDialog({ filters, onFiltersChange, onReset }: UserFiltersDialogProps) {
   const [open, setOpen] = React.useState(false);
   const isMobile = useIsMobile();
 
@@ -75,16 +65,10 @@ export function UserFiltersDialog({
         <DrawerContent>
           <DrawerHeader className="text-right">
             <DrawerTitle>فیلتر و جستجو</DrawerTitle>
-            <DrawerDescription>
-              کاربران را بر اساس معیارهای مختلف فیلتر کنید
-            </DrawerDescription>
+            <DrawerDescription>کاربران را بر اساس معیارهای مختلف فیلتر کنید</DrawerDescription>
           </DrawerHeader>
           <div className="px-4">
-            <FilterForm
-              filters={filters}
-              onApply={handleApply}
-              onReset={handleReset}
-            />
+            <FilterForm filters={filters} onApply={handleApply} onReset={handleReset} />
           </div>
           <DrawerFooter className="pt-2">
             <DrawerClose asChild>
@@ -107,15 +91,9 @@ export function UserFiltersDialog({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>فیلتر و جستجو</DialogTitle>
-          <DialogDescription>
-            کاربران را بر اساس معیارهای مختلف فیلتر کنید
-          </DialogDescription>
+          <DialogDescription>کاربران را بر اساس معیارهای مختلف فیلتر کنید</DialogDescription>
         </DialogHeader>
-        <FilterForm
-          filters={filters}
-          onApply={handleApply}
-          onReset={handleReset}
-        />
+        <FilterForm filters={filters} onApply={handleApply} onReset={handleReset} />
       </DialogContent>
     </Dialog>
   );
@@ -150,9 +128,7 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
             id="search"
             placeholder="نام، شماره تلفن یا ایمیل..."
             value={localFilters.search}
-            onChange={(e) =>
-              setLocalFilters({ ...localFilters, search: e.target.value })
-            }
+            onChange={(e) => setLocalFilters({ ...localFilters, search: e.target.value })}
           />
           {localFilters.search && (
             <button
@@ -170,18 +146,11 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
       <div className="space-y-2">
         <Label htmlFor="status">وضعیت</Label>
         <Select
-          value={
-            localFilters.isActive === undefined
-              ? "all"
-              : localFilters.isActive
-                ? "active"
-                : "inactive"
-          }
+          value={localFilters.isActive === undefined ? "all" : localFilters.isActive ? "active" : "inactive"}
           onValueChange={(value) =>
             setLocalFilters({
               ...localFilters,
-              isActive:
-                value === "all" ? undefined : value === "active" ? true : false,
+              isActive: value === "all" ? undefined : value === "active" ? true : false
             })
           }
         >

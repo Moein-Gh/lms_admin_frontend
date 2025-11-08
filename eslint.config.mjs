@@ -19,16 +19,16 @@ export default defineConfig([
       globals: globals.browser,
       parser: "@typescript-eslint/parser",
       parserOptions: {
-        project: "./tsconfig.json",
-      },
+        project: "./tsconfig.json"
+      }
     },
     plugins: {
       import: pluginImport,
       security: securityPlugin,
       prettier: prettier,
       unicorn: unicorn,
-      sonarjs: sonarjs,
-    },
+      sonarjs: sonarjs
+    }
   },
   pluginJs.configs.recommended,
   securityPlugin.configs.recommended,
@@ -42,8 +42,8 @@ export default defineConfig([
         "warn",
         {
           trailingComma: "none",
-          printWidth: 120,
-        },
+          printWidth: 120
+        }
       ],
 
       // File Naming
@@ -51,8 +51,8 @@ export default defineConfig([
         "error",
         {
           case: "kebabCase",
-          ignore: ["^.*\\.config\\.(js|ts|mjs)$", "^.*\\.d\\.ts$"],
-        },
+          ignore: ["^.*\\.config\\.(js|ts|mjs)$", "^.*\\.d\\.ts$"]
+        }
       ],
 
       // Custom Rules (Not covered by plugins)
@@ -70,28 +70,28 @@ export default defineConfig([
             {
               pattern: "react",
               group: "external",
-              position: "before",
+              position: "before"
             },
             {
               pattern: "{next,next/**}",
               group: "external",
-              position: "before",
-            },
+              position: "before"
+            }
           ],
           pathGroupsExcludedImportTypes: [],
           "newlines-between": "ignore",
           alphabetize: {
             order: "asc",
-            caseInsensitive: true,
-          },
-        },
+            caseInsensitive: true
+          }
+        }
       ],
       "import/newline-after-import": "error",
       "import/no-unresolved": [
         "error",
         {
-          caseSensitive: true,
-        },
+          caseSensitive: true
+        }
       ],
       "no-duplicate-imports": ["error", { includeExports: true }],
       "import/no-cycle": ["error", { maxDepth: 2 }],
@@ -104,8 +104,8 @@ export default defineConfig([
         {
           anonymous: "always",
           named: "never",
-          asyncArrow: "always",
-        },
+          asyncArrow: "always"
+        }
       ],
       "space-in-parens": ["error", "never"],
       "array-bracket-spacing": ["error", "never"],
@@ -136,8 +136,8 @@ export default defineConfig([
         "error",
         {
           allowAllCaps: false,
-          ignore: [],
-        },
+          ignore: []
+        }
       ],
 
       // React: Prevent nesting component definitions inside another component
@@ -150,8 +150,8 @@ export default defineConfig([
       "react/no-array-index-key": "warn",
 
       // SonarJS: Detect commented-out code
-      "sonarjs/no-commented-code": "warn",
-    },
+      "sonarjs/no-commented-code": "warn"
+    }
   },
   globalIgnores([
     ".github/",
@@ -163,6 +163,6 @@ export default defineConfig([
     "next-env.d.ts",
     "src/components/ui",
     "*.config.ts",
-    "*.mjs",
-  ]),
+    "*.mjs"
+  ])
 ]);

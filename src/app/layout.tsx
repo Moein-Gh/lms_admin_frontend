@@ -6,33 +6,18 @@ import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/query-provider";
 import { getPreference } from "@/server/server-actions";
 import { PreferencesStoreProvider } from "@/stores/preferences/preferences-provider";
-import {
-  THEME_MODE_VALUES,
-  THEME_PRESET_VALUES,
-  type ThemeMode,
-  type ThemePreset,
-} from "@/types/preferences/theme";
+import { THEME_MODE_VALUES, THEME_PRESET_VALUES, type ThemeMode, type ThemePreset } from "@/types/preferences/theme";
 
 import "./globals.css";
 
 const vazirmatn = Vazirmatn({
   subsets: ["latin", "arabic"],
-  variable: "--font-display",
+  variable: "--font-display"
 });
 
-export default async function RootLayout({
-  children,
-}: Readonly<{ children: ReactNode }>) {
-  const themeMode = await getPreference<ThemeMode>(
-    "theme_mode",
-    THEME_MODE_VALUES,
-    "light",
-  );
-  const themePreset = await getPreference<ThemePreset>(
-    "theme_preset",
-    THEME_PRESET_VALUES,
-    "default",
-  );
+export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+  const themeMode = await getPreference<ThemeMode>("theme_mode", THEME_MODE_VALUES, "light");
+  const themePreset = await getPreference<ThemePreset>("theme_preset", THEME_PRESET_VALUES, "default");
 
   return (
     <html
@@ -44,10 +29,7 @@ export default async function RootLayout({
     >
       <body className={`${vazirmatn.className} min-h-screen antialiased`}>
         <QueryProvider>
-          <PreferencesStoreProvider
-            themeMode={themeMode}
-            themePreset={themePreset}
-          >
+          <PreferencesStoreProvider themeMode={themeMode} themePreset={themePreset}>
             {children}
             <Toaster />
           </PreferencesStoreProvider>

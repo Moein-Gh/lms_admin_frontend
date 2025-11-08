@@ -40,11 +40,9 @@ export interface ListUsersParams extends PaginationParams {
 /**
  * List all users with optional filtering and pagination
  */
-export async function listUsers(
-  params?: ListUsersParams,
-): Promise<PaginatedResponseDto<User>> {
+export async function listUsers(params?: ListUsersParams): Promise<PaginatedResponseDto<User>> {
   const response = await api.get<PaginatedResponseDto<User>>("/users/", {
-    params,
+    params
   });
   return response.data;
 }
@@ -68,9 +66,7 @@ export async function createUser(data: CreateUserRequest): Promise<User> {
 /**
  * Register a new user (with full identity)
  */
-export async function registerUser(
-  data: RegisterUserInput,
-): Promise<RegisterUserResult> {
+export async function registerUser(data: RegisterUserInput): Promise<RegisterUserResult> {
   const response = await api.post<RegisterUserResult>("/users/register", data);
   return response.data;
 }
@@ -78,18 +74,12 @@ export async function registerUser(
 /**
  * Update an existing user
  */
-export async function updateUser(
-  userId: string,
-  data: UpdateUserRequest,
-): Promise<User> {
+export async function updateUser(userId: string, data: UpdateUserRequest): Promise<User> {
   const response = await api.patch<User>(`/users/${userId}`, data);
   return response.data;
 }
 
-export async function updateIdentity(
-  identityId: string,
-  data: Partial<Identity>,
-): Promise<Identity> {
+export async function updateIdentity(identityId: string, data: Partial<Identity>): Promise<Identity> {
   const response = await api.patch<Identity>(`/identities/${identityId}`, data);
   return response.data;
 }
