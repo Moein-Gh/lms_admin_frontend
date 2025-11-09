@@ -87,6 +87,7 @@ export function CreateUserDialog() {
           id="phone"
           placeholder="9xxxxxxxxx"
           defaultCountry="IR"
+          required
           value={undefined}
           onChange={(v) => setValue("phone", v || "", { shouldValidate: true })}
         />
@@ -95,16 +96,17 @@ export function CreateUserDialog() {
 
       <div className="space-y-2">
         <Label htmlFor="national" className="text-sm font-medium">
-          کد ملی
+          کد ملی <span className="text-destructive">*</span>
         </Label>
-        <Input id="national" placeholder="کد ملی" {...register("nationalCode")} />
+        <Input id="national" placeholder="کد ملی" required {...register("nationalCode", { required: true })} />
+        {errors.nationalCode && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="name" className="text-sm font-medium">
-          نام و نام خانوادگی
+          نام و نام خانوادگی <span className="text-destructive">*</span>
         </Label>
-        <Input id="name" placeholder="نام" {...register("name", { required: true })} />
+        <Input id="name" placeholder="نام" required {...register("name", { required: true })} />
         {errors.name && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
       </div>
 

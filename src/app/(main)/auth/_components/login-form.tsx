@@ -20,11 +20,14 @@ import { useRequestSms, useVerifySms } from "@/hooks/use-auth";
 import type { ProblemDetails } from "@/types/api";
 
 const PhoneSchema = z.object({
-  phone: z.string().refine(isValidPhoneNumber, { message: "شماره تلفن معتبر وارد کنید" })
+  phone: z
+    .string()
+    .min(1, { message: "شماره موبایل الزامی است" })
+    .refine(isValidPhoneNumber, { message: "شماره تلفن معتبر وارد کنید" })
 });
 
 const CodeSchema = z.object({
-  code: z.string().length(6, { message: "کد باید ۶ رقم باشد" })
+  code: z.string().min(1, { message: "کد تایید الزامی است" }).length(6, { message: "کد باید ۶ رقم باشد" })
 });
 
 type LoginFormProps = {
@@ -144,7 +147,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
               <FormItem>
                 <FormLabel>شماره موبایل</FormLabel>
                 <FormControl>
-                  <PhoneInput placeholder="9xxxxxxxxx" defaultCountry="IR" {...field} />
+                  <PhoneInput placeholder="9xxxxxxxxx" defaultCountry="IR" required {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -174,6 +177,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
                   className="text-foreground"
                   placeholder="123456"
                   value={rawCode}
+                  required
                   onChange={(e) => {
                     const val = e.target.value;
                     setRawCode(val);
