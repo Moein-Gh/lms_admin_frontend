@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { Building2, Tag, CheckCircle2, Calendar, DollarSign, CalendarClock } from "lucide-react";
+import { Building2, Tag, CheckCircle2, Calendar, DollarSign, CalendarClock, Pencil, Trash2 } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import type { Loan } from "@/types/entities/loan.type";
 
 type LoanInfoCardProps = {
@@ -44,7 +45,7 @@ function LoanStatusInfo({ status }: { status: Loan["status"] }) {
         <CheckCircle2 className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
         <span>وضعیت</span>
       </div>
-      <Badge variant={variant} className="w-fit text-base py-0 leading-tight mx-auto">
+      <Badge variant={variant} className="w-fit py-0 leading-tight mx-auto">
         {label}
       </Badge>
     </div>
@@ -66,30 +67,123 @@ function LoanStartDateInfo({ startDate }: { startDate: Loan["startDate"] }) {
 }
 
 export function LoanInfoCard({ loan }: LoanInfoCardProps) {
+  // helpers
+  const addMonths = (date: Date, months: number) => {
+    const d = new Date(date);
+    d.setMonth(d.getMonth() + months);
+    return d;
+  };
+
+  const start = new Date(loan.startDate);
+  const months = Number.isFinite(loan.paymentMonths) ? loan.paymentMonths : 0;
+  const end = months > 0 ? addMonths(start, months) : null;
+  const now = new Date();
+  const progress =
+    end && end > start
+      ? Math.min(100, Math.max(0, ((now.getTime() - start.getTime()) / (end.getTime() - start.getTime())) * 100))
+      : 0;
+  const amount = loan.amount;
+
   return (
     <Card className="overflow-hidden">
-      <div className="p-3 sm:p-4 flex items-start justify-between gap-3">
-        <div className="space-y-1">
-          <h2 className="text-lg sm:text-xl font-bold">{loan.name}</h2>
-          <p className="text-sm text-muted-foreground">
-            کد وام: <FormattedNumber value={loan.code} />
-          </p>
+      <CardHeader className="pb-4 border-b">
+        <div className="flex flex-col items-center gap-5 sm:gap-4 sm:flex-row sm:justify-between sm:items-center">
+          {/* Title & meta centered, always first on mobile */}
+          <div className="order-1 sm:order-2 flex flex-col items-center text-center">
+            <CardTitle className="text-lg sm:text-xl leading-tight">{loan.name}</CardTitle>
+            <CardDescription className="flex flex-wrap items-center justify-center gap-2">
+              <span className="text-muted-foreground">کد وام:</span>
+              <FormattedNumber value={loan.code} />
+              {loan.account?.user ? (
+                <Link href={`/dashboard/users/${loan.account.user.id}`}>
+                  <Badge variant="outline" className="hover:bg-accent">
+                    {loan.account.user.identity.name ?? "بدون نام"}
+                  </Badge>
+                </Link>
+              ) : null}
+            </CardDescription>
+          </div>
+
+          {/* Amount highlight, always second on mobile */}
+          <div className="order-2 sm:order-1 flex flex-col items-center">
+            <div className="inline-flex items-baseline gap-2 rounded-xl bg-accent/60 px-4 py-2 shadow-xs">
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <span className="text-xs sm:text-sm text-muted-foreground">مبلغ وام</span>
+              <span className="text-xl sm:text-2xl font-extrabold leading-none">
+                <FormattedNumber value={amount} />
+              </span>
+              <span className="text-xs sm:text-sm text-muted-foreground">تومان</span>
+            </div>
+            {/* Separator for mobile only */}
+            <div className="block sm:hidden w-3/4 mx-auto py-2">
+              <span className="block h-px bg-muted/60" />
+            </div>
+          </div>
+
+          {/* Actions, always third on mobile */}
+          <CardAction className="order-3 sm:order-3 flex flex-col items-center w-full sm:w-auto">
+            <div className="flex flex-row gap-3 w-full sm:w-auto">
+              <Button variant="outline" size="sm" type="button" aria-label="ویرایش وام" className="w-1/2 sm:w-auto">
+                <Pencil className="h-4 w-4" />
+                <span>ویرایش</span>
+              </Button>
+
+              <Button variant="destructive" size="sm" type="button" aria-label="حذف وام" className="w-1/2 sm:w-auto">
+                <Trash2 className="h-4 w-4" />
+                <span>حذف</span>
+              </Button>
+            </div>
+          </CardAction>
         </div>
-        {loan.account?.user ? (
-          <Link href={`/dashboard/users/${loan.account.user.id}`}>
-            <Badge variant="outline" className="hover:bg-accent">
-              {loan.account.user.identity.name ?? "بدون نام"}
-            </Badge>
-          </Link>
+      </CardHeader>
+
+      <CardContent className="py-4">
+        {/* Top info grid (without amount now) */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
+          <LoanAccountInfo account={loan.account} />
+          <LoanTypeInfo loanType={loan.loanType} />
+          <LoanStatusInfo status={loan.status} />
+        </div>
+
+        {/* Dates row */}
+        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+          <LoanStartDateInfo startDate={loan.startDate} />
+          <div className="flex flex-col gap-0.5 items-center">
+            <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
+              <CalendarClock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+              <span>مدت بازپرداخت</span>
+            </div>
+            <p className="font-medium text-xs sm:text-sm leading-tight text-center">
+              <FormattedNumber value={months} />
+              <span className="mr-1">ماه</span>
+            </p>
+          </div>
+          {end ? (
+            <div className="flex flex-col gap-0.5 items-center">
+              <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
+                <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+                <span>تاریخ پایان</span>
+              </div>
+              <p className="font-medium text-xs sm:text-sm leading-tight text-center">
+                <FormattedDate value={end} />
+              </p>
+            </div>
+          ) : null}
+        </div>
+
+        {/* Progress */}
+        {end ? (
+          <div className="mt-5 space-y-2">
+            <div className="flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
+              <span>پیشرفت دوره</span>
+              <span>
+                <FormattedNumber value={Math.round(progress)} />%
+              </span>
+            </div>
+            <Progress value={progress} aria-label="پیشرفت بازپرداخت وام" />
+          </div>
         ) : null}
-      </div>
-      <Separator />
-      <div className="px-3 sm:px-4 pt-1 pb-0 grid grid-cols-2 sm:grid-cols-4 gap-x-2 gap-y-2 sm:gap-x-3 sm:gap-y-2 justify-items-center">
-        <LoanAccountInfo account={loan.account} />
-        <LoanTypeInfo loanType={loan.loanType} />
-        <LoanStatusInfo status={loan.status} />
-        <LoanStartDateInfo startDate={loan.startDate} />
-      </div>
+      </CardContent>
     </Card>
   );
 }

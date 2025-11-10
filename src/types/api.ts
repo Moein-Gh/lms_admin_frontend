@@ -1,3 +1,8 @@
+export enum OrderDirection {
+  ASC = "asc",
+  DESC = "desc"
+}
+
 export interface ProblemDetails {
   type: string;
   title: string;
@@ -36,4 +41,7 @@ export interface PaginatedResponseDto<T> {
 export interface PaginationParams {
   page?: number;
   pageSize?: number;
+  orderBy?: string;
+  orderDir?: OrderDirection;
+  search?: string;
 }

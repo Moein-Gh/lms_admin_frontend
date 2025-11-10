@@ -20,6 +20,7 @@ export interface UpdateInstallmentRequest {
 export interface ListInstallmentsParams extends PaginationParams {
   loanId?: string;
   status?: InstallmentStatus;
+  orderBy?: "dueDate" | "createdAt" | "amount" | "installmentNumber";
 }
 
 /**
