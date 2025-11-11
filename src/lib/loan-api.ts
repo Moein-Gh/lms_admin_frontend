@@ -12,13 +12,7 @@ export interface CreateLoanRequest {
 }
 
 export interface UpdateLoanRequest {
-  accountId?: string;
-  loanTypeId?: string;
-  amount?: string;
-  startDate?: Date;
-  paymentMonths?: number;
   name?: string;
-  status?: LoanStatus;
 }
 
 export interface ListLoansParams extends PaginationParams {
@@ -49,6 +43,14 @@ export async function getLoanById(loanId: string): Promise<Loan> {
  */
 export async function createLoan(data: CreateLoanRequest): Promise<Loan> {
   const response = await api.post<Loan>("/loans/", data);
+  return response.data;
+}
+
+/**
+ * Approve a pending loan
+ */
+export async function approveLoan(loanId: string): Promise<Loan> {
+  const response = await api.post<Loan>(`/loans/approve/${loanId}`);
   return response.data;
 }
 

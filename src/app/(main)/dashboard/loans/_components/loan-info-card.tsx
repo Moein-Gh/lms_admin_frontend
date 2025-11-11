@@ -1,16 +1,32 @@
 import Link from "next/link";
-import { Building2, Tag, CheckCircle2, Calendar, DollarSign, CalendarClock, Pencil, Trash2 } from "lucide-react";
+import { Building2, Tag, CheckCircle2, Calendar, DollarSign, CalendarClock } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import type { Loan } from "@/types/entities/loan.type";
+import { LoanStatus, type Loan } from "@/types/entities/loan.type";
+import { LoanApprovePanel } from "./loan-approve-panel";
+import { LoanDeletePanel } from "./loan-delete-panel";
+import { LoanUpdatePanel } from "./loan-update-panel";
 
 type LoanInfoCardProps = {
   readonly loan: Loan;
+  readonly onApprove?: (loan: Loan) => void;
 };
+
+function LoanActionButtons({ loan, onApprove }: { loan: Loan; onApprove?: (loan: Loan) => void }) {
+  return (
+    <div className="flex flex-row gap-3 w-full items-center justify-center sm:w-auto sm:items-center">
+      {/* Approve panel trigger shown only when loan is pending */}
+      {loan.status === LoanStatus.PENDING && <LoanApprovePanel loan={loan} onApprove={() => onApprove?.(loan)} />}
+
+      <LoanUpdatePanel loan={loan} />
+
+      {loan.status === LoanStatus.PENDING && <LoanDeletePanel loan={loan} />}
+    </div>
+  );
+}
 
 function LoanAccountInfo({ account }: { account: Loan["account"] }) {
   return (
@@ -66,7 +82,7 @@ function LoanStartDateInfo({ startDate }: { startDate: Loan["startDate"] }) {
   );
 }
 
-export function LoanInfoCard({ loan }: LoanInfoCardProps) {
+export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
   // helpers
   const addMonths = (date: Date, months: number) => {
     const d = new Date(date);
@@ -86,10 +102,10 @@ export function LoanInfoCard({ loan }: LoanInfoCardProps) {
 
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="pb-4 border-b">
-        <div className="flex flex-col items-center gap-5 sm:gap-4 sm:flex-row sm:justify-between sm:items-center">
+      <CardHeader className="border-b pb-3!">
+        <div className="flex  flex-col items-center gap-5 sm:gap-4 sm:flex-row sm:justify-between sm:items-center">
           {/* Title & meta centered, always first on mobile */}
-          <div className="order-1 sm:order-2 flex flex-col items-center text-center">
+          <div className="order-1 sm:order-2 gap-2 flex flex-col items-center text-center">
             <CardTitle className="text-lg sm:text-xl leading-tight">{loan.name}</CardTitle>
             <CardDescription className="flex flex-wrap items-center justify-center gap-2">
               <span className="text-muted-foreground">کد وام:</span>
@@ -121,18 +137,8 @@ export function LoanInfoCard({ loan }: LoanInfoCardProps) {
           </div>
 
           {/* Actions, always third on mobile */}
-          <CardAction className="order-3 sm:order-3 flex flex-col items-center w-full sm:w-auto">
-            <div className="flex flex-row gap-3 w-full sm:w-auto">
-              <Button variant="outline" size="sm" type="button" aria-label="ویرایش وام" className="w-1/2 sm:w-auto">
-                <Pencil className="h-4 w-4" />
-                <span>ویرایش</span>
-              </Button>
-
-              <Button variant="destructive" size="sm" type="button" aria-label="حذف وام" className="w-1/2 sm:w-auto">
-                <Trash2 className="h-4 w-4" />
-                <span>حذف</span>
-              </Button>
-            </div>
+          <CardAction className="order-3 sm:order-3 self-center flex flex-col items-center w-full h-full sm:w-auto sm:justify-center">
+            <LoanActionButtons loan={loan} onApprove={onApprove} />
           </CardAction>
         </div>
       </CardHeader>
@@ -175,7 +181,7 @@ export function LoanInfoCard({ loan }: LoanInfoCardProps) {
         {end ? (
           <div className="mt-5 space-y-2">
             <div className="flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
-              <span>پیشرفت دوره</span>
+              <span>پیشرفت بازپرداخت</span>
               <span>
                 <FormattedNumber value={Math.round(progress)} />%
               </span>

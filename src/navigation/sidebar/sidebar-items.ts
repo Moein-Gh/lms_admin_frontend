@@ -1,4 +1,4 @@
-import { HandCoins, IdCard, LayoutDashboard, User, type LucideIcon } from "lucide-react";
+import { ArrowLeftRight, HandCoins, IdCard, LayoutDashboard, User, type LucideIcon } from "lucide-react";
 
 export interface NavSubItem {
   title: string;
@@ -49,6 +49,11 @@ export const sidebarItems: NavGroup[] = [
         title: "وام ها",
         url: "/dashboard/loans",
         icon: HandCoins
+      },
+      {
+        title: "تراکنش ها",
+        url: "/dashboard/transactions",
+        icon: ArrowLeftRight
       }
       // {
       //   title: "Finance",

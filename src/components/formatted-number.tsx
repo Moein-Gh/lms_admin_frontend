@@ -7,8 +7,14 @@ export type FormattedNumberProps = {
   locale?: string;
 };
 
+function formatWithGrouping(value: number | string, locale: string): string {
+  const num = typeof value === "string" ? Number(value) : value;
+  if (isNaN(num)) return value.toString();
+  // Use custom grouping for every 3 digits
+  return num.toLocaleString(locale, { useGrouping: true }).replace(/,/g, "٬"); // Use Persian thousands separator
+}
+
 export function FormattedNumber({ value, className, locale = "fa-IR" }: FormattedNumberProps) {
-  // Format number with locale grouping, then convert digits
-  const formatted = typeof value === "number" ? value.toLocaleString(locale) : value;
+  const formatted = formatWithGrouping(value, locale);
   return <span className={className}>{toPersianDigits(formatted)}</span>;
 }

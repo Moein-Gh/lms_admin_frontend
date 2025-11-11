@@ -1,4 +1,5 @@
 import { useInstallments } from "@/hooks/use-installment";
+import { OrderDirection } from "@/types/api";
 import { Installment } from "@/types/entities/installment.type";
 import { InstallmentCard } from "./installment-card";
 
@@ -9,7 +10,8 @@ export function LoanInstallmentsSection({ loanId }: { loanId: string }) {
     error
   } = useInstallments({
     loanId,
-    orderBy: "installmentNumber"
+    orderBy: "dueDate",
+    orderDir: OrderDirection.ASC
   });
 
   if (isLoading) return <div>در حال بارگذاری اقساط...</div>;

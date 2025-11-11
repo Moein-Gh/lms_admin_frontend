@@ -5,11 +5,12 @@ import {
   getLoanById,
   listLoans,
   updateLoan,
+  approveLoan,
   type CreateLoanRequest,
   type ListLoansParams,
   type UpdateLoanRequest
 } from "@/lib/loan-api";
-import { Loan } from "@/types/entities/loan.type";
+import { Loan, LoanStatus } from "@/types/entities/loan.type";
 
 export const loanKeys = {
   all: ["loans"] as const,
@@ -66,6 +67,17 @@ export function useUpdateLoan() {
     mutationFn: ({ loanId, data }: { loanId: string; data: UpdateLoanRequest }) => updateLoan(loanId, data),
     onSuccess: (updatedLoan) => {
       queryClient.invalidateQueries({ queryKey: loanKeys.detail(updatedLoan.id) });
+      queryClient.invalidateQueries({ queryKey: loanKeys.lists() });
+    }
+  });
+}
+
+export function useApproveLoan(loanId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => approveLoan(loanId),
+    onSuccess: (approvedLoan) => {
+      queryClient.invalidateQueries({ queryKey: loanKeys.detail(approvedLoan.id) });
       queryClient.invalidateQueries({ queryKey: loanKeys.lists() });
     }
   });
