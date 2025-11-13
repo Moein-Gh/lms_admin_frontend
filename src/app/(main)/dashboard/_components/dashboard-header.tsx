@@ -9,7 +9,6 @@ import type { ContentLayout, NavbarStyle, SidebarCollapsible, SidebarVariant } f
 
 import { AccountSwitcher } from "./sidebar/account-switcher";
 import { LayoutControls } from "./sidebar/layout-controls";
-import { SearchDialog } from "./sidebar/search-dialog";
 import { ThemeSwitcher } from "./sidebar/theme-switcher";
 
 interface DashboardHeaderProps {
@@ -60,7 +59,6 @@ export function DashboardHeader({ navbarStyle, layoutPreferences }: DashboardHea
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
-          <SearchDialog />
         </div>
         <div className="flex items-center gap-2">
           <LayoutControls {...layoutPreferences} />
