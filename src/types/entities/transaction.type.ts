@@ -11,7 +11,8 @@ export type TransactionKind =
 export enum TransactionStatus {
   PENDING = "PENDING",
   APPROVED = "APPROVED",
-  REJECTED = "REJECTED"
+  REJECTED = "REJECTED",
+  ALLOCATED = "ALLOCATED"
 }
 
 export interface Transaction {

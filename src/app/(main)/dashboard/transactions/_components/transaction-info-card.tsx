@@ -15,6 +15,20 @@ type TransactionInfoCardProps = {
   readonly onApprove?: (transaction: Transaction) => void;
 };
 
+function canApproveTransaction(transaction: Transaction): boolean {
+  const { kind, status } = transaction;
+  const isAllocated = status === TransactionStatus.ALLOCATED;
+  const isPending = status === TransactionStatus.PENDING;
+
+  // DEPOSIT can only be approved when ALLOCATED
+  if (kind === "DEPOSIT") {
+    return isAllocated;
+  }
+
+  // Other transaction types can be approved when PENDING or ALLOCATED
+  return isPending || isAllocated;
+}
+
 function TransactionActionButtons({
   transaction,
   onApprove
@@ -22,16 +36,18 @@ function TransactionActionButtons({
   transaction: Transaction;
   onApprove?: (transaction: Transaction) => void;
 }) {
+  const canDelete =
+    transaction.status === TransactionStatus.PENDING || transaction.status === TransactionStatus.ALLOCATED;
+
   return (
     <div className="flex flex-row gap-3 w-full items-center justify-center sm:w-auto sm:items-center">
-      {/* Approve panel trigger shown only when transaction is pending */}
-      {transaction.status === TransactionStatus.PENDING && (
+      {canApproveTransaction(transaction) && (
         <TransactionApprovePanel transaction={transaction} onApprove={() => onApprove?.(transaction)} />
       )}
 
       <TransactionUpdatePanel transaction={transaction} />
 
-      {transaction.status === TransactionStatus.PENDING && <TransactionDeletePanel transaction={transaction} />}
+      {canDelete && <TransactionDeletePanel transaction={transaction} />}
     </div>
   );
 }

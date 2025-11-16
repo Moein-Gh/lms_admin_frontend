@@ -1,95 +1,37 @@
 "use client";
 
 import * as React from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Split } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { useAccounts } from "@/hooks/use-account";
-import { useInstallments } from "@/hooks/use-installment";
-import { useAddJournalEntry } from "@/hooks/use-journal";
-import { useLoans } from "@/hooks/use-loan";
+import { useCreateJournalEntry } from "@/hooks/use-journal-entries";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useUsers } from "@/hooks/use-user";
+import { transactionKeys } from "@/hooks/use-transaction";
+import { AllocationType, JournalEntryTarget } from "@/types/entities/journal-entry.type";
 import type { Journal } from "@/types/entities/journal.type";
-import type { AllocationKind, AllocationFormData } from "./allocate-journal-panel.types";
+import type { AllocationFormData } from "./allocate-journal-panel.types";
 import { StepOne } from "./step-one";
-import { StepTwo } from "./step-two";
+import { StepSelectAccount } from "./step-select-account";
+import { StepSelectFee } from "./step-select-fee";
+import { StepSelectInstallment } from "./step-select-installment";
+import { StepSelectLoan } from "./step-select-loan";
 
 type Props = {
   journal: Journal;
   onSuccess?: () => void;
 };
 
-function PanelFooter({
-  step,
-  formData,
-  handleBack,
-  handleClose,
-  handleNext,
-  handleSubmit,
-  CloseButton,
-  Footer
-}: {
-  step: number;
-  formData: Partial<AllocationFormData>;
-  handleBack: () => void;
-  handleClose: () => void;
-  handleNext: () => void;
-  handleSubmit: () => void;
-  CloseButton: React.ElementType;
-  Footer: React.ElementType;
-}) {
-  const isAmountValid = formData.amount && !isNaN(Number(formData.amount)) && Number(formData.amount) > 0;
-  const isNextDisabled = step !== 1 || !formData.userId || !formData.kind || !isAmountValid;
-
-  return (
-    <Footer>
-      <div className="flex gap-2 w-full">
-        {step === 2 && (
-          <Button variant="outline" onClick={handleBack}>
-            بازگشت
-          </Button>
-        )}
-        <CloseButton asChild>
-          <Button variant="outline" onClick={handleClose}>
-            لغو
-          </Button>
-        </CloseButton>
-        {step === 1 ? (
-          <Button onClick={handleNext} disabled={isNextDisabled} className="flex-1">
-            بعدی
-          </Button>
-        ) : (
-          <Button onClick={handleSubmit} disabled={!formData.targetId} className="flex-1">
-            تخصیص
-          </Button>
-        )}
-      </div>
-    </Footer>
-  );
-}
-
-// eslint-disable-next-line complexity
-function getFilteredTargets(
-  kind: AllocationKind | undefined,
-  userId: string | undefined,
-  accountsData: { data: { id: string; userId?: string; name?: string; code?: number }[] } | undefined,
-  loansData: { data: { id: string; account?: { userId?: string }; name?: string; code?: number }[] } | undefined,
-  installmentsData:
-    | { data: { id: string; loan?: { account?: { userId?: string } }; name?: string; code?: number }[] }
-    | undefined
-): readonly { id: string; name?: string; code?: number }[] {
-  if (!userId || !kind) return [];
-  if (kind === "ACCOUNT") {
-    return accountsData?.data.filter((a) => a.userId === userId) ?? [];
-  }
-  if (kind === "SUBSCRIPTION_FEE") {
-    return loansData?.data.filter((l) => l.account?.userId === userId) ?? [];
-  }
-  return installmentsData?.data.filter((i) => i.loan?.account?.userId === userId) ?? [];
-}
+// Maps allocation types to their corresponding journal entry target types
+const ALLOCATION_TO_TARGET_MAP: Record<AllocationType, JournalEntryTarget> = {
+  [AllocationType.ACCOUNT_BALANCE]: JournalEntryTarget.ACCOUNT,
+  [AllocationType.LOAN_REPAYMENT]: JournalEntryTarget.INSTALLMENT,
+  [AllocationType.FEE]: JournalEntryTarget.SUBSCRIPTION_FEE
+};
 
 function calculateUnbalancedAmount(entries: Journal["entries"]) {
   const account2050Entries = entries?.filter((entry) => entry.ledgerAccount?.code === "2050") ?? [];
@@ -102,79 +44,162 @@ function calculateUnbalancedAmount(entries: Journal["entries"]) {
     0
   );
   const amount = Math.abs(totalDebit - totalCredit);
-  const dc = totalDebit > totalCredit ? ("CREDIT" as const) : ("DEBIT" as const);
-  return { amount, dc };
+  return amount;
 }
 
 export function AllocateJournalPanel({ onSuccess, journal }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [step, setStep] = React.useState(1);
+  const [currentStep, setCurrentStep] = React.useState(1);
   const [formData, setFormData] = React.useState<Partial<AllocationFormData>>({});
   const isMobile = useIsMobile();
 
-  const { data: usersData } = useUsers({ pageSize: 100 });
-  const { data: accountsData } = useAccounts({ pageSize: 100 });
-  const { data: loansData } = useLoans({ pageSize: 100 });
-  const { data: installmentsData } = useInstallments({ pageSize: 100 });
-  const addEntryMutation = useAddJournalEntry(journal.id);
-  const { amount: unbalancedAmount, dc: unbalancedDC } = calculateUnbalancedAmount(journal.entries);
+  const addEntryMutation = useCreateJournalEntry();
+  const unbalancedAmount = calculateUnbalancedAmount(journal.entries);
+  const queryClient = useQueryClient();
 
   const CloseButton = isMobile ? DrawerClose : DialogClose;
   const Header = isMobile ? DrawerHeader : DialogHeader;
   const Title = isMobile ? DrawerTitle : DialogTitle;
   const Description = isMobile ? DrawerDescription : DialogDescription;
   const Footer = isMobile ? DrawerFooter : DialogFooter;
+
+  const resetForm = () => {
+    setCurrentStep(1);
+    setFormData({});
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    resetForm();
+  };
+
   const handleNext = () => {
-    setStep(2);
+    setCurrentStep((prev) => prev + 1);
   };
+
   const handleBack = () => {
-    setStep(1);
-    setFormData((prev) => ({ ...prev, targetId: undefined }));
+    setCurrentStep((prev) => prev - 1);
   };
+
   const handleSubmit = () => {
-    const amountValid = formData.amount && !isNaN(Number(formData.amount)) && Number(formData.amount) > 0;
-    if (!formData.targetId || !formData.kind || !formData.amount || !amountValid) return;
-    const targetTypeMap = {
-      ACCOUNT: "ACCOUNT",
-      SUBSCRIPTION_FEE: "SUBSCRIPTION_FEE",
-      INSTALLMENT: "INSTALLMENT"
-    } as const;
+    if (!formData.allocationType || !formData.amount || !formData.targetId) return;
 
     addEntryMutation.mutate(
       {
-        ledgerAccountCode: 2050,
-        dc: unbalancedDC,
-        amount: formData.amount,
-        targetType: targetTypeMap[formData.kind],
+        journalId: journal.id,
+        amount: Number(formData.amount),
+        targetType: ALLOCATION_TO_TARGET_MAP[formData.allocationType],
         targetId: formData.targetId,
-        targetLedgerAccountCode: undefined
+        allocationType: formData.allocationType
       },
       {
         onSuccess: () => {
+          // Invalidate the transaction detail so pages showing the transaction refresh
+          if (journal.transactionId) {
+            queryClient.invalidateQueries({ queryKey: transactionKeys.detail(journal.transactionId) });
+          }
+          // Also refresh transaction lists
+          queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
+
           onSuccess?.();
           setOpen(false);
-          setStep(1);
-          setFormData({});
+          resetForm();
         }
       }
     );
   };
-  const handleClose = () => {
-    setOpen(false);
-    setStep(1);
-    setFormData({});
+
+  // Determine total steps based on allocation type
+  const getTotalSteps = () => {
+    if (!formData.allocationType) return 1;
+    if (formData.allocationType === AllocationType.ACCOUNT_BALANCE) return 3;
+    if (formData.allocationType === AllocationType.LOAN_REPAYMENT) return 4;
+    // AllocationType.FEE
+    return 3;
   };
 
-  const targetList = React.useMemo(
-    () => getFilteredTargets(formData.kind, formData.userId, accountsData, loansData, installmentsData),
-    [formData.userId, formData.kind, accountsData, loansData, installmentsData]
+  const totalSteps = getTotalSteps();
+
+  const getCanProceedFlags = () => ({
+    fromStep1: formData.userId && formData.allocationType,
+    fromStep2: !!formData.accountId,
+    fromStep3:
+      formData.allocationType === AllocationType.LOAN_REPAYMENT
+        ? !!formData.loanId
+        : !!(formData.targetId && formData.amount),
+    canSubmit: !!(formData.targetId && formData.amount)
+  });
+
+  const canProceed = getCanProceedFlags();
+
+  const getStepDescription = () => {
+    if (currentStep === 1) return "کاربر و نوع تخصیص را انتخاب کنید";
+    if (currentStep === 2) return "حساب کاربر را انتخاب کنید";
+    if (formData.allocationType === AllocationType.LOAN_REPAYMENT) {
+      if (currentStep === 3) return "وام را انتخاب کنید";
+      if (currentStep === 4) return "قسط را انتخاب کنید";
+    }
+    if (formData.allocationType === AllocationType.FEE && currentStep === 3) {
+      return "هزینه اشتراک را انتخاب کنید";
+    }
+    if (formData.allocationType === AllocationType.ACCOUNT_BALANCE && currentStep === 3) {
+      return "مبلغ را وارد کنید";
+    }
+    return "";
+  };
+
+  const renderStep1 = () => <StepOne formData={formData} setFormData={setFormData} />;
+
+  const renderStep2 = () => <StepSelectAccount formData={formData} setFormData={setFormData} />;
+
+  const renderAccountBalanceStep3 = () => (
+    <div className="space-y-2">
+      <Label htmlFor="amount">مبلغ</Label>
+      <Input
+        id="amount"
+        type="number"
+        placeholder={unbalancedAmount ? `مبلغ پیشنهادی: ${unbalancedAmount}` : "مبلغ را وارد کنید"}
+        value={formData.amount ?? ""}
+        onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+        min="0"
+        step="0.01"
+      />
+      {unbalancedAmount > 0 && (
+        <p className="text-sm text-muted-foreground">
+          مبلغ عدم تعادل حساب ۲۰۵۰: {unbalancedAmount.toLocaleString("fa-IR")} ریال
+        </p>
+      )}
+    </div>
   );
-  const targetLabel = React.useMemo(() => {
-    if (formData.kind === "ACCOUNT") return "انتخاب حساب";
-    if (formData.kind === "SUBSCRIPTION_FEE") return "انتخاب وام";
-    if (formData.kind === "INSTALLMENT") return "انتخاب قسط";
-    return "انتخاب موجودیت";
-  }, [formData.kind]);
+
+  const renderCurrentStep = () => {
+    if (currentStep === 1) return renderStep1();
+    if (currentStep === 2) return renderStep2();
+
+    if (formData.allocationType === AllocationType.ACCOUNT_BALANCE && currentStep === 3) {
+      return renderAccountBalanceStep3();
+    }
+
+    if (formData.allocationType === AllocationType.LOAN_REPAYMENT) {
+      if (currentStep === 3) return <StepSelectLoan formData={formData} setFormData={setFormData} />;
+      if (currentStep === 4) return <StepSelectInstallment formData={formData} setFormData={setFormData} />;
+    }
+
+    if (formData.allocationType === AllocationType.FEE && currentStep === 3) {
+      return <StepSelectFee formData={formData} setFormData={setFormData} />;
+    }
+
+    return null;
+  };
+
+  const isNextDisabled = () => {
+    if (currentStep === 1) return !canProceed.fromStep1;
+    if (currentStep === 2) return !canProceed.fromStep2;
+    if (currentStep === 3) return !canProceed.fromStep3;
+    return false;
+  };
+
+  const isLastStep = currentStep === totalSteps;
 
   return (
     <>
@@ -185,32 +210,32 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
       <ResponsivePanel open={open} onOpenChange={setOpen}>
         <Header>
           <Title>تخصیص ثبت حسابداری</Title>
-          <Description>
-            {step === 1 ? "کاربر، نوع موجودیت و مبلغ را انتخاب کنید" : "موجودیت مورد نظر را برای تخصیص انتخاب کنید"}
-          </Description>
+          <Description>{getStepDescription()}</Description>
         </Header>
-        <div className="p-4 space-y-4">
-          {step === 1 ? (
-            <StepOne
-              formData={formData}
-              setFormData={setFormData}
-              usersData={usersData}
-              suggestedAmount={unbalancedAmount}
-            />
-          ) : (
-            <StepTwo formData={formData} setFormData={setFormData} targetLabel={targetLabel} targetList={targetList} />
-          )}
-        </div>
-        <PanelFooter
-          step={step}
-          formData={formData}
-          handleBack={handleBack}
-          handleClose={handleClose}
-          handleNext={handleNext}
-          handleSubmit={handleSubmit}
-          CloseButton={CloseButton}
-          Footer={Footer}
-        />
+        <div className="p-4 space-y-4">{renderCurrentStep()}</div>
+        <Footer>
+          <div className="flex gap-2 w-full">
+            {currentStep > 1 && (
+              <Button variant="outline" onClick={handleBack}>
+                بازگشت
+              </Button>
+            )}
+            <CloseButton asChild>
+              <Button variant="outline" onClick={handleClose}>
+                لغو
+              </Button>
+            </CloseButton>
+            {isLastStep ? (
+              <Button onClick={handleSubmit} disabled={!canProceed.canSubmit} className="flex-1">
+                تخصیص
+              </Button>
+            ) : (
+              <Button onClick={handleNext} disabled={isNextDisabled()} className="flex-1">
+                بعدی
+              </Button>
+            )}
+          </div>
+        </Footer>
       </ResponsivePanel>
     </>
   );

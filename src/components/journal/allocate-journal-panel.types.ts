@@ -1,8 +1,10 @@
-export type AllocationKind = "ACCOUNT" | "SUBSCRIPTION_FEE" | "INSTALLMENT";
+import { AllocationType } from "@/types/entities/journal-entry.type";
 
 export type AllocationFormData = {
   userId: string;
-  kind: AllocationKind;
+  allocationType: AllocationType;
+  accountId?: string;
+  loanId?: string;
   targetId: string;
   amount: string;
 };

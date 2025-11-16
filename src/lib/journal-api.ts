@@ -1,4 +1,5 @@
 import { PaginatedResponseDto, PaginationParams } from "@/types/api";
+import { AllocationType, JournalEntryTarget } from "@/types/entities/journal-entry.type";
 import { Journal, JournalStatus } from "@/types/entities/journal.type";
 import api from "./api";
 
@@ -61,19 +62,8 @@ export async function deleteJournal(journalId: string): Promise<void> {
 }
 
 export interface AddJournalEntryRequest {
-  ledgerAccountCode: number;
-  dc: "DEBIT" | "CREDIT";
   amount: string;
-  targetType?: "ACCOUNT" | "SUBSCRIPTION_FEE" | "INSTALLMENT";
+  targetType?: JournalEntryTarget;
   targetId?: string;
-  note?: string;
-  targetLedgerAccountCode?: number;
-}
-
-/**
- * Add a single entry to an existing journal
- */
-export async function addJournalEntry(journalId: string, data: AddJournalEntryRequest): Promise<Journal> {
-  const response = await api.post<Journal>(`/journals/${journalId}/entries`, data);
-  return response.data;
+  allocationType: AllocationType;
 }

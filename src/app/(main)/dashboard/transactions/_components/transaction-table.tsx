@@ -28,6 +28,10 @@ function TransactionStatusCell({ status }: { status: Transaction["status"] }) {
       variant = "inactive";
       label = "رد شده";
       break;
+    case "ALLOCATED":
+      variant = "active";
+      label = "تخصیص یافته";
+      break;
     default:
       variant = "outline";
       label = "نامشخص";
@@ -155,7 +159,7 @@ export function TransactionsTable({ data, isLoading, error, pagination }: Props)
       <Card>
         <CardContent>
           <div className="p-8 text-center">
-            <p className="text-muted-foreground">هیچ وامی یافت نشد</p>
+            <p className="text-muted-foreground">هیچ تراکنشی یافت نشد</p>
           </div>
         </CardContent>
       </Card>

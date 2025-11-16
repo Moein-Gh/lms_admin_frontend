@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html
-      lang="en"
+      lang="fa"
       dir="rtl"
       className={themeMode === "dark" ? "dark" : ""}
       data-theme-preset={themePreset}

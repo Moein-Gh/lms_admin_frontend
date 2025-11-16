@@ -1,0 +1,26 @@
+import { Account } from "./account.type";
+import { JournalEntry } from "./journal-entry.type";
+
+export enum SubscriptionFeeStatus {
+  DUE = "DUE",
+  PAID = "PAID",
+  ALLOCATED = "ALLOCATED"
+}
+
+export type SubscriptionFee = {
+  readonly id: string;
+  readonly code: number;
+  readonly accountId: string;
+  readonly journalEntryId?: string;
+  readonly periodStart: Date;
+  readonly amount: string;
+  readonly status: SubscriptionFeeStatus;
+  readonly dueDate?: Date;
+  readonly paidAt?: Date;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+
+  // Relations
+  readonly account?: Account;
+  readonly journalEntry?: JournalEntry;
+};

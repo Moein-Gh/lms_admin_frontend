@@ -1,1101 +1,1309 @@
 {
-  "openapi": "3.0.0",
   "info": {
-    "title": "Admin",
-    "version": "1.0.0",
-    "description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)"
+    "_postman_id": "2149bd17-d55b-4295-ba39-9fb56cfefa6f",
+    "name": "Admin",
+    "description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "27785134"
   },
-  "servers": [
+  "item": [
     {
-      "url": "{{admin_base_url}}"
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Request SMS",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"phone\": \"9100971433\",\n\t\"purpose\": \"login\",\n\t\"countryCode\": \"98\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{admin_base_url}}/auth/request-sms",
+              "host": ["{{admin_base_url}}"],
+              "path": ["auth", "request-sms"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify SMS",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"phone\": \"9100971433\",\n\t\"code\": \"333164\",\n\t\"purpose\": \"login\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{admin_base_url}}/auth/verify-sms",
+              "host": ["{{admin_base_url}}"],
+              "path": ["auth", "verify-sms"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh access token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{admin_base_url}}/auth/refresh",
+              "host": ["{{admin_base_url}}"],
+              "path": ["auth", "refresh"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Access",
+      "item": [
+        {
+          "name": "Roles",
+          "item": [
+            {
+              "name": "Create Role",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"Admin\",\n\t\"key\": \"admin\",\n\t\"description\": \"admin of the platform\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/roles",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["roles"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Role",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/roles/9c0897f0-755a-4de4-8bc7-d99d4f075632",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["roles", "9c0897f0-755a-4de4-8bc7-d99d4f075632"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Roles",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/roles/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["roles", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Role by Id",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/roles/9fa1a5e8-f6ae-43e0-8cc1-e70853301041",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["roles", "9fa1a5e8-f6ae-43e0-8cc1-e70853301041"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Permission Grant",
+          "item": [
+            {
+              "name": "Create Permission Grant",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"Admin\",\n\t\"key\": \"admin\",\n\t\"description\": \"admin of the platform\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/permission-grants",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["permission-grants"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Permission Grant",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/permission-grants/9c0897f0-755a-4de4-8bc7-d99d4f075632",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["permission-grants", "9c0897f0-755a-4de4-8bc7-d99d4f075632"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Permission Grants",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/permission-grants/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["permission-grants", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Permission Grant by Id",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/permission-grants/9fa1a5e8-f6ae-43e0-8cc1-e70853301041",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["permission-grants", "9fa1a5e8-f6ae-43e0-8cc1-e70853301041"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Permissions",
+          "item": [
+            {
+              "name": "Create Permission",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/permissions",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["permissions"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Permission",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/permissions/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["permissions", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Permissions",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/permissions/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["permissions", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Permissions by Id",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/permissions/89aed28b-686a-4076-bf88-427d638f5852",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["permissions", "89aed28b-686a-4076-bf88-427d638f5852"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Role Assignment",
+          "item": [
+            {
+              "name": "Create Role Assignment",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"userId\": \"431c6eb1-9b1a-420a-a333-f517869cde89\",\n\t\"roleId\": \"ed98cb72-432a-4506-9ee7-1a6a1ad9b160\",\n\t\"expiresAt\": \"Mon Aug 26 2025 19:18:08 GMT+0200\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/role-assignments",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["role-assignments"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Role Assignment",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/roleassignment/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["roleassignment", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Role Assignment",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/role-assignments",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["role-assignments"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Role Assignment by Id",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/roleassignment/89aed28b-686a-4076-bf88-427d638f5853",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["roleassignment", "89aed28b-686a-4076-bf88-427d638f5853"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"phone\": \"09100971433\",\n\t\"name\": \"Moein Ghorbanali\",\n\t\"countryCode\": \"98\",\n    \"nationalCode\":\"0022358218\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{admin_base_url}}/users/",
+              "host": ["{{admin_base_url}}"],
+              "path": ["users", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"name\": \"user-create\",\n\t\"key\": \"user-create\",\n\t\"description\": \"permission to create a user\"\n}"
+            },
+            "url": {
+              "raw": "{{admin_base_url}}/users/",
+              "host": ["{{admin_base_url}}"],
+              "path": ["users", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{admin_base_url}}/users/:userId",
+              "host": ["{{admin_base_url}}"],
+              "path": ["users", ":userId"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "eb169297-de52-4f7a-962f-ffb84eaa2ee4"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"isActive\":false,\r\n    \"identityId\":\"ad575a6a-1599-41c5-9748-82ba714a7619\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{admin_base_url}}/users/ba613c5d-1714-4c20-bcae-1f098ce19522",
+              "host": ["{{admin_base_url}}"],
+              "path": ["users", "ba613c5d-1714-4c20-bcae-1f098ce19522"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Bank",
+      "item": [
+        {
+          "name": "Account Type",
+          "item": [
+            {
+              "name": "Create Account Type",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\":\"معمولی\",\r\n    \"maxAccounts\": 9999\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/account-types/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["account-types", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Account Types",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/account-types/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["account-types", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Account Type By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/account-types/:account-typeId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["account-types", ":account-typeId"],
+                  "variable": [
+                    {
+                      "key": "account-typeId",
+                      "value": "f09275c5-65ef-4493-94be-ce6b06282644"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Account Type",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\":\"Bank\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/account-types/:account-typeId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["account-types", ":account-typeId"],
+                  "variable": [
+                    {
+                      "key": "account-typeId",
+                      "value": "f09275c5-65ef-4493-94be-ce6b06282644"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Account",
+          "item": [
+            {
+              "name": "Create Account",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"accountTypeId\":\"112db244-f263-4356-8885-b63e34931b6f\",\r\n    \"userId\":\"0326003a-7199-4b06-b355-31e7a135ffca\",\r\n    \"cardNumber\":\"4205450023393600\",\r\n    \"bankName\":\"ملت\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/accounts/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["accounts", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Accounts",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/accounts?userId=d67cb8c5-ae2e-4de2-bc6a-5df6b1ec4ae9",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["accounts"],
+                  "query": [
+                    {
+                      "key": "userId",
+                      "value": "d67cb8c5-ae2e-4de2-bc6a-5df6b1ec4ae9"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Account By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/accounts/:accountId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["accounts", ":accountId"],
+                  "variable": [
+                    {
+                      "key": "accountId",
+                      "value": "1859f752-0593-448e-a2cd-3665c969e478"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Account",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/accounts/:accountId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["accounts", ":accountId"],
+                  "variable": [
+                    {
+                      "key": "accountId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Loan Type",
+          "item": [
+            {
+              "name": "Create Loan Type",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\":\"معمولی\",\r\n    \"commissionPercentage\":1,\r\n    \"defaultInstallments\":10,\r\n    \"maxInstallments\":24,\r\n    \"minInstallments\":1,\r\n    \"creditRequirementPct\": 20,\r\n    \"description\":\"وام معمولی\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/loan-types/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loan-types", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Loan Types",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/loan-types/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loan-types", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Loan Type By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/loan-types/:loanTypeId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loan-types", ":loanTypeId"],
+                  "variable": [
+                    {
+                      "key": "loanTypeId",
+                      "value": "dd6b69c0-ea31-447c-914c-66755ffa11de"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Loan Type",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"description\":\"\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/loan-types/:loanTypeId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loan-types", ":loanTypeId"],
+                  "variable": [
+                    {
+                      "key": "loanTypeId",
+                      "value": "dd6b69c0-ea31-447c-914c-66755ffa11de"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Loan Type",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"description\":\"\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/loan-types/:loanTypeId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loan-types", ":loanTypeId"],
+                  "variable": [
+                    {
+                      "key": "loanTypeId",
+                      "value": "dd6b69c0-ea31-447c-914c-66755ffa11de"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Loan",
+          "item": [
+            {
+              "name": "Create Loan",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"خرید ماشین\",\r\n    \"accountId\": \"9152a8e8-7cd0-4d1c-9fc1-fcf5be021ec4\",\r\n    \"loanTypeId\": \"b7cbcd67-7e92-40cb-b055-82b56044e428\",\r\n    \"amount\": \"100\",\r\n    \"startDate\": \"2025-12-30T00:00:00.000Z\",\r\n    \"paymentMonths\": 10\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/loans/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loans", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Approve Loan",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/loans/approve/:loanId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loans", "approve", ":loanId"],
+                  "variable": [
+                    {
+                      "key": "loanId",
+                      "value": "6042a625-9391-4339-8a65-da748bd91cc5"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Loans",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/loans/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loans", ""],
+                  "query": [
+                    {
+                      "key": "accountId",
+                      "value": "9152a8e8-7cd0-4d1c-9fc1-fcf5be021ec4",
+                      "disabled": true
+                    },
+                    {
+                      "key": "loanTypeId",
+                      "value": "b7cbcd67-7e92-40cb-b055-82b56044e426",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Loan By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/loans/:loanId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loans", ":loanId"],
+                  "variable": [
+                    {
+                      "key": "loanId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Loan",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/loans/:loanId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loans", ":loanId"],
+                  "variable": [
+                    {
+                      "key": "loanId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Loan",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/loans/:loanId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["loans", ":loanId"],
+                  "variable": [
+                    {
+                      "key": "loanId",
+                      "value": "038dc190-6aab-4438-9c3f-0b75f1386ee9"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Installment",
+          "item": [
+            {
+              "name": "Create Installment",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"car\",\r\n    \"accountId\": \"1859f752-0593-448e-a2cd-3665c969e478\",\r\n    \"loanTypeId\": \"2030984e-b161-437e-99df-c10de8dc4a66\",\r\n    \"amount\": \"1000000\",\r\n    \"startDate\": \"2025-09-30T00:00:00.000Z\",\r\n    \"paymentMonths\": 10\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/installments/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["installments", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Installments",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/installments/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["installments", ""],
+                  "query": [
+                    {
+                      "key": "loanId",
+                      "value": "58c7eaa3-d904-48be-912e-db41eb82b9ba",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Installment By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/installment/:InstallmentId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["installment", ":InstallmentId"],
+                  "variable": [
+                    {
+                      "key": "InstallmentId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Installment",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/Installments/:InstallmentId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["Installments", ":InstallmentId"],
+                  "variable": [
+                    {
+                      "key": "InstallmentId",
+                      "value": ""
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Bank Financial",
+          "item": [
+            {
+              "name": "Summary",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/bank/financials/summary",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["bank", "financials", "summary"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Transaction",
+      "item": [
+        {
+          "name": "Transaction",
+          "item": [
+            {
+              "name": "Create Transactions",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"userId\": \"0326003a-7199-4b06-b355-31e7a135ffca\",\r\n    \"kind\": \"DEPOSIT\",\r\n    \"amount\": \"1000000\",\r\n    \"externalRef\": \"12345678\",\r\n    \"note\": \"first transaction\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/transactions/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["transactions", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Transactions",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"userId\": \"8c2090d7-f075-4ae3-a9a3-9713b7abe2d0\",\r\n    \"kind\": \"DEPOSIT\",\r\n    \"amount\": \"1000000\",\r\n    \"externalRef\": \"123456789\",\r\n    \"note\": \"first transaction\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/transactions/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["transactions", ""],
+                  "query": [
+                    {
+                      "key": "",
+                      "value": null,
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Transaction By Id",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"userId\": \"8c2090d7-f075-4ae3-a9a3-9713b7abe2d0\",\r\n    \"kind\": \"DEPOSIT\",\r\n    \"amount\": \"1000000\",\r\n    \"externalRef\": \"123456789\",\r\n    \"note\": \"first transaction\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/transactions/:transactionId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["transactions", ":transactionId"],
+                  "variable": [
+                    {
+                      "key": "transactionId",
+                      "value": "4d8a39d8-8ac7-42a6-8203-0d00310be4f3"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Approve Transaction",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/transactions/approve/:transactionId",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["transactions", "approve", ":transactionId"],
+                  "query": [
+                    {
+                      "key": "",
+                      "value": null,
+                      "disabled": true
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "transactionId",
+                      "value": "91defae3-251d-4a57-a4ba-50276be1821c"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ledger",
+      "item": [
+        {
+          "name": "Ledger-Account",
+          "item": [
+            {
+              "name": "List ledger accounts",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"userId\": \"8c2090d7-f075-4ae3-a9a3-9713b7abe2d0\",\r\n    \"kind\": \"DEPOSIT\",\r\n    \"amount\": \"1000000\",\r\n    \"externalRef\": \"123456789\",\r\n    \"note\": \"first transaction\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{admin_base_url}}/ledger-accounts/",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["ledger-accounts", ""]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Journal",
+          "item": [
+            {
+              "name": "List Journals",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/journals?includeEntries=true",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["journals"],
+                  "query": [
+                    {
+                      "key": "includeEntries",
+                      "value": "true"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Journal By Id",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{admin_base_url}}/journals/:journalId?includeEntries=true",
+                  "host": ["{{admin_base_url}}"],
+                  "path": ["journals", ":journalId"],
+                  "query": [
+                    {
+                      "key": "includeEntries",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "journalId",
+                      "value": "3691f919-4672-4ab9-bd2e-eef1c4e8557c"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
     }
   ],
-  "paths": {
-    "/auth/request-sms": {
-      "post": {
-        "summary": "Request SMS",
-        "tags": ["Auth"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phone": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  },
-                  "purpose": {
-                    "type": "string"
-                  },
-                  "countryCode": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  }
-                }
-              }
-            }
-          }
-        }
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
       }
     },
-    "/auth/verify-sms": {
-      "post": {
-        "summary": "Verify SMS",
-        "tags": ["Auth"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phone": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  },
-                  "code": {
-                    "type": "string",
-                    "format": "color"
-                  },
-                  "purpose": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
       }
-    },
-    "/auth/refresh": {
-      "post": {
-        "summary": "Refresh access token",
-        "tags": ["Auth"],
-        "responses": {}
-      }
-    },
-    "/roles": {
-      "post": {
-        "summary": "Create Role",
-        "tags": ["Access", "Roles"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/roles/9c0897f0-755a-4de4-8bc7-d99d4f075632": {
-      "delete": {
-        "summary": "Delete Role",
-        "tags": ["Access", "Roles"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/roles/": {
-      "get": {
-        "summary": "List Roles",
-        "tags": ["Access", "Roles"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/roles/9fa1a5e8-f6ae-43e0-8cc1-e70853301041": {
-      "get": {
-        "summary": "Get Role by Id",
-        "tags": ["Access", "Roles"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/permission-grants": {
-      "post": {
-        "summary": "Create Permission Grant",
-        "tags": ["Access", "Permission Grant"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/permission-grants/9c0897f0-755a-4de4-8bc7-d99d4f075632": {
-      "delete": {
-        "summary": "Delete Permission Grant",
-        "tags": ["Access", "Permission Grant"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/permission-grants/": {
-      "get": {
-        "summary": "List Permission Grants",
-        "tags": ["Access", "Permission Grant"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/permission-grants/9fa1a5e8-f6ae-43e0-8cc1-e70853301041": {
-      "get": {
-        "summary": "Get Permission Grant by Id",
-        "tags": ["Access", "Permission Grant"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/permissions": {
-      "post": {
-        "summary": "Create Permission",
-        "tags": ["Access", "Permissions"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/permissions/": {
-      "delete": {
-        "summary": "Delete Permission",
-        "tags": ["Access", "Permissions"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Permissions",
-        "tags": ["Access", "Permissions"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/permissions/89aed28b-686a-4076-bf88-427d638f5852": {
-      "get": {
-        "summary": "Get Permissions by Id",
-        "tags": ["Access", "Permissions"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/role-assignments": {
-      "post": {
-        "summary": "Create Role Assignment",
-        "tags": ["Access", "Role Assignment"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "userId": {
-                    "type": "string"
-                  },
-                  "roleId": {
-                    "type": "string"
-                  },
-                  "expiresAt": {
-                    "type": "string",
-                    "format": "style"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Role Assignment",
-        "tags": ["Access", "Role Assignment"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/roleassignment/": {
-      "delete": {
-        "summary": "Delete Role Assignment",
-        "tags": ["Access", "Role Assignment"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/roleassignment/89aed28b-686a-4076-bf88-427d638f5853": {
-      "get": {
-        "summary": "Get Role Assignment by Id",
-        "tags": ["Access", "Role Assignment"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "key": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/": {
-      "post": {
-        "summary": "Create User",
-        "tags": ["Users"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phone": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "countryCode": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  },
-                  "nationalCode": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Users",
-        "tags": ["Users"],
-        "responses": {}
-      }
-    },
-    "/users/{userId}": {
-      "get": {
-        "summary": "Get User By Id",
-        "tags": ["Users"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "userId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "deprecated": false
-          }
-        }
-      ]
-    },
-    "/users/ba613c5d-1714-4c20-bcae-1f098ce19522": {
-      "patch": {
-        "summary": "Update User",
-        "tags": ["Users"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "isActive": {
-                    "type": "boolean"
-                  },
-                  "identityId": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/account-types/": {
-      "post": {
-        "summary": "Create Account Type",
-        "tags": ["Bank", "Account Type"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "maxAccounts": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Account Types",
-        "tags": ["Bank", "Account Type"],
-        "responses": {}
-      }
-    },
-    "/account-types/{account-typeId}": {
-      "get": {
-        "summary": "Get Account Type By Id",
-        "tags": ["Bank", "Account Type"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "account-typeId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "deprecated": false
-          }
-        }
-      ],
-      "patch": {
-        "summary": "Update Account Type",
-        "tags": ["Bank", "Account Type"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/accounts/": {
-      "post": {
-        "summary": "Create Account",
-        "tags": ["Bank", "Account"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "accountTypeId": {
-                    "type": "string"
-                  },
-                  "userId": {
-                    "type": "string"
-                  },
-                  "cardNumber": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  },
-                  "bankName": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Accounts",
-        "tags": ["Bank", "Account"],
-        "responses": {}
-      }
-    },
-    "/accounts/{accountId}": {
-      "get": {
-        "summary": "Get Account By Id",
-        "tags": ["Bank", "Account"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "accountId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "patch": {
-        "summary": "Update Account",
-        "tags": ["Bank", "Account"],
-        "responses": {}
-      }
-    },
-    "/loan-types/": {
-      "post": {
-        "summary": "Create Loan Type",
-        "tags": ["Bank", "Loan Type"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "commissionPercentage": {
-                    "type": "integer"
-                  },
-                  "defaultInstallments": {
-                    "type": "integer"
-                  },
-                  "maxInstallments": {
-                    "type": "integer"
-                  },
-                  "minInstallments": {
-                    "type": "integer"
-                  },
-                  "creditRequirementPct": {
-                    "type": "integer"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Loan Types",
-        "tags": ["Bank", "Loan Type"],
-        "responses": {}
-      }
-    },
-    "/loan-types/{loanTypeId}": {
-      "get": {
-        "summary": "Get Loan Type By Id",
-        "tags": ["Bank", "Loan Type"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "loanTypeId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "patch": {
-        "summary": "Update Loan Type",
-        "tags": ["Bank", "Loan Type"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete Loan Type",
-        "tags": ["Bank", "Loan Type"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "description": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/loans/": {
-      "post": {
-        "summary": "Create Loan",
-        "tags": ["Bank", "Loan"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "accountId": {
-                    "type": "string"
-                  },
-                  "loanTypeId": {
-                    "type": "string"
-                  },
-                  "amount": {
-                    "type": "string",
-                    "format": "color"
-                  },
-                  "startDate": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "paymentMonths": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Loans",
-        "tags": ["Bank", "Loan"],
-        "responses": {}
-      }
-    },
-    "/loans/approve/{loanId}": {
-      "post": {
-        "summary": "Approve Loan",
-        "tags": ["Bank", "Loan"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "loanId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "deprecated": false
-          }
-        }
-      ]
-    },
-    "/loans/{loanId}": {
-      "get": {
-        "summary": "Get Loan By Id",
-        "tags": ["Bank", "Loan"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "loanId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ],
-      "patch": {
-        "summary": "Update Loan",
-        "tags": ["Bank", "Loan"],
-        "responses": {}
-      }
-    },
-    "/installments/": {
-      "post": {
-        "summary": "Create Installment",
-        "tags": ["Bank", "Installment"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "accountId": {
-                    "type": "string"
-                  },
-                  "loanTypeId": {
-                    "type": "string"
-                  },
-                  "amount": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  },
-                  "startDate": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "paymentMonths": {
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Installments",
-        "tags": ["Bank", "Installment"],
-        "responses": {}
-      }
-    },
-    "/installment/{InstallmentId}": {
-      "get": {
-        "summary": "Get Installment By Id",
-        "tags": ["Bank", "Installment"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "InstallmentId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ]
-    },
-    "/Installments/{InstallmentId}": {
-      "patch": {
-        "summary": "Update Installment",
-        "tags": ["Bank", "Installment"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "InstallmentId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ]
-    },
-    "/bank/financials/summary": {
-      "get": {
-        "summary": "Summary",
-        "tags": ["Bank", "Bank Financial"],
-        "responses": {}
-      }
-    },
-    "/transactions/": {
-      "post": {
-        "summary": "Create Transactions",
-        "tags": ["Transaction", "Transaction"],
-        "responses": {},
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "userId": {
-                    "type": "string"
-                  },
-                  "kind": {
-                    "type": "string"
-                  },
-                  "amount": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  },
-                  "externalRef": {
-                    "type": "string",
-                    "format": "utc-millisec"
-                  },
-                  "note": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "List Transactions",
-        "tags": ["Transaction", "Transaction"],
-        "responses": {}
-      }
-    },
-    "/transactions/{transactionId}": {
-      "get": {
-        "summary": "Get Transaction By Id",
-        "tags": ["Transaction", "Transaction"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "transactionId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "integer"
-          }
-        }
-      ]
-    },
-    "/transactions/approve/{transactionId}": {
-      "post": {
-        "summary": "Approve Transaction",
-        "tags": ["Transaction", "Transaction"],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "transactionId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "deprecated": false
-          }
-        }
-      ]
-    },
-    "/ledger-accounts/": {
-      "get": {
-        "summary": "List ledger accounts",
-        "tags": ["Ledger", "Ledger-Account"],
-        "responses": {}
-      }
-    },
-    "/journals": {
-      "get": {
-        "summary": "List Journals",
-        "tags": ["Ledger", "Journal"],
-        "parameters": [
-          {
-            "name": "includeEntries",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "deprecated": false
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/journals/{journalId}": {
-      "get": {
-        "summary": "Get Journal By Id",
-        "tags": ["Ledger", "Journal"],
-        "parameters": [
-          {
-            "name": "includeEntries",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "deprecated": false
-            }
-          }
-        ],
-        "responses": {}
-      },
-      "parameters": [
-        {
-          "name": "journalId",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "deprecated": false
-          }
-        }
-      ]
     }
-  }
+  ],
+  "variable": [
+    {
+      "key": "id",
+      "value": "1"
+    },
+    {
+      "key": "base_url",
+      "value": "https://postman-rest-api-learner.glitch.me/"
+    }
+  ]
 }

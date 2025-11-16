@@ -3,7 +3,8 @@ import { Loan } from "./loan.type";
 export enum InstallmentStatus {
   PENDING = "PENDING",
   ACTIVE = "ACTIVE",
-  PAID = "PAID"
+  PAID = "PAID",
+  ALLOCATED = "ALLOCATED"
 }
 
 export interface Installment {

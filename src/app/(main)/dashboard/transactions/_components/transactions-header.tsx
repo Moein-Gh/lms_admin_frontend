@@ -1,7 +1,7 @@
 "use client";
 
 import { CreateTransactionDialog } from "./create-transaction-dialog";
-import { TransactionFilters, TransactionFiltersDialog } from "./transaction-filters-dialog";
+import { TransactionFilters } from "./transaction-filters";
 
 type Props = {
   filters: TransactionFilters;
@@ -17,7 +17,7 @@ export function TransactionsHeader({ filters, onFiltersChange, onReset }: Props)
         <p className="text-muted-foreground mt-1">مدیریت و مشاهده لیست وام‌ها</p>
       </div>
       <div className="flex items-center gap-2">
-        <TransactionFiltersDialog filters={filters} onFiltersChange={onFiltersChange} onReset={onReset} />
+        <TransactionFilters filters={filters} onFiltersChange={onFiltersChange} onReset={onReset} />
         <CreateTransactionDialog />
       </div>
     </div>

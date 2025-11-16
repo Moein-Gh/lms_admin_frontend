@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
+import { installmentKeys } from "@/hooks/use-installment";
 import {
   createLoan,
   deleteLoan,
@@ -79,6 +80,8 @@ export function useApproveLoan(loanId: string) {
     onSuccess: (approvedLoan) => {
       queryClient.invalidateQueries({ queryKey: loanKeys.detail(approvedLoan.id) });
       queryClient.invalidateQueries({ queryKey: loanKeys.lists() });
+      // Invalidate installments list for this loan so UI updates after approval
+      queryClient.invalidateQueries({ queryKey: installmentKeys.list({ loanId: approvedLoan.id }) });
     }
   });
 }

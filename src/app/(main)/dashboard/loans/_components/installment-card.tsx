@@ -1,4 +1,4 @@
-import { Calendar, CircleCheck, CircleDashed, Clock } from "lucide-react";
+import { Calendar, CircleCheck, CircleDashed, Clock, Loader } from "lucide-react";
 
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
@@ -26,6 +26,12 @@ export function InstallmentCard({ installment }: { installment: Installment }) {
       variant: "inactive" as const,
       icon: CircleDashed,
       color: "text-orange-600 dark:text-orange-500"
+    },
+    [InstallmentStatus.ALLOCATED]: {
+      label: "تخصیص یافته",
+      variant: "default" as const,
+      icon: Loader,
+      color: "text-yellow-600 dark:text-yellow-500"
     }
   };
 

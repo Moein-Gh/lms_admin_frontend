@@ -1,21 +1,18 @@
-import * as React from "react";
-import type { AllocationKind, AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
-import { Input } from "@/components/ui/input";
+import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { User } from "@/types/entities/user.type";
+import { useUsers } from "@/hooks/use-user";
+import { AllocationType } from "@/types/entities/journal-entry.type";
 
 export function StepOne({
   formData,
-  setFormData,
-  usersData,
-  suggestedAmount
+  setFormData
 }: {
   formData: Partial<AllocationFormData>;
   setFormData: (data: Partial<AllocationFormData>) => void;
-  usersData: { data: User[] } | undefined;
-  suggestedAmount?: number;
 }) {
+  const { data: usersData } = useUsers({ pageSize: 100 });
+
   return (
     <>
       <div className="space-y-2">
@@ -37,36 +34,18 @@ export function StepOne({
       <div className="space-y-2">
         <Label htmlFor="kind">نوع موجودیت</Label>
         <Select
-          value={formData.kind}
-          onValueChange={(value) => setFormData({ ...formData, kind: value as AllocationKind })}
+          value={formData.allocationType}
+          onValueChange={(value) => setFormData({ ...formData, allocationType: value as AllocationType })}
         >
           <SelectTrigger id="kind">
             <SelectValue placeholder="انتخاب نوع" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="ACCOUNT">موجودی حساب</SelectItem>
-            <SelectItem value="SUBSCRIPTION_FEE">هزینه اشتراک</SelectItem>
-            <SelectItem value="INSTALLMENT">قسط</SelectItem>
+            <SelectItem value={AllocationType.ACCOUNT_BALANCE}>موجودی حساب</SelectItem>
+            <SelectItem value={AllocationType.LOAN_REPAYMENT}>بازپرداخت وام</SelectItem>
+            <SelectItem value={AllocationType.FEE}>هزینه اشتراک</SelectItem>
           </SelectContent>
         </Select>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="amount">مبلغ</Label>
-        <Input
-          id="amount"
-          type="number"
-          placeholder={suggestedAmount ? `مبلغ پیشنهادی: ${suggestedAmount}` : "مبلغ را وارد کنید"}
-          value={formData.amount ?? ""}
-          onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-          min="0"
-          step="0.01"
-        />
-        {suggestedAmount && (
-          <p className="text-sm text-muted-foreground">
-            مبلغ عدم تعادل حساب ۲۰۵۰: {suggestedAmount.toLocaleString("fa-IR")} ریال
-          </p>
-        )}
       </div>
     </>
   );

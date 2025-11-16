@@ -5,11 +5,9 @@ import {
   createJournal,
   updateJournal,
   deleteJournal,
-  addJournalEntry,
   CreateJournalRequest,
   UpdateJournalRequest,
-  ListJournalsParams,
-  AddJournalEntryRequest
+  ListJournalsParams
 } from "@/lib/journal-api";
 
 export function useJournals(params?: ListJournalsParams) {
@@ -54,17 +52,6 @@ export function useDeleteJournal() {
     mutationFn: (journalId: string) => deleteJournal(journalId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["journals"] });
-    }
-  });
-}
-
-export function useAddJournalEntry(journalId: string) {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: AddJournalEntryRequest) => addJournalEntry(journalId, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["journals"] });
-      queryClient.invalidateQueries({ queryKey: ["journals", journalId] });
     }
   });
 }

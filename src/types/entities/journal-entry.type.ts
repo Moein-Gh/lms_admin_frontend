@@ -13,6 +13,12 @@ export enum JournalEntryTarget {
   ACCOUNT = "ACCOUNT"
 }
 
+export enum AllocationType {
+  ACCOUNT_BALANCE = "ACCOUNT_BALANCE",
+  LOAN_REPAYMENT = "LOAN_REPAYMENT",
+  FEE = "FEE"
+}
+
 export interface JournalEntry {
   id: string;
   code: number;
@@ -22,6 +28,7 @@ export interface JournalEntry {
   amount: string;
   targetType?: JournalEntryTarget;
   targetId?: string;
+  removable: boolean;
   createdAt: Date;
   journal?: Journal;
   ledgerAccount?: Partial<LedgerAccount>;

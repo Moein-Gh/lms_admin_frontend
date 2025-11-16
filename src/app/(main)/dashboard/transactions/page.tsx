@@ -5,7 +5,8 @@ import { PaginationControls } from "@/components/pagination-controls";
 import { usePagination } from "@/hooks/use-pagination";
 import { useTransactions } from "@/hooks/use-transaction";
 import { ActiveFilters } from "./_components/active-filters";
-import { TransactionFilters } from "./_components/transaction-filters-dialog";
+
+import { TransactionFilters } from "./_components/transaction-filters";
 import { TransactionsTable } from "./_components/transaction-table";
 import { TransactionsHeader } from "./_components/transactions-header";
 

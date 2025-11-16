@@ -1,14 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { FileText } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { FileText, Trash2 } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { AllocateJournalPanel } from "@/components/journal/allocate-journal-panel";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { DialogTitle } from "@/components/ui/dialog";
+import { ResponsivePanel } from "@/components/ui/responsive-panel";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useJournals } from "@/hooks/use-journal";
+import { useDeleteJournalEntry } from "@/hooks/use-journal-entries";
+import { transactionKeys } from "@/hooks/use-transaction";
 import type { JournalEntry } from "@/types/entities/journal-entry.type";
 import type { Journal, JournalStatus } from "@/types/entities/journal.type";
 
@@ -32,11 +38,13 @@ function getStatusLabel(status: JournalStatus): { label: string; variant: "activ
 function JournalEntriesTable({
   entries,
   totalDebit,
-  totalCredit
+  totalCredit,
+  onRequestDelete
 }: {
   entries: JournalEntry[];
   totalDebit: number;
   totalCredit: number;
+  onRequestDelete?: (entry: JournalEntry) => void;
 }) {
   if (entries.length === 0) {
     return <div className="p-8 text-center text-muted-foreground">هیچ ثبت حسابداری ای ثبت نشده است.</div>;
@@ -52,6 +60,7 @@ function JournalEntriesTable({
             <TableHead className="font-bold">نام حساب</TableHead>
             <TableHead className="text-start font-bold">بدهکار</TableHead>
             <TableHead className="text-start font-bold">بستانکار</TableHead>
+            <TableHead className="text-center font-bold">عملیات</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -76,6 +85,15 @@ function JournalEntriesTable({
                   <span className="font-semibold">
                     <FormattedNumber value={entry.amount} />
                   </span>
+                ) : (
+                  <span className="text-muted-foreground">-</span>
+                )}
+              </TableCell>
+              <TableCell className="text-center">
+                {entry.removable ? (
+                  <Button variant="destructive" size="sm" onClick={() => onRequestDelete?.(entry)} aria-label="حذف ثبت">
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 ) : (
                   <span className="text-muted-foreground">-</span>
                 )}
@@ -146,6 +164,7 @@ function JournalCardHeader({
   );
 }
 
+/* eslint-disable-next-line complexity */
 function JournalCard({ journal }: { journal: Journal }) {
   const statusInfo = getStatusLabel(journal.status);
   const totalDebit =
@@ -165,12 +184,85 @@ function JournalCard({ journal }: { journal: Journal }) {
   );
   const showAllocationButton = account2050Entries.length > 0 && totalDebit2050 !== totalCredit2050;
 
+  // Deletion state for removable entries
+  const deleteMutation = useDeleteJournalEntry();
+  const queryClient = useQueryClient();
+  const [entryToDelete, setEntryToDelete] = React.useState<JournalEntry | null>(null);
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const [deleteError, setDeleteError] = React.useState<string | null>(null);
+  const [deleting, setDeleting] = React.useState(false);
+
+  const requestDelete = (entry: JournalEntry) => {
+    setEntryToDelete(entry);
+    setDeleteError(null);
+    setOpenDelete(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!entryToDelete) return;
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      await deleteMutation.mutateAsync(entryToDelete.id);
+
+      // Invalidate the transaction detail the page uses (if available)
+      if (journal.transactionId) {
+        queryClient.invalidateQueries({ queryKey: transactionKeys.detail(journal.transactionId) });
+      }
+
+      // Also refresh transaction lists
+      queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
+
+      // Also invalidate any journal-entries list for this journal id
+      queryClient.invalidateQueries({ queryKey: ["journalEntries", { journalId: journal.id }] });
+
+      setOpenDelete(false);
+      setEntryToDelete(null);
+    } catch {
+      setDeleteError("خطا در حذف ثبت حسابداری");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <Card>
       <JournalCardHeader journal={journal} showAllocationButton={showAllocationButton} statusInfo={statusInfo} />
       <CardContent className="p-0">
-        <JournalEntriesTable entries={journal.entries ?? []} totalDebit={totalDebit} totalCredit={totalCredit} />
+        <JournalEntriesTable
+          entries={journal.entries ?? []}
+          totalDebit={totalDebit}
+          totalCredit={totalCredit}
+          onRequestDelete={requestDelete}
+        />
       </CardContent>
+
+      <ResponsivePanel open={openDelete} onOpenChange={setOpenDelete} variant="destructive">
+        <div dir="rtl" className="w-full">
+          <DialogTitle className="pb-6">حذف ثبت حسابداری</DialogTitle>
+          <p className="text-start text-sm">آیا مطمئن هستید که می‌خواهید این ثبت را حذف کنید؟</p>
+          <p className="text-start text-sm">این عمل قابل بازگشت نیست.</p>
+          {entryToDelete && (
+            <div className="mt-4 text-sm">
+              <div className="font-medium">حساب: {entryToDelete.ledgerAccount?.nameFa ?? "-"}</div>
+              <div>مبلغ: {Number(entryToDelete.amount).toLocaleString("fa-IR")}</div>
+              <div>نوع: {entryToDelete.dc === "DEBIT" ? "بدهکار" : "بستانکار"}</div>
+            </div>
+          )}
+
+          {deleteError && <div className="text-destructive text-sm mt-3">{deleteError}</div>}
+
+          <div className="flex gap-2 justify-center mt-6">
+            <Button variant="outline" onClick={() => setOpenDelete(false)} disabled={deleting}>
+              انصراف
+            </Button>
+
+            <Button variant="destructive" onClick={confirmDelete} disabled={deleting}>
+              حذف نهایی
+            </Button>
+          </div>
+        </div>
+      </ResponsivePanel>
     </Card>
   );
 }

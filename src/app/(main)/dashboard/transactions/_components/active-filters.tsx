@@ -4,8 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUsers } from "@/hooks/use-user";
 import { TransactionStatus, TransactionKind } from "@/types/entities/transaction.type";
-
-import type { TransactionFilters } from "./transaction-filters-dialog";
+import { TransactionFilters } from "./transaction-filters";
 
 interface Props {
   filters: TransactionFilters;
@@ -20,6 +19,8 @@ function statusLabel(status: TransactionStatus) {
       return "در انتظار";
     case TransactionStatus.REJECTED:
       return "رد شده";
+    case TransactionStatus.ALLOCATED:
+      return "تخصیص یافته";
     default:
       return status;
   }
