@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowLeftIcon, Building2, CreditCard, Eye } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeftIcon, Building2, CreditCard } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -58,7 +59,9 @@ function AccountCard({ account }: { account: Account }) {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button size="icon" variant="outline" className="size-9 md:size-10">
-                <ArrowLeftIcon className="size-5" />
+                <Link href={`/dashboard/accounts/${account.id}`}>
+                  <ArrowLeftIcon className="size-5" />
+                </Link>
               </Button>
             </TooltipTrigger>
             <TooltipContent side="top">مشاهده</TooltipContent>

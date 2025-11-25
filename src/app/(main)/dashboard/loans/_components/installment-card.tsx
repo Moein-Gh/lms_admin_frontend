@@ -79,12 +79,12 @@ export function InstallmentCard({ installment }: { installment: Installment }) {
             </div>
 
             {/* Amount */}
-            <div className="shrink-0 text-left @[400px]/installment-card:text-right">
+            <div className="shrink-0 text-end @[400px]/installment-card:text-start">
               <div className="inline-flex flex-col gap-0.5 items-end @[400px]/installment-card:items-end">
                 <span className="text-[10px] text-muted-foreground">مبلغ قسط</span>
                 <div className="font-bold text-lg tabular-nums">
                   <FormattedNumber value={installment.amount} />
-                  <span className="text-xs text-muted-foreground mr-1">تومان</span>
+                  <span className="text-xs text-muted-foreground ms-1">تومان</span>
                 </div>
               </div>
             </div>

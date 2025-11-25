@@ -64,14 +64,14 @@ export function LoanDeletePanel({ loan, onDelete }: { loan: Loan; onDelete?: (id
         <div dir="rtl" className="w-full">
           <DialogTitle className="sr-only">حذف وام</DialogTitle>
 
-          <p className="text-right text-sm">برای حذف این وام، لطفاً عبارت زیر را دقیقاً وارد کنید:</p>
-          <div className="mt-2 text-right font-medium">{requiredPhrase}</div>
+          <p className="text-start text-sm">برای حذف این وام، لطفاً عبارت زیر را دقیقاً وارد کنید:</p>
+          <div className="mt-2 text-start font-medium">{requiredPhrase}</div>
 
           <form className="flex flex-col gap-4 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
             <Input
               id="confirm-delete"
               placeholder="عبارت را اینجا وارد کنید"
-              className="text-right"
+              className="text-start"
               {...register("confirm", { required: true })}
               disabled={loading}
               autoFocus

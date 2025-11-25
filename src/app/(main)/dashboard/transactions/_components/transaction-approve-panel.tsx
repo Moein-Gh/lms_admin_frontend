@@ -37,15 +37,15 @@ export function TransactionApprovePanel({
   const Footer = isMobile ? DrawerFooter : DialogFooter;
 
   const descriptionLines = [
-    "با تایید وام وضعیت آن به 'فعال' تغییر می‌کند.",
-    'وضعیت اقساط وام نیز به وضعیت "فعال" تغییر خواهد کرد.',
-    "تراکنش مالی مربوط به این وام نیز به صورت خودکار فعال شده و در محاسبات مالی  لحاظ خواهد شد."
+    "با تایید تراکنش وضعیت آن به 'تایید شده' تغییر می‌کند.",
+    "تراکنش مالی در گزارش‌ها و محاسبات لحاظ خواهد شد.",
+    "امکان بازگشت یا ویرایش تراکنش پس از تایید وجود نخواهد داشت."
   ];
 
   return (
     <>
       <Button variant="default" onClick={() => setOpen(true)}>
-        تأیید وام
+        تایید تراکنش
       </Button>
 
       <ResponsivePanel variant="warning" open={open} onOpenChange={setOpen}>
@@ -53,7 +53,7 @@ export function TransactionApprovePanel({
           <Title>آیا مطمئن هستید که می‌خواهید این وام را تأیید کنید؟</Title>
           <Description>با تأیید این تراکنش، تغییرات زیر اعمال خواهد شد:</Description>
         </Header>
-        <ol className="space-y-2 list-decimal rtl:pr-6 px-4">
+        <ol className="space-y-2 list-decimal rtl:ps-6 px-4">
           {descriptionLines.map((line) => (
             <li key={line}>{line}</li>
           ))}

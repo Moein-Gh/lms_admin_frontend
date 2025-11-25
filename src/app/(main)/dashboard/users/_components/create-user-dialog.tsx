@@ -133,7 +133,7 @@ export function CreateUserDialog() {
           </Button>
         </DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader className="text-right">
+          <DrawerHeader className="text-start">
             <DrawerTitle>افزودن کاربر جدید</DrawerTitle>
           </DrawerHeader>
           <div className="px-4">{formContent}</div>

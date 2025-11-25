@@ -68,7 +68,7 @@ export function LoanFiltersDialog({ filters, onFiltersChange, onReset }: LoanFil
           </Button>
         </DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader className="text-right">
+          <DrawerHeader className="text-start">
             <DrawerTitle>فیلتر و جستجو</DrawerTitle>
             <DrawerDescription>وام‌ها را بر اساس معیارهای مختلف فیلتر کنید</DrawerDescription>
           </DrawerHeader>
@@ -94,7 +94,7 @@ export function LoanFiltersDialog({ filters, onFiltersChange, onReset }: LoanFil
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader className="text-right">
+        <DialogHeader className="text-start">
           <DialogTitle>فیلتر و جستجو</DialogTitle>
           <DialogDescription>وام‌ها را بر اساس معیارهای مختلف فیلتر کنید</DialogDescription>
         </DialogHeader>
@@ -133,7 +133,7 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 py-4 text-right">
+    <form onSubmit={handleSubmit} className="space-y-4 py-4 text-start">
       {/* Search Input */}
       <div className="space-y-2">
         <Label htmlFor="search">جستجو</Label>
@@ -169,8 +169,8 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
             })
           }
         >
-          <SelectTrigger id="loanType" className="text-right">
-            <SelectValue placeholder="انتخاب نوع وام" className="text-right" />
+          <SelectTrigger id="loanType" className="text-start">
+            <SelectValue placeholder="انتخاب نوع وام" className="text-start" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">همه انواع</SelectItem>
@@ -195,8 +195,8 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
             })
           }
         >
-          <SelectTrigger id="user" className="text-right">
-            <SelectValue placeholder="انتخاب کاربر" className="text-right" />
+          <SelectTrigger id="user" className="text-start">
+            <SelectValue placeholder="انتخاب کاربر" className="text-start" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">همه کاربران</SelectItem>
@@ -221,8 +221,8 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
             })
           }
         >
-          <SelectTrigger id="status" className="text-right">
-            <SelectValue placeholder="انتخاب وضعیت" className="text-right" />
+          <SelectTrigger id="status" className="text-start">
+            <SelectValue placeholder="انتخاب وضعیت" className="text-start" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">همه وام‌ها</SelectItem>

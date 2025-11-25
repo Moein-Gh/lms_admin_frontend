@@ -30,7 +30,7 @@ type Props = {
 const ALLOCATION_TO_TARGET_MAP: Record<AllocationType, JournalEntryTarget> = {
   [AllocationType.ACCOUNT_BALANCE]: JournalEntryTarget.ACCOUNT,
   [AllocationType.LOAN_REPAYMENT]: JournalEntryTarget.INSTALLMENT,
-  [AllocationType.FEE]: JournalEntryTarget.SUBSCRIPTION_FEE
+  [AllocationType.SUBSCRIPTION_FEE]: JournalEntryTarget.SUBSCRIPTION_FEE
 };
 
 function calculateUnbalancedAmount(entries: Journal["entries"]) {
@@ -114,7 +114,7 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
     if (!formData.allocationType) return 1;
     if (formData.allocationType === AllocationType.ACCOUNT_BALANCE) return 3;
     if (formData.allocationType === AllocationType.LOAN_REPAYMENT) return 4;
-    // AllocationType.FEE
+    // AllocationType.SUBSCRIPTION_FEE
     return 3;
   };
 
@@ -124,7 +124,8 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
     fromStep1: formData.userId && formData.allocationType,
     fromStep2: !!formData.accountId,
     fromStep3:
-      formData.allocationType === AllocationType.LOAN_REPAYMENT
+      formData.allocationType === AllocationType.LOAN_REPAYMENT ||
+      formData.allocationType === AllocationType.SUBSCRIPTION_FEE
         ? !!formData.loanId
         : !!(formData.targetId && formData.amount),
     canSubmit: !!(formData.targetId && formData.amount)
@@ -139,7 +140,7 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
       if (currentStep === 3) return "وام را انتخاب کنید";
       if (currentStep === 4) return "قسط را انتخاب کنید";
     }
-    if (formData.allocationType === AllocationType.FEE && currentStep === 3) {
+    if (formData.allocationType === AllocationType.SUBSCRIPTION_FEE && currentStep === 3) {
       return "هزینه اشتراک را انتخاب کنید";
     }
     if (formData.allocationType === AllocationType.ACCOUNT_BALANCE && currentStep === 3) {
@@ -185,7 +186,7 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
       if (currentStep === 4) return <StepSelectInstallment formData={formData} setFormData={setFormData} />;
     }
 
-    if (formData.allocationType === AllocationType.FEE && currentStep === 3) {
+    if (formData.allocationType === AllocationType.SUBSCRIPTION_FEE && currentStep === 3) {
       return <StepSelectFee formData={formData} setFormData={setFormData} />;
     }
 

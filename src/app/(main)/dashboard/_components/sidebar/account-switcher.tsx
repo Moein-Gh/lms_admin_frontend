@@ -43,7 +43,7 @@ export function AccountSwitcher({
               <AvatarImage src={activeUser.avatar || undefined} alt={activeUser.name} />
               <AvatarFallback className="rounded-lg">{getInitials(activeUser.name)}</AvatarFallback>
             </Avatar>
-            <div className="grid flex-1 text-left text-sm leading-tight">
+            <div className="grid flex-1 text-end text-sm leading-tight">
               <span className="truncate font-semibold">{activeUser.name}</span>
               <span className="truncate text-xs capitalize">{activeUser.role}</span>
             </div>

@@ -63,7 +63,7 @@ export function UserFiltersDialog({ filters, onFiltersChange, onReset }: UserFil
           </Button>
         </DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader className="text-right">
+          <DrawerHeader className="text-start">
             <DrawerTitle>فیلتر و جستجو</DrawerTitle>
             <DrawerDescription>کاربران را بر اساس معیارهای مختلف فیلتر کنید</DrawerDescription>
           </DrawerHeader>

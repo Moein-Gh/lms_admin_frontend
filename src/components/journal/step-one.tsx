@@ -8,7 +8,7 @@ import { AllocationType } from "@/types/entities/journal-entry.type";
 const allocationTypeOptions = [
   { value: AllocationType.ACCOUNT_BALANCE, label: "موجودی حساب" },
   { value: AllocationType.LOAN_REPAYMENT, label: "بازپرداخت وام" },
-  { value: AllocationType.FEE, label: "هزینه اشتراک" }
+  { value: AllocationType.SUBSCRIPTION_FEE, label: "هزینه اشتراک" }
 ];
 
 export function StepOne({

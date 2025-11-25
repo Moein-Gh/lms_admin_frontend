@@ -69,7 +69,7 @@ export function InsightCards() {
                 verticalAlign="middle"
                 align="right"
                 content={() => (
-                  <ul className="ml-8 flex flex-col gap-3">
+                  <ul className="me-8 flex flex-col gap-3">
                     {leadsBySourceChartData.map((item) => (
                       <li key={item.source} className="flex w-36 items-center justify-between">
                         <span className="flex items-center gap-2 capitalize">

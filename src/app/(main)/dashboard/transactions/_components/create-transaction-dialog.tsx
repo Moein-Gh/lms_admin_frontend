@@ -64,7 +64,7 @@ function DialogWrapper({
   const triggerButton = (
     <Button>
       <PlusIcon className="size-4" />
-      افزودن تراکنش جدید
+      <span className="hidden md:inline"> افزودن تراکنش جدید</span>
     </Button>
   );
 
@@ -78,7 +78,7 @@ function DialogWrapper({
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader className="text-right">
+          <DrawerHeader className="text-start">
             <DrawerTitle>افزودن تراکنش جدید</DrawerTitle>
             <DrawerDescription>{stepDescription}</DrawerDescription>
           </DrawerHeader>

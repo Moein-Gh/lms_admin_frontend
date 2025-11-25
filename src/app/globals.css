@@ -196,7 +196,7 @@ These serve as the fallback; there is no separate default.css file. */
 }
 
 /* Flip margins */
-[dir="rtl"] .ml-auto {
+[dir="rtl"] .me-auto {
   margin-left: 0;
   margin-right: auto;
 }

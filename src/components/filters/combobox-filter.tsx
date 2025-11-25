@@ -47,7 +47,7 @@ export function ComboboxFilter<T>({
       <PopoverTrigger asChild>
         <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
           {selectedItem ? getItemLabel(selectedItem) : placeholder}
-          <ChevronsUpDownIcon className="ml-2 size-4 shrink-0 opacity-50" />
+          <ChevronsUpDownIcon className="me-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-(--radix-popover-trigger-width) p-0" align="start">
@@ -64,7 +64,7 @@ export function ComboboxFilter<T>({
                     setOpen(false);
                   }}
                 >
-                  <CheckIcon className={cn("ml-2 size-4", !selectedValue ? "opacity-100" : "opacity-0")} />
+                  <CheckIcon className={cn("me-2 size-4", !selectedValue ? "opacity-100" : "opacity-0")} />
                   {allLabel}
                 </CommandItem>
               )}
@@ -79,7 +79,7 @@ export function ComboboxFilter<T>({
                       setOpen(false);
                     }}
                   >
-                    <CheckIcon className={cn("ml-2 size-4", selectedValue === id ? "opacity-100" : "opacity-0")} />
+                    <CheckIcon className={cn("me-2 size-4", selectedValue === id ? "opacity-100" : "opacity-0")} />
                     {getItemLabel(item)}
                   </CommandItem>
                 );

@@ -83,7 +83,7 @@ export const dashboardColumns: ColumnDef<z.infer<typeof sectionSchema>>[] = [
   },
   {
     accessorKey: "target",
-    header: ({ column }) => <DataTableColumnHeader className="w-full text-right" column={column} title="Target" />,
+    header: ({ column }) => <DataTableColumnHeader className="w-full text-start" column={column} title="Target" />,
     cell: ({ row }) => (
       <form
         onSubmit={(e) => {
@@ -99,7 +99,7 @@ export const dashboardColumns: ColumnDef<z.infer<typeof sectionSchema>>[] = [
           Target
         </Label>
         <Input
-          className="hover:bg-input/30 focus-visible:bg-background dark:hover:bg-input/30 dark:focus-visible:bg-input/30 h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border dark:bg-transparent"
+          className="hover:bg-input/30 focus-visible:bg-background dark:hover:bg-input/30 dark:focus-visible:bg-input/30 h-8 w-16 border-transparent bg-transparent text-start shadow-none focus-visible:border dark:bg-transparent"
           defaultValue={row.original.target}
           id={`${row.original.id}-target`}
         />
@@ -109,7 +109,7 @@ export const dashboardColumns: ColumnDef<z.infer<typeof sectionSchema>>[] = [
   },
   {
     accessorKey: "limit",
-    header: ({ column }) => <DataTableColumnHeader className="w-full text-right" column={column} title="Limit" />,
+    header: ({ column }) => <DataTableColumnHeader className="w-full text-start" column={column} title="Limit" />,
     cell: ({ row }) => (
       <form
         onSubmit={(e) => {
@@ -125,7 +125,7 @@ export const dashboardColumns: ColumnDef<z.infer<typeof sectionSchema>>[] = [
           Limit
         </Label>
         <Input
-          className="hover:bg-input/30 focus-visible:bg-background dark:hover:bg-input/30 dark:focus-visible:bg-input/30 h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border dark:bg-transparent"
+          className="hover:bg-input/30 focus-visible:bg-background dark:hover:bg-input/30 dark:focus-visible:bg-input/30 h-8 w-16 border-transparent bg-transparent text-start shadow-none focus-visible:border dark:bg-transparent"
           defaultValue={row.original.limit}
           id={`${row.original.id}-limit`}
         />

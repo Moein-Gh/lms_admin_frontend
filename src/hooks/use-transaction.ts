@@ -83,6 +83,8 @@ export function useApproveTransaction(transactionId: string) {
     onSuccess: (approvedTransaction) => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.detail(approvedTransaction.id) });
       queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
+      // Invalidate journals list for this transaction
+      queryClient.invalidateQueries({ queryKey: ["journals", { transactionId }] });
     }
   });
 }

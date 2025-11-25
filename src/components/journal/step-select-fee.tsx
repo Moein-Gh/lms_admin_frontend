@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLoans } from "@/hooks/use-loan";
+import { useSubscriptionFees } from "@/hooks/use-subscription-fee";
+import { AllocationType } from "@/types/entities/journal-entry.type";
 
 export function StepSelectFee({
   formData,
@@ -11,12 +13,9 @@ export function StepSelectFee({
   formData: Partial<AllocationFormData>;
   setFormData: (data: Partial<AllocationFormData>) => void;
 }) {
-  const { data: loansData, isLoading } = useLoans(
-    { accountId: formData.accountId, pageSize: 100 },
-    { enabled: !!formData.accountId }
-  );
+  const { data: feesData, isLoading } = useSubscriptionFees({ accountId: formData.accountId, pageSize: 100 });
 
-  const selectedLoan = loansData?.data.find((l) => l.id === formData.targetId);
+  const selectedFee = feesData?.data.find((f) => f.id === formData.targetId);
 
   return (
     <>
@@ -25,12 +24,13 @@ export function StepSelectFee({
         <Select
           value={formData.targetId}
           onValueChange={(value) => {
-            const loan = loansData?.data.find((l) => l.id === value);
+            const fee = feesData?.data.find((f) => f.id === value);
             // Assuming subscription fee is a property of loan or calculated
             setFormData({
               ...formData,
               targetId: value,
-              amount: loan?.amount ?? formData.amount
+              allocationType: AllocationType.SUBSCRIPTION_FEE,
+              amount: fee?.amount ?? formData.amount
             });
           }}
           disabled={isLoading}
@@ -39,19 +39,19 @@ export function StepSelectFee({
             <SelectValue placeholder={isLoading ? "در حال بارگذاری..." : "انتخاب هزینه اشتراک"} />
           </SelectTrigger>
           <SelectContent>
-            {loansData?.data.map((loan) => (
-              <SelectItem key={loan.id} value={loan.id}>
-                {loan.name || `کد: ${loan.code}`}
+            {feesData?.data.map((fee) => (
+              <SelectItem key={fee.id} value={fee.id}>
+                {fee.code || `کد: ${fee.code}`}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
 
-      {selectedLoan && (
+      {selectedFee && (
         <div className="space-y-2">
           <Label htmlFor="amount">مبلغ هزینه اشتراک</Label>
-          <Input id="amount" type="text" value={Number(selectedLoan.amount).toLocaleString("fa-IR")} disabled />
+          <Input id="amount" type="text" value={Number(selectedFee.amount).toLocaleString("fa-IR")} disabled />
         </div>
       )}
     </>

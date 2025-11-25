@@ -36,7 +36,7 @@ export function LoanApprovePanel({ loan, onApprove }: { loan: Loan; onApprove?: 
     "تراکنش مالی مربوط به این وام نیز به صورت خودکار فعال شده و در محاسبات مالی  لحاظ خواهد شد."
   ];
   const descriptionText = (
-    <ol className="space-y-2 list-decimal rtl:pr-6 pt-4">
+    <ol className="space-y-2 list-decimal rtl:ps-6 pt-4">
       {descriptionLines.map((line, idx) => (
         <li key={idx}>{line}</li>
       ))}

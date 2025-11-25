@@ -1,9 +1,8 @@
-/* eslint-disable max-lines */
 "use client";
 
 import * as React from "react";
 
-import { SearchIcon, SparklesIcon, XIcon } from "lucide-react";
+import { FilterIcon, SearchIcon, SparklesIcon, XIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -142,7 +141,7 @@ function ActiveFiltersDisplay({
       <span className="text-xs font-medium text-muted-foreground">فیلترهای فعال ({activeFilters.length}):</span>
       <div className="flex flex-wrap gap-2">
         {activeFilters.map((filter) => (
-          <Badge key={filter.key} variant="default" className="gap-2 pl-1 pr-3">
+          <Badge key={filter.key} variant="default" className="gap-2 pe-1 ps-3">
             <span>{filter.label}</span>
             <button onClick={() => removeFilter(filter.key)} className="rounded-full hover:bg-primary/80">
               <XIcon className="size-3" />
@@ -375,7 +374,7 @@ function AdvancedFilterPanel<T extends BaseFilters>({
 
 export function AdvancedFilter<T extends BaseFilters>({
   triggerLabel = "جستجو و فیلتر",
-  triggerIcon = <SearchIcon className="size-4" />,
+  triggerIcon = <FilterIcon className="size-4" />,
   title = "جستجو و فیلتر پیشرفته",
   description = "جستجو کنید یا از فیلترها استفاده کنید",
   filters,
@@ -402,9 +401,9 @@ export function AdvancedFilter<T extends BaseFilters>({
 
   return (
     <>
-      <Button variant="outline" size={"default"} onClick={() => setOpen(true)}>
+      <Button variant="outline" size="default" onClick={() => setOpen(true)}>
         {triggerIcon}
-        {triggerLabel}
+        <span className="hidden md:inline">{triggerLabel}</span>
       </Button>
       <ResponsivePanel open={open} onOpenChange={setOpen}>
         <AdvancedFilterPanel

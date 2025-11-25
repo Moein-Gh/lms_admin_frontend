@@ -161,7 +161,7 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
             </div>
             <p className="font-medium text-xs sm:text-sm leading-tight text-center">
               <FormattedNumber value={months} />
-              <span className="mr-1">ماه</span>
+              <span className="ms-1">ماه</span>
             </p>
           </div>
           {end ? (

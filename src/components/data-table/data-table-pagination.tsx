@@ -41,7 +41,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
         <div className="flex w-fit items-center justify-center text-sm font-medium">
           Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </div>
-        <div className="ml-auto flex items-center gap-2 lg:ml-0">
+        <div className="me-auto flex items-center gap-2 lg:me-0">
           <Button
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"

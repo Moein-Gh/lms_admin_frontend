@@ -77,7 +77,7 @@ const CountrySelect = ({ disabled, value: selectedCountry, options: countryList,
           disabled={disabled}
         >
           <FlagComponent country={selectedCountry} countryName={selectedCountry} />
-          <ChevronsUpDown className={cn("-mr-2 size-4 opacity-50", disabled ? "hidden" : "opacity-100")} />
+          <ChevronsUpDown className={cn("-ms-2 size-4 opacity-50", disabled ? "hidden" : "opacity-100")} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0">
@@ -145,7 +145,7 @@ const CountrySelectOption = ({
       <FlagComponent country={country} countryName={countryName} />
       <span className="flex-1 text-sm">{countryName}</span>
       <span className="text-sm text-foreground/50">{`+${RPNInput.getCountryCallingCode(country)}`}</span>
-      <CheckIcon className={`ml-auto size-4 ${country === selectedCountry ? "opacity-100" : "opacity-0"}`} />
+      <CheckIcon className={`me-auto size-4 ${country === selectedCountry ? "opacity-100" : "opacity-0"}`} />
     </CommandItem>
   );
 };

@@ -36,7 +36,7 @@ export function DashboardHeader({ navbarStyle, layoutPreferences }: DashboardHea
     >
       <div className="flex w-full items-center justify-between px-4 lg:px-6">
         <div className="flex items-center gap-1 lg:gap-2">
-          <SidebarTrigger className="-ml-1" />
+          <SidebarTrigger className="-me-1" />
           <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
           <button
             type="button"
@@ -48,7 +48,7 @@ export function DashboardHeader({ navbarStyle, layoutPreferences }: DashboardHea
             {/* You can use an icon here if you want, e.g. lucide-react ArrowLeft */}
             <span className="hidden sm:inline">بازگشت</span>
             <svg
-              className="sm:mr-1 mr-0.5 h-4 w-4"
+              className="sm:ms-1 ms-0.5 h-4 w-4"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

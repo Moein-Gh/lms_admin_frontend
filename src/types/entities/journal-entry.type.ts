@@ -16,7 +16,7 @@ export enum JournalEntryTarget {
 export enum AllocationType {
   ACCOUNT_BALANCE = "ACCOUNT_BALANCE",
   LOAN_REPAYMENT = "LOAN_REPAYMENT",
-  FEE = "FEE"
+  SUBSCRIPTION_FEE = "SUBSCRIPTION_FEE"
 }
 
 export interface JournalEntry {

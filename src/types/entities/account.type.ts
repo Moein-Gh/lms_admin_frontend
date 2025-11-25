@@ -7,6 +7,19 @@ export enum AccountStatus {
   RESTRICTED = "restricted"
 }
 
+export type AccountBalanceSummary = {
+  readonly accountId: string;
+  readonly accountDeposits: {
+    readonly count: number;
+    readonly amount: number;
+  };
+  readonly subscriptionFeeDeposits: {
+    readonly count: number;
+    readonly amount: number;
+  };
+  readonly totalDeposits: number;
+};
+
 export interface Account {
   id: string;
   code: number;
@@ -22,4 +35,6 @@ export interface Account {
 
   accountType?: AccountType;
   user?: User;
+
+  balanceSummary?: AccountBalanceSummary;
 }

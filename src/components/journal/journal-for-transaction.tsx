@@ -90,6 +90,7 @@ function JournalEntriesTable({
                 )}
               </TableCell>
               <TableCell className="text-center">
+                {/* Only allow removal if parent journal is not POSTED */}
                 {entry.removable ? (
                   <Button variant="destructive" size="sm" onClick={() => onRequestDelete?.(entry)} aria-label="حذف ثبت">
                     <Trash2 className="h-4 w-4" />
@@ -164,7 +165,6 @@ function JournalCardHeader({
   );
 }
 
-/* eslint-disable-next-line complexity */
 function JournalCard({ journal }: { journal: Journal }) {
   const statusInfo = getStatusLabel(journal.status);
   const totalDebit =

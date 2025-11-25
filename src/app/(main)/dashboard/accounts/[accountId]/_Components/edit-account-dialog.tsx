@@ -230,7 +230,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
           </Button>
         </DrawerTrigger>
         <DrawerContent>
-          <DrawerHeader className="text-right">
+          <DrawerHeader className="text-start">
             <DrawerTitle>ویرایش کاربر</DrawerTitle>
           </DrawerHeader>
 
