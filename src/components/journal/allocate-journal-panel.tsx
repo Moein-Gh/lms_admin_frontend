@@ -215,16 +215,6 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
         <div className="p-4 space-y-4">{renderCurrentStep()}</div>
         <Footer>
           <div className="flex gap-2 w-full">
-            {currentStep > 1 && (
-              <Button variant="outline" onClick={handleBack}>
-                بازگشت
-              </Button>
-            )}
-            <CloseButton asChild>
-              <Button variant="outline" onClick={handleClose}>
-                لغو
-              </Button>
-            </CloseButton>
             {isLastStep ? (
               <Button onClick={handleSubmit} disabled={!canProceed.canSubmit} className="flex-1">
                 تخصیص
@@ -232,6 +222,16 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
             ) : (
               <Button onClick={handleNext} disabled={isNextDisabled()} className="flex-1">
                 بعدی
+              </Button>
+            )}
+            <CloseButton asChild>
+              <Button variant="outline" onClick={handleClose}>
+                لغو
+              </Button>
+            </CloseButton>
+            {currentStep > 1 && (
+              <Button variant="outline" onClick={handleBack}>
+                بازگشت
               </Button>
             )}
           </div>

@@ -1,138 +1,26 @@
 "use client";
 
 import * as React from "react";
-import { useMutation, UseMutationResult, useQuery, useQueryClient } from "@tanstack/react-query";
-import { PlusIcon } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { ComboboxFilter } from "@/components/filters/combobox-filter";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger
-} from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Pills, type PillOption } from "@/components/ui/pills";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { createAccount, type CreateAccountRequest } from "@/lib/account-api";
 import { listAccountTypes } from "@/lib/account-type-api";
 import { listUsers } from "@/lib/user-api";
-import type { Account } from "@/types/entities/account.type";
+import { CardNumberField } from "./card-number-input";
+import { CreateAccountDialogMobile, CreateAccountDialogDesktop } from "./create-account-dialog.parts";
 
 // Design A — Progressive Inline (compact centered dialog with two inline selects)
 
-type CreateAccountDialogMobileProps = {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  formContent: React.ReactNode;
-  create: UseMutationResult<Account, unknown, CreateAccountRequest, unknown>;
-};
-function CreateAccountDialogMobile({ open, setOpen, formContent, create }: CreateAccountDialogMobileProps) {
-  return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        <Button>
-          <PlusIcon className="size-4" />
-          افزودن حساب جدید
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="text-right">
-          <DrawerTitle>افزودن حساب جدید</DrawerTitle>
-          <DrawerDescription>اطلاعات حساب بانکی جدید را وارد کنید</DrawerDescription>
-        </DrawerHeader>
-        <div className="px-4">{formContent}</div>
-        <DrawerFooter>
-          <Button
-            type="button"
-            onClick={() => {
-              const formElement = document.querySelector("form");
-              if (formElement instanceof HTMLFormElement) {
-                formElement.requestSubmit();
-              }
-            }}
-            disabled={create.isPending}
-          >
-            {create.isPending ? "در حال ایجاد..." : "ایجاد حساب"}
-          </Button>
-          <DrawerClose asChild>
-            <Button variant="outline">لغو</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  );
-}
-
-type CreateAccountDialogDesktopProps = {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  formContent: React.ReactNode;
-};
-function CreateAccountDialogDesktop({ open, setOpen, formContent }: CreateAccountDialogDesktopProps) {
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <PlusIcon className="size-4" />
-          افزودن حساب جدید
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>افزودن حساب جدید</DialogTitle>
-          <DialogDescription>اطلاعات حساب بانکی جدید را وارد کنید</DialogDescription>
-        </DialogHeader>
-        {formContent}
-      </DialogContent>
-    </Dialog>
-  );
-}
-
 export function CreateAccountDialog() {
-  // Helper to render select fields
-  const renderSelect = (
-    id: string,
-    label: string,
-    options: { id: string; name: string }[],
-    valueKey: keyof CreateAccountRequest,
-    error?: boolean
-  ) => (
-    <div className="space-y-2">
-      <Label htmlFor={id} className="text-sm font-medium">
-        {label}
-        <span className="text-destructive">*</span>
-      </Label>
-      <Select value={undefined} onValueChange={(v) => setValue(valueKey, v, { shouldValidate: true })}>
-        <SelectTrigger dir="rtl" id={id} className="w-full">
-          <SelectValue placeholder={`انتخاب ${label}`} />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((opt) => (
-            <SelectItem dir="rtl" key={opt.id} value={opt.id}>
-              {opt.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      {error && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
-    </div>
-  );
+  // Helper kept for reference (we'll use Pills and Combobox instead)
   const [open, setOpen] = React.useState(false);
   const isMobile = useIsMobile();
   const queryClient = useQueryClient();
@@ -178,37 +66,111 @@ export function CreateAccountDialog() {
     }
   });
 
+  // Controlled selection state so we can clear UI when dialog closes
+  const [selectedAccountType, setSelectedAccountType] = React.useState<string | undefined>(undefined);
+  const [selectedUser, setSelectedUser] = React.useState<string | undefined>(undefined);
+
+  // Card number state and helpers
+  const [cardParts, setCardParts] = React.useState(["", "", "", ""]);
+  const [cardError, setCardError] = React.useState<string | null>(null);
+
+  const inputsRef = React.useRef<Map<number, HTMLInputElement | null>>(new Map());
+
+  const handleCardChange = (val: string, idx: number) => {
+    const newParts = cardParts.map((p, i) => (i === idx ? val.slice(0, 4) : p));
+    setCardParts(newParts);
+    setCardError(null);
+    if (val.length >= 4) {
+      const next = inputsRef.current.get(idx + 1);
+      if (next) next.focus();
+    }
+  };
+
+  const handleCardPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/\s|-/g, "")
+      .replace(/[^0-9]/g, "");
+    if (pasted.length >= 16) {
+      const newParts = [pasted.slice(0, 4), pasted.slice(4, 8), pasted.slice(8, 12), pasted.slice(12, 16)];
+      setCardParts(newParts);
+      // focus last
+      setTimeout(() => {
+        const last = inputsRef.current.get(3);
+        if (last) last.focus();
+      }, 0);
+    }
+  };
+
   const formContent = (
     <form
       onSubmit={handleSubmit((data) => {
-        create.mutate(data);
+        // Combine card parts into single cardNumber before submitting
+        const cardNum = cardParts.join("");
+        if (cardNum.length < 16) {
+          toast.error("شماره کارت نامعتبر است");
+          return;
+        }
+        const payload: CreateAccountRequest = { ...data, cardNumber: cardNum } as CreateAccountRequest;
+        create.mutate(payload);
       })}
       className="space-y-5 py-4"
     >
-      <div className="grid grid-cols-2 gap-4">
-        {renderSelect("atype", "نوع حساب", types?.data ?? [], "accountTypeId", !!errors.accountTypeId)}
-        {renderSelect(
-          "auser",
-          "کاربر",
-          (users?.data ?? []).map((u) => ({ id: u.id, name: u.identity.name ?? "بدون نام" })),
-          "userId",
-          !!errors.userId
-        )}
+      <div className="grid grid-cols-1 gap-4">
+        {/* Account type as Pills */}
+        <div className="space-y-2">
+          <Label htmlFor="atype" className="text-sm font-medium">
+            نوع حساب
+            <span className="text-destructive">*</span>
+          </Label>
+          <Pills
+            options={(types?.data ?? []).map((t) => ({ value: t.id, label: t.name })) as PillOption<string>[]}
+            mode="single"
+            value={selectedAccountType}
+            onValueChange={(v) => {
+              const val = v;
+              setSelectedAccountType(val);
+              setValue("accountTypeId", val ?? "", { shouldValidate: true });
+            }}
+            variant="outline"
+            className="w-full"
+          />
+          {errors.accountTypeId && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+        </div>
       </div>
 
+      {/* User combobox as its own full-width row */}
       <div className="space-y-2">
-        <Label htmlFor="card" className="text-sm font-medium">
-          شماره کارت
+        <Label htmlFor="auser" className="text-sm font-medium">
+          کاربر
           <span className="text-destructive">*</span>
         </Label>
-        <Input
-          id="card"
-          placeholder="xxxx-xxxx-xxxx-xxxx"
-          className="font-mono tracking-wider"
-          {...register("cardNumber", { required: true })}
+        <ComboboxFilter
+          items={(users?.data ?? []).map((u) => ({ id: u.id, name: u.identity.name ?? "بدون نام" }))}
+          selectedValue={selectedUser}
+          onSelect={(v) => {
+            const val = v;
+            setSelectedUser(val);
+            if (val) setValue("userId", val, { shouldValidate: true });
+            else setValue("userId", "", { shouldValidate: true });
+          }}
+          getItemId={(i) => i.id}
+          getItemLabel={(i) => i.name}
+          placeholder="انتخاب کاربر"
+          searchPlaceholder="جستجوی کاربر..."
+          emptyMessage="کاربری یافت نشد"
+          allLabel={""}
         />
-        {errors.cardNumber && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+        {errors.userId && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
       </div>
+
+      <CardNumberField
+        cardParts={cardParts as [string, string, string, string]}
+        onPartChange={handleCardChange}
+        onPaste={handleCardPaste}
+        inputsRef={inputsRef}
+        error={cardError}
+      />
 
       <div className="space-y-2">
         <Label htmlFor="bank" className="text-sm font-medium">
@@ -231,6 +193,19 @@ export function CreateAccountDialog() {
       )}
     </form>
   );
+
+  // Clear form and local UI state whenever the dialog closes
+  React.useEffect(() => {
+    if (!open) {
+      reset();
+      setSelectedAccountType(undefined);
+      setSelectedUser(undefined);
+      setCardParts(["", "", "", ""]);
+      setCardError(null);
+      // clear refs
+      inputsRef.current.clear();
+    }
+  }, [open, reset]);
 
   if (isMobile) {
     return <CreateAccountDialogMobile open={open} setOpen={setOpen} formContent={formContent} create={create} />;

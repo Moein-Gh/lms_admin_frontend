@@ -1,0 +1,169 @@
+"use client";
+
+import { ArrowDownLeft, ArrowLeftIcon, ArrowUpRight } from "lucide-react";
+
+import { FormattedNumber } from "@/components/formatted-number";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useTransactions } from "@/hooks/use-transaction";
+import { cn, formatDate } from "@/lib/utils";
+import { Transaction, TransactionKind, TransactionStatus } from "@/types/entities/transaction.type";
+
+type UserTransactionsProps = {
+  userId: string;
+};
+
+const getStatusConfig = (status: TransactionStatus) => {
+  if (status === TransactionStatus.APPROVED) {
+    return {
+      label: "تایید شده",
+      dotClass: "bg-emerald-500",
+      badgeClass: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+    };
+  }
+  if (status === TransactionStatus.PENDING) {
+    return {
+      label: "در انتظار",
+      dotClass: "bg-amber-500",
+      badgeClass: "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+    };
+  }
+  if (status === TransactionStatus.REJECTED) {
+    return {
+      label: "رد شده",
+      dotClass: "bg-red-500",
+      badgeClass: "bg-red-500/10 text-red-600 dark:text-red-400"
+    };
+  }
+  return {
+    label: "تخصیص یافته",
+    dotClass: "bg-blue-500",
+    badgeClass: "bg-blue-500/10 text-blue-600 dark:text-blue-400"
+  };
+};
+
+const getKindConfig = (kind: TransactionKind): { label: string; isIncome: boolean } => {
+  switch (kind) {
+    case "DEPOSIT":
+      return { label: "واریز", isIncome: true };
+    case "WITHDRAWAL":
+      return { label: "برداشت", isIncome: false };
+    case "LOAN_DISBURSEMENT":
+      return { label: "پرداخت وام", isIncome: false };
+    case "LOAN_REPAYMENT":
+      return { label: "بازپرداخت وام", isIncome: true };
+    case "SUBSCRIPTION_PAYMENT":
+      return { label: "حق عضویت", isIncome: false };
+    case "FEE":
+      return { label: "کارمزد", isIncome: true };
+    default:
+      return { label: "نامشخص", isIncome: false };
+  }
+};
+
+function TransactionCard({ transaction }: { transaction: Transaction }) {
+  const statusConfig = getStatusConfig(transaction.status);
+  const kindConfig = getKindConfig(transaction.kind);
+
+  return (
+    <div className="card-container flex flex-col">
+      {/* Header: Icon + Type + Status + Action */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div
+            className={cn(
+              "flex size-10 items-center justify-center rounded-lg",
+              kindConfig.isIncome ? "bg-emerald-500/10" : "bg-red-500/10"
+            )}
+          >
+            {kindConfig.isIncome ? (
+              <ArrowDownLeft className="size-5 text-emerald-600" />
+            ) : (
+              <ArrowUpRight className="size-5 text-red-600" />
+            )}
+          </div>
+          <Badge variant="outline" className="text-[10px] font-medium">
+            {kindConfig.label}
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge className={cn("gap-1.5 border-0 text-[10px] font-medium", statusConfig.badgeClass)}>
+            <span className={cn("size-1.5 rounded-full", statusConfig.dotClass)} />
+            {statusConfig.label}
+          </Badge>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="outline" className="size-9 md:size-10">
+                <ArrowLeftIcon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top">مشاهده</TooltipContent>
+          </Tooltip>
+        </div>
+      </div>
+
+      {/* Transaction Amount */}
+      <div className="mt-3">
+        <p className={cn("text-lg font-bold", kindConfig.isIncome ? "text-emerald-600" : "text-red-600")}>
+          {kindConfig.isIncome ? "+" : "-"}
+          <FormattedNumber value={transaction.amount} /> تومان
+        </p>
+      </div>
+
+      <Separator className="my-3" />
+
+      {/* Transaction Details */}
+      <div className="flex flex-1 flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">کد تراکنش</span>
+          <span className="font-mono text-sm">{transaction.code}</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">شناسه خارجی</span>
+          <span className="text-sm">{transaction.externalRef ?? "—"}</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">تاریخ</span>
+          <span className="text-sm">{formatDate(transaction.createdAt)}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const UserTransactions = ({ userId }: UserTransactionsProps) => {
+  const { data, isLoading } = useTransactions({ userId });
+
+  const transactions = data?.data ?? [];
+
+  if (isLoading) {
+    return (
+      <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {[1, 2, 3].map((i) => (
+          <Skeleton key={i} className="h-52 rounded-xl" />
+        ))}
+      </div>
+    );
+  }
+
+  if (transactions.length === 0) {
+    return (
+      <div className="flex h-40 items-center justify-center rounded-xl border border-dashed text-muted-foreground">
+        تراکنشی یافت نشد
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {transactions.map((transaction) => (
+        <TransactionCard key={transaction.id} transaction={transaction} />
+      ))}
+    </div>
+  );
+};
+
+export default UserTransactions;

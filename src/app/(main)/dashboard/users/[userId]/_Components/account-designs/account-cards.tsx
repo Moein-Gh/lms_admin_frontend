@@ -1,0 +1,107 @@
+"use client";
+
+import { ArrowLeftIcon, Building2, CreditCard, Eye } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { Account, AccountStatus } from "@/types/entities/account.type";
+
+type AccountCardsDesignProps = {
+  accounts: Account[];
+};
+
+const getStatusConfig = (status: AccountStatus) => {
+  if (status === AccountStatus.ACTIVE) {
+    return {
+      label: "فعال",
+      dotClass: "bg-emerald-500",
+      badgeClass: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+    };
+  }
+  if (status === AccountStatus.INACTIVE) {
+    return {
+      label: "غیرفعال",
+      dotClass: "bg-gray-400",
+      badgeClass: "bg-gray-500/10 text-gray-600 dark:text-gray-400"
+    };
+  }
+  return {
+    label: "محدود",
+    dotClass: "bg-amber-500",
+    badgeClass: "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+  };
+};
+
+function AccountCard({ account }: { account: Account }) {
+  const statusConfig = getStatusConfig(account.status);
+
+  return (
+    <div className="card-container flex flex-col">
+      {/* Header: Icon + Type + Status + Action */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="flex size-10 items-center justify-center rounded-lg bg-primary/5">
+            <CreditCard className="size-5 text-primary" />
+          </div>
+          <Badge variant="outline" className="text-[10px] font-medium">
+            {account.accountType?.name ?? "نوع نامشخص"}
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge className={cn("gap-1.5 border-0 text-[10px] font-medium", statusConfig.badgeClass)}>
+            <span className={cn("size-1.5 rounded-full", statusConfig.dotClass)} />
+            {statusConfig.label}
+          </Badge>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="outline" className="size-9 md:size-10">
+                <ArrowLeftIcon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top">مشاهده</TooltipContent>
+          </Tooltip>
+        </div>
+      </div>
+
+      {/* Account Name */}
+      <div className="mt-3">
+        <h3 className="text-base font-semibold leading-tight">{account.name}</h3>
+      </div>
+
+      <Separator className="my-3" />
+
+      {/* Card Number & Bank */}
+      <div className="flex flex-1 flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">شماره کارت</span>
+          <span className="font-mono text-sm tracking-wide" dir="ltr">
+            {account.cardNumber ? `•••• ${account.cardNumber.slice(-4)}` : "—"}
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">بانک</span>
+          <div className="flex items-center gap-1.5">
+            <Building2 className="size-3.5 text-muted-foreground" />
+            <span className="text-sm">{account.bankName || "نامشخص"}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Account Cards Design
+ */
+export function AccountCardsDesign({ accounts }: AccountCardsDesignProps) {
+  return (
+    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {accounts.map((account) => (
+        <AccountCard key={account.id} account={account} />
+      ))}
+    </div>
+  );
+}

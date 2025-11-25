@@ -1,8 +1,15 @@
+import { ComboboxFilter } from "@/components/filters/combobox-filter";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Pills } from "@/components/ui/pills";
 import { useUsers } from "@/hooks/use-user";
 import { AllocationType } from "@/types/entities/journal-entry.type";
+
+const allocationTypeOptions = [
+  { value: AllocationType.ACCOUNT_BALANCE, label: "موجودی حساب" },
+  { value: AllocationType.LOAN_REPAYMENT, label: "بازپرداخت وام" },
+  { value: AllocationType.FEE, label: "هزینه اشتراک" }
+];
 
 export function StepOne({
   formData,
@@ -12,41 +19,40 @@ export function StepOne({
   setFormData: (data: Partial<AllocationFormData>) => void;
 }) {
   const { data: usersData } = useUsers({ pageSize: 100 });
+  const users = usersData?.data ?? [];
 
   return (
     <>
       <div className="space-y-2">
-        <Label htmlFor="user">کاربر</Label>
-        <Select value={formData.userId} onValueChange={(value) => setFormData({ ...formData, userId: value })}>
-          <SelectTrigger id="user">
-            <SelectValue placeholder="انتخاب کاربر" />
-          </SelectTrigger>
-          <SelectContent>
-            {usersData?.data.map((user) => (
-              <SelectItem key={user.id} value={user.id}>
-                {user.identity.name ?? user.identity.phone}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Label>نوع تخصیص</Label>
+        <Pills
+          options={allocationTypeOptions}
+          value={formData.allocationType}
+          onValueChange={(value) =>
+            setFormData({ ...formData, allocationType: value as AllocationType, userId: undefined })
+          }
+          variant="outline"
+          size="sm"
+          allowDeselect={false}
+        />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="kind">نوع موجودیت</Label>
-        <Select
-          value={formData.allocationType}
-          onValueChange={(value) => setFormData({ ...formData, allocationType: value as AllocationType })}
-        >
-          <SelectTrigger id="kind">
-            <SelectValue placeholder="انتخاب نوع" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={AllocationType.ACCOUNT_BALANCE}>موجودی حساب</SelectItem>
-            <SelectItem value={AllocationType.LOAN_REPAYMENT}>بازپرداخت وام</SelectItem>
-            <SelectItem value={AllocationType.FEE}>هزینه اشتراک</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      {formData.allocationType && (
+        <div className="space-y-2">
+          <Label>کاربر</Label>
+          <ComboboxFilter
+            items={users}
+            selectedValue={formData.userId}
+            onSelect={(value) => setFormData({ ...formData, userId: value })}
+            getItemId={(user) => user.id}
+            getItemLabel={(user) => user.identity.name ?? String(user.identity.phone)}
+            placeholder="انتخاب کاربر"
+            searchPlaceholder="جستجوی کاربر..."
+            emptyMessage="کاربری یافت نشد"
+            allLabel=""
+          />
+        </div>
+      )}
     </>
   );
 }
