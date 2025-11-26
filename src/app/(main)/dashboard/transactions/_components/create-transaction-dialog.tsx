@@ -33,7 +33,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useCreateTransaction } from "@/hooks/use-transaction";
 import { useUsers } from "@/hooks/use-user";
 import { type CreateTransactionRequest } from "@/lib/transaction-api";
-import type { Transaction, TransactionKind } from "@/types/entities/transaction.type";
+import { TransactionKind, type Transaction } from "@/types/entities/transaction.type";
 import { RequestError } from "@/types/error";
 
 type DialogWrapperProps = {
@@ -152,7 +152,7 @@ function CreateTransactionForm({
     watch,
     formState: { errors }
   } = useForm<CreateTransactionRequest>({
-    defaultValues: { kind: "DEPOSIT", amount: "", userId: "", externalRef: "", note: "" }
+    defaultValues: { kind: TransactionKind.DEPOSIT, amount: "", userId: "", externalRef: "", note: "" }
   });
 
   const selectedKind = watch("kind");
@@ -189,7 +189,9 @@ function CreateTransactionForm({
             <Pills
               options={kinds.map((k) => ({ value: k.id, label: k.name }))}
               value={selectedKind}
-              onValueChange={(v) => setValue("kind", (v ?? "DEPOSIT") as TransactionKind, { shouldValidate: true })}
+              onValueChange={(v) =>
+                setValue("kind", (v ?? TransactionKind.DEPOSIT) as TransactionKind, { shouldValidate: true })
+              }
               variant="outline"
               size="sm"
               allowDeselect={false}
@@ -271,13 +273,13 @@ export function CreateTransactionDialog() {
     }
   }, [open]);
 
-  const kinds = [
-    { id: "DEPOSIT", name: "واریز" },
-    { id: "WITHDRAWAL", name: "برداشت" },
-    { id: "LOAN_DISBURSEMENT", name: "پرداخت وام" },
-    { id: "LOAN_REPAYMENT", name: "بازپرداخت وام" },
-    { id: "SUBSCRIPTION_PAYMENT", name: "پرداخت اشتراک" },
-    { id: "FEE", name: "کارمزد" }
+  const kinds: { id: TransactionKind; name: string }[] = [
+    { id: TransactionKind.DEPOSIT, name: "واریز" },
+    { id: TransactionKind.WITHDRAWAL, name: "برداشت" },
+    { id: TransactionKind.LOAN_DISBURSEMENT, name: "پرداخت وام" },
+    { id: TransactionKind.LOAN_REPAYMENT, name: "بازپرداخت وام" },
+    { id: TransactionKind.SUBSCRIPTION_PAYMENT, name: "پرداخت اشتراک" },
+    { id: TransactionKind.FEE, name: "کارمزد" }
   ];
 
   const { data: usersData } = useUsers({ pageSize: 100 });

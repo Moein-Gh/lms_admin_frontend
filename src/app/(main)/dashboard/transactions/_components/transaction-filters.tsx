@@ -32,15 +32,15 @@ export function TransactionFilters({ filters, onFiltersChange, onReset }: Transa
   const quickFilters: QuickFilter<TransactionFilters>[] = [
     {
       label: "واریزهای تأیید شده",
-      filters: { kind: "DEPOSIT", status: TransactionStatus.APPROVED }
+      filters: { kind: TransactionKind.DEPOSIT, status: TransactionStatus.APPROVED }
     },
     {
       label: "برداشت‌های در انتظار",
-      filters: { kind: "WITHDRAWAL", status: TransactionStatus.PENDING }
+      filters: { kind: TransactionKind.WITHDRAWAL, status: TransactionStatus.PENDING }
     },
     {
       label: "وام‌های پرداخت شده",
-      filters: { kind: "LOAN_DISBURSEMENT", status: TransactionStatus.APPROVED }
+      filters: { kind: TransactionKind.LOAN_DISBURSEMENT, status: TransactionStatus.APPROVED }
     },
     {
       label: "رد شده",
@@ -167,13 +167,13 @@ function UserFilter({ filters, onChange, users }: UserFilterProps) {
 }
 
 // Helper data and functions
-const TRANSACTION_KINDS = [
-  { value: "DEPOSIT", label: "واریز" },
-  { value: "WITHDRAWAL", label: "برداشت" },
-  { value: "LOAN_DISBURSEMENT", label: "پرداخت وام" },
-  { value: "LOAN_REPAYMENT", label: "بازپرداخت وام" },
-  { value: "FEE", label: "کارمزد" },
-  { value: "SUBSCRIPTION_PAYMENT", label: "پرداخت اشتراک" }
+const TRANSACTION_KINDS: { value: TransactionKind; label: string }[] = [
+  { value: TransactionKind.DEPOSIT, label: "واریز" },
+  { value: TransactionKind.WITHDRAWAL, label: "برداشت" },
+  { value: TransactionKind.LOAN_DISBURSEMENT, label: "پرداخت وام" },
+  { value: TransactionKind.LOAN_REPAYMENT, label: "بازپرداخت وام" },
+  { value: TransactionKind.FEE, label: "کارمزد" },
+  { value: TransactionKind.SUBSCRIPTION_PAYMENT, label: "پرداخت اشتراک" }
 ];
 
 const TRANSACTION_STATUSES = [

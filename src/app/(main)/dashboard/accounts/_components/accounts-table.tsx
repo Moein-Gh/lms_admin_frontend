@@ -17,7 +17,7 @@ function formatCardNumber(cardNumber?: string) {
 }
 import { formatDate } from "@/lib/utils";
 import { PaginatedResponseDto } from "@/types/api";
-import { Account } from "@/types/entities/account.type";
+import { Account, AccountStatusLabels } from "@/types/entities/account.type";
 
 type Props = {
   data: PaginatedResponseDto<Account> | null;
@@ -125,8 +125,8 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
                 <span className="font-mono text-sm">{formatCardNumber(account.cardNumber)}</span>
               </TableCell>
               <TableCell>
-                <Badge variant={account.status === "active" ? "active" : "inactive"}>
-                  {account.status === "active" ? "فعال" : "غیرفعال"}
+                <Badge variant={AccountStatusLabels[account.status].badgeVariant}>
+                  {AccountStatusLabels[account.status].label}
                 </Badge>
               </TableCell>
               <TableCell className="text-sm text-muted-foreground">{formatDate(account.createdAt)}</TableCell>

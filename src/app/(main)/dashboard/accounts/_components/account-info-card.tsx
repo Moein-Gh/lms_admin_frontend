@@ -5,20 +5,33 @@ import { Building2, Calendar, Copy, CreditCard, Hash, Tag, User, Wallet } from "
 import { toast } from "sonner";
 
 import { FormattedNumber } from "@/components/formatted-number";
-import { Badge } from "@/components/ui/badge";
+import { Badge, type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import type { Account } from "@/types/entities/account.type";
+import { AccountStatus, type Account } from "@/types/entities/account.type";
 
 function formatCardNumber(cardNumber: string) {
   return cardNumber.match(/.{1,4}/g)?.join(" ") ?? cardNumber;
 }
+
+export type AccountStatusLabel = {
+  readonly label: string;
+  readonly badgeVariant: BadgeVariant;
+};
+
+export const AccountStatusLabels: Record<AccountStatus, AccountStatusLabel> = {
+  [AccountStatus.ACTIVE]: { label: "فعال", badgeVariant: "default" },
+  [AccountStatus.INACTIVE]: { label: "غیرفعال", badgeVariant: "inactive" },
+  [AccountStatus.RESTRICTED]: { label: "دارای وام فعال", badgeVariant: "destructive" }
+};
 
 export function AccountInfoCard({ account }: { account: Account }) {
   const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${label} کپی شد`);
   };
+
+  const statusInfo = AccountStatusLabels[account.status];
 
   return (
     <Card className="overflow-hidden border-none shadow-md bg-card">
@@ -51,8 +64,8 @@ export function AccountInfoCard({ account }: { account: Account }) {
                 </div>
               </div>
             </div>
-            <Badge variant={account.status === "active" ? "default" : "secondary"} className="px-3 py-1">
-              {account.status === "active" ? "فعال" : "غیرفعال"}
+            <Badge variant={statusInfo.badgeVariant} className="px-3 py-1">
+              {statusInfo.label}
             </Badge>
           </div>
 

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useUpdateLoan } from "@/hooks/use-loan";
 import type { Loan } from "@/types/entities/loan.type";
 
@@ -42,10 +43,14 @@ export function LoanUpdatePanel({ loan }: { loan: Loan }) {
 
   return (
     <>
-      <Button variant="default" onClick={() => setOpen(true)}>
-        <Pencil className="h-4 w-4" />
-        ویرایش نام{" "}
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline" size="icon" onClick={() => setOpen(true)}>
+            <Pencil className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>ویرایش وام</TooltipContent>
+      </Tooltip>
       <ResponsivePanel open={open} onOpenChange={setOpen}>
         <div dir="rtl" className="w-full">
           <DialogTitle className="pb-6">ویرایش نام وام</DialogTitle>

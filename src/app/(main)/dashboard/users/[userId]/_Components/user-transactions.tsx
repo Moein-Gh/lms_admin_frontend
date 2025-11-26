@@ -47,18 +47,18 @@ const getStatusConfig = (status: TransactionStatus) => {
 
 const getKindConfig = (kind: TransactionKind): { label: string; isIncome: boolean } => {
   switch (kind) {
-    case "DEPOSIT":
+    case TransactionKind.DEPOSIT:
       return { label: "واریز", isIncome: true };
-    case "WITHDRAWAL":
+    case TransactionKind.WITHDRAWAL:
       return { label: "برداشت", isIncome: false };
-    case "LOAN_DISBURSEMENT":
+    case TransactionKind.LOAN_DISBURSEMENT:
       return { label: "پرداخت وام", isIncome: false };
-    case "LOAN_REPAYMENT":
+    case TransactionKind.LOAN_REPAYMENT:
       return { label: "بازپرداخت وام", isIncome: true };
-    case "SUBSCRIPTION_PAYMENT":
-      return { label: "حق عضویت", isIncome: false };
-    case "FEE":
-      return { label: "کارمزد", isIncome: true };
+    case TransactionKind.SUBSCRIPTION_PAYMENT:
+      return { label: "پرداخت اشتراک", isIncome: false };
+    case TransactionKind.FEE:
+      return { label: "کارمزد", isIncome: false };
     default:
       return { label: "نامشخص", isIncome: false };
   }

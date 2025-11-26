@@ -7,6 +7,12 @@ export enum SubscriptionFeeStatus {
   ALLOCATED = "ALLOCATED"
 }
 
+export const SUBSCRIPTION_FEE_STATUS_LABEL: Record<SubscriptionFeeStatus, string> = {
+  [SubscriptionFeeStatus.DUE]: "در انتظار پرداخت",
+  [SubscriptionFeeStatus.PAID]: "پرداخت شده",
+  [SubscriptionFeeStatus.ALLOCATED]: "تخصیص یافته"
+};
+
 export type SubscriptionFee = {
   readonly id: string;
   readonly code: number;

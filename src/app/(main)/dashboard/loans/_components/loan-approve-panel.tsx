@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { CheckIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
@@ -36,16 +37,19 @@ export function LoanApprovePanel({ loan, onApprove }: { loan: Loan; onApprove?: 
     "تراکنش مالی مربوط به این وام نیز به صورت خودکار فعال شده و در محاسبات مالی  لحاظ خواهد شد."
   ];
   const descriptionText = (
-    <ol className="space-y-2 list-decimal rtl:ps-6 pt-4">
-      {descriptionLines.map((line, idx) => (
-        <li key={idx}>{line}</li>
-      ))}
-    </ol>
+    <div className="pt-4">
+      <ol className="space-y-2 list-decimal rtl:ps-6">
+        {descriptionLines.map((line, idx) => (
+          <li key={idx}>{line}</li>
+        ))}
+      </ol>
+    </div>
   );
 
   return (
     <>
-      <Button variant="default" onClick={() => setOpen(true)}>
+      <Button variant="outline" onClick={() => setOpen(true)}>
+        <CheckIcon className="h-4 w-4" />
         تأیید وام
       </Button>
 

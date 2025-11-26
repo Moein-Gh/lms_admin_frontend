@@ -43,27 +43,27 @@ function TransactionKindCell({ kind }: { kind: TransactionKind }) {
   let variant: "active" | "outline" | "inactive";
   let label: string;
   switch (kind) {
-    case "DEPOSIT":
+    case TransactionKind.DEPOSIT:
       variant = "active";
       label = "واریز";
       break;
-    case "LOAN_DISBURSEMENT":
-      variant = "inactive";
-      label = "پرداخت وام";
-      break;
-    case "LOAN_REPAYMENT":
-      variant = "active";
-      label = "بازپرداخت وام";
-      break;
-    case "SUBSCRIPTION_PAYMENT":
-      variant = "inactive";
-      label = "پرداخت اشتراک";
-      break;
-    case "WITHDRAWAL":
+    case TransactionKind.WITHDRAWAL:
       variant = "inactive";
       label = "برداشت";
       break;
-    case "FEE":
+    case TransactionKind.LOAN_DISBURSEMENT:
+      variant = "inactive";
+      label = "پرداخت وام";
+      break;
+    case TransactionKind.LOAN_REPAYMENT:
+      variant = "active";
+      label = "بازپرداخت وام";
+      break;
+    case TransactionKind.SUBSCRIPTION_PAYMENT:
+      variant = "inactive";
+      label = "پرداخت اشتراک";
+      break;
+    case TransactionKind.FEE:
       variant = "inactive";
       label = "کارمزد";
       break;

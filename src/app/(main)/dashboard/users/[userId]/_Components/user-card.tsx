@@ -99,8 +99,8 @@ export default function UserCard({ user }: Props) {
             <TooltipTrigger asChild>
               <Button
                 size="icon"
-                variant="outline"
-                className="text-destructive border-destructive hover:bg-destructive/10 h-9 w-9 md:h-10 md:w-10"
+                variant="destructive"
+                className="hover:bg-destructive/60 h-9 w-9 md:h-10 md:w-10"
                 data-slot="button"
               >
                 <Trash className="h-5 w-5" />

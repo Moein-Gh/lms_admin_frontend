@@ -1,5 +1,25 @@
+import { BadgeVariant } from "@/components/ui/badge";
 import { AccountType } from "./account-type.type";
 import { User } from "./user.type";
+
+export interface Account {
+  id: string;
+  code: number;
+  accountTypeId: string;
+  name: string;
+  userId: string;
+  cardNumber: string;
+  bankName: string;
+  status: AccountStatus;
+
+  createdAt: Date;
+  updatedAt: Date;
+
+  accountType?: AccountType;
+  user?: User;
+
+  balanceSummary?: AccountBalanceSummary;
+}
 
 export enum AccountStatus {
   ACTIVE = "active",
@@ -20,21 +40,13 @@ export type AccountBalanceSummary = {
   readonly totalDeposits: number;
 };
 
-export interface Account {
-  id: string;
-  code: number;
-  accountTypeId: string;
-  name: string;
-  userId: string;
-  cardNumber: string;
-  bankName: string;
-  status: AccountStatus;
+export type AccountStatusLabel = {
+  readonly label: string;
+  readonly badgeVariant: BadgeVariant;
+};
 
-  createdAt: Date;
-  updatedAt: Date;
-
-  accountType?: AccountType;
-  user?: User;
-
-  balanceSummary?: AccountBalanceSummary;
-}
+export const AccountStatusLabels: Record<AccountStatus, AccountStatusLabel> = {
+  [AccountStatus.ACTIVE]: { label: "فعال", badgeVariant: "default" },
+  [AccountStatus.INACTIVE]: { label: "غیرفعال", badgeVariant: "inactive" },
+  [AccountStatus.RESTRICTED]: { label: "دارای وام فعال", badgeVariant: "destructive" }
+};

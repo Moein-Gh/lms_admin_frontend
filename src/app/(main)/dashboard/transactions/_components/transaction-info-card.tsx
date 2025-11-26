@@ -5,7 +5,7 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { TransactionStatus, type Transaction } from "@/types/entities/transaction.type";
+import { TransactionKind, TransactionStatus, type Transaction } from "@/types/entities/transaction.type";
 import { TransactionApprovePanel } from "./transaction-approve-panel";
 import { TransactionDeletePanel } from "./transaction-delete-panel";
 import { TransactionUpdatePanel } from "./transaction-update-panel";
@@ -21,8 +21,11 @@ function canApproveTransaction(transaction: Transaction): boolean {
   const isPending = status === TransactionStatus.PENDING;
 
   // DEPOSIT can only be approved when ALLOCATED
-  if (kind === "DEPOSIT") {
+  if (kind === TransactionKind.DEPOSIT) {
     return isAllocated;
+  }
+  if (kind === TransactionKind.LOAN_DISBURSEMENT) {
+    return false;
   }
 
   // Other transaction types can be approved when PENDING or ALLOCATED
@@ -85,19 +88,19 @@ function TransactionStatusInfo({ status }: { status: Transaction["status"] }) {
   );
 }
 
-function getTransactionKindLabel(kind: Transaction["kind"]): string {
+function getTransactionKindLabel(kind: TransactionKind): string {
   switch (kind) {
-    case "DEPOSIT":
+    case TransactionKind.DEPOSIT:
       return "واریز";
-    case "WITHDRAWAL":
+    case TransactionKind.WITHDRAWAL:
       return "برداشت";
-    case "LOAN_DISBURSEMENT":
+    case TransactionKind.LOAN_DISBURSEMENT:
       return "پرداخت وام";
-    case "LOAN_REPAYMENT":
+    case TransactionKind.LOAN_REPAYMENT:
       return "بازپرداخت وام";
-    case "SUBSCRIPTION_PAYMENT":
+    case TransactionKind.SUBSCRIPTION_PAYMENT:
       return "پرداخت اشتراک";
-    case "FEE":
+    case TransactionKind.FEE:
       return "کارمزد";
     default:
       return kind;

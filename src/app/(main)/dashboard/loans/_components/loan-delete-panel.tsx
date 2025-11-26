@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useDeleteLoan } from "@/hooks/use-loan";
 import type { Loan } from "@/types/entities/loan.type";
 
@@ -55,10 +56,14 @@ export function LoanDeletePanel({ loan, onDelete }: { loan: Loan; onDelete?: (id
 
   return (
     <>
-      <Button variant="destructive" type="button" aria-label="حذف وام" onClick={() => setOpen(true)}>
-        <Trash2 className="h-4 w-4" />
-        حذف
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="destructive" size="icon" type="button" aria-label="حذف وام" onClick={() => setOpen(true)}>
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>حذف وام</TooltipContent>
+      </Tooltip>
 
       <ResponsivePanel open={open} onOpenChange={setOpen} variant="destructive">
         <div dir="rtl" className="w-full">

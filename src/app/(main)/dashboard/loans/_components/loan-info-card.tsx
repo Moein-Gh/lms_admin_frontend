@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { Building2, Tag, CheckCircle2, Calendar, DollarSign, CalendarClock } from "lucide-react";
+import { Building2, Calendar, CalendarClock, CheckCircle2, DollarSign, Hash, Percent, Tag, User } from "lucide-react";
+
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { LoanStatus, type Loan } from "@/types/entities/loan.type";
+
 import { LoanApprovePanel } from "./loan-approve-panel";
 import { LoanDeletePanel } from "./loan-delete-panel";
 import { LoanUpdatePanel } from "./loan-update-panel";
@@ -15,9 +17,14 @@ type LoanInfoCardProps = {
   readonly onApprove?: (loan: Loan) => void;
 };
 
+type BalanceSummary = {
+  loanAmount?: number;
+  repayments?: { count?: number; amount?: number };
+};
+
 function LoanActionButtons({ loan, onApprove }: { loan: Loan; onApprove?: (loan: Loan) => void }) {
   return (
-    <div className="flex flex-row gap-3 w-full items-center justify-center sm:w-auto sm:items-center">
+    <div className="flex items-center gap-1">
       {/* Approve panel trigger shown only when loan is pending */}
       {loan.status === LoanStatus.PENDING && <LoanApprovePanel loan={loan} onApprove={() => onApprove?.(loan)} />}
 
@@ -28,68 +35,113 @@ function LoanActionButtons({ loan, onApprove }: { loan: Loan; onApprove?: (loan:
   );
 }
 
-function LoanAccountInfo({ account }: { account: Loan["account"] }) {
+function InfoItem({
+  icon: Icon,
+  label,
+  children,
+  className
+}: {
+  icon: React.ElementType;
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="flex flex-col gap-0.5 items-center">
-      <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-        <Building2 className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-        <span>حساب</span>
+    <div className={`space-y-2 ${className}`}>
+      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <Icon className="h-3.5 w-3.5" />
+        <span>{label}</span>
       </div>
-      <p className="font-medium text-xs sm:text-sm leading-tight text-center">{account?.name ?? "-"}</p>
+      <div className="text-sm font-medium text-foreground">{children}</div>
     </div>
   );
 }
 
-function LoanTypeInfo({ loanType }: { loanType: Loan["loanType"] }) {
+function LoanStatusBadge({ status }: { status: LoanStatus }) {
+  const variant = status === LoanStatus.ACTIVE ? "default" : status === LoanStatus.PENDING ? "outline" : "secondary";
+
+  const label = status === LoanStatus.ACTIVE ? "فعال" : status === LoanStatus.PENDING ? "در انتظار" : "بسته شده";
+
+  return <Badge variant={variant}>{label}</Badge>;
+}
+
+function LoanSidebar({
+  amount,
+  balanceSummary,
+  progress
+}: {
+  amount: string;
+  balanceSummary?: BalanceSummary;
+  progress?: number;
+}) {
+  const paid = balanceSummary?.repayments?.amount ?? 0;
+  const paidCount = balanceSummary?.repayments?.count ?? 0;
+
   return (
-    <div className="flex flex-col gap-0.5 items-center">
-      <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-        <Tag className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-        <span>نوع وام</span>
+    <div className="md:w-80 bg-muted/10 border-t md:border-t-0 md:border-r flex flex-col justify-between p-6 relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="absolute top-0 right-0 w-1 h-full bg-linear-to-b from-primary/40 to-transparent opacity-50" />
+      <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
+
+      <div className="space-y-8 relative z-10">
+        {/* Total Amount */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+            <DollarSign className="h-4 w-4" />
+            <span>مبلغ کل وام</span>
+          </div>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-4xl font-bold tracking-tight text-foreground">
+              <FormattedNumber value={amount} />
+            </span>
+            <span className="text-lg text-muted-foreground font-medium">تومان</span>
+          </div>
+        </div>
+
+        {/* Balance Summary */}
+        {balanceSummary && (
+          <div className="space-y-6 pt-6 border-t border-border/50">
+            {typeof progress === "number" && (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-1.5 text-muted-foreground">
+                    <Percent className="h-3.5 w-3.5" />
+                    <span>پیشرفت بازپرداخت</span>
+                  </div>
+                  <span className="font-medium text-foreground">
+                    <FormattedNumber value={Math.round(progress)} />%
+                  </span>
+                </div>
+                <Progress value={progress} className="h-1.5" />
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">پرداخت شده</span>
+                <span className="font-medium text-primary">
+                  <FormattedNumber value={paid} />
+                  <span className="text-xs text-muted-foreground ms-1">تومان</span>
+                </span>
+              </div>
+              <div className="text-xs text-muted-foreground text-left">
+                <FormattedNumber value={paidCount} /> قسط
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      <p className="font-medium text-xs sm:text-sm leading-tight text-center">{loanType?.name ?? "-"}</p>
     </div>
   );
 }
 
-function LoanStatusInfo({ status }: { status: Loan["status"] }) {
-  const variant = status === "ACTIVE" ? "active" : status === "PENDING" ? "outline" : "inactive";
-  const label = status === "ACTIVE" ? "فعال" : status === "PENDING" ? "در انتظار" : "بسته شده";
-  return (
-    <div className="flex flex-col gap-0.5 items-center">
-      <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-        <CheckCircle2 className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-        <span>وضعیت</span>
-      </div>
-      <Badge variant={variant} className="w-fit py-0 leading-tight mx-auto">
-        {label}
-      </Badge>
-    </div>
-  );
-}
-
-function LoanStartDateInfo({ startDate }: { startDate: Loan["startDate"] }) {
-  return (
-    <div className="flex flex-col gap-0.5 items-center">
-      <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-        <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-        <span>تاریخ شروع</span>
-      </div>
-      <p className="font-medium text-base leading-tight text-center">
-        <FormattedDate value={startDate} />
-      </p>
-    </div>
-  );
-}
+const addMonths = (date: Date, months: number) => {
+  const d = new Date(date);
+  d.setMonth(d.getMonth() + months);
+  return d;
+};
 
 export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
-  // helpers
-  const addMonths = (date: Date, months: number) => {
-    const d = new Date(date);
-    d.setMonth(d.getMonth() + months);
-    return d;
-  };
-
   const start = new Date(loan.startDate);
   const months = Number.isFinite(loan.paymentMonths) ? loan.paymentMonths : 0;
   const end = months > 0 ? addMonths(start, months) : null;
@@ -98,98 +150,91 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
     end && end > start
       ? Math.min(100, Math.max(0, ((now.getTime() - start.getTime()) / (end.getTime() - start.getTime())) * 100))
       : 0;
-  const amount = loan.amount;
+
+  const balanceSummary = (
+    loan as unknown as {
+      balanceSummary?: BalanceSummary;
+    }
+  ).balanceSummary;
 
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="border-b pb-3!">
-        <div className="flex  flex-col items-center gap-5 sm:gap-4 sm:flex-row sm:justify-between sm:items-center">
-          {/* Title & meta centered, always first on mobile */}
-          <div className="order-1 sm:order-2 gap-2 flex flex-col items-center text-center">
-            <CardTitle className="text-lg sm:text-xl leading-tight">{loan.name}</CardTitle>
-            <CardDescription className="flex flex-wrap items-center justify-center gap-2">
-              <span className="text-muted-foreground">کد وام:</span>
-              <FormattedNumber value={loan.code} />
-              {loan.account?.user ? (
-                <Link href={`/dashboard/users/${loan.account.user.id}`}>
-                  <Badge variant="outline" className="hover:bg-accent">
-                    {loan.account.user.identity.name ?? "بدون نام"}
-                  </Badge>
-                </Link>
-              ) : null}
-            </CardDescription>
-          </div>
-
-          {/* Amount highlight, always second on mobile */}
-          <div className="order-2 sm:order-1 flex flex-col items-center">
-            <div className="inline-flex items-baseline gap-2 rounded-xl bg-accent/60 px-4 py-2 shadow-xs">
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-              <span className="text-xs sm:text-sm text-muted-foreground">مبلغ وام</span>
-              <span className="text-xl sm:text-2xl font-extrabold leading-none">
-                <FormattedNumber value={amount} />
-              </span>
-              <span className="text-xs sm:text-sm text-muted-foreground">تومان</span>
-            </div>
-            {/* Separator for mobile only */}
-            <div className="block sm:hidden w-3/4 mx-auto py-2">
-              <span className="block h-px bg-muted/60" />
-            </div>
-          </div>
-
-          {/* Actions, always third on mobile */}
-          <CardAction className="order-3 sm:order-3 self-center flex flex-col items-center w-full h-full sm:w-auto sm:justify-center">
-            <LoanActionButtons loan={loan} onApprove={onApprove} />
-          </CardAction>
-        </div>
-      </CardHeader>
-
-      <CardContent className="py-4">
-        {/* Top info grid (without amount now) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
-          <LoanAccountInfo account={loan.account} />
-          <LoanTypeInfo loanType={loan.loanType} />
-          <LoanStatusInfo status={loan.status} />
-        </div>
-
-        {/* Dates row */}
-        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
-          <LoanStartDateInfo startDate={loan.startDate} />
-          <div className="flex flex-col gap-0.5 items-center">
-            <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-              <CalendarClock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-              <span>مدت بازپرداخت</span>
-            </div>
-            <p className="font-medium text-xs sm:text-sm leading-tight text-center">
-              <FormattedNumber value={months} />
-              <span className="ms-1">ماه</span>
-            </p>
-          </div>
-          {end ? (
-            <div className="flex flex-col gap-0.5 items-center">
-              <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-                <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                <span>تاریخ پایان</span>
+    <Card className="overflow-hidden border-none shadow-md bg-card">
+      <div className="flex flex-col md:flex-row">
+        {/* Right Side: Loan Details */}
+        <div className="flex-1 p-6 space-y-8">
+          {/* Header */}
+          <div className="space-y-4">
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground line-clamp-2">
+                {loan.name || "وام بدون عنوان"}
+              </h2>
+              <div className="shrink-0">
+                <LoanActionButtons loan={loan} onApprove={onApprove} />
               </div>
-              <p className="font-medium text-xs sm:text-sm leading-tight text-center">
-                <FormattedDate value={end} />
-              </p>
             </div>
-          ) : null}
+
+            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              {loan.account?.user ? (
+                <Link
+                  href={`/dashboard/users/${loan.account.user.id}`}
+                  className="flex items-center gap-1.5 hover:text-primary transition-colors"
+                >
+                  <User className="h-3.5 w-3.5" />
+                  <span>{loan.account.user.identity.name}</span>
+                </Link>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <User className="h-3.5 w-3.5" />
+                  <span>بدون کاربر</span>
+                </div>
+              )}
+              <span className="text-border">•</span>
+              <div className="flex items-center gap-1.5 font-mono text-xs bg-muted/50 px-2 py-0.5 rounded-md">
+                <Hash className="h-3 w-3" />
+                <span>
+                  <FormattedNumber value={loan.code} />
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Info Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
+            <InfoItem icon={Building2} label="حساب">
+              {loan.account?.name ?? "-"}
+            </InfoItem>
+
+            <InfoItem icon={Tag} label="نوع وام">
+              {loan.loanType?.name ?? "-"}
+            </InfoItem>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                <span>وضعیت</span>
+              </div>
+              <LoanStatusBadge status={loan.status} />
+            </div>
+
+            <InfoItem icon={CalendarClock} label="مدت بازپرداخت">
+              <FormattedNumber value={months} /> ماه
+            </InfoItem>
+
+            <InfoItem icon={Calendar} label="تاریخ شروع">
+              <FormattedDate value={loan.startDate} />
+            </InfoItem>
+
+            {end && (
+              <InfoItem icon={Calendar} label="تاریخ پایان">
+                <FormattedDate value={end} />
+              </InfoItem>
+            )}
+          </div>
         </div>
 
-        {/* Progress */}
-        {end ? (
-          <div className="mt-5 space-y-2">
-            <div className="flex items-center justify-between text-xs sm:text-sm text-muted-foreground">
-              <span>پیشرفت بازپرداخت</span>
-              <span>
-                <FormattedNumber value={Math.round(progress)} />%
-              </span>
-            </div>
-            <Progress value={progress} aria-label="پیشرفت بازپرداخت وام" />
-          </div>
-        ) : null}
-      </CardContent>
+        {/* Left Side: Balance & Amount */}
+        <LoanSidebar amount={loan.amount} balanceSummary={balanceSummary} progress={progress} />
+      </div>
     </Card>
   );
 }

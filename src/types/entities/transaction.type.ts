@@ -1,12 +1,13 @@
 import type { User } from "./user.type";
 
-export type TransactionKind =
-  | "DEPOSIT"
-  | "WITHDRAWAL"
-  | "LOAN_DISBURSEMENT"
-  | "LOAN_REPAYMENT"
-  | "SUBSCRIPTION_PAYMENT"
-  | "FEE";
+export enum TransactionKind {
+  DEPOSIT = "DEPOSIT",
+  WITHDRAWAL = "WITHDRAWAL",
+  LOAN_DISBURSEMENT = "LOAN_DISBURSEMENT",
+  LOAN_REPAYMENT = "LOAN_REPAYMENT",
+  SUBSCRIPTION_PAYMENT = "SUBSCRIPTION_PAYMENT",
+  FEE = "FEE"
+}
 
 export enum TransactionStatus {
   PENDING = "PENDING",

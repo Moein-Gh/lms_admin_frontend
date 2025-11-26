@@ -63,8 +63,8 @@ These serve as the fallback; there is no separate default.css file. */
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(44.24% 0.00523 16.827 / 0.61);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
+  --destructive: oklch(44.945% 0.18122 23.838);
+  --border: oklch(84.522% 0.0001 271.152);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.3211 0 0);
@@ -173,7 +173,7 @@ These serve as the fallback; there is no separate default.css file. */
   }
 
   .card-container {
-    @apply bg-card text-card-foreground rounded-xl shadow-sm p-3 border @container/card;
+    @apply bg-card text-card-foreground rounded-xl p-3 border  @container/card;
   }
 }
 

@@ -28,17 +28,17 @@ function statusLabel(status: TransactionStatus) {
 
 function kindLabel(kind?: TransactionKind) {
   switch (kind) {
-    case "DEPOSIT":
+    case TransactionKind.DEPOSIT:
       return "واریز";
-    case "WITHDRAWAL":
+    case TransactionKind.WITHDRAWAL:
       return "برداشت";
-    case "LOAN_DISBURSEMENT":
+    case TransactionKind.LOAN_DISBURSEMENT:
       return "پرداخت وام";
-    case "LOAN_REPAYMENT":
+    case TransactionKind.LOAN_REPAYMENT:
       return "بازپرداخت وام";
-    case "SUBSCRIPTION_PAYMENT":
+    case TransactionKind.SUBSCRIPTION_PAYMENT:
       return "پرداخت اشتراک";
-    case "FEE":
+    case TransactionKind.FEE:
       return "کارمزد";
     default:
       return "-";
