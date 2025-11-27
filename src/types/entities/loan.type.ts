@@ -8,6 +8,12 @@ export enum LoanStatus {
   CLOSED = "CLOSED"
 }
 
+export const LoanStatusLabels: Record<LoanStatus, string> = {
+  [LoanStatus.PENDING]: "در انتظار",
+  [LoanStatus.ACTIVE]: "فعال",
+  [LoanStatus.CLOSED]: "بسته شده"
+};
+
 export interface Loan {
   id: string;
   code: number;

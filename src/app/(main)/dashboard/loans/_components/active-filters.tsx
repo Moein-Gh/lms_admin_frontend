@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLoanTypes } from "@/hooks/use-loan-type";
 import { useUsers } from "@/hooks/use-user";
-import { LoanStatus } from "@/types/entities/loan.type";
+import { LoanStatus, LoanStatusLabels } from "@/types/entities/loan.type";
 
 import { LoanFilters } from "./loan-filters-dialog";
 
@@ -14,16 +14,7 @@ type Props = {
 };
 
 function statusLabel(status: LoanStatus) {
-  switch (status) {
-    case LoanStatus.ACTIVE:
-      return "فعال";
-    case LoanStatus.INACTIVE:
-      return "غیرفعال";
-    case LoanStatus.RESTRICTED:
-      return "محدود";
-    default:
-      return status;
-  }
+  return LoanStatusLabels[status];
 }
 
 function getLoanTypeName(loanTypesData: ReturnType<typeof useLoanTypes>["data"], id?: string) {

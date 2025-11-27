@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
-import { FileText, Trash2 } from "lucide-react";
+import { ArrowUpRight, FileText, Trash2 } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { AllocateJournalPanel } from "@/components/journal/allocate-journal-panel";
@@ -15,7 +16,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useJournals } from "@/hooks/use-journal";
 import { useDeleteJournalEntry } from "@/hooks/use-journal-entries";
 import { transactionKeys } from "@/hooks/use-transaction";
-import type { JournalEntry } from "@/types/entities/journal-entry.type";
+import { type JournalEntry, JournalEntryTarget } from "@/types/entities/journal-entry.type";
 import type { Journal, JournalStatus } from "@/types/entities/journal.type";
 
 type Props = {
@@ -32,6 +33,32 @@ function getStatusLabel(status: JournalStatus): { label: string; variant: "activ
       return { label: "لغو شده", variant: "inactive" };
     default:
       return { label: "نامشخص", variant: "outline" };
+  }
+}
+
+function getTargetLabel(type: JournalEntryTarget): string {
+  switch (type) {
+    case JournalEntryTarget.ACCOUNT:
+      return "حساب";
+    case JournalEntryTarget.LOAN:
+      return "وام";
+    case JournalEntryTarget.INSTALLMENT:
+      return "قسط";
+    case JournalEntryTarget.SUBSCRIPTION_FEE:
+      return "حق اشتراک";
+    default:
+      return type;
+  }
+}
+
+function getTargetLink(type: JournalEntryTarget, id: string): string | null {
+  switch (type) {
+    case JournalEntryTarget.ACCOUNT:
+      return `/dashboard/accounts/${id}`;
+    case JournalEntryTarget.LOAN:
+      return `/dashboard/loans/${id}`;
+    default:
+      return null;
   }
 }
 
@@ -58,55 +85,92 @@ function JournalEntriesTable({
             {/* Hide ledger account code on mobile */}
             <TableHead className="font-bold hidden sm:table-cell">کد حساب</TableHead>
             <TableHead className="font-bold">نام حساب</TableHead>
+            <TableHead className="font-bold">هدف (Target)</TableHead>
             <TableHead className="text-start font-bold">بدهکار</TableHead>
             <TableHead className="text-start font-bold">بستانکار</TableHead>
             <TableHead className="text-center font-bold">عملیات</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {entries.map((entry: JournalEntry) => (
-            <TableRow key={entry.id} className="hover:bg-muted/20 transition-colors">
-              {/* Hide ledger account code on mobile */}
-              <TableCell className="text-muted-foreground hidden sm:table-cell">
-                <FormattedNumber value={entry.ledgerAccount?.code ?? "-"} useGrouping={false} />
-              </TableCell>
-              <TableCell className="font-medium">{entry.ledgerAccount?.nameFa ?? "-"}</TableCell>
-              <TableCell className="text-start tabular-nums">
-                {entry.dc === "DEBIT" ? (
-                  <span className="font-semibold">
-                    <FormattedNumber value={entry.amount} />
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground">-</span>
-                )}
-              </TableCell>
-              <TableCell className="text-start tabular-nums">
-                {entry.dc === "CREDIT" ? (
-                  <span className="font-semibold">
-                    <FormattedNumber value={entry.amount} />
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground">-</span>
-                )}
-              </TableCell>
-              <TableCell className="text-center">
-                {/* Only allow removal if parent journal is not POSTED */}
-                {entry.removable ? (
-                  <Button variant="destructive" size="sm" onClick={() => onRequestDelete?.(entry)} aria-label="حذف ثبت">
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                ) : (
-                  <span className="text-muted-foreground">-</span>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
+          {entries.map((entry: JournalEntry) => {
+            const targetLink =
+              entry.targetType && entry.targetId ? getTargetLink(entry.targetType, entry.targetId) : null;
+            return (
+              <TableRow key={entry.id} className="hover:bg-muted/20 transition-colors">
+                {/* Hide ledger account code on mobile */}
+                <TableCell className="text-muted-foreground hidden sm:table-cell">
+                  <FormattedNumber value={entry.ledgerAccount?.code ?? "-"} useGrouping={false} />
+                </TableCell>
+                <TableCell className="font-medium">{entry.ledgerAccount?.nameFa ?? "-"}</TableCell>
+                <TableCell>
+                  {entry.targetType ? (
+                    <div className="flex items-center gap-2">
+                      <Badge variant="secondary" className="text-xs font-normal">
+                        {getTargetLabel(entry.targetType)}
+                      </Badge>
+                      {targetLink ? (
+                        <Link
+                          href={targetLink}
+                          className="flex items-center gap-1 text-xs text-primary hover:underline"
+                          title={`مشاهده ${getTargetLabel(entry.targetType)}`}
+                        >
+                          <span className="font-mono">{entry.targetId?.slice(0, 8)}...</span>
+                          <ArrowUpRight className="size-3" />
+                        </Link>
+                      ) : (
+                        entry.targetId && (
+                          <span className="text-xs text-muted-foreground font-mono">
+                            {entry.targetId.slice(0, 8)}...
+                          </span>
+                        )
+                      )}
+                    </div>
+                  ) : (
+                    <span className="text-muted-foreground text-xs">-</span>
+                  )}
+                </TableCell>
+                <TableCell className="text-start tabular-nums">
+                  {entry.dc === "DEBIT" ? (
+                    <span className="font-semibold">
+                      <FormattedNumber value={entry.amount} />
+                    </span>
+                  ) : (
+                    <span className="text-muted-foreground">-</span>
+                  )}
+                </TableCell>
+                <TableCell className="text-start tabular-nums">
+                  {entry.dc === "CREDIT" ? (
+                    <span className="font-semibold">
+                      <FormattedNumber value={entry.amount} />
+                    </span>
+                  ) : (
+                    <span className="text-muted-foreground">-</span>
+                  )}
+                </TableCell>
+                <TableCell className="text-center">
+                  {/* Only allow removal if parent journal is not POSTED */}
+                  {entry.removable ? (
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => onRequestDelete?.(entry)}
+                      aria-label="حذف ثبت"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  ) : (
+                    <span className="text-muted-foreground">-</span>
+                  )}
+                </TableCell>
+              </TableRow>
+            );
+          })}
           <TableRow className="bg-accent/50 font-bold border-t-2 border-border">
             {/* Hide ledger account code on mobile */}
-            <TableCell colSpan={2} className="text-start text-base hidden sm:table-cell">
+            <TableCell colSpan={3} className="text-start text-base hidden sm:table-cell">
               جمع کل
             </TableCell>
-            <TableCell colSpan={1} className="text-start text-base sm:hidden">
+            <TableCell colSpan={2} className="text-start text-base sm:hidden">
               جمع کل
             </TableCell>
             <TableCell className="text-start tabular-nums text-base">
@@ -115,6 +179,7 @@ function JournalEntriesTable({
             <TableCell className="text-start tabular-nums text-base">
               <FormattedNumber value={totalCredit} />
             </TableCell>
+            <TableCell />
           </TableRow>
         </TableBody>
       </Table>
