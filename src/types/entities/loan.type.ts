@@ -1,4 +1,5 @@
 import { Account } from "./account.type";
+import { LoanBalanceSummary } from "./loan-balane.type";
 import { LoanType } from "./loan-type.type";
 
 export enum LoanStatus {
@@ -26,4 +27,6 @@ export interface Loan {
 
   createdAt: Date;
   updatedAt: Date;
+
+  balanceSummary?: LoanBalanceSummary;
 }

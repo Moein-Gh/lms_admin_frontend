@@ -76,7 +76,7 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
   }
 
   return (
-    <div className="relative w-full overflow-auto rounded-xl border bg-card shadow-sm">
+    <div className="relative w-full overflow-auto rounded-xl bg-card py-2">
       <Table>
         <TableHeader>
           <TableRow>

@@ -7,33 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import { Account, AccountStatus } from "@/types/entities/account.type";
+import { Account, AccountStatus, AccountStatusLabels } from "@/types/entities/account.type";
 
 type AccountCardsDesignProps = {
   accounts: Account[];
 };
 
 const getStatusConfig = (status: AccountStatus) => {
-  if (status === AccountStatus.ACTIVE) {
-    return {
-      label: "فعال",
-      dotClass: "bg-emerald-500",
-      badgeClass: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-    };
-  }
-  if (status === AccountStatus.INACTIVE) {
-    return {
-      label: "غیرفعال",
-      dotClass: "bg-gray-400",
-      badgeClass: "bg-gray-500/10 text-gray-600 dark:text-gray-400"
-    };
-  }
-  return {
-    label: "محدود",
-    dotClass: "bg-amber-500",
-    badgeClass: "bg-amber-500/10 text-amber-600 dark:text-amber-400"
-  };
+  return AccountStatusLabels[status];
 };
 
 function AccountCard({ account }: { account: Account }) {
@@ -52,8 +33,7 @@ function AccountCard({ account }: { account: Account }) {
           </Badge>
         </div>
         <div className="flex items-center gap-2">
-          <Badge className={cn("gap-1.5 border-0 text-[10px] font-medium", statusConfig.badgeClass)}>
-            <span className={cn("size-1.5 rounded-full", statusConfig.dotClass)} />
+          <Badge variant={statusConfig.badgeVariant} className="gap-1.5 border-0 text-[10px] font-medium">
             {statusConfig.label}
           </Badge>
           <Tooltip>

@@ -509,7 +509,14 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? SlotPrimitive.Slot : "button";
-  const { isMobile, state } = useSidebar();
+  const { isMobile, state, setOpenMobile } = useSidebar();
+
+  const { onClick: _onClick, ...restProps } = props as any;
+
+  const handleClick = (event: React.MouseEvent) => {
+    _onClick?.(event);
+    if (isMobile) setOpenMobile(false);
+  };
 
   const button = (
     <Comp
@@ -518,7 +525,8 @@ function SidebarMenuButton({
       data-size={size}
       data-active={isActive}
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-      {...props}
+      {...restProps}
+      onClick={handleClick}
     />
   );
 
@@ -551,6 +559,14 @@ function SidebarMenuAction({
 }) {
   const Comp = asChild ? SlotPrimitive.Slot : "button";
 
+  const { isMobile, setOpenMobile } = useSidebar();
+  const { onClick: _onClick, ...rest } = props as any;
+
+  const handleClick = (e: React.MouseEvent) => {
+    _onClick?.(e);
+    if (isMobile) setOpenMobile(false);
+  };
+
   return (
     <Comp
       data-slot="sidebar-menu-action"
@@ -567,7 +583,8 @@ function SidebarMenuAction({
           "peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 md:opacity-0",
         className
       )}
-      {...props}
+      {...rest}
+      onClick={handleClick}
     />
   );
 }
@@ -663,6 +680,14 @@ function SidebarMenuSubButton({
 }) {
   const Comp = asChild ? SlotPrimitive.Slot : "a";
 
+  const { isMobile, setOpenMobile } = useSidebar();
+  const { onClick: _onClick, ...rest } = props as any;
+
+  const handleClick = (e: React.MouseEvent) => {
+    _onClick?.(e);
+    if (isMobile) setOpenMobile(false);
+  };
+
   return (
     <Comp
       data-slot="sidebar-menu-sub-button"
@@ -677,7 +702,8 @@ function SidebarMenuSubButton({
         "group-data-[collapsible=icon]:hidden",
         className
       )}
-      {...props}
+      {...rest}
+      onClick={handleClick}
     />
   );
 }

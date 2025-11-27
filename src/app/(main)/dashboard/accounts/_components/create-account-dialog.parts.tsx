@@ -30,7 +30,7 @@ export function CreateAccountDialogMobile({ open, setOpen, formContent, create }
       <DrawerTrigger asChild>
         <Button>
           <PlusIcon className="size-4" />
-          افزودن حساب جدید
+          <span className="hidden sm:inline">افزودن حساب جدید</span>
         </Button>
       </DrawerTrigger>
       <DrawerContent>

@@ -1,4 +1,5 @@
 import { BadgeVariant } from "@/components/ui/badge";
+import { AccountBalanceSummary } from "./account-balance.type";
 import { AccountType } from "./account-type.type";
 import { User } from "./user.type";
 
@@ -26,19 +27,6 @@ export enum AccountStatus {
   INACTIVE = "inactive",
   RESTRICTED = "restricted"
 }
-
-export type AccountBalanceSummary = {
-  readonly accountId: string;
-  readonly accountDeposits: {
-    readonly count: number;
-    readonly amount: number;
-  };
-  readonly subscriptionFeeDeposits: {
-    readonly count: number;
-    readonly amount: number;
-  };
-  readonly totalDeposits: number;
-};
 
 export type AccountStatusLabel = {
   readonly label: string;

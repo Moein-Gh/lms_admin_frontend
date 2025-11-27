@@ -103,8 +103,8 @@ These serve as the fallback; there is no separate default.css file. */
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.9521 0 0);
-  --chart-2: oklch(0.8576 0 0);
+  --chart-1: oklch(48.088% 0.07141 220.652);
+  --chart-2: oklch(52.099% 0.12495 130.899);
   --chart-3: oklch(0.7572 0 0);
   --chart-4: oklch(0.6534 0 0);
   --chart-5: oklch(0.5452 0 0);
@@ -173,7 +173,7 @@ These serve as the fallback; there is no separate default.css file. */
   }
 
   .card-container {
-    @apply bg-card text-card-foreground rounded-xl p-3 border  @container/card;
+    @apply bg-card text-card-foreground rounded-xl p-3  @container/card;
   }
 }
 

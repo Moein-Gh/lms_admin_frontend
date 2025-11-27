@@ -6,6 +6,7 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { LoanBalanceSummary } from "@/types/entities/loan-balane.type";
 import { LoanStatus, type Loan } from "@/types/entities/loan.type";
 
 import { LoanApprovePanel } from "./loan-approve-panel";
@@ -15,11 +16,6 @@ import { LoanUpdatePanel } from "./loan-update-panel";
 type LoanInfoCardProps = {
   readonly loan: Loan;
   readonly onApprove?: (loan: Loan) => void;
-};
-
-type BalanceSummary = {
-  loanAmount?: number;
-  repayments?: { count?: number; amount?: number };
 };
 
 function LoanActionButtons({ loan, onApprove }: { loan: Loan; onApprove?: (loan: Loan) => void }) {
@@ -65,17 +61,10 @@ function LoanStatusBadge({ status }: { status: LoanStatus }) {
   return <Badge variant={variant}>{label}</Badge>;
 }
 
-function LoanSidebar({
-  amount,
-  balanceSummary,
-  progress
-}: {
-  amount: string;
-  balanceSummary?: BalanceSummary;
-  progress?: number;
-}) {
-  const paid = balanceSummary?.repayments?.amount ?? 0;
-  const paidCount = balanceSummary?.repayments?.count ?? 0;
+function LoanSidebar({ amount, balanceSummary }: { amount: string; balanceSummary?: LoanBalanceSummary }) {
+  const paid = balanceSummary ? balanceSummary.repayments.amount : 0;
+  const paidCount = balanceSummary ? balanceSummary.repayments.count : 0;
+  const paidPercentage = balanceSummary ? balanceSummary.paidPercentage : 0;
 
   return (
     <div className="md:w-80 bg-muted/10 border-t md:border-t-0 md:border-r flex flex-col justify-between p-6 relative overflow-hidden">
@@ -101,7 +90,7 @@ function LoanSidebar({
         {/* Balance Summary */}
         {balanceSummary && (
           <div className="space-y-6 pt-6 border-t border-border/50">
-            {typeof progress === "number" && (
+            {typeof paidPercentage === "number" && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -109,10 +98,10 @@ function LoanSidebar({
                     <span>پیشرفت بازپرداخت</span>
                   </div>
                   <span className="font-medium text-foreground">
-                    <FormattedNumber value={Math.round(progress)} />%
+                    <FormattedNumber value={Math.round(paidPercentage)} />%
                   </span>
                 </div>
-                <Progress value={progress} className="h-1.5" />
+                <Progress value={paidPercentage} className="h-1.5" />
               </div>
             )}
 
@@ -145,17 +134,8 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
   const start = new Date(loan.startDate);
   const months = Number.isFinite(loan.paymentMonths) ? loan.paymentMonths : 0;
   const end = months > 0 ? addMonths(start, months) : null;
-  const now = new Date();
-  const progress =
-    end && end > start
-      ? Math.min(100, Math.max(0, ((now.getTime() - start.getTime()) / (end.getTime() - start.getTime())) * 100))
-      : 0;
 
-  const balanceSummary = (
-    loan as unknown as {
-      balanceSummary?: BalanceSummary;
-    }
-  ).balanceSummary;
+  const balanceSummary = loan.balanceSummary;
 
   return (
     <Card className="overflow-hidden border-none shadow-md bg-card">
@@ -233,7 +213,7 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
         </div>
 
         {/* Left Side: Balance & Amount */}
-        <LoanSidebar amount={loan.amount} balanceSummary={balanceSummary} progress={progress} />
+        <LoanSidebar amount={loan.amount} balanceSummary={balanceSummary} />
       </div>
     </Card>
   );

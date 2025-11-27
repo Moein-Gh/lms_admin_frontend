@@ -167,7 +167,7 @@ export function TransactionsTable({ data, isLoading, error, pagination }: Props)
   }
 
   return (
-    <div className="relative w-full overflow-auto rounded-xl border bg-card shadow-sm">
+    <div className="relative w-full overflow-auto rounded-xl py-2  bg-card">
       <Table>
         <TableHeader>
           <TableRow>

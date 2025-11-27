@@ -1,10 +1,12 @@
 "use client";
 
-import { MessageCircle, Trash } from "lucide-react";
+import { Calendar, CreditCard, Hash, MessageCircle, Phone, Trash } from "lucide-react";
 
+import { FormattedNumber } from "@/components/formatted-number";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatDate } from "@/lib/utils";
@@ -14,7 +16,6 @@ import { EditUserDialog } from "./edit-user-dialog";
 
 type Props = { user: User };
 
-// Centered profile card with subtle gradient header and action bar
 export default function UserCard({ user }: Props) {
   const identity = user.identity as {
     avatarUrl?: string;
@@ -29,110 +30,97 @@ export default function UserCard({ user }: Props) {
     identity.avatarUrl ?? `https://i5p1o7caz2.ufs.sh/f/x2U4h8rqrclvSEGweo3DWPs8bGcKq1fhNvCwgj4op3rZF0nd`;
 
   return (
-    <div className="w-full card-container flex flex-row flex-wrap md:flex-col">
-      {/* Profile section */}
-      <div className="p-3 md:p-4 relative flex-1 flex flex-row md:flex-col items-center md:items-center gap-3 md:gap-0">
-        {/* Avatar with status badge */}
-        <div className="flex flex-row md:flex-col items-center text-center gap-0 md:gap-0 shrink-0">
-          <div className="relative inline-block shrink-0">
-            <Avatar className="h-14 w-14 md:h-20 md:w-20">
-              <AvatarImage src={avatarSrc} alt={identity.name ?? "کاربر"} />
-            </Avatar>
-            <span
-              className={
-                "absolute z-10 -top-1 -left-1 flex items-center justify-center rounded-full border-2 " +
-                (user.isActive ? "bg-emerald-500 border-white w-5 h-5" : "bg-gray-400 border-white w-5 h-5 opacity-70")
-              }
-              title={user.isActive ? "فعال" : "غیرفعال"}
-              data-active={user.isActive ? "true" : "false"}
-            >
-              <span className="sr-only">{user.isActive ? "فعال" : "غیرفعال"}</span>
-            </span>
-          </div>
-        </div>
-
-        {/* User info */}
-        <div className="flex flex-col items-start md:items-center flex-1 min-w-0">
-          <h3 className="md:mt-3 text-sm md:text-lg font-bold truncate w-full md:w-auto">{identity.name}</h3>
-          <p className="text-xs md:text-sm text-muted-foreground truncate w-full md:w-auto">{identity.phone}</p>
-
-          <div className="mt-1.5 md:mt-3 flex flex-col md:flex-row items-start md:items-center gap-1 md:gap-2 w-full md:w-auto">
-            <Badge className="text-[10px] md:text-xs bg-accent text-accent-foreground whitespace-nowrap">
-              عضویت: {formatDate(identity.createdAt!)}
-            </Badge>
-            <Separator orientation="vertical" className="data-[orientation=vertical]:h-4 hidden md:block" />
-            <Badge className="text-[10px] md:text-xs bg-accent text-accent-foreground whitespace-nowrap">
-              آخرین تغییر: {formatDate(identity.updatedAt!)}
-            </Badge>
-          </div>
-        </div>
-      </div>
-
-      {/* Vertical separator for mobile horizontal layout */}
-      <div className="block md:hidden w-px bg-border my-3" />
-
-      {/* Bottom section - codes and actions */}
-      <div className="p-3 md:border-t border-t-0 flex flex-col md:flex-row items-start md:items-center justify-center md:justify-between gap-2 md:gap-3 shrink-0">
-        <div className="flex flex-col text-[10px] md:text-xs text-muted-foreground gap-1 w-full md:w-auto">
-          <span className="truncate">
-            کد کاربر: <span className="font-medium text-foreground">{user.code}</span>
-          </span>
-          <span className="truncate">
-            کد ملی: <span className="font-medium text-foreground">{identity.nationalCode ?? "-"}</span>
-          </span>
-        </div>
-
-        {/* Action buttons - hidden on mobile, visible from md+ */}
-        <div className="hidden md:flex items-center gap-1.5 md:gap-2 w-full md:w-auto justify-start md:justify-end">
-          <EditUserDialog user={user} />
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button disabled size="icon" variant="outline" className="h-9 w-9 md:h-10 md:w-10">
-                <MessageCircle className="h-5 w-5 md:h-7 md:w-7" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">ارسال پیام</TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="icon"
-                variant="destructive"
-                className="hover:bg-destructive/60 h-9 w-9 md:h-10 md:w-10"
-                data-slot="button"
-              >
-                <Trash className="h-5 w-5" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">حذف</TooltipContent>
-          </Tooltip>
-        </div>
-      </div>
-
-      {/* Mobile-only action row: place buttons in a separate row below content */}
-      <div className="basis-full block md:hidden px-3">
-        <Separator className="mb-2" />
-        <div className="flex items-center gap-2 w-full justify-center">
-          <EditUserDialog user={user} />
-
-          <Button disabled size="sm" variant="outline" className="inline-flex items-center gap-1.5 h-9">
-            <MessageCircle className="h-5 w-5" />
-            <span>ارسال پیام</span>
-          </Button>
-
-          <Button
-            size="sm"
-            variant="outline"
-            className="inline-flex items-center gap-1.5 text-destructive border-destructive hover:bg-destructive/10 h-9"
-            data-slot="button"
+    <Card className="w-full h-full flex flex-col bg-card border-none shadow-none">
+      <CardHeader className="flex flex-row items-center justify-center gap-4 pb-4 pt-6">
+        <div className="relative shrink-0">
+          <Avatar className="h-16 w-16 md:h-20 md:w-20 border-2 border-background shadow-sm">
+            <AvatarImage src={avatarSrc} alt={identity.name ?? "کاربر"} className="object-cover" />
+          </Avatar>
+          <span
+            className={
+              "absolute bottom-0 right-0 flex items-center justify-center rounded-full border-2 border-card " +
+              (user.isActive ? "bg-emerald-500 w-4 h-4 md:w-5 md:h-5" : "bg-gray-400 w-4 h-4 md:w-5 md:h-5")
+            }
+            title={user.isActive ? "فعال" : "غیرفعال"}
           >
-            <Trash className="h-5 w-5" />
-            <span>حذف</span>
-          </Button>
+            <span className="sr-only">{user.isActive ? "فعال" : "غیرفعال"}</span>
+          </span>
         </div>
-      </div>
-    </div>
+
+        <div className="flex flex-col gap-1.5 min-w-0">
+          <h2 className="text-lg font-bold truncate text-foreground">{identity.name ?? "کاربر بدون نام"}</h2>
+          <Badge variant="secondary" className="w-fit text-xs font-normal px-2.5 py-0.5">
+            {user.isActive ? "حساب کاربری فعال" : "حساب کاربری غیرفعال"}
+          </Badge>
+        </div>
+      </CardHeader>
+
+      <CardContent className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3 px-6">
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-accent/40 hover:bg-accent/60 transition-colors">
+          <span className="text-[15px] text-muted-foreground flex items-center gap-1.5">
+            <Phone className="h-3 w-3" />
+            شماره تماس
+          </span>
+          <span className="text-base font-bold dir-ltr truncate">
+            <FormattedNumber useGrouping={false} value={identity.phone ?? ""} />
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-accent/40 hover:bg-accent/60 transition-colors">
+          <span className="text-[15px] text-muted-foreground flex items-center gap-1.5">
+            <CreditCard className="h-3 w-3" />
+            کد ملی
+          </span>
+          <span className="text-base font-bold dir-ltr truncate">
+            <FormattedNumber useGrouping={false} value={identity.nationalCode ?? ""} />
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-accent/40 hover:bg-accent/60 transition-colors">
+          <span className="text-[15px] text-muted-foreground flex items-center gap-1.5">
+            <Hash className="h-3 w-3" />
+            کد کاربر
+          </span>
+          <span className="text-base font-bold dir-ltr truncate">{user.code}</span>
+        </div>
+
+        <div className="flex items-center justify-between p-2.5 rounded-lg bg-accent/40 hover:bg-accent/60 transition-colors">
+          <span className="text-[15px] text-muted-foreground flex items-center gap-1.5">
+            <Calendar className="h-3 w-3" />
+            تاریخ عضویت
+          </span>
+          <span className="text-base font-medium truncate">{formatDate(identity.createdAt!)}</span>
+        </div>
+      </CardContent>
+
+      <CardFooter className="p-6 pt-2 flex flex-col gap-3 mt-auto">
+        <Separator />
+        <div className="flex items-center justify-between w-full gap-3">
+          <div className="flex-1">
+            <EditUserDialog user={user} />
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon" className="h-9 w-9 shrink-0">
+                  <MessageCircle className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>ارسال پیام</TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="destructive" size="icon" className="h-9 w-9 shrink-0 hover:bg-destructive/90">
+                  <Trash className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>حذف کاربر</TooltipContent>
+            </Tooltip>
+          </div>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

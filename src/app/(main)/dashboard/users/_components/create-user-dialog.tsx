@@ -127,9 +127,9 @@ export function CreateUserDialog() {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
-          <Button>
+          <Button aria-label="افزودن کاربر جدید" variant="default" size="sm">
             <PlusIcon className="size-4" />
-            افزودن کاربر جدید
+            <span className="hidden sm:inline">افزودن کاربر جدید</span>
           </Button>
         </DrawerTrigger>
         <DrawerContent>

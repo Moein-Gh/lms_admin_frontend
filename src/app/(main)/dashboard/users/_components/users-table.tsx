@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { Eye } from "lucide-react";
 
+import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,7 +26,7 @@ type Props = {
 
 export function UsersTable({ data, isLoading, error, pagination }: Props) {
   return (
-    <Card>
+    <Card className="py-2">
       <CardContent className="p-0">
         {error ? (
           <div className="p-8 text-center">
@@ -81,8 +82,20 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                     </div>
                   </TableCell>
 
-                  <TableCell className="w-2/12 text-start">{user.identity.phone ?? "-"}</TableCell>
-                  <TableCell className="w-2/12 text-start">{user.identity.nationalCode ?? "-"}</TableCell>
+                  <TableCell className="w-2/12 text-start">
+                    {user.identity.phone ? (
+                      <FormattedNumber useGrouping={false} value={user.identity.phone} className="font-mono" />
+                    ) : (
+                      "-"
+                    )}
+                  </TableCell>
+                  <TableCell className="w-2/12 text-start">
+                    {user.identity.nationalCode ? (
+                      <FormattedNumber useGrouping={false} value={user.identity.nationalCode} className="font-mono" />
+                    ) : (
+                      "-"
+                    )}
+                  </TableCell>
                   <TableCell className="w-1/12">
                     <Badge variant={user.isActive ? "active" : "inactive"}>{user.isActive ? "فعال" : "غیرفعال"}</Badge>
                   </TableCell>

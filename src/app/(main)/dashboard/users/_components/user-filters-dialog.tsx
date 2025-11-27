@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Pills } from "@/components/ui/pills";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface UserFilters {
@@ -57,9 +57,9 @@ export function UserFiltersDialog({ filters, onFiltersChange, onReset }: UserFil
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" aria-label="فیلتر و جستجو">
             <FilterIcon className="size-4" />
-            فیلتر و جستجو
+            <span className="hidden sm:inline">فیلتر و جستجو</span>
           </Button>
         </DrawerTrigger>
         <DrawerContent>
@@ -145,24 +145,22 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
       {/* Status Filter */}
       <div className="space-y-2">
         <Label htmlFor="status">وضعیت</Label>
-        <Select
+        <Pills
+          options={[
+            { value: "all", label: "همه کاربران" },
+            { value: "active", label: "فعال" },
+            { value: "inactive", label: "غیرفعال" }
+          ]}
+          size="sm"
+          variant="outline"
           value={localFilters.isActive === undefined ? "all" : localFilters.isActive ? "active" : "inactive"}
           onValueChange={(value) =>
             setLocalFilters({
               ...localFilters,
-              isActive: value === "all" ? undefined : value === "active" ? true : false
+              isActive: value === "all" || value === undefined ? undefined : value === "active" ? true : false
             })
           }
-        >
-          <SelectTrigger id="status">
-            <SelectValue placeholder="انتخاب وضعیت" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">همه کاربران</SelectItem>
-            <SelectItem value="active">فعال</SelectItem>
-            <SelectItem value="inactive">غیرفعال</SelectItem>
-          </SelectContent>
-        </Select>
+        />
       </div>
 
       {/* Actions */}

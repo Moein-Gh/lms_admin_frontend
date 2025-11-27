@@ -64,7 +64,7 @@ export function AccountFiltersDialog({ filters, onFiltersChange, onReset }: Acco
         <DrawerTrigger asChild>
           <Button variant="outline" size="sm">
             <FilterIcon className="size-4" />
-            فیلتر و جستجو
+            <span className="hidden sm:inline">فیلتر و جستجو</span>
           </Button>
         </DrawerTrigger>
         <DrawerContent>

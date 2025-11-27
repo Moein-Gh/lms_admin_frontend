@@ -20,9 +20,9 @@ export function CreateLoanDialogDesktop({ open, setOpen, formContent }: CreateLo
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button variant="default" size="sm">
           <PlusIcon className="size-4" />
-          افزودن وام جدید
+          <span className="hidden sm:inline">افزودن وام جدید</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">

@@ -23,6 +23,7 @@ export interface UpdateSubscriptionFeeRequest {
 export interface ListSubscriptionFeesParams extends PaginationParams {
   search?: string;
   accountId?: string;
+  userId?: string;
   status?: SubscriptionFeeStatus;
   periodStartFrom?: Date;
   periodStartTo?: Date;

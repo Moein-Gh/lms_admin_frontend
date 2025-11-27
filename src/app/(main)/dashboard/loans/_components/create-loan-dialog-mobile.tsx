@@ -20,9 +20,9 @@ export function CreateLoanDialogMobile({ open, setOpen, formContent }: CreateLoa
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button>
+        <Button variant="default" size="sm">
           <PlusIcon className="size-4" />
-          افزودن وام جدید
+          <span className="hidden sm:inline">افزودن وام جدید</span>
         </Button>
       </DrawerTrigger>
       <DrawerContent>

@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       data-theme-preset={themePreset}
       suppressHydrationWarning
     >
-      <body className={`${vazirmatn.className} min-h-screen antialiased`}>
+      <body suppressHydrationWarning className={`${vazirmatn.className} min-h-screen antialiased`}>
         <QueryProvider>
           <PreferencesStoreProvider themeMode={themeMode} themePreset={themePreset}>
             {children}
