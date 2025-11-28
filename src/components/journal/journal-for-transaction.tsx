@@ -16,7 +16,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useJournals } from "@/hooks/use-journal";
 import { useDeleteJournalEntry } from "@/hooks/use-journal-entries";
 import { transactionKeys } from "@/hooks/use-transaction";
-import { type JournalEntry, JournalEntryTarget } from "@/types/entities/journal-entry.type";
+import {
+  type JournalEntry,
+  JournalEntryTarget,
+  DEBIT_CREDIT_META,
+  JOURNAL_ENTRY_TARGET_META
+} from "@/types/entities/journal-entry.type";
 import type { Journal, JournalStatus } from "@/types/entities/journal.type";
 
 type Props = {
@@ -36,20 +41,7 @@ function getStatusLabel(status: JournalStatus): { label: string; variant: "activ
   }
 }
 
-function getTargetLabel(type: JournalEntryTarget): string {
-  switch (type) {
-    case JournalEntryTarget.ACCOUNT:
-      return "حساب";
-    case JournalEntryTarget.LOAN:
-      return "وام";
-    case JournalEntryTarget.INSTALLMENT:
-      return "قسط";
-    case JournalEntryTarget.SUBSCRIPTION_FEE:
-      return "حق اشتراک";
-    default:
-      return type;
-  }
-}
+// Use `JOURNAL_ENTRY_TARGET_META` mapping for target labels/variants
 
 function getTargetLink(type: JournalEntryTarget, id: string): string | null {
   switch (type) {
@@ -105,16 +97,19 @@ function JournalEntriesTable({
                 <TableCell>
                   {entry.targetType ? (
                     <div className="flex items-center gap-2">
-                      <Badge variant="secondary" className="text-xs font-normal">
-                        {getTargetLabel(entry.targetType)}
+                      <Badge
+                        variant={JOURNAL_ENTRY_TARGET_META[entry.targetType].variant}
+                        className="text-xs font-normal"
+                      >
+                        {JOURNAL_ENTRY_TARGET_META[entry.targetType].label}
                       </Badge>
                       {targetLink ? (
                         <Link
                           href={targetLink}
                           className="flex items-center gap-1 text-xs text-primary hover:underline"
-                          title={`مشاهده ${getTargetLabel(entry.targetType)}`}
+                          title={`مشاهده ${JOURNAL_ENTRY_TARGET_META[entry.targetType].label}`}
                         >
-                          <span className="font-mono">{entry.targetId?.slice(0, 8)}...</span>
+                          <span className="font-mono">کد:{entry.target?.code}</span>
                           <ArrowUpRight className="size-3" />
                         </Link>
                       ) : (
@@ -311,7 +306,7 @@ function JournalCard({ journal }: { journal: Journal }) {
             <div className="mt-4 text-sm">
               <div className="font-medium">حساب: {entryToDelete.ledgerAccount?.nameFa ?? "-"}</div>
               <div>مبلغ: {Number(entryToDelete.amount).toLocaleString("fa-IR")}</div>
-              <div>نوع: {entryToDelete.dc === "DEBIT" ? "بدهکار" : "بستانکار"}</div>
+              <div>نوع: {DEBIT_CREDIT_META[entryToDelete.dc].label}</div>
             </div>
           )}
 

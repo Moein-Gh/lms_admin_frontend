@@ -125,7 +125,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
       {
         onSuccess: () => {
           toast.success("ورود موفقیت‌آمیز");
-          router.push("/dashboard/default");
+          router.push("/dashboard");
         },
         onError: (error: Error) => {
           const axiosError = error as AxiosError<ProblemDetails>;

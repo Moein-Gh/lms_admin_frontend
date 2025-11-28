@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 
-import { UserFilters } from "@/app/(main)/dashboard/users/_components/user-filters-dialog";
 import { PaginationControls } from "@/components/pagination-controls";
 import { usePagination } from "@/hooks/use-pagination";
 import { useUsers } from "@/hooks/use-user";
-
 import { ActiveFilters } from "./_components/active-filters";
+import { UserFilters } from "./_components/user-filters-dialog";
+
 import { UsersHeader } from "./_components/users-header";
 import { UsersTable } from "./_components/users-table";
 

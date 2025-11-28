@@ -3,8 +3,6 @@ import { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { DashboardHeader } from "@/app/(main)/dashboard/_components/dashboard-header";
-import { AppSidebar } from "@/app/(main)/dashboard/_components/sidebar/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { getPreference } from "@/server/server-actions";
@@ -18,6 +16,8 @@ import {
   type SidebarCollapsible,
   type SidebarVariant
 } from "@/types/preferences/layout";
+import { DashboardHeader } from "./_components/dashboard-header";
+import { AppSidebar } from "./_components/sidebar/app-sidebar";
 
 export default async function Layout({ children }: Readonly<{ children: ReactNode }>) {
   const cookieStore = await cookies();

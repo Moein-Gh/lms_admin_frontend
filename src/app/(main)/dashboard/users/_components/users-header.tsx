@@ -1,7 +1,7 @@
 "use client";
 
-import { UserFilters, UserFiltersDialog } from "@/app/(main)/dashboard/users/_components/user-filters-dialog";
 import { CreateUserDialog } from "./create-user-dialog";
+import { UserFilters, UserFiltersDialog } from "./user-filters-dialog";
 
 type Props = {
   filters: UserFilters;

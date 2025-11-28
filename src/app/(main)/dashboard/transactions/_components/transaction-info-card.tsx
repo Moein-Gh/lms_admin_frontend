@@ -1,11 +1,17 @@
 import Link from "next/link";
-import { Tag, CheckCircle2, Calendar, DollarSign, ExternalLink } from "lucide-react";
+import { Tag, Calendar, DollarSign, ExternalLink } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
-import { TransactionKind, TransactionStatus, type Transaction } from "@/types/entities/transaction.type";
+import {
+  TransactionKind,
+  TransactionStatus,
+  type Transaction,
+  TRANSACTION_KIND_META,
+  TRANSACTION_STATUS_BADGE
+} from "@/types/entities/transaction.type";
 import { TransactionApprovePanel } from "./transaction-approve-panel";
 import { TransactionDeletePanel } from "./transaction-delete-panel";
 import { TransactionUpdatePanel } from "./transaction-update-panel";
@@ -55,137 +61,113 @@ function TransactionActionButtons({
   );
 }
 
-function TransactionStatusInfo({ status }: { status: Transaction["status"] }) {
-  let variant: "active" | "outline" | "inactive";
-  let label: string;
-  switch (status) {
-    case TransactionStatus.APPROVED:
-      variant = "active";
-      label = "تایید شده";
-      break;
-    case TransactionStatus.PENDING:
-      variant = "outline";
-      label = "در انتظار";
-      break;
-    case TransactionStatus.REJECTED:
-      variant = "inactive";
-      label = "رد شده";
-      break;
-    default:
-      variant = "outline";
-      label = "نامشخص";
-  }
-  return (
-    <div className="flex flex-col gap-0.5 items-center">
-      <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-        <CheckCircle2 className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-        <span>وضعیت</span>
-      </div>
-      <Badge variant={variant} className="w-fit py-0 leading-tight mx-auto">
-        {label}
-      </Badge>
-    </div>
-  );
-}
-
-function getTransactionKindLabel(kind: TransactionKind): string {
-  switch (kind) {
-    case TransactionKind.DEPOSIT:
-      return "واریز";
-    case TransactionKind.WITHDRAWAL:
-      return "برداشت";
-    case TransactionKind.LOAN_DISBURSEMENT:
-      return "پرداخت وام";
-    case TransactionKind.LOAN_REPAYMENT:
-      return "بازپرداخت وام";
-    case TransactionKind.SUBSCRIPTION_PAYMENT:
-      return "پرداخت اشتراک";
-    case TransactionKind.FEE:
-      return "کارمزد";
-    default:
-      return kind;
-  }
-}
+// Use metadata maps for labels and badge variants
 
 export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoCardProps) {
-  return (
-    <Card className="overflow-hidden">
-      <CardHeader className="border-b pb-3!">
-        <div className="flex flex-col items-center gap-5 sm:gap-4 sm:flex-row sm:justify-between sm:items-center">
-          <div className="order-1 sm:order-2 gap-2 flex flex-col items-center text-center">
-            <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-              <span className="text-xs text-muted-foreground">کد تراکنش:</span>
-              {transaction.code}
-            </CardTitle>
+  const status = TRANSACTION_STATUS_BADGE[transaction.status];
 
-            <CardDescription className="flex flex-wrap items-center justify-center gap-2">
-              {transaction.user ? (
-                <Link href={`/dashboard/users/${transaction.user.id}`}>
-                  <Badge variant="outline" className="hover:bg-accent">
-                    {transaction.user.identity.name ?? "بدون نام"}
+  return (
+    <Card className="overflow-hidden border-none shadow-md bg-card">
+      <div className="flex flex-col md:flex-row">
+        {/* Right Side: Details */}
+        <div className="flex-1 p-6 space-y-8">
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1.5">
+              <h2 className="text-2xl font-bold tracking-tight text-foreground">{`تراکنش ${transaction.code}`}</h2>
+              <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                {transaction.user ? (
+                  <Link
+                    href={`/dashboard/users/${transaction.user.id}`}
+                    className="flex items-center gap-1.5 hover:text-primary transition-colors"
+                  >
+                    <Badge variant="outline" className="hover:bg-accent">
+                      {transaction.user.identity.name ?? "بدون نام"}
+                    </Badge>
+                  </Link>
+                ) : (
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-medium">بدون کاربر</span>
+                  </div>
+                )}
+
+                <span className="text-border">•</span>
+
+                <div className="flex items-center gap-1.5  text-xs">
+                  <Tag className="h-3 w-3" />
+                  <Badge variant={TRANSACTION_KIND_META[transaction.kind].variant} className="px-2 py-0.5">
+                    {TRANSACTION_KIND_META[transaction.kind].label}
                   </Badge>
-                </Link>
-              ) : null}
-            </CardDescription>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-end gap-3">
+              <div className="shrink-0">
+                <TransactionActionButtons transaction={transaction} onApprove={onApprove} />
+              </div>
+            </div>
           </div>
 
-          <div className="order-2 sm:order-1 flex flex-col items-center">
-            <div className="inline-flex items-baseline gap-2 rounded-xl bg-accent/60 px-4 py-2 shadow-xs">
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-              <span className="text-xs sm:text-sm text-muted-foreground">مبلغ تراکنش</span>
-              <span className="text-xl sm:text-2xl font-extrabold leading-none">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <ExternalLink className="h-3.5 w-3.5" />
+                <span>شناسه خارجی</span>
+              </div>
+              <p className="font-mono text-base font-semibold text-foreground">{transaction.externalRef ?? "-"}</p>
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <Calendar className="h-3.5 w-3.5" />
+                <span>تاریخ ایجاد</span>
+              </div>
+              <p className="text-base font-medium text-foreground">
+                <FormattedDate value={transaction.createdAt} />
+              </p>
+            </div>
+
+            {transaction.note && (
+              <div className="sm:col-span-2 space-y-2">
+                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                  <Tag className="h-3.5 w-3.5" />
+                  <span>توضیحات</span>
+                </div>
+                <div className="text-sm text-muted-foreground">{transaction.note}</div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Left Side: Amount Sidebar */}
+        <div className="md:w-80 bg-muted/10 border-t md:border-t-0 md:border-r flex flex-col justify-between p-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-1 h-full bg-linear-to-b from-primary/40 to-transparent opacity-50" />
+          <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
+
+          <div className="space-y-3 relative z-10">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <DollarSign className="h-4 w-4" />
+              <span>مبلغ تراکنش</span>
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-4xl font-bold tracking-tight text-foreground">
                 <FormattedNumber value={transaction.amount} />
               </span>
-              <span className="text-xs sm:text-sm text-muted-foreground">تومان</span>
-            </div>
-            {/* Separator for mobile only */}
-            <div className="block sm:hidden w-3/4 mx-auto py-2">
-              <span className="block h-px bg-muted/60" />
+              <span className="text-lg text-muted-foreground font-medium">تومان</span>
             </div>
           </div>
 
-          <CardAction className="order-3 sm:order-3 self-center flex flex-col items-center w-full h-full sm:w-auto sm:justify-center">
-            <TransactionActionButtons transaction={transaction} onApprove={onApprove} />
-          </CardAction>
-        </div>
-      </CardHeader>
-
-      <CardContent className="py-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 justify-items-center">
-          <TransactionStatusInfo status={transaction.status} />
-          <div className="flex flex-col gap-0.5 items-center">
-            <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-              <Tag className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-              <span>نوع تراکنش</span>
+          <div className="mt-8 pt-6 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground relative z-10">
+            <div className="flex items-center gap-1.5">
+              <Calendar className="h-3.5 w-3.5" />
+              <span>وضعیت</span>
             </div>
-            <p className="font-medium text-xs sm:text-sm leading-tight text-center">
-              {getTransactionKindLabel(transaction.kind)}
-            </p>
-          </div>
-          <div className="flex flex-col gap-0.5 items-center">
-            <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-              <ExternalLink className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-              <span>شناسه خارجی</span>
-            </div>
-            <p className="font-medium text-xs sm:text-sm leading-tight text-center font-mono">
-              {transaction.externalRef ?? "-"}
-            </p>
-          </div>
-          <div className="flex flex-col gap-0.5 items-center">
-            <div className="flex items-center gap-1 text-base text-muted-foreground justify-center">
-              <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-              <span>تاریخ ایجاد</span>
-            </div>
-            <p className="font-medium text-xs sm:text-sm leading-tight text-center">
-              <FormattedDate value={transaction.createdAt} />
-            </p>
+            <span className="font-medium">
+              <Badge variant={status.variant}>{status.label}</Badge>
+            </span>
           </div>
         </div>
-        {/* Description at the bottom */}
-        {transaction.note && (
-          <div className="mt-6 text-sm text-muted-foreground text-center border-t pt-4">{transaction.note}</div>
-        )}
-      </CardContent>
+      </div>
     </Card>
   );
 }

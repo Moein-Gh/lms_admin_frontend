@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { CircleHelp, ClipboardList, Command, Database, File, Search, Settings } from "lucide-react";
+import { Command } from "lucide-react";
 
 import {
   Sidebar,
@@ -17,43 +17,6 @@ import { sidebarItems } from "@/navigation/sidebar/sidebar-items";
 
 import { NavMain } from "./nav-main";
 
-const data = {
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: CircleHelp
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: Search
-    }
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: Database
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: ClipboardList
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: File
-    }
-  ]
-};
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
@@ -61,7 +24,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:p-1.5!">
-              <Link href="/dashboard/default">
+              <Link href="/dashboard">
                 <Command />
                 <span className="text-base font-semibold">{APP_CONFIG.name}</span>
               </Link>

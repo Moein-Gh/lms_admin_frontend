@@ -61,9 +61,8 @@ export function TransactionDeletePanel({
 
   return (
     <>
-      <Button variant="destructive" type="button" aria-label="حذف وام" onClick={() => setOpen(true)}>
-        <Trash2 className="h-4 w-4" />
-        حذف
+      <Button variant="destructive" size="sm" type="button" aria-label="حذف وام" onClick={() => setOpen(true)}>
+        <Trash2 />
       </Button>
 
       <ResponsivePanel open={open} onOpenChange={setOpen} variant="destructive">

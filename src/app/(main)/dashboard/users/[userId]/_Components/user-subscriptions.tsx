@@ -1,9 +1,9 @@
 "use client";
 
-import { SubscriptionFeeCard } from "@/app/(main)/dashboard/accounts/_components/subscription-fee-card";
 import { useSubscriptionFees } from "@/hooks/use-subscription-fee";
 import { OrderDirection } from "@/types/api";
 import { SubscriptionFeeStatus } from "@/types/entities/subscription-fee.type";
+import { SubscriptionFeeCard } from "../../../accounts/_components/subscription-fee-card";
 
 type Props = {
   userId: string;

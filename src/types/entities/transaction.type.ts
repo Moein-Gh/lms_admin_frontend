@@ -1,3 +1,4 @@
+import { BadgeVariant } from "@/components/ui/badge";
 import type { User } from "./user.type";
 
 export enum TransactionKind {
@@ -15,6 +16,31 @@ export enum TransactionStatus {
   REJECTED = "REJECTED",
   ALLOCATED = "ALLOCATED"
 }
+
+export const TRANSACTION_KIND_META: Record<
+  TransactionKind,
+  { readonly label: string; readonly variant: BadgeVariant }
+> = {
+  [TransactionKind.DEPOSIT]: { label: "واریز", variant: "active" },
+  [TransactionKind.WITHDRAWAL]: { label: "برداشت", variant: "inactive" },
+  [TransactionKind.LOAN_DISBURSEMENT]: { label: "پرداخت وام", variant: "warning" },
+  [TransactionKind.LOAN_REPAYMENT]: { label: "بازپرداخت وام", variant: "active" },
+  [TransactionKind.SUBSCRIPTION_PAYMENT]: { label: "پرداخت اشتراک", variant: "outline" },
+  [TransactionKind.FEE]: { label: "کارمزد", variant: "inactive" }
+};
+
+/**
+ * Persian labels + badge variants for transaction statuses.
+ */
+export const TRANSACTION_STATUS_BADGE: Record<
+  TransactionStatus,
+  { readonly label: string; readonly variant: BadgeVariant }
+> = {
+  [TransactionStatus.APPROVED]: { label: "تایید شده", variant: "active" },
+  [TransactionStatus.PENDING]: { label: "در انتظار", variant: "outline" },
+  [TransactionStatus.REJECTED]: { label: "رد شده", variant: "inactive" },
+  [TransactionStatus.ALLOCATED]: { label: "اختصاص یافته", variant: "outline" }
+};
 
 export interface Transaction {
   readonly id: string;

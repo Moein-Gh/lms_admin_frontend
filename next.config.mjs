@@ -5,13 +5,8 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === "production"
   },
   async redirects() {
-    return [
-      {
-        source: "/dashboard",
-        destination: "/dashboard/default",
-        permanent: false
-      }
-    ];
+    // No custom redirects needed here — avoid self-redirect loops
+    return [];
   }
 };
 

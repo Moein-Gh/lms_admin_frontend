@@ -161,7 +161,6 @@ export default defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    "src/components/ui",
     "*.config.ts",
     "*.mjs"
   ])

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { CheckIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
@@ -44,7 +45,8 @@ export function TransactionApprovePanel({
 
   return (
     <>
-      <Button variant="default" onClick={() => setOpen(true)}>
+      <Button variant="success" size="sm" onClick={() => setOpen(true)}>
+        <CheckIcon />
         تایید تراکنش
       </Button>
 
