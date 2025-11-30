@@ -1,10 +1,15 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3200",
-  withCredentials: true, // Send cookies with requests
+  // CRITICAL CHANGE:
+  // We point to '/api' so requests go to Next.js (localhost:3000/api),
+  // allowing the Rewrite Proxy to forward them to the Backend.
+  // If you point directly to localhost:3200, cookies will fail due to domain mismatch.
+  baseURL: "/api",
+  withCredentials: true,
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "true"
   }
 });
 
@@ -26,21 +31,24 @@ const processQueue = (error: AxiosError | null) => {
 };
 
 const clearAuthAndRedirect = () => {
-  document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-  document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-  document.cookie = "sessionId=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  // NOTE: You cannot delete HttpOnly cookies via JavaScript (document.cookie).
+  // The browser prevents this for security.
+  // We simply redirect to login. The backend is responsible for rejecting invalid tokens.
 
   if (typeof window !== "undefined") {
+    // Optional: You could try to fire a "fire and forget" logout call here
+    // api.post('/auth/logout').catch(() => {});
+
     window.location.href = "/auth/login";
   }
 };
 
 const isAuthEndpoint = (url?: string) => {
   if (!url) return false;
+  // Ensure these match your actual endpoints relative to /api
   return url.includes("/auth/refresh") || url.includes("/auth/login") || url.includes("/auth/verify-sms");
 };
 
-// Response interceptor for 401 handling with refresh
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -48,24 +56,20 @@ api.interceptors.response.use(
       retryAttempted?: boolean;
     };
 
-    // Only handle 401 errors
     if (error.response?.status !== 401) {
       return Promise.reject(error);
     }
 
-    // Skip refresh for auth endpoints to avoid infinite loops
     if (isAuthEndpoint(originalRequest.url)) {
       clearAuthAndRedirect();
       return Promise.reject(error);
     }
 
-    // If already retried, logout and redirect
     if (originalRequest.retryAttempted) {
       clearAuthAndRedirect();
       return Promise.reject(error);
     }
 
-    // If already refreshing, queue this request
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
@@ -78,17 +82,15 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      // Attempt to refresh the token
+      // The browser automatically includes the cookie in this request
+      // because we are hitting '/api/auth/refresh' (Same-Origin)
       await api.post("/auth/refresh");
 
-      // Token refreshed successfully, process queued requests
       processQueue(null);
       isRefreshing = false;
 
-      // Retry the original request
       return api(originalRequest);
     } catch (refreshError) {
-      // Refresh failed, clear auth and redirect
       processQueue(refreshError as AxiosError);
       isRefreshing = false;
       clearAuthAndRedirect();
