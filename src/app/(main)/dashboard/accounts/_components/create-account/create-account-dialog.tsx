@@ -107,17 +107,6 @@ export function CreateAccountDialog() {
       })}
       className="space-y-5 py-4"
     >
-      <div className="grid grid-cols-1 gap-4">
-        <AccountTypeSection
-          options={(types?.data ?? []).map((t) => ({ value: t.id, label: t.name }))}
-          value={selectedAccountType}
-          onChange={(val) => {
-            setSelectedAccountType(val);
-            setValue("accountTypeId", val ?? "", { shouldValidate: true });
-          }}
-          error={!!errors.accountTypeId}
-        />
-      </div>
       <UserSection
         items={(users?.data ?? []).map((u) => ({ id: u.id, name: u.identity.name ?? "بدون نام" }))}
         value={selectedUser}
@@ -135,7 +124,20 @@ export function CreateAccountDialog() {
         inputsRef={inputsRef}
         error={cardError}
       />
-      <BankSection register={register} error={!!errors.bankName} />
+
+      <div className="grid  grid-cols-2 gap-4">
+        <AccountTypeSection
+          options={(types?.data ?? []).map((t) => ({ value: t.id, label: t.name }))}
+          value={selectedAccountType}
+          onChange={(val) => {
+            setSelectedAccountType(val);
+            setValue("accountTypeId", val ?? "", { shouldValidate: true });
+          }}
+          error={!!errors.accountTypeId}
+        />
+        <BankSection register={register} error={!!errors.bankName} />
+      </div>
+
       {!isMobile && <FormActionsSection isPending={create.isPending} onReset={reset} />}
     </form>
   );
