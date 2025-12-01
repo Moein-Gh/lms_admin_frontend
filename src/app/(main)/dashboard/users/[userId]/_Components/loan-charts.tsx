@@ -1,7 +1,10 @@
 import * as React from "react";
 import { useQueries } from "@tanstack/react-query";
+import { HandCoins, Wallet } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis } from "recharts";
 
+import { EmptyStateCard } from "@/components/empty-state-card";
+import NoLoanCard from "@/components/entity-specific/loan/no-loan-card";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -87,7 +90,7 @@ export default function LoanCharts({ balance = [] }: LoanChartsProps) {
     });
   }, [balance, loans]);
 
-  if (balance.length === 0) return null;
+  if (balance.length === 0) return <NoLoanCard />;
 
   return (
     <Carousel className="w-full" opts={{ direction: "rtl", loop: true }}>

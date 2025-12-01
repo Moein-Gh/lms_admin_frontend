@@ -18,6 +18,7 @@ export interface UpdateLoanRequest {
 export interface ListLoansParams extends PaginationParams {
   search?: string;
   accountId?: string;
+  userId?: string;
   loanTypeId?: string;
   status?: LoanStatus;
 }

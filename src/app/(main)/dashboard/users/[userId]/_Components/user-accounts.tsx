@@ -1,5 +1,8 @@
 "use client";
 
+import { IdCard } from "lucide-react";
+import { EmptyStateCard } from "@/components/empty-state-card";
+import NoAccountCard from "@/components/entity-specific/account/no-account-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAccounts } from "@/hooks/use-account";
 import { AccountCardsDesign } from "./account-designs/account-cards";
@@ -24,11 +27,7 @@ const UserAccounts = ({ userId }: UserAccountsProps) => {
   }
 
   if (accounts.length === 0) {
-    return (
-      <div className="flex h-40 items-center justify-center rounded-xl border border-dashed text-muted-foreground">
-        حسابی یافت نشد
-      </div>
-    );
+    return <NoAccountCard />;
   }
 
   return <AccountCardsDesign accounts={accounts} />;

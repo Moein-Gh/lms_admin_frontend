@@ -2,6 +2,7 @@
 
 import { ArrowLeftIcon, Calendar, HandCoins } from "lucide-react";
 
+import NoLoanCard from "@/components/entity-specific/loan/no-loan-card";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -96,10 +97,11 @@ type UserLoansProps = {
   userId: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const UserLoans = ({ userId }: UserLoansProps) => {
   // TODO: Filter loans by user's accounts when API supports it
-  const { data, isLoading } = useLoans();
+  const { data, isLoading } = useLoans({
+    userId: userId
+  });
 
   const loans = data?.data ?? [];
 
@@ -114,11 +116,7 @@ const UserLoans = ({ userId }: UserLoansProps) => {
   }
 
   if (loans.length === 0) {
-    return (
-      <div className="flex h-40 items-center justify-center rounded-xl border border-dashed text-muted-foreground">
-        وامی یافت نشد
-      </div>
-    );
+    return <NoLoanCard />;
   }
 
   return (

@@ -11,7 +11,7 @@ import {
   type ListLoansParams,
   type UpdateLoanRequest
 } from "@/lib/loan-api";
-import { Loan, LoanStatus } from "@/types/entities/loan.type";
+import { Loan } from "@/types/entities/loan.type";
 
 export const loanKeys = {
   all: ["loans"] as const,

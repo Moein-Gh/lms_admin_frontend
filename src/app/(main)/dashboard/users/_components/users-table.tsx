@@ -77,7 +77,7 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                   <TableCell className="w-1/12">
                     <div className="flex items-center gap-3">
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-medium">{user.code}</p>
+                        <FormattedNumber useGrouping={false} value={user.code} className="truncate font-medium" />
                       </div>
                     </div>
                   </TableCell>

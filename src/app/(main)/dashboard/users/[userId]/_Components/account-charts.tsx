@@ -1,8 +1,10 @@
 "use client";
 
 import * as React from "react";
+import { IdCard } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, Label, LabelList, Pie, PieChart, XAxis } from "recharts";
 
+import { EmptyStateCard } from "@/components/empty-state-card";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -80,7 +82,15 @@ export function AccountCharts({ userId, summary }: AccountChartsProps) {
     });
   }, [summary, accounts]);
 
-  if (summary.length === 0) return null;
+  if (summary.length === 0) {
+    return (
+      <EmptyStateCard
+        title="حسابی یافت نشد"
+        description="برای این کاربر هنوز هیچ حسابی تعریف نشده است."
+        icon={<IdCard className="size-10 text-muted-foreground" />}
+      />
+    );
+  }
 
   return (
     <Carousel className="w-full" opts={{ direction: "rtl", loop: true }}>

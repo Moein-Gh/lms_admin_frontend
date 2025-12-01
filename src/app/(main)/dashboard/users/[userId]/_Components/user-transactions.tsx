@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowDownLeft, ArrowLeftIcon, ArrowUpRight } from "lucide-react";
+import { ArrowDownLeft, ArrowLeftIcon, ArrowLeftRight, ArrowUpRight } from "lucide-react";
 
+import { EmptyStateCard } from "@/components/empty-state-card";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -151,9 +152,11 @@ const UserTransactions = ({ userId }: UserTransactionsProps) => {
 
   if (transactions.length === 0) {
     return (
-      <div className="flex h-40 items-center justify-center rounded-xl border border-dashed text-muted-foreground">
-        تراکنشی یافت نشد
-      </div>
+      <EmptyStateCard
+        title="تراکنشی یافت نشد"
+        description="برای این کاربر هنوز هیچ تراکنشی تعریف نشده است."
+        icon={<ArrowLeftRight className="size-10 text-muted-foreground" />}
+      />
     );
   }
 

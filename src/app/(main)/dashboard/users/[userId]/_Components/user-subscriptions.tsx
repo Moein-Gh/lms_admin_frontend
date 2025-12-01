@@ -1,5 +1,6 @@
 "use client";
 
+import NoSubscriptionFeeCard from "@/components/entity-specific/subscription-fee/no-subscription-fee-card";
 import { useSubscriptionFees } from "@/hooks/use-subscription-fee";
 import { OrderDirection } from "@/types/api";
 import { SubscriptionFeeStatus } from "@/types/entities/subscription-fee.type";
@@ -20,7 +21,7 @@ export default function UserSubscriptions({ userId }: Props) {
   if (error) return <div>خطا در بارگذاری ماهیانه‌ها</div>;
 
   const fees = feesData?.data ?? [];
-  if (fees.length === 0) return <div>هیچ هزینه اشتراکی برای این کاربر ثبت نشده است</div>;
+  if (fees.length === 0) return <NoSubscriptionFeeCard />;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">

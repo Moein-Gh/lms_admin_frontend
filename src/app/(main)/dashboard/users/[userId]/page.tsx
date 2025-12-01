@@ -95,14 +95,16 @@ export default function UserPage() {
               <UserLoans userId={userId as string} />
             </div>
           </TabsContent>
-          <TabsContent value="subscriptions" className="w-full">
-            <div className="flex flex-col gap-2 w-full">
-              <UserSubscriptions userId={userId as string} />
-            </div>
-          </TabsContent>
+
           <TabsContent value="transactions" className="w-full">
             <div className="flex flex-col gap-2 w-full">
               <UserTransactions userId={userId as string} />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="subscriptions" className="w-full">
+            <div className="flex flex-col gap-2 w-full">
+              <UserSubscriptions userId={userId as string} />
             </div>
           </TabsContent>
         </Tabs>
