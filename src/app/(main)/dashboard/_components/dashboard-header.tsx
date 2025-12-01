@@ -1,14 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import { SidebarTrigger } from "@/components/sidebar";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { users } from "@/data/users";
 import { cn } from "@/lib/utils";
 import type { ContentLayout, NavbarStyle, SidebarCollapsible, SidebarVariant } from "@/types/preferences/layout";
 
 import { AccountSwitcher } from "./sidebar/account-switcher";
-import { LayoutControls } from "./sidebar/layout-controls";
 import { ThemeSwitcher } from "./sidebar/theme-switcher";
 
 interface DashboardHeaderProps {
@@ -21,7 +22,7 @@ interface DashboardHeaderProps {
   };
 }
 
-export function DashboardHeader({ navbarStyle, layoutPreferences }: DashboardHeaderProps) {
+export function DashboardHeader({ navbarStyle }: DashboardHeaderProps) {
   const router = useRouter();
   // Now you can use hooks here if needed
   // const someHook = useSomeHook();
@@ -38,30 +39,23 @@ export function DashboardHeader({ navbarStyle, layoutPreferences }: DashboardHea
         <div className="flex items-center gap-1 lg:gap-2">
           <SidebarTrigger className="-me-1" />
           <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="lg"
             onClick={() => router.back()}
-            className="inline-flex items-center justify-center rounded-md px-2 py-1 text-sm font-medium text-muted-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
             aria-label="بازگشت"
             data-slot="back-button"
+            className="text-muted-foreground"
           >
-            {/* You can use an icon here if you want, e.g. lucide-react ArrowLeft */}
-            <span className="hidden sm:inline">بازگشت</span>
-            <svg
-              className="sm:ms-1 ms-0.5 h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
+            <div className="flex">
+              <span className="">بازگشت</span>
+              <ArrowLeft className="size-5 ms-1" />
+            </div>
+          </Button>
         </div>
         <div className="flex items-center gap-2">
-          <LayoutControls {...layoutPreferences} />
+          {/* <LayoutControls {...layoutPreferences} /> */}
           <ThemeSwitcher />
           <AccountSwitcher users={users} />
         </div>
