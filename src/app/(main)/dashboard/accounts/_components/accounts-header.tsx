@@ -1,7 +1,7 @@
 "use client";
 
 import { AccountFilters, AccountFiltersDialog } from "./account-filters-dialog";
-import { CreateAccountDialog } from "./create-account-dialog";
+import { CreateAccountDialog } from "./create-account/create-account-dialog";
 
 type Props = {
   filters: AccountFilters;

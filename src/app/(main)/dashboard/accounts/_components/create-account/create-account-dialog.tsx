@@ -14,13 +14,11 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { createAccount, type CreateAccountRequest } from "@/lib/account-api";
 import { listAccountTypes } from "@/lib/account-type-api";
 import { listUsers } from "@/lib/user-api";
-import { CardNumberField } from "./card-number-input";
-import { CreateAccountDialogMobile, CreateAccountDialogDesktop } from "./create-account-dialog.parts";
-
-// Design A — Progressive Inline (compact centered dialog with two inline selects)
+import { CardNumberField } from "../card-number-input";
+import { CreateAccountDialogMobile } from "./create-account-dialog-mobile";
+import { CreateAccountDialogDesktop } from "./create-account-dialog.desktop";
 
 export function CreateAccountDialog() {
-  // Helper kept for reference (we'll use Pills and Combobox instead)
   const [open, setOpen] = React.useState(false);
   const isMobile = useIsMobile();
   const queryClient = useQueryClient();
