@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 type CardNumberFieldProps = {
@@ -21,7 +22,7 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
         <span className="text-destructive">*</span>
       </Label>
       <div className="flex gap-2" dir="ltr">
-        <input
+        <Input
           ref={(el) => {
             inputsRef.current.set(0, el);
           }}
@@ -31,9 +32,9 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p0}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 0)}
-          className="w-full rounded-md border px-3 py-2 text-center font-mono tracking-widest focus:outline-none"
+          className="text-center font-mono tracking-widest"
         />
-        <input
+        <Input
           ref={(el) => {
             inputsRef.current.set(1, el);
           }}
@@ -43,9 +44,9 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p1}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 1)}
-          className="w-full rounded-md border px-3 py-2 text-center font-mono tracking-widest focus:outline-none"
+          className="text-center font-mono tracking-widest"
         />
-        <input
+        <Input
           ref={(el) => {
             inputsRef.current.set(2, el);
           }}
@@ -55,9 +56,9 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p2}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 2)}
-          className="w-full rounded-md border px-3 py-2 text-center font-mono tracking-widest focus:outline-none"
+          className="text-center font-mono tracking-widest"
         />
-        <input
+        <Input
           ref={(el) => {
             inputsRef.current.set(3, el);
           }}
@@ -67,7 +68,7 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p3}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 3)}
-          className="w-full rounded-md border px-3 py-2 text-center font-mono tracking-widest focus:outline-none"
+          className="text-center font-mono tracking-widest"
         />
       </div>
       {error && <span className="text-xs text-destructive">{error}</span>}
