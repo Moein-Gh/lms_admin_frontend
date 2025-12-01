@@ -19,8 +19,8 @@ export function ThemeSwitcher() {
   };
 
   return (
-    <Button size="icon" variant={"ghost"} onClick={handleValueChange}>
-      {themeMode === "dark" ? <Sun /> : <Moon />}
+    <Button size="icon-lg" variant={"ghost"} onClick={handleValueChange}>
+      {themeMode === "dark" ? <Sun className="size-5" /> : <Moon className="size-5" />}
     </Button>
   );
 }
