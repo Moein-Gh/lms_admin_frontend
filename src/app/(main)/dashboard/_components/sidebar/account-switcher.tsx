@@ -32,8 +32,8 @@ export function AccountSwitcher({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={"ghost"} size={"icon"}>
-          <CircleUser />
+        <Button variant={"ghost"} size={"icon-lg"}>
+          <CircleUser className="size-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-56 space-y-1 rounded-lg" side="bottom" align="start" sideOffset={4}>
