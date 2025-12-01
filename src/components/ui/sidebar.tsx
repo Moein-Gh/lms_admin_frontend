@@ -1,9 +1,10 @@
 "use client";
+/* eslint-disable max-lines */
 
+import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelRightIcon } from "lucide-react";
 import { Slot as SlotPrimitive } from "radix-ui";
-import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -615,10 +616,18 @@ function SidebarMenuSkeleton({
 }: React.ComponentProps<"div"> & {
   showIcon?: boolean;
 }) {
-  // Random width between 50 to 90%.
+  // Deterministic "random" width between 50% to 90% derived from React.useId()
+  // to avoid calling impure functions during render and to keep SSR/CSR consistent.
+  const id = React.useId();
   const width = React.useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`;
-  }, []);
+    let sum = 0;
+    for (let i = 0; i < id.length; i++) {
+      sum += id.charCodeAt(i);
+    }
+    // Map sum to a value in [50, 90]
+    const val = (sum % 41) + 50;
+    return `${val}%`;
+  }, [id]);
 
   return (
     <div
