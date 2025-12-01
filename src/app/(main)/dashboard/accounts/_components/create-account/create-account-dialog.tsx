@@ -5,18 +5,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { ComboboxFilter } from "@/components/filters/combobox-filter";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Pills, type PillOption } from "@/components/ui/pills";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { createAccount, type CreateAccountRequest } from "@/lib/account-api";
 import { listAccountTypes } from "@/lib/account-type-api";
 import { listUsers } from "@/lib/user-api";
-import { CardNumberField } from "../card-number-input";
+import CardNumberField from "../card-number-input";
 import { CreateAccountDialogMobile } from "./create-account-dialog-mobile";
 import { CreateAccountDialogDesktop } from "./create-account-dialog.desktop";
+import { AccountTypeSection } from "./form-items/account-type-section";
+import { BankSection } from "./form-items/bank-name-section";
+import { FormActionsSection } from "./form-items/form-actions-section";
+import { UserSection } from "./form-items/user-section";
 
 export function CreateAccountDialog() {
   const [open, setOpen] = React.useState(false);
@@ -64,14 +63,10 @@ export function CreateAccountDialog() {
     }
   });
 
-  // Controlled selection state so we can clear UI when dialog closes
   const [selectedAccountType, setSelectedAccountType] = React.useState<string | undefined>(undefined);
   const [selectedUser, setSelectedUser] = React.useState<string | undefined>(undefined);
-
-  // Card number state and helpers
   const [cardParts, setCardParts] = React.useState(["", "", "", ""]);
   const [cardError, setCardError] = React.useState<string | null>(null);
-
   const inputsRef = React.useRef<Map<number, HTMLInputElement | null>>(new Map());
 
   const handleCardChange = (val: string, idx: number) => {
@@ -92,7 +87,6 @@ export function CreateAccountDialog() {
     if (pasted.length >= 16) {
       const newParts = [pasted.slice(0, 4), pasted.slice(4, 8), pasted.slice(8, 12), pasted.slice(12, 16)];
       setCardParts(newParts);
-      // focus last
       setTimeout(() => {
         const last = inputsRef.current.get(3);
         if (last) last.focus();
@@ -103,7 +97,6 @@ export function CreateAccountDialog() {
   const formContent = (
     <form
       onSubmit={handleSubmit((data) => {
-        // Combine card parts into single cardNumber before submitting
         const cardNum = cardParts.join("");
         if (cardNum.length < 16) {
           toast.error("شماره کارت نامعتبر است");
@@ -115,53 +108,26 @@ export function CreateAccountDialog() {
       className="space-y-5 py-4"
     >
       <div className="grid grid-cols-1 gap-4">
-        {/* Account type as Pills */}
-        <div className="space-y-2">
-          <Label htmlFor="atype" className="text-sm font-medium">
-            نوع حساب
-            <span className="text-destructive">*</span>
-          </Label>
-          <Pills
-            options={(types?.data ?? []).map((t) => ({ value: t.id, label: t.name })) as PillOption<string>[]}
-            mode="single"
-            value={selectedAccountType}
-            onValueChange={(v) => {
-              const val = v;
-              setSelectedAccountType(val);
-              setValue("accountTypeId", val ?? "", { shouldValidate: true });
-            }}
-            variant="outline"
-            className="w-full"
-          />
-          {errors.accountTypeId && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
-        </div>
-      </div>
-
-      {/* User combobox as its own full-width row */}
-      <div className="space-y-2">
-        <Label htmlFor="auser" className="text-sm font-medium">
-          کاربر
-          <span className="text-destructive">*</span>
-        </Label>
-        <ComboboxFilter
-          items={(users?.data ?? []).map((u) => ({ id: u.id, name: u.identity.name ?? "بدون نام" }))}
-          selectedValue={selectedUser}
-          onSelect={(v) => {
-            const val = v;
-            setSelectedUser(val);
-            if (val) setValue("userId", val, { shouldValidate: true });
-            else setValue("userId", "", { shouldValidate: true });
+        <AccountTypeSection
+          options={(types?.data ?? []).map((t) => ({ value: t.id, label: t.name }))}
+          value={selectedAccountType}
+          onChange={(val) => {
+            setSelectedAccountType(val);
+            setValue("accountTypeId", val ?? "", { shouldValidate: true });
           }}
-          getItemId={(i) => i.id}
-          getItemLabel={(i) => i.name}
-          placeholder="انتخاب کاربر"
-          searchPlaceholder="جستجوی کاربر..."
-          emptyMessage="کاربری یافت نشد"
-          allLabel={""}
+          error={!!errors.accountTypeId}
         />
-        {errors.userId && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
       </div>
-
+      <UserSection
+        items={(users?.data ?? []).map((u) => ({ id: u.id, name: u.identity.name ?? "بدون نام" }))}
+        value={selectedUser}
+        onChange={(val) => {
+          setSelectedUser(val);
+          if (val) setValue("userId", val, { shouldValidate: true });
+          else setValue("userId", "", { shouldValidate: true });
+        }}
+        error={!!errors.userId}
+      />
       <CardNumberField
         cardParts={cardParts as [string, string, string, string]}
         onPartChange={handleCardChange}
@@ -169,30 +135,11 @@ export function CreateAccountDialog() {
         inputsRef={inputsRef}
         error={cardError}
       />
-
-      <div className="space-y-2">
-        <Label htmlFor="bank" className="text-sm font-medium">
-          نام بانک
-          <span className="text-destructive">*</span>
-        </Label>
-        <Input id="bank" placeholder="مثال: ملی، ملت، پاسارگاد" {...register("bankName", { required: true })} />
-        {errors.bankName && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
-      </div>
-
-      {!isMobile && (
-        <div className="flex gap-3 pt-4">
-          <Button type="submit" className="flex-1" disabled={create.isPending}>
-            {create.isPending ? "در حال ایجاد..." : "ایجاد حساب"}
-          </Button>
-          <Button type="button" variant="outline" onClick={() => reset()}>
-            پاک کردن
-          </Button>
-        </div>
-      )}
+      <BankSection register={register} error={!!errors.bankName} />
+      {!isMobile && <FormActionsSection isPending={create.isPending} onReset={reset} />}
     </form>
   );
 
-  // Clear form and local UI state whenever the dialog closes
   React.useEffect(() => {
     if (!open) {
       reset();
@@ -200,7 +147,6 @@ export function CreateAccountDialog() {
       setSelectedUser(undefined);
       setCardParts(["", "", "", ""]);
       setCardError(null);
-      // clear refs
       inputsRef.current.clear();
     }
   }, [open, reset]);
