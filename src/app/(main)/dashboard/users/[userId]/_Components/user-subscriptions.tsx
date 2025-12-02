@@ -15,7 +15,12 @@ export default function UserSubscriptions({ userId }: Props) {
     data: feesData,
     isLoading,
     error
-  } = useSubscriptionFees({ userId, pageSize: 100, orderDir: OrderDirection.ASC, status: SubscriptionFeeStatus.DUE });
+  } = useSubscriptionFees({
+    userId,
+    pageSize: 100,
+    orderDir: OrderDirection.ASC,
+    status: SubscriptionFeeStatus.DUE
+  });
 
   if (isLoading) return <div>در حال بارگذاری ماهیانه‌ها...</div>;
   if (error) return <div>خطا در بارگذاری ماهیانه‌ها</div>;

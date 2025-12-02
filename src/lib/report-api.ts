@@ -20,6 +20,6 @@ export interface FinancialSummaryParams {
 }
 
 export async function getFinancialSummary(params: FinancialSummaryParams): Promise<FinancialSummary> {
-  const response = await api.post<FinancialSummary>("/report/dashboard/summary", params);
+  const response = await api.get<FinancialSummary>("/report/dashboard/summary", { params });
   return response.data;
 }
