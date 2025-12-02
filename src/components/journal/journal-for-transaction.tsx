@@ -60,7 +60,7 @@ function JournalCardHeader({
       {/* Second row: code + allocation button */}
       <div className="flex items-center justify-between gap-2">
         <span className="text-sm text-muted-foreground">
-          کد: <FormattedNumber type="normal" value={journal.code} className="font-mono" />
+          کد: <FormattedNumber type="normal" value={journal.code} className="" />
         </span>
         {showAllocationButton && <AllocateJournalPanel journal={journal} />}
       </div>

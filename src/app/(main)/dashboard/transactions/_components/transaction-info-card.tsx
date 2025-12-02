@@ -114,7 +114,7 @@ export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoC
                 <ExternalLink className="h-3.5 w-3.5" />
                 <span>شناسه خارجی</span>
               </div>
-              <p className="font-mono text-base font-semibold text-foreground">{transaction.externalRef ?? "-"}</p>
+              <p className=" text-base font-semibold text-foreground">{transaction.externalRef ?? "-"}</p>
             </div>
 
             <div className="space-y-3">

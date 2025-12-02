@@ -1,8 +1,7 @@
+import { CalendarCheckIcon } from "lucide-react";
+import InstallmentCardSelectable from "@/components/entity-specific/installment/installment-card-selectable";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
-import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { useInstallments } from "@/hooks/use-installment";
-import { cn } from "@/lib/utils";
 import { OrderDirection } from "@/types/api";
 import { InstallmentStatus } from "@/types/entities/installment.type";
 import { FormattedNumber } from "../formatted-number";
@@ -28,38 +27,28 @@ export function StepSelectInstallment({
   const selectedInstallment = installmentsData?.data.find((i) => i.id === formData.targetId);
 
   return (
-    <div className="space-y-2">
-      <Label>انتخاب قسط</Label>
+    <div className="space-y-3">
+      <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+        <CalendarCheckIcon className="size-4 text-muted-foreground" />
+        <span>انتخاب قسط</span>
+      </div>
       {isLoading ? (
         <p className="text-sm text-muted-foreground">در حال بارگذاری...</p>
       ) : (
         <div className="grid grid-cols-1 gap-2 max-h-[300px] overflow-y-auto">
           {installmentsData?.data.map((installment) => (
-            <Card
+            <InstallmentCardSelectable
               key={installment.id}
-              className={cn(
-                "p-3 cursor-pointer transition-colors hover:bg-accent",
-                formData.targetId === installment.id && "border-primary bg-accent"
-              )}
-              onClick={() => {
+              installment={installment}
+              selected={formData.targetId === installment.id}
+              onSelect={() =>
                 setFormData({
                   ...formData,
                   targetId: installment.id,
                   amount: installment.amount
-                });
-              }}
-            >
-              <div className="flex justify-center items-center">
-                <div className="flex w-full flex-row gap-1 justify-between">
-                  <div>
-                    <span className="font-medium">قسط {installment.code}</span>
-                  </div>
-                  <div>
-                    <FormattedNumber type="price" value={installment.amount} />
-                  </div>
-                </div>
-              </div>
-            </Card>
+                })
+              }
+            />
           ))}
         </div>
       )}

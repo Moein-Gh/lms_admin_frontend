@@ -24,10 +24,13 @@ const variantStyles = {
 export function ResponsivePanel({ children, open, onOpenChange, variant = "default" }: ResponsivePanelProps) {
   const isMobile = useIsMobile();
 
+  // Only allow valid variants to prevent object injection
+  const safeVariant = (["default", "destructive", "warning"] as const).includes(variant) ? variant : "default";
+
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent dir="rtl" className={cn(variantStyles[variant], "px-6 pb-6")}>
+        <DrawerContent dir="rtl" className={cn(variantStyles[safeVariant], "px-6 pb-6 flex flex-col max-h-[96dvh]")}>
           {children}
         </DrawerContent>
       </Drawer>
@@ -36,7 +39,7 @@ export function ResponsivePanel({ children, open, onOpenChange, variant = "defau
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={cn("sm:max-w-2xl", variantStyles[variant])} dir="rtl">
+      <DialogContent className={cn("sm:max-w-2xl", variantStyles[safeVariant])} dir="rtl">
         {children}
       </DialogContent>
     </Dialog>

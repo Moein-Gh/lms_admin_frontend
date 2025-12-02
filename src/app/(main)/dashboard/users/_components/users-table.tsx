@@ -64,7 +64,7 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
             <TableBody>
               {data.data.map((user: User, index: number) => (
                 <TableRow key={user.id}>
-                  <TableCell className="w-1/12 text-center font-mono text-muted-foreground">
+                  <TableCell className="w-1/12 text-center  text-muted-foreground">
                     {(pagination.page - 1) * pagination.pageSize + index + 1}
                   </TableCell>
                   <TableCell className="w-3/12">
@@ -84,14 +84,14 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
 
                   <TableCell className="w-2/12 text-start">
                     {user.identity.phone ? (
-                      <FormattedNumber type="normal" value={user.identity.phone} className="font-mono" />
+                      <FormattedNumber type="normal" value={user.identity.phone} className="" />
                     ) : (
                       "-"
                     )}
                   </TableCell>
                   <TableCell className="w-2/12 text-start">
                     {user.identity.nationalCode ? (
-                      <FormattedNumber type="normal" value={user.identity.nationalCode} className="font-mono" />
+                      <FormattedNumber type="normal" value={user.identity.nationalCode} className="" />
                     ) : (
                       "-"
                     )}

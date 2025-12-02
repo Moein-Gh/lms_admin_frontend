@@ -36,12 +36,12 @@ function LoanTableRow({
 }) {
   return (
     <TableRow key={loan.id}>
-      <TableCell className="text-center font-mono text-muted-foreground">
+      <TableCell className="text-center  text-muted-foreground">
         <FormattedNumber type="normal" value={(pagination.page - 1) * pagination.pageSize + index + 1} />
       </TableCell>
       <TableCell className="font-medium">{loan.name}</TableCell>
       <TableCell>
-        <Badge variant="secondary" className="font-mono">
+        <Badge variant="secondary" className="">
           <FormattedNumber type="normal" value={loan.code} />
         </Badge>
       </TableCell>

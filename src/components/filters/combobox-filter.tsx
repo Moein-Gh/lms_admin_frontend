@@ -55,7 +55,7 @@ export function ComboboxFilter<T>({
         align="start"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
-        <Command>
+        <Command shouldFilter={false}>
           <CommandInput placeholder={searchPlaceholder} value={searchQuery} onValueChange={setSearchQuery} />
           <CommandList>
             <CommandEmpty>{emptyMessage}</CommandEmpty>

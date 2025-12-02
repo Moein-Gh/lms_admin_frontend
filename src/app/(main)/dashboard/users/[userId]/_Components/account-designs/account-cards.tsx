@@ -60,7 +60,7 @@ function AccountCard({ account }: { account: Account }) {
       <div className="flex flex-1 flex-col gap-2">
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">شماره کارت</span>
-          <span className="font-mono text-sm tracking-wide" dir="ltr">
+          <span className=" text-sm tracking-wide" dir="ltr">
             {account.cardNumber ? `•••• ${account.cardNumber.slice(-4)}` : "—"}
           </span>
         </div>
@@ -81,7 +81,7 @@ function AccountCard({ account }: { account: Account }) {
  */
 export function AccountCardsDesign({ accounts }: AccountCardsDesignProps) {
   return (
-    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {accounts.map((account) => (
         <AccountCard key={account.id} account={account} />
       ))}

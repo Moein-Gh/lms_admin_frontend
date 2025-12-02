@@ -32,7 +32,7 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p0}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 0)}
-          className="text-center font-mono tracking-widest"
+          className="text-center  tracking-widest"
         />
         <Input
           ref={(el) => {
@@ -44,7 +44,7 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p1}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 1)}
-          className="text-center font-mono tracking-widest"
+          className="text-center  tracking-widest"
         />
         <Input
           ref={(el) => {
@@ -56,7 +56,7 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p2}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 2)}
-          className="text-center font-mono tracking-widest"
+          className="text-center  tracking-widest"
         />
         <Input
           ref={(el) => {
@@ -68,7 +68,7 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p3}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 3)}
-          className="text-center font-mono tracking-widest"
+          className="text-center  tracking-widest"
         />
       </div>
       {error && <span className="text-xs text-destructive">{error}</span>}

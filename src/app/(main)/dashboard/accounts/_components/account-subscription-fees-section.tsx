@@ -11,7 +11,7 @@ export function AccountSubscriptionFeesSection({ accountId }: { accountId: strin
 
   if (isLoading) return <div>در حال بارگذاری مبلغ اشتراک...</div>;
   if (error) return <div>خطا در بارگذاری مبلغ اشتراک</div>;
-  if (!fees || fees.data.length === 0) return <div>هزینه اشتراکی برای این حساب ثبت نشده است</div>;
+  if (!fees || fees.data.length === 0) return <div>ماهیانه ای برای این حساب ثبت نشده است</div>;
 
   return (
     <div className="space-y-5" dir="rtl">

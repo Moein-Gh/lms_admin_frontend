@@ -8,13 +8,25 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { type JournalEntry, JournalEntryTarget, JOURNAL_ENTRY_TARGET_META } from "@/types/entities/journal-entry.type";
+import type { SubscriptionFee } from "@/types/entities/subscription-fee.type";
 
-function getTargetLink(type: JournalEntryTarget, id: string): string | null {
+function isSubscriptionFee(target: JournalEntry["target"] | undefined): target is SubscriptionFee {
+  return !!target && typeof target === "object" && ("account" in target || "accountId" in target);
+}
+
+function getTargetLink(type: JournalEntryTarget, id: string, target?: JournalEntry["target"]): string | null {
   switch (type) {
     case JournalEntryTarget.ACCOUNT:
       return `/dashboard/accounts/${id}`;
     case JournalEntryTarget.LOAN:
       return `/dashboard/loans/${id}`;
+    case JournalEntryTarget.SUBSCRIPTION_FEE:
+      // For subscription fees, prefer linking to the related account page when available
+      if (isSubscriptionFee(target)) {
+        if (target.account?.id) return `/dashboard/accounts/${target.account.id}`;
+        if ((target as any).accountId) return `/dashboard/accounts/${(target as any).accountId}`;
+      }
+      return null;
     default:
       return null;
   }
@@ -30,7 +42,8 @@ function JournalEntryCard({
   entry: JournalEntry;
   onRequestDelete?: (entry: JournalEntry) => void;
 }) {
-  const targetLink = entry.targetType && entry.targetId ? getTargetLink(entry.targetType, entry.targetId) : null;
+  const targetLink =
+    entry.targetType && entry.targetId ? getTargetLink(entry.targetType, entry.targetId, entry.target) : null;
 
   return (
     <div className="rounded-lg border bg-card p-4 space-y-3">
@@ -38,7 +51,7 @@ function JournalEntryCard({
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-3 min-w-0">
           <p className="font-semibold text-sm leading-tight truncate">{entry.ledgerAccount?.nameFa ?? "-"}</p>
-          <p className="text-xs text-muted-foreground font-mono">
+          <p className="text-xs text-muted-foreground ">
             کد: <FormattedNumber value={entry.ledgerAccount?.code ?? "-"} type="normal" />
           </p>
         </div>
@@ -63,13 +76,13 @@ function JournalEntryCard({
           </Badge>
           {targetLink ? (
             <Link href={targetLink} className="flex items-center gap-1 text-xs text-primary hover:underline">
-              <span className="font-mono">کد:{entry.target?.code}</span>
+              <span className="">کد:{entry.target?.code ?? entry.targetId}</span>
               <ArrowUpRight className="size-3" />
             </Link>
+          ) : entry.target?.code ? (
+            <span className="text-xs text-muted-foreground">کد:{entry.target.code}</span>
           ) : (
-            entry.targetId && (
-              <span className="text-xs text-muted-foreground font-mono">{entry.targetId.slice(0, 8)}...</span>
-            )
+            entry.targetId && <span className="text-xs text-muted-foreground ">{entry.targetId.slice(0, 8)}...</span>
           )}
         </div>
       )}
@@ -131,7 +144,7 @@ function JournalEntriesDesktopTable({
         <TableBody>
           {entries.map((entry: JournalEntry) => {
             const targetLink =
-              entry.targetType && entry.targetId ? getTargetLink(entry.targetType, entry.targetId) : null;
+              entry.targetType && entry.targetId ? getTargetLink(entry.targetType, entry.targetId, entry.target) : null;
             return (
               <TableRow key={entry.id} className="hover:bg-muted/20 transition-colors">
                 <TableCell className="text-muted-foreground">
@@ -153,14 +166,14 @@ function JournalEntriesDesktopTable({
                           className="flex items-center gap-1 text-xs text-primary hover:underline"
                           title={`مشاهده ${JOURNAL_ENTRY_TARGET_META[entry.targetType].label}`}
                         >
-                          <span className="font-mono">کد:{entry.target?.code}</span>
+                          <span className="">کد:{entry.target?.code ?? entry.targetId}</span>
                           <ArrowUpRight className="size-3" />
                         </Link>
+                      ) : entry.target?.code ? (
+                        <span className="text-xs text-muted-foreground">کد:{entry.target.code}</span>
                       ) : (
                         entry.targetId && (
-                          <span className="text-xs text-muted-foreground font-mono">
-                            {entry.targetId.slice(0, 8)}...
-                          </span>
+                          <span className="text-xs text-muted-foreground ">{entry.targetId.slice(0, 8)}...</span>
                         )
                       )}
                     </div>

@@ -1,7 +1,5 @@
 "use client";
 
-import { IdCard } from "lucide-react";
-import { EmptyStateCard } from "@/components/empty-state-card";
 import NoAccountCard from "@/components/entity-specific/account/no-account-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAccounts } from "@/hooks/use-account";

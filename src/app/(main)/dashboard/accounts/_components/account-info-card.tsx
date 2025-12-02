@@ -58,7 +58,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
                   </div>
                 )}
                 <span className="text-border">•</span>
-                <div className="flex items-center gap-1.5 font-mono text-xs">
+                <div className="flex items-center gap-1.5  text-xs">
                   <Hash className="h-3 w-3" />
                   <span>{account.code}</span>
                 </div>
@@ -77,7 +77,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
                 <span>شماره کارت</span>
               </div>
               <div className="group flex items-center gap-3">
-                <p className="font-mono text-base font-semibold tracking-widest text-foreground whitespace-nowrap">
+                <p className=" text-base font-semibold tracking-widest text-foreground whitespace-nowrap">
                   {formatCardNumber(account.cardNumber)}
                 </p>
                 <Button
@@ -134,7 +134,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
               <Calendar className="h-3.5 w-3.5" />
               <span>تاریخ افتتاح</span>
             </div>
-            <span className="font-medium font-mono">{new Date(account.createdAt).toLocaleDateString("fa-IR")}</span>
+            <span className="font-medium ">{new Date(account.createdAt).toLocaleDateString("fa-IR")}</span>
           </div>
         </div>
       </div>

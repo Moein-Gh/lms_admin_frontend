@@ -95,12 +95,12 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
         <TableBody>
           {data.data.map((account: Account, index: number) => (
             <TableRow key={account.id}>
-              <TableCell className="text-center font-mono text-muted-foreground">
+              <TableCell className="text-center  text-muted-foreground">
                 {(pagination.page - 1) * pagination.pageSize + index + 1}
               </TableCell>
               <TableCell className="font-medium">{account.name}</TableCell>
               <TableCell>
-                <Badge variant="secondary" className="font-mono">
+                <Badge variant="secondary" className="">
                   {account.code}
                 </Badge>
               </TableCell>
@@ -122,7 +122,7 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
                 )}
               </TableCell>
               <TableCell>
-                <span className="font-mono text-sm">{formatCardNumber(account.cardNumber)}</span>
+                <span className=" text-sm">{formatCardNumber(account.cardNumber)}</span>
               </TableCell>
               <TableCell>
                 <Badge variant={AccountStatusLabels[account.status].badgeVariant}>

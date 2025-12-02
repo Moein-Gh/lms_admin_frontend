@@ -84,7 +84,7 @@ function TransactionTableRow({
 }) {
   return (
     <TableRow key={transaction.id}>
-      <TableCell className="text-center font-mono text-muted-foreground">
+      <TableCell className="text-center  text-muted-foreground">
         <FormattedNumber type="normal" value={(pagination.page - 1) * pagination.pageSize + index + 1} />
       </TableCell>
       <TableCell className="font-medium">{transaction.code}</TableCell>

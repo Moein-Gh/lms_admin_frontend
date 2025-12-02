@@ -167,7 +167,7 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
                 </div>
               )}
               <span className="text-border">•</span>
-              <div className="flex items-center gap-1.5 font-mono text-xs bg-muted/50 px-2 py-0.5 rounded-md">
+              <div className="flex items-center gap-1.5  text-xs bg-muted/50 px-2 py-0.5 rounded-md">
                 <Hash className="h-3 w-3" />
                 <span>
                   <FormattedNumber type="normal" value={loan.code} />

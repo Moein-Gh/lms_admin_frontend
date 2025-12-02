@@ -33,9 +33,26 @@ function formatWithGrouping(value: number | string, locale: string, useGrouping:
   const num = value;
   if (isNaN(Number(num))) return String(num);
   if (useGrouping) {
-    return Number(num).toLocaleString(locale, { useGrouping: true }).replace(/,/g, "٬");
+    try {
+      return Number(num).toLocaleString(locale, { useGrouping: true }).replace(/,/g, "٬");
+    } catch (e) {
+      // Fallback: basic grouping insertion so server and client stay consistent
+      const parts = String(Math.trunc(Number(num))).split("");
+      let i = parts.length - 3;
+      while (i > 0) {
+        parts.splice(i, 0, "٬");
+        i -= 3;
+      }
+      const intPart = parts.join("");
+      const dec = String(Number(num)).split(".")[1];
+      return dec ? `${intPart}.${dec}` : intPart;
+    }
   }
-  return Number(num).toLocaleString(locale, { useGrouping: false });
+  try {
+    return Number(num).toLocaleString(locale, { useGrouping: false });
+  } catch (e) {
+    return String(num);
+  }
 }
 
 export function FormattedNumber({

@@ -44,7 +44,7 @@ export function SubscriptionFeeCard({ fee }: { fee: SubscriptionFee }) {
         >
           {SUBSCRIPTION_FEE_STATUS_LABEL[fee.status]}
         </div>
-        <span className="font-mono text-xs font-bold text-muted-foreground bg-secondary/50 px-2 py-1 rounded-md border border-border/50 dir-ltr">
+        <span className=" text-xs font-bold text-muted-foreground bg-secondary/50 px-2 py-1 rounded-md border border-border/50 dir-ltr">
           #{fee.code}
         </span>
       </div>

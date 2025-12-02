@@ -120,7 +120,7 @@ function TransactionCard({ transaction }: { transaction: Transaction }) {
       <div className="flex flex-1 flex-col gap-2">
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">کد تراکنش</span>
-          <span className="font-mono text-sm">{transaction.code}</span>
+          <span className=" text-sm">{transaction.code}</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">شناسه خارجی</span>
@@ -161,7 +161,7 @@ const UserTransactions = ({ userId }: UserTransactionsProps) => {
   }
 
   return (
-    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {transactions.map((transaction) => (
         <TransactionCard key={transaction.id} transaction={transaction} />
       ))}
