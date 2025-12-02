@@ -97,7 +97,7 @@ export default function LoanCharts({ balance = [] }: LoanChartsProps) {
       <CarouselContent>
         {/* Chart 1: Debt Overview (Donut) */}
         <CarouselItem>
-          <Card className="flex flex-col h-full bg-card">
+          <Card className="flex flex-col py-6 h-full bg-card">
             <CardHeader className="items-center pb-0">
               <CardTitle>وضعیت کلی وام‌ها</CardTitle>
               <CardDescription>پرداخت شده vs باقی‌مانده</CardDescription>
@@ -131,13 +131,13 @@ export default function LoanCharts({ balance = [] }: LoanChartsProps) {
                 <div className="flex flex-col gap-1">
                   <span className="text-muted-foreground">کل مبلغ وام‌ها</span>
                   <span className="font-bold">
-                    <FormattedNumber value={totalStats.totalLoanAmount} />
+                    <FormattedNumber type="price" value={totalStats.totalLoanAmount} />
                   </span>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-muted-foreground">تعداد وام فعال</span>
                   <span className="font-bold">
-                    <FormattedNumber value={balance.length} />
+                    <FormattedNumber type="normal" value={balance.length} />
                   </span>
                 </div>
               </div>

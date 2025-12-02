@@ -52,9 +52,8 @@ export function SubscriptionFeeCard({ fee }: { fee: SubscriptionFee }) {
       <div className="flex flex-col items-center justify-center py-1">
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-bold tabular-nums">
-            <FormattedNumber value={Number(fee.amount)} />
+            <FormattedNumber type="price" value={Number(fee.amount)} />
           </span>
-          <span className="text-xs text-muted-foreground">تومان</span>
         </div>
       </div>
 

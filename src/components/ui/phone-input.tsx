@@ -2,6 +2,8 @@ import * as React from "react";
 
 import { CheckIcon, ChevronsUpDown } from "lucide-react";
 import * as RPNInput from "react-phone-number-input";
+
+const PhoneNumberInput = RPNInput.default;
 import flags from "react-phone-number-input/flags";
 
 import { Button } from "@/components/ui/button";
@@ -15,16 +17,15 @@ type PhoneInputProps = Omit<React.ComponentProps<"input">, "onChange" | "value" 
   Omit<RPNInput.Props<typeof RPNInput.default>, "onChange"> & {
     onChange?: (value: RPNInput.Value) => void;
   };
-
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwardRef<
-  React.ElementRef<typeof RPNInput.default>,
+  React.ElementRef<typeof PhoneNumberInput>,
   PhoneInputProps
 >(({ className, onChange, value, ...props }, ref) => {
   // Ensure only E.164 values (starting with "+") are passed to react-phone-number-input
   const normalizedValue =
     typeof value === "string" && value.trim().startsWith("+") ? (value as RPNInput.Value) : undefined;
   return (
-    <RPNInput.default
+    <PhoneNumberInput
       ref={ref}
       className={cn("flex flex-row-reverse", className)}
       flagComponent={FlagComponent}
@@ -32,7 +33,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
       inputComponent={InputComponent}
       smartCaret={false}
       value={normalizedValue}
-      onChange={(value) => onChange?.(value || ("" as RPNInput.Value))}
+      onChange={(value) => onChange?.(value ?? ("" as RPNInput.Value))}
       {...props}
     />
   );
@@ -66,7 +67,9 @@ const CountrySelect = ({ disabled, value: selectedCountry, options: countryList,
       modal
       onOpenChange={(open) => {
         setIsOpen(open);
-        open && setSearchValue("");
+        if (open) {
+          setSearchValue("");
+        }
       }}
     >
       <PopoverTrigger asChild>

@@ -56,7 +56,7 @@ export function InstallmentCard({ installment }: { installment: Installment }) {
             <div className="space-y-2 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <h3 className="font-semibold text-sm">
-                  قسط شماره <FormattedNumber value={installment.installmentNumber} />
+                  قسط شماره <FormattedNumber type="normal" value={installment.installmentNumber} />
                 </h3>
                 <Badge variant={status.variant} className="gap-1">
                   {status.label}
@@ -83,8 +83,7 @@ export function InstallmentCard({ installment }: { installment: Installment }) {
               <div className="inline-flex flex-col gap-0.5 items-end @[400px]/installment-card:items-end">
                 <span className="text-[10px] text-muted-foreground">مبلغ قسط</span>
                 <div className="font-bold text-lg tabular-nums">
-                  <FormattedNumber value={installment.amount} />
-                  <span className="text-xs text-muted-foreground ms-1">تومان</span>
+                  <FormattedNumber type="price" value={installment.amount} />
                 </div>
               </div>
             </div>

@@ -77,9 +77,7 @@ function LoanCard({ loan }: { loan: Loan }) {
       <div className="flex flex-1 flex-col gap-2">
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">مبلغ</span>
-          <span className="text-sm font-medium">
-            <FormattedNumber value={loan.amount} /> تومان
-          </span>
+          <FormattedNumber type="price" value={loan.amount} />
         </div>
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">تاریخ شروع</span>

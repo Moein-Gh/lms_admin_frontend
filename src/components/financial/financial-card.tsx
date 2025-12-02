@@ -17,7 +17,6 @@ const FinancialCard = () => {
         <CardTitle className="text-xl md:text-2xl font-bold tabular-nums @[250px]/card:md:text-3xl">
           ۱,۲۵۰,۰۰۰
         </CardTitle>
-        <p className="text-[10px] text-muted-foreground -mt-1">تومان</p>
 
         {/* Additional metrics row - only shown on desktop */}
         <div className="hidden md:grid grid-cols-2 gap-2 pt-1">

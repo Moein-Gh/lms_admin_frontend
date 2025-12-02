@@ -110,7 +110,7 @@ function TransactionCard({ transaction }: { transaction: Transaction }) {
       <div className="mt-3">
         <p className={cn("text-lg font-bold", kindConfig.isIncome ? "text-emerald-600" : "text-red-600")}>
           {kindConfig.isIncome ? "+" : "-"}
-          <FormattedNumber value={transaction.amount} /> تومان
+          <FormattedNumber type="price" value={transaction.amount} />
         </p>
       </div>
 

@@ -51,9 +51,8 @@ export function LoanCard({ loan }: { loan: Loan }) {
       <div className="flex flex-col items-center justify-center py-1 gap-1">
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-bold tabular-nums">
-            <FormattedNumber value={Number(loan.amount)} />
+            <FormattedNumber type="price" value={Number(loan.amount)} />
           </span>
-          <span className="text-xs text-muted-foreground">تومان</span>
         </div>
         <h3 className="text-sm font-medium text-muted-foreground text-center line-clamp-1">{loan.name}</h3>
       </div>

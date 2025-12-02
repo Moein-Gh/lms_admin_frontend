@@ -1,27 +1,21 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowUpRight, FileText, Trash2 } from "lucide-react";
+import { FileText } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { AllocateJournalPanel } from "@/components/journal/allocate-journal-panel";
+import { JournalEntriesTable } from "@/components/journal/journal-entries-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DialogTitle } from "@/components/ui/dialog";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useJournals } from "@/hooks/use-journal";
 import { useDeleteJournalEntry } from "@/hooks/use-journal-entries";
 import { transactionKeys } from "@/hooks/use-transaction";
-import {
-  type JournalEntry,
-  JournalEntryTarget,
-  DEBIT_CREDIT_META,
-  JOURNAL_ENTRY_TARGET_META
-} from "@/types/entities/journal-entry.type";
+import { type JournalEntry, DEBIT_CREDIT_META } from "@/types/entities/journal-entry.type";
 import type { Journal, JournalStatus } from "@/types/entities/journal.type";
 
 type Props = {
@@ -41,147 +35,6 @@ function getStatusLabel(status: JournalStatus): { label: string; variant: "activ
   }
 }
 
-// Use `JOURNAL_ENTRY_TARGET_META` mapping for target labels/variants
-
-function getTargetLink(type: JournalEntryTarget, id: string): string | null {
-  switch (type) {
-    case JournalEntryTarget.ACCOUNT:
-      return `/dashboard/accounts/${id}`;
-    case JournalEntryTarget.LOAN:
-      return `/dashboard/loans/${id}`;
-    default:
-      return null;
-  }
-}
-
-function JournalEntriesTable({
-  entries,
-  totalDebit,
-  totalCredit,
-  onRequestDelete
-}: {
-  entries: JournalEntry[];
-  totalDebit: number;
-  totalCredit: number;
-  onRequestDelete?: (entry: JournalEntry) => void;
-}) {
-  if (entries.length === 0) {
-    return <div className="p-8 text-center text-muted-foreground">هیچ ثبت حسابداری ای ثبت نشده است.</div>;
-  }
-
-  return (
-    <div className="relative w-full overflow-auto">
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-muted/30">
-            {/* Hide ledger account code on mobile */}
-            <TableHead className="font-bold hidden sm:table-cell">کد حساب</TableHead>
-            <TableHead className="font-bold">نام حساب</TableHead>
-            <TableHead className="font-bold">هدف (Target)</TableHead>
-            <TableHead className="text-start font-bold">بدهکار</TableHead>
-            <TableHead className="text-start font-bold">بستانکار</TableHead>
-            <TableHead className="text-center font-bold">عملیات</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {entries.map((entry: JournalEntry) => {
-            const targetLink =
-              entry.targetType && entry.targetId ? getTargetLink(entry.targetType, entry.targetId) : null;
-            return (
-              <TableRow key={entry.id} className="hover:bg-muted/20 transition-colors">
-                {/* Hide ledger account code on mobile */}
-                <TableCell className="text-muted-foreground hidden sm:table-cell">
-                  <FormattedNumber value={entry.ledgerAccount?.code ?? "-"} useGrouping={false} />
-                </TableCell>
-                <TableCell className="font-medium">{entry.ledgerAccount?.nameFa ?? "-"}</TableCell>
-                <TableCell>
-                  {entry.targetType ? (
-                    <div className="flex items-center gap-2">
-                      <Badge
-                        variant={JOURNAL_ENTRY_TARGET_META[entry.targetType].variant}
-                        className="text-xs font-normal"
-                      >
-                        {JOURNAL_ENTRY_TARGET_META[entry.targetType].label}
-                      </Badge>
-                      {targetLink ? (
-                        <Link
-                          href={targetLink}
-                          className="flex items-center gap-1 text-xs text-primary hover:underline"
-                          title={`مشاهده ${JOURNAL_ENTRY_TARGET_META[entry.targetType].label}`}
-                        >
-                          <span className="font-mono">کد:{entry.target?.code}</span>
-                          <ArrowUpRight className="size-3" />
-                        </Link>
-                      ) : (
-                        entry.targetId && (
-                          <span className="text-xs text-muted-foreground font-mono">
-                            {entry.targetId.slice(0, 8)}...
-                          </span>
-                        )
-                      )}
-                    </div>
-                  ) : (
-                    <span className="text-muted-foreground text-xs">-</span>
-                  )}
-                </TableCell>
-                <TableCell className="text-start tabular-nums">
-                  {entry.dc === "DEBIT" ? (
-                    <span className="font-semibold">
-                      <FormattedNumber value={entry.amount} />
-                    </span>
-                  ) : (
-                    <span className="text-muted-foreground">-</span>
-                  )}
-                </TableCell>
-                <TableCell className="text-start tabular-nums">
-                  {entry.dc === "CREDIT" ? (
-                    <span className="font-semibold">
-                      <FormattedNumber value={entry.amount} />
-                    </span>
-                  ) : (
-                    <span className="text-muted-foreground">-</span>
-                  )}
-                </TableCell>
-                <TableCell className="text-center">
-                  {/* Only allow removal if parent journal is not POSTED */}
-                  {entry.removable ? (
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => onRequestDelete?.(entry)}
-                      aria-label="حذف ثبت"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <span className="text-muted-foreground">-</span>
-                  )}
-                </TableCell>
-              </TableRow>
-            );
-          })}
-          <TableRow className="bg-accent/50 font-bold border-t-2 border-border">
-            {/* Hide ledger account code on mobile */}
-            <TableCell colSpan={3} className="text-start text-base hidden sm:table-cell">
-              جمع کل
-            </TableCell>
-            <TableCell colSpan={2} className="text-start text-base sm:hidden">
-              جمع کل
-            </TableCell>
-            <TableCell className="text-start tabular-nums text-base">
-              <FormattedNumber value={totalDebit} />
-            </TableCell>
-            <TableCell className="text-start tabular-nums text-base">
-              <FormattedNumber value={totalCredit} />
-            </TableCell>
-            <TableCell />
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
-  );
-}
-
 function JournalCardHeader({
   journal,
   showAllocationButton,
@@ -192,33 +45,39 @@ function JournalCardHeader({
   statusInfo: { label: string; variant: "active" | "outline" | "inactive" };
 }) {
   return (
-    <CardHeader className="border-b">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <FileText className="size-5 text-muted-foreground" />
-          <div>
-            <CardTitle className="text-lg">ژورنال حسابداری</CardTitle>
-            <CardDescription className="flex items-center gap-2 mt-1">
-              <span>کد:</span>
-              <span className="">
-                <FormattedNumber value={journal.code} />
-              </span>
-            </CardDescription>
-          </div>
-        </div>
+    <CardHeader className="border-b p-4 sm:p-6 space-y-3">
+      {/* Top row: icon + title + status */}
+      <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
-          {showAllocationButton && <AllocateJournalPanel journal={journal} />}
+          <FileText className="size-5 text-muted-foreground shrink-0" />
+          <CardTitle className="text-base sm:text-lg">ژورنال حسابداری</CardTitle>
         </div>
+        <Badge variant={statusInfo.variant} className="text-xs shrink-0">
+          {statusInfo.label}
+        </Badge>
       </div>
-      {journal.note && (
-        <div className="mt-3 pt-3 border-t text-sm text-muted-foreground">
-          <span className="font-medium">یادداشت:</span> {journal.note}
-        </div>
-      )}
-      {journal.postedAt && (
-        <div className="mt-2 text-sm text-muted-foreground">
-          <span className="font-medium">تاریخ ثبت:</span> <FormattedDate value={journal.postedAt} />
+
+      {/* Second row: code + allocation button */}
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-sm text-muted-foreground">
+          کد: <FormattedNumber type="normal" value={journal.code} className="font-mono" />
+        </span>
+        {showAllocationButton && <AllocateJournalPanel journal={journal} />}
+      </div>
+
+      {/* Note + posted date — compact grid on mobile */}
+      {(journal.note ?? journal.postedAt) && (
+        <div className="mt-3 pt-3 border-t grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-muted-foreground">
+          {journal.note && (
+            <div className="sm:col-span-2">
+              <span className="font-medium">یادداشت:</span> {journal.note}
+            </div>
+          )}
+          {journal.postedAt && (
+            <div>
+              <span className="font-medium">تاریخ ثبت:</span> <FormattedDate value={journal.postedAt} />
+            </div>
+          )}
         </div>
       )}
     </CardHeader>

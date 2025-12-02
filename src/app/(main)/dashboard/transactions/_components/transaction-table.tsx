@@ -85,7 +85,7 @@ function TransactionTableRow({
   return (
     <TableRow key={transaction.id}>
       <TableCell className="text-center font-mono text-muted-foreground">
-        <FormattedNumber value={(pagination.page - 1) * pagination.pageSize + index + 1} />
+        <FormattedNumber type="normal" value={(pagination.page - 1) * pagination.pageSize + index + 1} />
       </TableCell>
       <TableCell className="font-medium">{transaction.code}</TableCell>
       <TableCell>
@@ -100,7 +100,7 @@ function TransactionTableRow({
         <FormattedDate value={transaction.createdAt} />
       </TableCell>
       <TableCell>
-        <FormattedNumber value={Number(transaction.amount)} />
+        <FormattedNumber type="price" value={Number(transaction.amount)} />
       </TableCell>
       <TableCell className="text-center">
         <Button variant="ghost" size="icon" asChild>

@@ -67,7 +67,7 @@ export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoC
   const status = TRANSACTION_STATUS_BADGE[transaction.status];
 
   return (
-    <Card className="overflow-hidden border-none shadow-md bg-card">
+    <Card className="overflow-hidden border-none shadow-md bg-card py-0">
       <div className="flex flex-col md:flex-row">
         {/* Right Side: Details */}
         <div className="flex-1 p-6 space-y-8">
@@ -108,7 +108,7 @@ export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoC
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-8">
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
                 <ExternalLink className="h-3.5 w-3.5" />
@@ -128,7 +128,7 @@ export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoC
             </div>
 
             {transaction.note && (
-              <div className="sm:col-span-2 space-y-2">
+              <div className="col-span-2 space-y-2">
                 <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
                   <Tag className="h-3.5 w-3.5" />
                   <span>توضیحات</span>
@@ -140,31 +140,26 @@ export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoC
         </div>
 
         {/* Left Side: Amount Sidebar */}
-        <div className="md:w-80 bg-muted/10 border-t md:border-t-0 md:border-r flex flex-col justify-between p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-1 h-full bg-linear-to-b from-primary/40 to-transparent opacity-50" />
-          <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
+        <div className="md:w-64 bg-linear-to-bl from-primary/5 via-muted/10 to-transparent border-t md:border-t-0 md:border-r flex flex-row md:flex-col justify-between items-center md:items-stretch p-4 md:p-6 relative overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 w-1 h-full bg-linear-to-bl from-primary/50 via-primary/15 to-transparent" />
+          <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
 
-          <div className="space-y-3 relative z-10">
-            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-              <DollarSign className="h-4 w-4" />
+          {/* Amount display */}
+          <div className="relative z-10">
+            <div className="hidden md:flex items-center justify-start gap-1.5 text-xs text-muted-foreground mb-2">
+              <DollarSign className="h-3.5 w-3.5" />
               <span>مبلغ تراکنش</span>
             </div>
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-4xl font-bold tracking-tight text-foreground">
-                <FormattedNumber value={transaction.amount} />
-              </span>
-              <span className="text-lg text-muted-foreground font-medium">تومان</span>
-            </div>
+            <span className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+              <FormattedNumber type="price" value={transaction.amount} />
+            </span>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground relative z-10">
-            <div className="flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5" />
-              <span>وضعیت</span>
-            </div>
-            <span className="font-medium">
-              <Badge variant={status.variant}>{status.label}</Badge>
-            </span>
+          {/* Status section */}
+          <div className="md:pt-4 md:border-t border-border/30 flex items-center justify-between relative z-10">
+            <span className="hidden md:inline text-xs text-muted-foreground">وضعیت</span>
+            <Badge variant={status.variant}>{status.label}</Badge>
           </div>
         </div>
       </div>

@@ -81,9 +81,8 @@ function LoanSidebar({ amount, balanceSummary }: { amount: string; balanceSummar
           </div>
           <div className="flex items-baseline gap-1.5">
             <span className="text-4xl font-bold tracking-tight text-foreground">
-              <FormattedNumber value={amount} />
+              <FormattedNumber type="price" value={amount} />
             </span>
-            <span className="text-lg text-muted-foreground font-medium">تومان</span>
           </div>
         </div>
 
@@ -98,7 +97,7 @@ function LoanSidebar({ amount, balanceSummary }: { amount: string; balanceSummar
                     <span>پیشرفت بازپرداخت</span>
                   </div>
                   <span className="font-medium text-foreground">
-                    <FormattedNumber value={Math.round(paidPercentage)} />%
+                    <FormattedNumber type="normal" value={Math.round(paidPercentage)} />%
                   </span>
                 </div>
                 <Progress value={paidPercentage} className="h-1.5" />
@@ -109,12 +108,11 @@ function LoanSidebar({ amount, balanceSummary }: { amount: string; balanceSummar
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">پرداخت شده</span>
                 <span className="font-medium text-primary">
-                  <FormattedNumber value={paid} />
-                  <span className="text-xs text-muted-foreground ms-1">تومان</span>
+                  <FormattedNumber type="price" value={paid} />
                 </span>
               </div>
               <div className="text-xs text-muted-foreground text-left">
-                <FormattedNumber value={paidCount} /> قسط
+                <FormattedNumber type="normal" value={paidCount} /> قسط
               </div>
             </div>
           </div>
@@ -172,7 +170,7 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
               <div className="flex items-center gap-1.5 font-mono text-xs bg-muted/50 px-2 py-0.5 rounded-md">
                 <Hash className="h-3 w-3" />
                 <span>
-                  <FormattedNumber value={loan.code} />
+                  <FormattedNumber type="normal" value={loan.code} />
                 </span>
               </div>
             </div>
@@ -197,7 +195,7 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
             </div>
 
             <InfoItem icon={CalendarClock} label="مدت بازپرداخت">
-              <FormattedNumber value={months} /> ماه
+              <FormattedNumber type="normal" value={months} /> ماه
             </InfoItem>
 
             <InfoItem icon={Calendar} label="تاریخ شروع">

@@ -77,21 +77,21 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                   <TableCell className="w-1/12">
                     <div className="flex items-center gap-3">
                       <div className="min-w-0 flex-1">
-                        <FormattedNumber useGrouping={false} value={user.code} className="truncate font-medium" />
+                        <FormattedNumber type="normal" value={user.code} className="truncate font-medium" />
                       </div>
                     </div>
                   </TableCell>
 
                   <TableCell className="w-2/12 text-start">
                     {user.identity.phone ? (
-                      <FormattedNumber useGrouping={false} value={user.identity.phone} className="font-mono" />
+                      <FormattedNumber type="normal" value={user.identity.phone} className="font-mono" />
                     ) : (
                       "-"
                     )}
                   </TableCell>
                   <TableCell className="w-2/12 text-start">
                     {user.identity.nationalCode ? (
-                      <FormattedNumber useGrouping={false} value={user.identity.nationalCode} className="font-mono" />
+                      <FormattedNumber type="normal" value={user.identity.nationalCode} className="font-mono" />
                     ) : (
                       "-"
                     )}

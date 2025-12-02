@@ -167,7 +167,7 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
       />
       {unbalancedAmount > 0 && (
         <p className="text-sm text-muted-foreground">
-          مبلغ عدم تعادل حساب ۲۰۵۰: {unbalancedAmount.toLocaleString("fa-IR")} ریال
+          مبلغ عدم تعادل حساب ۲۰۵۰: {unbalancedAmount.toLocaleString("fa-IR")}
         </p>
       )}
     </div>

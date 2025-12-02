@@ -30,7 +30,7 @@ export default function UserCard({ user }: Props) {
     identity.avatarUrl ?? `https://i5p1o7caz2.ufs.sh/f/x2U4h8rqrclvSEGweo3DWPs8bGcKq1fhNvCwgj4op3rZF0nd`;
 
   return (
-    <Card className="w-full h-full flex flex-col bg-card border-none shadow-none">
+    <Card className="w-full h-full flex flex-col bg-card border-none shadow-none ">
       <CardHeader className="flex flex-row items-center justify-center gap-4 pb-4 pt-6">
         <div className="relative shrink-0">
           <Avatar className="h-16 w-16 md:h-20 md:w-20 border-2 border-background shadow-sm">
@@ -62,7 +62,7 @@ export default function UserCard({ user }: Props) {
             شماره تماس
           </span>
           <span className="text-base font-bold dir-ltr truncate">
-            <FormattedNumber useGrouping={false} value={identity.phone ?? ""} />
+            <FormattedNumber type="normal" value={identity.phone ?? ""} />
           </span>
         </div>
 
@@ -72,7 +72,7 @@ export default function UserCard({ user }: Props) {
             کد ملی
           </span>
           <span className="text-base font-bold dir-ltr truncate">
-            <FormattedNumber useGrouping={false} value={identity.nationalCode ?? ""} />
+            <FormattedNumber type="normal" value={identity.nationalCode ?? ""} />
           </span>
         </div>
 

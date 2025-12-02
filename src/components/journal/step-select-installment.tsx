@@ -55,9 +55,7 @@ export function StepSelectInstallment({
                     <span className="font-medium">قسط {installment.code}</span>
                   </div>
                   <div>
-                    <span>
-                      <FormattedNumber value={installment.amount} /> تومان
-                    </span>
+                    <FormattedNumber type="price" value={installment.amount} />
                   </div>
                 </div>
               </div>

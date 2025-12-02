@@ -97,7 +97,7 @@ export function AccountCharts({ userId, summary }: AccountChartsProps) {
       <CarouselContent>
         {/* Chart 1: Overview */}
         <CarouselItem>
-          <Card className="flex flex-col h-full bg-card">
+          <Card className="flex flex-col h-full py-6 bg-card">
             <CardHeader className="items-center pb-0">
               <CardTitle>وضعیت کلی حساب‌ها</CardTitle>
               <CardDescription>ترکیب سپرده و ماهیانه</CardDescription>
@@ -115,9 +115,6 @@ export function AccountCharts({ userId, summary }: AccountChartsProps) {
                               <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
                                 {totalStats.totalAmount.toLocaleString("fa-IR")}
                               </tspan>
-                              <tspan x={viewBox.cx} y={(viewBox.cy ?? 0) + 24} className="fill-muted-foreground">
-                                تومان
-                              </tspan>
                             </text>
                           );
                         }
@@ -131,13 +128,13 @@ export function AccountCharts({ userId, summary }: AccountChartsProps) {
                 <div className="flex flex-col gap-1">
                   <span className="text-muted-foreground">تعداد سپرده</span>
                   <span className="font-bold">
-                    <FormattedNumber value={totalStats.regularCount} />
+                    <FormattedNumber type="normal" value={totalStats.regularCount} />
                   </span>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-muted-foreground">تعداد ماهیانه</span>
                   <span className="font-bold">
-                    <FormattedNumber value={totalStats.feeCount} />
+                    <FormattedNumber type="normal" value={totalStats.feeCount} />
                   </span>
                 </div>
               </div>
@@ -147,7 +144,7 @@ export function AccountCharts({ userId, summary }: AccountChartsProps) {
 
         {/* Chart 2: Account Comparison */}
         <CarouselItem>
-          <Card className="flex flex-col h-full border-none shadow-none bg-card">
+          <Card className="flex flex-col h-full py-4 border-none shadow-none bg-card">
             <CardHeader className="items-center pb-0">
               <CardTitle>مقایسه حساب‌ها</CardTitle>
               <CardDescription>موجودی هر حساب</CardDescription>

@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useLoans } from "@/hooks/use-loan";
 import { cn } from "@/lib/utils";
+import { FormattedNumber } from "../formatted-number";
 
 export function StepSelectLoan({
   formData,
@@ -36,7 +37,7 @@ export function StepSelectLoan({
                 <div className="flex flex-col gap-1">
                   <span className="font-medium">{loan.name || `کد: ${loan.code}`}</span>
                   <span className="text-xs text-muted-foreground">
-                    مبلغ: {Number(loan.amount).toLocaleString("fa-IR")} ریال
+                    مبلغ: <FormattedNumber type="price" value={loan.amount} />
                   </span>
                 </div>
                 {formData.loanId === loan.id && (

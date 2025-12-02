@@ -1,11 +1,13 @@
 import * as React from "react";
-import { toPersianDigits } from "@/lib/utils";
+import Toman from "@/app/icons/toman";
+import { cn, toPersianDigits } from "@/lib/utils";
 
 export type FormattedNumberProps = {
-  value: number | string;
-  className?: string;
-  locale?: string;
-  useGrouping?: boolean;
+  readonly value: number | string;
+  readonly className?: string;
+  readonly locale?: string;
+  readonly useGrouping?: boolean;
+  readonly type: "price" | "normal";
 };
 
 function formatWithGrouping(value: number | string, locale: string, useGrouping: boolean): string {
@@ -36,7 +38,27 @@ function formatWithGrouping(value: number | string, locale: string, useGrouping:
   return Number(num).toLocaleString(locale, { useGrouping: false });
 }
 
-export function FormattedNumber({ value, className, locale = "fa-IR", useGrouping = true }: FormattedNumberProps) {
-  const formatted = formatWithGrouping(value, locale, useGrouping);
-  return <span className={className}>{toPersianDigits(formatted)}</span>;
+export function FormattedNumber({
+  value,
+  className,
+  locale = "fa-IR",
+  useGrouping,
+  type = "normal"
+}: FormattedNumberProps) {
+  // Precedence: if `useGrouping` is explicitly provided, it overrides `type`.
+  // Otherwise `type` controls grouping: `price` -> true, `normal` -> false.
+  const effectiveGrouping = useGrouping ?? type === "price";
+  const formatted = formatWithGrouping(value, locale, effectiveGrouping);
+  const persian = toPersianDigits(formatted);
+
+  if (type === "price") {
+    return (
+      <span className={cn("inline-flex items-center gap-1", className)}>
+        <span>{persian}</span>
+        <Toman size="1em" />
+      </span>
+    );
+  }
+
+  return <span className={className}>{persian}</span>;
 }

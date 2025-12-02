@@ -124,9 +124,8 @@ export function AccountInfoCard({ account }: { account: Account }) {
             </div>
             <div className="flex items-baseline gap-1.5">
               <span className="text-4xl font-bold tracking-tight text-foreground">
-                <FormattedNumber value={account.balanceSummary?.totalDeposits ?? 0} />
+                <FormattedNumber type="price" value={account.balanceSummary?.totalDeposits ?? 0} />
               </span>
-              <span className="text-lg text-muted-foreground font-medium">ریال</span>
             </div>
           </div>
 

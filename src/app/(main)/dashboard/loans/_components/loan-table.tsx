@@ -37,12 +37,12 @@ function LoanTableRow({
   return (
     <TableRow key={loan.id}>
       <TableCell className="text-center font-mono text-muted-foreground">
-        <FormattedNumber value={(pagination.page - 1) * pagination.pageSize + index + 1} />
+        <FormattedNumber type="normal" value={(pagination.page - 1) * pagination.pageSize + index + 1} />
       </TableCell>
       <TableCell className="font-medium">{loan.name}</TableCell>
       <TableCell>
         <Badge variant="secondary" className="font-mono">
-          <FormattedNumber value={loan.code} />
+          <FormattedNumber type="normal" value={loan.code} />
         </Badge>
       </TableCell>
       <TableCell>{loan.loanType ? <Badge variant="outline">{loan.loanType.name}</Badge> : "-"}</TableCell>
@@ -55,7 +55,7 @@ function LoanTableRow({
         <FormattedDate value={loan.createdAt} />
       </TableCell>
       <TableCell>
-        <FormattedNumber value={Number(loan.amount)} />
+        <FormattedNumber type="price" value={Number(loan.amount)} />
       </TableCell>
       <TableCell className="text-center">
         <Button variant="ghost" size="icon" asChild>
