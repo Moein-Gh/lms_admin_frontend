@@ -7,7 +7,7 @@ import { FormattedDate } from "@/components/formatted-date";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useFinancialSummary } from "@/hooks/use-report";
 
-const Summary = () => {
+const FinancialSummary = () => {
   const { data: summary, isLoading, error } = useFinancialSummary();
 
   if (isLoading) {
@@ -102,4 +102,4 @@ const Summary = () => {
   );
 };
 
-export default Summary;
+export default FinancialSummary;

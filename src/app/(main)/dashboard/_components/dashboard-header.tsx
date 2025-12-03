@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -39,6 +39,18 @@ export function DashboardHeader({ navbarStyle }: DashboardHeaderProps) {
         <div className="flex items-center gap-1 lg:gap-2">
           <SidebarTrigger className="-me-1" />
           <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="lg"
+            onClick={() => router.push("/dashboard")}
+            aria-label="خانه"
+            data-slot="home-button"
+          >
+            <Home className="size-4" />
+          </Button>
+
           <Button
             type="button"
             variant="ghost"

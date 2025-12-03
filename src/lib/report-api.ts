@@ -19,7 +19,30 @@ export interface FinancialSummaryParams {
   endDate?: Date;
 }
 
+export interface EntitiesSummary {
+  readonly users: number;
+  readonly accounts: {
+    readonly total: number;
+    readonly active: number;
+    readonly restricted: number;
+  };
+  readonly loans: {
+    readonly total: number;
+    readonly active: number;
+    readonly pending: number;
+  };
+  readonly transactions: {
+    readonly total: number;
+    readonly pending: number;
+    readonly allocated: number;
+  };
+}
+
 export async function getFinancialSummary(params: FinancialSummaryParams): Promise<FinancialSummary> {
   const response = await api.get<FinancialSummary>("/report/dashboard/summary", { params });
+  return response.data;
+}
+export async function getEntitiesSummary(): Promise<EntitiesSummary> {
+  const response = await api.get<EntitiesSummary>("/report/dashboard/entities");
   return response.data;
 }
