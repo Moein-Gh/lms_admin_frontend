@@ -8,6 +8,7 @@ export interface CreateAccountRequest {
   userId: string;
   cardNumber: string;
   bankName: string;
+  createdAt: Date | string;
 }
 
 export interface RegisterAccountInput {

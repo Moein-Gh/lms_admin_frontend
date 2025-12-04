@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 type CardNumberFieldProps = {
-  cardParts: [string, string, string, string];
+  cardParts: [string, string];
   onPartChange: (val: string, idx: number) => void;
   onPaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   inputsRef: React.RefObject<Map<number, HTMLInputElement | null>>;
@@ -13,13 +13,12 @@ type CardNumberFieldProps = {
 };
 
 export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, error }: CardNumberFieldProps) {
-  const [p0, p1, p2, p3] = cardParts;
+  const [p0, p1] = cardParts;
 
   return (
     <div className="space-y-2">
       <Label htmlFor="card" className="text-sm font-medium">
-        شماره کارت
-        <span className="text-destructive">*</span>
+        ۸ رقم آخر شماره کارت <span className="text-destructive">*</span>
       </Label>
       <div className="flex gap-2" dir="ltr">
         <Input
@@ -44,30 +43,6 @@ export function CardNumberField({ cardParts, onPartChange, onPaste, inputsRef, e
           value={p1}
           onPaste={onPaste}
           onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 1)}
-          className="text-center  tracking-widest"
-        />
-        <Input
-          ref={(el) => {
-            inputsRef.current.set(2, el);
-          }}
-          inputMode="numeric"
-          pattern="[0-9]*"
-          maxLength={4}
-          value={p2}
-          onPaste={onPaste}
-          onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 2)}
-          className="text-center  tracking-widest"
-        />
-        <Input
-          ref={(el) => {
-            inputsRef.current.set(3, el);
-          }}
-          inputMode="numeric"
-          pattern="[0-9]*"
-          maxLength={4}
-          value={p3}
-          onPaste={onPaste}
-          onChange={(e) => onPartChange(e.target.value.replace(/[^0-9]/g, ""), 3)}
           className="text-center  tracking-widest"
         />
       </div>

@@ -122,7 +122,7 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
                 )}
               </TableCell>
               <TableCell>
-                <span className=" text-sm">{formatCardNumber(account.cardNumber)}</span>
+                <span className=" text-sm">{formatCardNumber(account.cardNumber)} **** ****</span>
               </TableCell>
               <TableCell>
                 <Badge variant={AccountStatusLabels[account.status].badgeVariant}>

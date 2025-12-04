@@ -5,6 +5,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { CalendarHijri } from "@/components/ui/calendar-hijri";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { createAccount, type CreateAccountRequest } from "@/lib/account-api";
 import { listAccountTypes } from "@/lib/account-type-api";
@@ -59,15 +61,18 @@ export function CreateAccountDialog() {
       accountTypeId: "",
       userId: "",
       cardNumber: "",
-      bankName: ""
+      bankName: "",
+      createdAt: undefined
     }
   });
 
   const [selectedAccountType, setSelectedAccountType] = React.useState<string | undefined>(undefined);
   const [selectedUser, setSelectedUser] = React.useState<string | undefined>(undefined);
-  const [cardParts, setCardParts] = React.useState(["", "", "", ""]);
+  const [cardParts, setCardParts] = React.useState(["", ""]);
   const [cardError, setCardError] = React.useState<string | null>(null);
   const inputsRef = React.useRef<Map<number, HTMLInputElement | null>>(new Map());
+  const [createdAt, setCreatedAt] = React.useState<Date | undefined>(undefined);
+  const [createdAtOpen, setCreatedAtOpen] = React.useState(false);
 
   const handleCardChange = (val: string, idx: number) => {
     const newParts = cardParts.map((p, i) => (i === idx ? val.slice(0, 4) : p));
@@ -84,11 +89,11 @@ export function CreateAccountDialog() {
       .getData("text")
       .replace(/\s|-/g, "")
       .replace(/[^0-9]/g, "");
-    if (pasted.length >= 16) {
-      const newParts = [pasted.slice(0, 4), pasted.slice(4, 8), pasted.slice(8, 12), pasted.slice(12, 16)];
+    if (pasted.length >= 8) {
+      const newParts = [pasted.slice(0, 4), pasted.slice(4, 8)];
       setCardParts(newParts);
       setTimeout(() => {
-        const last = inputsRef.current.get(3);
+        const last = inputsRef.current.get(1);
         if (last) last.focus();
       }, 0);
     }
@@ -98,7 +103,7 @@ export function CreateAccountDialog() {
     <form
       onSubmit={handleSubmit((data) => {
         const cardNum = cardParts.join("");
-        if (cardNum.length < 16) {
+        if (cardNum.length < 8) {
           toast.error("شماره کارت نامعتبر است");
           return;
         }
@@ -107,6 +112,8 @@ export function CreateAccountDialog() {
       })}
       className="space-y-5 py-4"
     >
+      {/* register createdAt so it's validated by RHF */}
+      <input type="hidden" {...register("createdAt", { required: true })} />
       <UserSection
         items={(users?.data ?? []).map((u) => ({ id: u.id, name: u.identity.name ?? "بدون نام" }))}
         value={selectedUser}
@@ -118,7 +125,7 @@ export function CreateAccountDialog() {
         error={!!errors.userId}
       />
       <CardNumberField
-        cardParts={cardParts as [string, string, string, string]}
+        cardParts={cardParts as [string, string]}
         onPartChange={handleCardChange}
         onPaste={handleCardPaste}
         inputsRef={inputsRef}
@@ -138,6 +145,33 @@ export function CreateAccountDialog() {
         <BankSection register={register} error={!!errors.bankName} />
       </div>
 
+      {/* Created at date */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">تاریخ ایجاد</label>
+        <Popover open={createdAtOpen} onOpenChange={setCreatedAtOpen}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className="w-full rounded-md border px-3 py-2 text-sm text-muted-foreground flex items-center justify-between"
+            >
+              {createdAt ? new Date(createdAt).toLocaleDateString("fa-IR") : "انتخاب تاریخ"}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-auto p-0">
+            <CalendarHijri
+              selected={createdAt}
+              onSelect={(d?: Date) => {
+                if (!d) return;
+                setCreatedAt(d);
+                setValue("createdAt", d.toISOString(), { shouldValidate: true });
+                setCreatedAtOpen(false);
+              }}
+            />
+          </PopoverContent>
+        </Popover>
+        {errors.createdAt && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+      </div>
+
       {!isMobile && <FormActionsSection isPending={create.isPending} onReset={reset} />}
     </form>
   );
@@ -147,11 +181,13 @@ export function CreateAccountDialog() {
       reset();
       setSelectedAccountType(undefined);
       setSelectedUser(undefined);
-      setCardParts(["", "", "", ""]);
+      setCardParts(["", ""]);
       setCardError(null);
       inputsRef.current.clear();
+      setCreatedAt(undefined);
+      setValue("createdAt", "");
     }
-  }, [open, reset]);
+  }, [open, reset, setValue]);
 
   if (isMobile) {
     return <CreateAccountDialogMobile open={open} setOpen={setOpen} formContent={formContent} create={create} />;

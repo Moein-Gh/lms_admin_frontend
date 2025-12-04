@@ -74,17 +74,17 @@ export function AccountInfoCard({ account }: { account: Account }) {
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
                 <CreditCard className="h-3.5 w-3.5" />
-                <span>شماره کارت</span>
+                <span>شماره کارت </span>
               </div>
               <div className="group flex items-center gap-3">
                 <p className=" text-base font-semibold tracking-widest text-foreground whitespace-nowrap">
-                  {formatCardNumber(account.cardNumber)}
+                  {formatCardNumber(account.cardNumber)} **** ****
                 </p>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity -ml-2"
-                  onClick={() => handleCopy(account.cardNumber, "شماره کارت")}
+                  onClick={() => handleCopy(account.cardNumber, "۸ رقم آخر شماره کارت")}
                 >
                   <Copy className="h-3.5 w-3.5 text-muted-foreground" />
                   <span className="sr-only">کپی شماره کارت</span>
