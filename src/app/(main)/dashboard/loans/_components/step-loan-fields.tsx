@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { UseFormSetValue, UseFormRegister, FieldErrors } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { CalendarHijri } from "@/components/ui/calendar-hijri";
@@ -32,6 +33,9 @@ export function StepLoanFields({
   calOpen,
   setCalOpen
 }: StepLoanFieldsProps) {
+  const [touchedAmount, setTouchedAmount] = useState(false);
+
+  const amountRegister = register("amount", { required: true }) as ReturnType<UseFormRegister<CreateLoanRequest>>;
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -40,8 +44,21 @@ export function StepLoanFields({
             مبلغ
             <span className="text-destructive">*</span>
           </Label>
-          <Input id="amount" type="number" placeholder="مبلغ وام" {...register("amount", { required: true })} />
-          {errors.amount && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+          <Input
+            id="amount"
+            type="number"
+            placeholder="مبلغ وام"
+            {...amountRegister}
+            onBlur={(e) => {
+              // call RHF's onBlur then mark as touched so errors don't show immediately on open
+              if (typeof amountRegister.onBlur === "function") {
+                amountRegister.onBlur(e);
+              }
+              setTouchedAmount(true);
+            }}
+            onChange={amountRegister.onChange}
+          />
+          {errors.amount && touchedAmount && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
         </div>
         <div className="space-y-2">
           <Label htmlFor="paymentMonths" className="text-sm font-medium">
@@ -50,8 +67,8 @@ export function StepLoanFields({
           </Label>
           <Input
             id="paymentMonths"
-            type="number"
             placeholder="تعداد ماه"
+            defaultValue={10}
             {...register("paymentMonths", { required: true, valueAsNumber: true })}
           />
           {errors.paymentMonths && <span className="text-xs text-destructive">این فیلد الزامی است</span>}

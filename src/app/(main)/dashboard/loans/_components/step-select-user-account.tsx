@@ -1,3 +1,4 @@
+import AccountCardSelectable from "@/components/entity-specific/account/account-card-selectable";
 import { ComboboxFilter } from "@/components/filters/combobox-filter";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -57,24 +58,15 @@ export function StepSelectUserAccount({
             <p className="text-sm text-muted-foreground">این کاربر حسابی برای اعطای وام ندارد</p>
           ) : (
             activeAccounts.map((account) => (
-              <Card
+              <AccountCardSelectable
                 key={account.id}
-                className={cn(
-                  "p-3 cursor-pointer transition-colors hover:bg-accent",
-                  selectedAccountId === account.id && "border-primary bg-accent"
-                )}
-                onClick={() => {
+                account={account}
+                selected={selectedAccountId === account.id}
+                onSelect={() => {
                   setSelectedAccountId(account.id);
                   setValue("accountId", account.id, { shouldValidate: true });
                 }}
-              >
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">{account.name ? account.name : `کد: ${account.code}`}</span>
-                  {selectedAccountId === account.id && (
-                    <span className="text-xs text-primary font-semibold">✓ انتخاب شده</span>
-                  )}
-                </div>
-              </Card>
+              />
             ))
           )}
         </div>
