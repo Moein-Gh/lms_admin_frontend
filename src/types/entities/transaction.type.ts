@@ -1,4 +1,5 @@
 import { BadgeVariant } from "@/components/ui/badge";
+import { TransactionImage } from "./transaction-image.type";
 import type { User } from "./user.type";
 
 export enum TransactionKind {
@@ -57,10 +58,4 @@ export interface Transaction {
   // Relations
   readonly user?: User;
   readonly images: TransactionImage[];
-}
-
-export interface TransactionImage {
-  readonly id: string;
-  readonly url: string;
-  readonly transactionId: string;
 }

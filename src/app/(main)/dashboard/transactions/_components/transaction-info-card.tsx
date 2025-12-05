@@ -14,6 +14,7 @@ import {
 } from "@/types/entities/transaction.type";
 import { TransactionApprovePanel } from "./transaction-approve-panel";
 import { TransactionDeletePanel } from "./transaction-delete-panel";
+import { TransactionImage } from "./transaction-image";
 import { TransactionUpdatePanel } from "./transaction-update-panel";
 
 type TransactionInfoCardProps = {
@@ -127,15 +128,23 @@ export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoC
               </p>
             </div>
 
-            {transaction.note && (
-              <div className="col-span-2 space-y-2">
-                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                  <Tag className="h-3.5 w-3.5" />
-                  <span>توضیحات</span>
+            <div className="col-span-2 flex flex-row gap-8 items-start">
+              {transaction.note && (
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                    <Tag className="h-3.5 w-3.5" />
+                    <span>توضیحات</span>
+                  </div>
+                  <div className="text-sm text-muted-foreground">{transaction.note}</div>
                 </div>
-                <div className="text-sm text-muted-foreground">{transaction.note}</div>
-              </div>
-            )}
+              )}
+
+              {transaction.images.length > 0 && (
+                <div className="flex-1">
+                  <TransactionImage images={transaction.images} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

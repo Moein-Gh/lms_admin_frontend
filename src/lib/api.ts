@@ -1,4 +1,5 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
+import { toast } from "sonner";
 
 const api = axios.create({
   // CRITICAL CHANGE:
@@ -55,6 +56,25 @@ api.interceptors.response.use(
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       retryAttempted?: boolean;
     };
+
+    // Global handling for Forbidden (RBAC) responses
+    if (error.response?.status === 403) {
+      try {
+        const data = error.response.data as any;
+        const message = data?.detail ?? data?.title ?? "دسترسی غیرمجاز";
+        if (typeof window !== "undefined") {
+          toast.error(message);
+          // Go back one page instead of forcing navigation to a specific route
+          window.history.back();
+        }
+      } catch (e) {
+        if (typeof window !== "undefined") {
+          toast.error("دسترسی غیرمجاز");
+          window.history.back();
+        }
+      }
+      return Promise.reject(error);
+    }
 
     if (error.response?.status !== 401) {
       return Promise.reject(error);

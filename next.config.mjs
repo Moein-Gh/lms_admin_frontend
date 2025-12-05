@@ -16,7 +16,15 @@ const nextConfig = {
   },
   async redirects() {
     return [];
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
