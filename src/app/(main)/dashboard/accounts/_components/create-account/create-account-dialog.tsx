@@ -5,6 +5,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { AccountTypeSection } from "@/components/form/account-type-section";
+import { BankSection } from "@/components/form/bank-name-section";
+
+import { SelectUserSection } from "@/components/form/select-user-section";
 import { CalendarHijri } from "@/components/ui/calendar-hijri";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -14,10 +18,7 @@ import { listUsers } from "@/lib/user-api";
 import CardNumberField from "../card-number-input";
 import { CreateAccountDialogMobile } from "./create-account-dialog-mobile";
 import { CreateAccountDialogDesktop } from "./create-account-dialog.desktop";
-import { AccountTypeSection } from "./form-items/account-type-section";
-import { BankSection } from "./form-items/bank-name-section";
 import { FormActionsSection } from "./form-items/form-actions-section";
-import { UserSection } from "./form-items/user-section";
 
 export function CreateAccountDialog() {
   const [open, setOpen] = React.useState(false);
@@ -114,7 +115,7 @@ export function CreateAccountDialog() {
     >
       {/* register createdAt so it's validated by RHF */}
       <input type="hidden" {...register("createdAt", { required: true })} />
-      <UserSection
+      <SelectUserSection
         items={(users?.data ?? []).map((u) => ({ id: u.id, name: u.identity.name ?? "بدون نام" }))}
         value={selectedUser}
         onChange={(val) => {

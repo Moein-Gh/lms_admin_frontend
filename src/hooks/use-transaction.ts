@@ -6,9 +6,9 @@ import {
   listTransactions,
   updateTransaction,
   approveTransaction,
-  type CreateTransactionRequest,
   type ListTransactionsParams,
-  type UpdateTransactionRequest
+  type UpdateTransactionRequest,
+  type CreateTransactionRequest
 } from "@/lib/transaction-api";
 import { Transaction } from "@/types/entities/transaction.type";
 
@@ -56,8 +56,8 @@ export function useTransaction(
 
 export function useCreateTransaction() {
   const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: CreateTransactionRequest) => createTransaction(data),
+  return useMutation<Transaction, unknown, CreateTransactionRequest | FormData, unknown>({
+    mutationFn: (data: CreateTransactionRequest | FormData) => createTransaction(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
     }

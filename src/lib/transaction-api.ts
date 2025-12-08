@@ -41,7 +41,14 @@ export async function getTransactionById(transactionId: string): Promise<Transac
 /**
  * Create a new transaction
  */
-export async function createTransaction(data: CreateTransactionRequest): Promise<Transaction> {
+export async function createTransaction(data: CreateTransactionRequest | FormData): Promise<Transaction> {
+  if (data instanceof FormData) {
+    const response = await api.post<Transaction>("/transactions/", data, {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
+    return response.data;
+  }
+
   const response = await api.post<Transaction>("/transactions/", data);
   return response.data;
 }

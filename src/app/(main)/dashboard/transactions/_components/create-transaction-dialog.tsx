@@ -6,6 +6,9 @@ import { ArrowLeftIcon, ArrowRightIcon, PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { SelectUserSection } from "@/components/form/select-user-section";
+import TransactionKindSection from "@/components/form/transaction-kind-section";
+import UploadField from "@/components/form/upload-field";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,11 +30,8 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Pills } from "@/components/ui/pills";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useCreateTransaction } from "@/hooks/use-transaction";
-import { useUsers } from "@/hooks/use-user";
 import { type CreateTransactionRequest } from "@/lib/transaction-api";
 import { TransactionKind, type Transaction } from "@/types/entities/transaction.type";
 import { RequestError } from "@/types/error";
@@ -40,7 +40,7 @@ type DialogWrapperProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   formContent: React.ReactNode;
-  create: UseMutationResult<Transaction, unknown, CreateTransactionRequest, unknown>;
+  create: UseMutationResult<Transaction, unknown, CreateTransactionRequest | FormData, unknown>;
   step: number;
   onNextStep: () => void;
   onPrevStep: () => void;
@@ -124,39 +124,39 @@ function DialogWrapper({
 }
 
 type FormProps = {
-  kinds: { id: string; name: string }[];
-  accounts: { id: string; name: string }[];
   isMobile: boolean;
-  create: UseMutationResult<Transaction, unknown, CreateTransactionRequest, unknown>;
+  create: UseMutationResult<Transaction, unknown, CreateTransactionRequest | FormData, unknown>;
   setOpen: (open: boolean) => void;
   step: number;
   setStep: (step: number) => void;
   setCanProceed: (canProceed: boolean) => void;
 };
 
-function CreateTransactionForm({
-  kinds,
-  accounts,
-  isMobile,
-  create,
-  setOpen,
-  step,
-  setStep,
-  setCanProceed
-}: FormProps) {
+function CreateTransactionForm({ isMobile, create, setOpen, step, setStep, setCanProceed }: FormProps) {
+  type FormValues = CreateTransactionRequest & { image?: File[] };
+
   const {
     register,
+    control,
     handleSubmit,
     setValue,
     reset,
     watch,
     formState: { errors }
-  } = useForm<CreateTransactionRequest>({
-    defaultValues: { kind: TransactionKind.DEPOSIT, amount: "", userId: "", externalRef: "", note: "" }
+  } = useForm<FormValues>({
+    defaultValues: {
+      kind: TransactionKind.DEPOSIT,
+      amount: "",
+      userId: "",
+      externalRef: "",
+      note: "",
+      image: []
+    }
   });
 
   const selectedKind = watch("kind");
   const amount = watch("amount");
+  const selectedUser = watch("userId");
   const isStep1Valid = Boolean(selectedKind) && Boolean(amount);
 
   React.useEffect(() => {
@@ -167,7 +167,17 @@ function CreateTransactionForm({
   const goBack = () => setStep(1);
 
   const onSubmit = handleSubmit((data) => {
-    create.mutate(data, {
+    // Build FormData so files can be uploaded alongside fields.
+    const formData = new FormData();
+    formData.append("kind", String(data.kind));
+    formData.append("amount", String(data.amount));
+    formData.append("userId", String(data.userId));
+    if (data.externalRef) formData.append("externalRef", String(data.externalRef));
+    if (data.note) formData.append("note", String(data.note));
+    const file = data.image && data.image.length > 0 ? data.image[0] : null;
+    if (file) formData.append("image", file);
+
+    create.mutate(formData, {
       onSuccess: () => {
         toast.success("تراکنش با موفقیت ایجاد شد");
         setOpen(false);
@@ -179,25 +189,14 @@ function CreateTransactionForm({
   });
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5 py-4">
+    <form onSubmit={onSubmit} className="space-y-5 py-4" encType="multipart/form-data">
       {step === 1 && (
         <>
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">
-              نوع تراکنش<span className="text-destructive">*</span>
-            </Label>
-            <Pills
-              options={kinds.map((k) => ({ value: k.id, label: k.name }))}
-              value={selectedKind}
-              onValueChange={(v) =>
-                setValue("kind", (v ?? TransactionKind.DEPOSIT) as TransactionKind, { shouldValidate: true })
-              }
-              variant="outline"
-              size="sm"
-              allowDeselect={false}
-            />
-            {errors.kind && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
-          </div>
+          <TransactionKindSection
+            value={selectedKind}
+            onChange={(v) => setValue("kind", v ?? TransactionKind.DEPOSIT, { shouldValidate: true })}
+            error={!!errors.kind}
+          />
           <div className="space-y-2">
             <Label htmlFor="amount" className="text-sm font-medium">
               مبلغ<span className="text-destructive">*</span>
@@ -211,6 +210,7 @@ function CreateTransactionForm({
             </Label>
             <Input id="note" placeholder="توضیحات" {...register("note")} />
           </div>
+
           {!isMobile && (
             <div className="flex gap-3 pt-4">
               <Button type="button" className="flex-1" onClick={goNext} disabled={!isStep1Valid}>
@@ -225,23 +225,22 @@ function CreateTransactionForm({
       )}
       {step === 2 && (
         <>
-          <div className="space-y-2">
-            <Label htmlFor="userId" className="text-sm font-medium">
-              کاربر<span className="text-destructive">*</span>
-            </Label>
-            <Select onValueChange={(v) => setValue("userId", v, { shouldValidate: true })}>
-              <SelectTrigger dir="rtl" id="userId" className="w-full">
-                <SelectValue placeholder="انتخاب کاربر" />
-              </SelectTrigger>
-              <SelectContent>
-                {accounts.map((acc) => (
-                  <SelectItem dir="rtl" key={acc.id} value={acc.id}>
-                    {acc.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="space-y-2 flex flex-col gap-3">
+            <SelectUserSection
+              value={selectedUser}
+              onChange={(val) => setValue("userId", val ?? "", { shouldValidate: true })}
+              error={!!errors.userId}
+            />
             {errors.userId && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+
+            <UploadField<FormValues, "image">
+              name="image"
+              control={control}
+              accept="image/*,.pdf"
+              multiple={false}
+              maxFiles={1}
+              label="پیوست فایل تراکنش"
+            />
           </div>
           {!isMobile && (
             <div className="flex gap-3 pt-4">
@@ -273,29 +272,12 @@ export function CreateTransactionDialog() {
     }
   }, [open]);
 
-  const kinds: { id: TransactionKind; name: string }[] = [
-    { id: TransactionKind.DEPOSIT, name: "واریز" },
-    { id: TransactionKind.WITHDRAWAL, name: "برداشت" },
-    { id: TransactionKind.LOAN_DISBURSEMENT, name: "پرداخت وام" },
-    { id: TransactionKind.LOAN_REPAYMENT, name: "بازپرداخت وام" },
-    { id: TransactionKind.SUBSCRIPTION_PAYMENT, name: "پرداخت اشتراک" },
-    { id: TransactionKind.FEE, name: "کارمزد" }
-  ];
-
-  const { data: usersData } = useUsers({ pageSize: 100 });
-  const usersOptions = (usersData?.data ?? []).map((u) => ({
-    id: u.id,
-    name: u.identity.name ?? String(u.identity.phone)
-  }));
-
   const create = useCreateTransaction();
   const handleNextStep = () => setStep(2);
   const handlePrevStep = () => setStep(1);
 
   const formContent = (
     <CreateTransactionForm
-      kinds={kinds}
-      accounts={usersOptions}
       isMobile={isMobile}
       create={create}
       setOpen={setOpen}

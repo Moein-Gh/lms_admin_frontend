@@ -1,15 +1,24 @@
 import { ComboboxFilter } from "@/components/filters/combobox-filter";
 import { Label } from "@/components/ui/label";
+import { useUsers } from "@/hooks/use-user";
 
 type UserItem = { id: string; name: string };
 type Props = {
-  items: UserItem[];
+  items?: UserItem[];
   value: string | undefined;
   onChange: (val: string | undefined) => void;
   error?: boolean;
 };
 
-export function UserSection({ items, value, onChange, error }: Props) {
+export function SelectUserSection({ items, value, onChange, error }: Props) {
+  const { data: usersData } = useUsers({ pageSize: 100 }, { enabled: !items });
+  const usersOptions: UserItem[] = (usersData?.data ?? []).map((u) => ({
+    id: u.id,
+    name: u.identity.name ?? String(u.identity.phone)
+  }));
+
+  const options = items ?? usersOptions;
+
   return (
     <div className="space-y-2">
       <Label htmlFor="auser" className="text-sm font-medium">
@@ -17,7 +26,7 @@ export function UserSection({ items, value, onChange, error }: Props) {
         <span className="text-destructive">*</span>
       </Label>
       <ComboboxFilter
-        items={items}
+        items={options}
         selectedValue={value}
         onSelect={onChange}
         getItemId={(i) => i.id}

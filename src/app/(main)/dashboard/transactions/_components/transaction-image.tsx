@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Image as ImageIcon, Download, X, Maximize2 } from "lucide-react";
+import { Image as ImageIcon, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import Image from "@/components/ui/image";
 import { cn } from "@/lib/utils";
 import type { Transaction } from "@/types/entities/transaction.type";
@@ -56,7 +56,7 @@ export function TransactionImage({ images, transaction }: TransactionImageProps)
   }
 
   const userName =
-    transaction?.user?.identity?.name ?? (transaction?.user?.code ? `کاربر ${transaction.user.code}` : undefined);
+    transaction?.user?.identity.name ?? (transaction?.user?.code ? `کاربر ${transaction.user.code}` : undefined);
   const txCode = transaction?.code ? `کد: ${transaction.code}` : undefined;
 
   return (
