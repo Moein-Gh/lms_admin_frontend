@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ export function LoanDeletePanel({ loan, onDelete }: { loan: Loan; onDelete?: (id
   const isMatch = confirmValue.trim() === requiredPhrase;
 
   const deleteMutation = useDeleteLoan();
+  const router = useRouter();
 
   const onSubmit = async () => {
     if (!isMatch) {
@@ -42,6 +44,8 @@ export function LoanDeletePanel({ loan, onDelete }: { loan: Loan; onDelete?: (id
       await onDelete?.(loan.id);
       setOpen(false);
       reset();
+      // Navigate back to loans list after successful deletion
+      router.push("/dashboard/loans");
     } catch {
       setError("خطا در حذف وام");
     } finally {

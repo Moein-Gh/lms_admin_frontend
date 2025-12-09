@@ -82,7 +82,7 @@ function LoanSidebar({ amount, balanceSummary }: { amount: string; balanceSummar
           </div>
           <div className="flex items-baseline gap-1.5">
             <span className="text-4xl font-bold tracking-tight text-foreground">
-              <FormattedNumber type="price" value={1000000} />
+              <FormattedNumber type="price" value={amount} />
             </span>
           </div>
         </div>

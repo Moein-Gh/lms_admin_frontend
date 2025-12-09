@@ -8,6 +8,7 @@ import { usePagination } from "@/hooks/use-pagination";
 import { ActiveFilters } from "./_components/active-filters";
 import { LoanFilters } from "./_components/loan-filters-dialog";
 import { LoansTable } from "./_components/loan-table";
+import { LoansCardList } from "./_components/loans-card-list";
 import { LoansHeader } from "./_components/loans-header";
 
 export default function LoansPage() {
@@ -48,13 +49,19 @@ export default function LoansPage() {
 
       <ActiveFilters filters={filters} onReset={handleResetFilters} />
 
-      <div className="w-full min-w-0">
+      {/* Desktop: Table view */}
+      <div className="hidden sm:block">
         <LoansTable
           data={data ? { data: data.data } : undefined}
           isLoading={isLoading}
           error={error}
           pagination={{ page: pagination.page, pageSize: pagination.pageSize }}
         />
+      </div>
+
+      {/* Mobile: Card view */}
+      <div className="block sm:hidden">
+        <LoansCardList data={data ?? null} isLoading={isLoading} error={error} />
       </div>
 
       {/* Pagination */}
