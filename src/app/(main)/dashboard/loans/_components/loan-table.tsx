@@ -122,7 +122,7 @@ export function LoansTable({ data, isLoading, error, pagination }: Props) {
   }
 
   return (
-    <div className="relative w-full overflow-auto rounded-xl  bg-card py-2">
+    <div className="relative w-full overflow-auto rounded-xl  bg-card max-h-[70vh]">
       <Table>
         <TableHeader>
           <TableRow>

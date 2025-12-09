@@ -7,6 +7,7 @@ import { useUsers } from "@/hooks/use-user";
 import { ActiveFilters } from "./_components/active-filters";
 import { UserFilters } from "./_components/user-filters-dialog";
 
+import { UsersCardList } from "./_components/users-card-list";
 import { UsersHeader } from "./_components/users-header";
 import { UsersTable } from "./_components/users-table";
 
@@ -40,12 +41,20 @@ export default function UsersPage() {
 
       <ActiveFilters filters={filters} onReset={handleResetFilters} />
 
-      <UsersTable
-        data={data ?? null}
-        isLoading={isLoading}
-        error={error}
-        pagination={{ page: pagination.page, pageSize: pagination.pageSize }}
-      />
+      {/* Desktop: Table view */}
+      <div className="hidden sm:block">
+        <UsersTable
+          data={data ?? null}
+          isLoading={isLoading}
+          error={error}
+          pagination={{ page: pagination.page, pageSize: pagination.pageSize }}
+        />
+      </div>
+
+      {/* Mobile: Card view */}
+      <div className="block sm:hidden">
+        <UsersCardList data={data ?? null} isLoading={isLoading} error={error} />
+      </div>
 
       {/* Pagination */}
       {data && (

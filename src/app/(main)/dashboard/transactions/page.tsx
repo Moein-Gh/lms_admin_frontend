@@ -8,6 +8,7 @@ import { ActiveFilters } from "./_components/active-filters";
 
 import { TransactionFilters } from "./_components/transaction-filters";
 import { TransactionsTable } from "./_components/transaction-table";
+import { TransactionsCardList } from "./_components/transactions-card-list";
 import { TransactionsHeader } from "./_components/transactions-header";
 
 export default function TransactionsPage() {
@@ -47,13 +48,19 @@ export default function TransactionsPage() {
 
       <ActiveFilters filters={filters} onReset={handleResetFilters} />
 
-      <div className="w-full min-w-0">
+      {/* Desktop: Table view */}
+      <div className="hidden sm:block">
         <TransactionsTable
           data={data ? { data: data.data } : undefined}
           isLoading={isLoading}
           error={error}
           pagination={{ page: pagination.page, pageSize: pagination.pageSize }}
         />
+      </div>
+
+      {/* Mobile: Card view */}
+      <div className="block sm:hidden">
+        <TransactionsCardList data={data ?? null} isLoading={isLoading} error={error} />
       </div>
 
       {/* Pagination */}

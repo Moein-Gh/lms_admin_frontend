@@ -6,6 +6,7 @@ import { useAccounts } from "@/hooks/use-account";
 import { usePagination } from "@/hooks/use-pagination";
 
 import { AccountFilters } from "./_components/account-filters-dialog";
+import { AccountsCardList } from "./_components/accounts-card-list";
 import { AccountsHeader } from "./_components/accounts-header";
 import { AccountsTable } from "./_components/accounts-table";
 import { ActiveFilters } from "./_components/active-filters";
@@ -49,13 +50,19 @@ export default function AccountsPage() {
 
       <ActiveFilters filters={filters} onReset={handleResetFilters} />
 
-      <div className="w-full min-w-0">
+      {/* Desktop: Table view */}
+      <div className="hidden sm:block">
         <AccountsTable
           data={data ?? null}
           isLoading={isLoading}
           error={error}
           pagination={{ page: pagination.page, pageSize: pagination.pageSize }}
         />
+      </div>
+
+      {/* Mobile: Card view */}
+      <div className="block sm:hidden">
+        <AccountsCardList data={data ?? null} isLoading={isLoading} error={error} />
       </div>
 
       {/* Pagination */}

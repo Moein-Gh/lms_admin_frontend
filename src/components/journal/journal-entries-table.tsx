@@ -129,7 +129,7 @@ function JournalEntriesDesktopTable({
   onRequestDelete?: (entry: JournalEntry) => void;
 }) {
   return (
-    <div className="relative w-full overflow-auto">
+    <div className="relative w-full overflow-auto rounded-xl bg-card ">
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/30">

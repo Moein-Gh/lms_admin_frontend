@@ -6,6 +6,7 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
 import { LoanBalanceSummary } from "@/types/entities/loan-balane.type";
 import { LoanStatus, type Loan } from "@/types/entities/loan.type";
 
@@ -72,23 +73,23 @@ function LoanSidebar({ amount, balanceSummary }: { amount: string; balanceSummar
       <div className="absolute top-0 right-0 w-1 h-full bg-linear-to-b from-primary/40 to-transparent opacity-50" />
       <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
 
-      <div className="space-y-8 relative z-10">
+      <div className="flex flex-col justify-between h-full gap-8">
         {/* Total Amount */}
-        <div className="space-y-3">
+        <div className="space-y-3 flex flex-row items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <DollarSign className="h-4 w-4" />
-            <span>مبلغ کل وام</span>
+            <span>مبلغ وام</span>
           </div>
           <div className="flex items-baseline gap-1.5">
             <span className="text-4xl font-bold tracking-tight text-foreground">
-              <FormattedNumber type="price" value={amount} />
+              <FormattedNumber type="price" value={1000000} />
             </span>
           </div>
         </div>
 
         {/* Balance Summary */}
         {balanceSummary && (
-          <div className="space-y-6 pt-6 border-t border-border/50">
+          <div className="">
             {typeof paidPercentage === "number" && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
@@ -150,31 +151,9 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
                 <LoanActionButtons loan={loan} onApprove={onApprove} />
               </div>
             </div>
-
-            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              {loan.account?.user ? (
-                <Link
-                  href={`/dashboard/users/${loan.account.user.id}`}
-                  className="flex items-center gap-1.5 hover:text-primary transition-colors"
-                >
-                  <User className="h-3.5 w-3.5" />
-                  <span>{loan.account.user.identity.name}</span>
-                </Link>
-              ) : (
-                <div className="flex items-center gap-1.5">
-                  <User className="h-3.5 w-3.5" />
-                  <span>بدون کاربر</span>
-                </div>
-              )}
-              <span className="text-border">•</span>
-              <div className="flex items-center gap-1.5  text-xs bg-muted/50 px-2 py-0.5 rounded-md">
-                <Hash className="h-3 w-3" />
-                <span>
-                  <FormattedNumber type="normal" value={loan.code} />
-                </span>
-              </div>
-            </div>
           </div>
+
+          <Separator />
 
           {/* Info Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
@@ -182,8 +161,25 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
               {loan.account?.name ?? "-"}
             </InfoItem>
 
+            <InfoItem icon={User} label="کاربر">
+              {loan.account?.user ? (
+                <Link
+                  href={`/dashboard/users/${loan.account.user.id}`}
+                  className="hover:text-primary transition-colors"
+                >
+                  {loan.account.user.identity.name}
+                </Link>
+              ) : (
+                "بدون کاربر"
+              )}
+            </InfoItem>
+
             <InfoItem icon={Tag} label="نوع وام">
               {loan.loanType?.name ?? "-"}
+            </InfoItem>
+
+            <InfoItem icon={Hash} label="کد">
+              <FormattedNumber type="normal" value={loan.code} />
             </InfoItem>
 
             <div className="space-y-2">

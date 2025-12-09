@@ -26,7 +26,7 @@ type Props = {
 
 export function UsersTable({ data, isLoading, error, pagination }: Props) {
   return (
-    <Card className="py-2">
+    <Card className="relative w-full overflow-auto rounded-xl  bg-card max-h-[70vh]">
       <CardContent className="p-0">
         {error ? (
           <div className="p-8 text-center">
