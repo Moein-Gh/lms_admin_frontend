@@ -51,6 +51,10 @@ export async function createAccount(data: CreateAccountRequest): Promise<Account
   const response = await api.post<Account>("/accounts/", data);
   return response.data;
 }
+export async function buyOutAccount(accountId: string): Promise<Account> {
+  const response = await api.post<Account>(`/accounts/${accountId}/buy-out`);
+  return response.data;
+}
 
 export async function updateAccount(accountId: string, data: UpdateAccountRequest): Promise<Account> {
   const response = await api.patch<Account>(`/accounts/${accountId}`, data);

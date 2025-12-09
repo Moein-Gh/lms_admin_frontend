@@ -57,7 +57,14 @@ export function ComboboxFilter<T>({
       >
         <Command shouldFilter={false}>
           <CommandInput placeholder={searchPlaceholder} value={searchQuery} onValueChange={setSearchQuery} />
-          <CommandList>
+          <CommandList
+            className="max-h-[260px] overflow-y-auto"
+            onWheel={(e) => {
+              // Prevent wheel events from bubbling to parent containers
+              // so the dropdown list can be scrolled when using mouse/touchpad.
+              e.stopPropagation();
+            }}
+          >
             <CommandEmpty>{emptyMessage}</CommandEmpty>
             <CommandGroup>
               {allLabel && (

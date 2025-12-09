@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
 
 import {
+  buyOutAccount,
   createAccount,
   deleteAccount,
   getAccountById,
@@ -93,6 +94,20 @@ export function useDeleteAccount() {
       queryClient.removeQueries({ queryKey: accountKeys.detail(accountId) });
       // Invalidate account lists
       queryClient.invalidateQueries({ queryKey: accountKeys.lists() });
+    }
+  });
+}
+
+export function useBuyOutAccount() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: buyOutAccount,
+    onSuccess: (newAccount) => {
+      queryClient.invalidateQueries({ queryKey: accountKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: accountKeys.detail(newAccount.id) });
+      queryClient.invalidateQueries({ queryKey: ["subscription-fees", newAccount.id] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
     }
   });
 }
