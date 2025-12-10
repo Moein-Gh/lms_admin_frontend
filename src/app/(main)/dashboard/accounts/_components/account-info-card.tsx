@@ -96,7 +96,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
                 <p className="text-base font-medium text-foreground text-center">
                   <FormattedNumber
                     type="normal"
-                    value={`${account.cardNumber.slice(0, 4)} - ${account.cardNumber.slice(4, 8)}`}
+                    value={`${account.cardNumber.slice(4, 8)} - ${account.cardNumber.slice(0, 4)}`}
                   />
                 </p>
               </div>

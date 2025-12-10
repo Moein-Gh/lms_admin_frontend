@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { CheckIcon } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
@@ -9,6 +10,7 @@ import { ResponsivePanel } from "@/components/ui/responsive-panel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useApproveTransaction } from "@/hooks/use-transaction";
 import type { Transaction } from "@/types/entities/transaction.type";
+import { RequestError } from "@/types/error";
 
 export function TransactionApprovePanel({
   transaction,
@@ -26,8 +28,11 @@ export function TransactionApprovePanel({
     try {
       await approveTransactionMutation.mutateAsync();
       await onApprove?.();
-    } finally {
       setOpen(false);
+    } catch (e: unknown) {
+      const detail = (e as RequestError).response?.data.detail;
+
+      toast.error(String(detail));
     }
   };
 
