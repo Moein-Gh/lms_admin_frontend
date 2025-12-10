@@ -13,10 +13,11 @@ import { formatDate } from "@/lib/utils";
 import { User } from "@/types/entities/user.type";
 
 import { EditUserDialog } from "./edit-user-dialog";
+import RoleAssignmentDialog from "./role-assignment-dialog";
 
 type Props = { user: User };
 
-export default function UserCard({ user }: Props) {
+export default function UserInfoCard({ user }: Props) {
   const identity = user.identity as {
     avatarUrl?: string;
     name?: string;
@@ -101,6 +102,8 @@ export default function UserCard({ user }: Props) {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Assign role dialog (includes trigger) */}
+            <RoleAssignmentDialog userId={user.id} currentRoleId={user.RoleAssignments?.[0]?.roleId ?? null} />
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="outline" size="icon" className="h-9 w-9 shrink-0">

@@ -47,14 +47,24 @@ const accountCardConfig: DataCardConfig<Account> = {
       render: (v) => <FormattedDate value={v as unknown as Date} />
     },
     {
+      key: "balanceSummary",
+      label: "موجودی",
+      render: (_v, acc) => <FormattedNumber type="price" value={Number(acc.balanceSummary?.totalDeposits) || 0} />
+    },
+    {
       key: "accountType",
       label: "نوع حساب",
       render: (v) => String((v as Account["accountType"])?.name ?? "-")
     },
     {
       key: "cardNumber",
-      label: "شماره کارت",
-      render: (v) => String(v ?? "-")
+      label: "۸ رقم آخر کارت",
+      render: (v) => (
+        <FormattedNumber
+          type="normal"
+          value={`${(v as Account["cardNumber"]).slice(4, 8)} - ${(v as Account["cardNumber"]).slice(0, 4)}`}
+        />
+      )
     }
   ],
   actions: (acc) => [

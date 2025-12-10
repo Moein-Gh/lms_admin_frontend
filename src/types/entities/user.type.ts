@@ -1,6 +1,7 @@
 import { AccountBalanceSummary } from "./account-balance.type";
 import { Identity } from "./identity.type";
 import { LoanBalanceSummary } from "./loan-balane.type";
+import { RoleAssignment } from "./role.type";
 
 export type UserBalanceSummary = {
   accounts: AccountBalanceSummary[];
@@ -15,4 +16,5 @@ export interface User {
   identity: Partial<Identity>;
 
   balanceSummary?: UserBalanceSummary;
+  RoleAssignments?: RoleAssignment[];
 }

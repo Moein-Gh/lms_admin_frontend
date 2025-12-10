@@ -153,7 +153,7 @@ export function NavMain({ items }: NavMainProps) {
       {items.map((group) => (
         <SidebarGroup key={group.id}>
           {group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
-          <SidebarGroupContent className="flex flex-col gap-2">
+          <SidebarGroupContent className="flex flex-col  gap-2">
             <SidebarMenu>
               {group.items.map((item) => {
                 if (state === "collapsed" && !isMobile) {
@@ -169,6 +169,7 @@ export function NavMain({ items }: NavMainProps) {
                         >
                           <Link href={item.url} target={item.newTab ? "_blank" : undefined}>
                             {item.icon && <item.icon />}
+
                             <span>{item.title}</span>
                           </Link>
                         </SidebarMenuButton>

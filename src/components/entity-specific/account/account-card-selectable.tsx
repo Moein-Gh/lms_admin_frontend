@@ -1,5 +1,7 @@
-import { Calendar, Check, IdCard } from "lucide-react";
+import type { KeyboardEvent } from "react";
+import { Calendar, Check } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
+import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -13,48 +15,81 @@ type AccountCardProps = {
 
 export function AccountCardSelectable({ account, selected, onSelect }: AccountCardProps) {
   const statusMeta = AccountStatusLabels[account.status];
+  const handleSelect = () => onSelect?.(account);
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleSelect();
+    }
+  };
 
   return (
     <Card
-      key={account.id}
+      role="button"
+      tabIndex={0}
+      aria-pressed={selected}
+      onClick={handleSelect}
+      onKeyDown={handleKeyDown}
       className={cn(
-        "group cursor-pointer transition-all border",
-        "hover:border-primary/50 hover:bg-accent/50",
-        selected ? "border-primary bg-primary/5" : "border-border"
+        "group relative cursor-pointer transition-all duration-200 ease-in-out overflow-hidden",
+        "border hover:shadow-md",
+        selected
+          ? "border-primary ring-1 ring-primary bg-primary/5 shadow-sm"
+          : "border-border hover:border-primary/30 hover:bg-accent/5"
       )}
-      onClick={() => onSelect?.(account)}
     >
-      <div className="flex items-center gap-3 p-3">
-        {/* Selection indicator */}
-        <div
-          className={cn(
-            "flex items-center justify-center w-4 h-4 rounded-full border-2 transition-all shrink-0",
-            selected
-              ? "bg-primary border-primary text-primary-foreground"
-              : "border-muted-foreground/40 group-hover:border-primary/50"
-          )}
-        >
-          {selected && <Check className="w-2.5 h-2.5" />}
-        </div>
+      <div className="p-4 flex flex-col gap-4">
+        {/* Header: Identity & Status */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Selection Indicator */}
+            <div
+              aria-hidden="true"
+              className={cn(
+                "flex items-center justify-center w-5 h-5 rounded-full border transition-all duration-200 shrink-0",
+                selected
+                  ? "bg-primary border-primary text-primary-foreground scale-100"
+                  : "border-muted-foreground/30 bg-background group-hover:border-primary/50"
+              )}
+            >
+              {selected && <Check className="w-3 h-3" />}
+            </div>
 
-        {/* Account info */}
-        <div className="flex-1 min-w-0 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 min-w-0">
-            <IdCard className={cn("w-4 h-4 shrink-0", selected ? "text-primary" : "text-muted-foreground")} />
-            <span className={cn("font-medium truncate", selected && "text-primary")}>
-              {account.name || `حساب ${account.code}`}
-            </span>
-            <span className="text-xs text-muted-foreground shrink-0">#{account.code}</span>
+            {/* Account Details */}
+            <div className="flex flex-col min-w-0">
+              <span
+                className={cn(
+                  "font-semibold text-sm truncate transition-colors",
+                  selected ? "text-primary" : "text-foreground"
+                )}
+                title={account.name || `حساب ${account.code}`}
+              >
+                {account.name || `حساب ${account.code}`}
+              </span>
+              <span className="text-xs text-muted-foreground font-mono truncate opacity-80">#{account.code}</span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <Calendar className="w-3.5 h-3.5" />
-              <FormattedDate value={account.createdAt} />
+          <Badge variant={statusMeta.badgeVariant} className="shrink-0 px-2 py-0.5 text-[10px] font-medium shadow-none">
+            {statusMeta.label}
+          </Badge>
+        </div>
+
+        {/* Footer: Financials & Date */}
+        <div className="flex items-end justify-between gap-4 pt-1">
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] text-muted-foreground font-medium">موجودی حساب</span>
+            <div className="flex items-baseline gap-1 text-foreground">
+              <span className="text-lg font-bold tabular-nums tracking-tight">
+                <FormattedNumber type="price" value={Number(account.balanceSummary?.totalDeposits) || 0} />
+              </span>
             </div>
-            <Badge variant={statusMeta.badgeVariant} className="text-[10px] px-1.5 py-0">
-              {statusMeta.label}
-            </Badge>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground bg-muted/50 px-2.5 py-1.5 rounded-md transition-colors group-hover:bg-muted/80">
+            <Calendar className="w-3 h-3 opacity-70" />
+            <FormattedDate value={account.createdAt} />
           </div>
         </div>
       </div>

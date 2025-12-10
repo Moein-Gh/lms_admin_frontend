@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { Eye } from "lucide-react";
 
+import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -87,6 +88,7 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
             <TableHead>بانک</TableHead>
             <TableHead>دارنده حساب</TableHead>
             <TableHead>شماره کارت</TableHead>
+            <TableHead>موجودی</TableHead>
             <TableHead>وضعیت</TableHead>
             <TableHead>تاریخ افتتاح حساب</TableHead>
             <TableHead className="text-center">عملیات</TableHead>
@@ -123,6 +125,11 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
               </TableCell>
               <TableCell>
                 <span className=" text-sm">{formatCardNumber(account.cardNumber)} **** ****</span>
+              </TableCell>
+              <TableCell>
+                <span className="font-medium text-primary">
+                  <FormattedNumber type="price" value={Number(account.balanceSummary?.totalDeposits) || 0} />
+                </span>
               </TableCell>
               <TableCell>
                 <Badge variant={AccountStatusLabels[account.status].badgeVariant}>

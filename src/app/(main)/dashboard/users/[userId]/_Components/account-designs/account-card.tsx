@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeftIcon, Building2, CreditCard } from "lucide-react";
 
+import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -49,9 +50,12 @@ function AccountCard({ account }: { account: Account }) {
         </div>
       </div>
 
-      {/* Account Name */}
-      <div className="mt-3">
-        <h3 className="text-base font-semibold leading-tight">{account.name}</h3>
+      {/* Account Name with Total Deposits before it */}
+      <div className="mt-3 flex justify-between items-center gap-3">
+        <h3 className="text-base font-semibold leading-tight truncate">{account.name}</h3>
+        <span className="text-lg font-bold tabular-nums shrink-0">
+          <FormattedNumber type="price" value={Number(account.balanceSummary?.totalDeposits) || 0} />
+        </span>
       </div>
 
       <Separator className="my-3" />

@@ -8,7 +8,7 @@ import { useUser } from "@/hooks/use-user";
 import { AccountCharts } from "./_Components/account-charts";
 import LoanCharts from "./_Components/loan-charts";
 import UserAccounts from "./_Components/user-accounts";
-import UserCard from "./_Components/user-card";
+import UserInfoCard from "./_Components/user-info-card";
 import UserLoans from "./_Components/user-loans";
 import UserSubscriptions from "./_Components/user-subscriptions";
 import UserTransactions from "./_Components/user-transactions";
@@ -56,7 +56,7 @@ export default function UserPage() {
     <div className="flex flex-col gap-6">
       <div className="flex w-full flex-col gap-4 lg:flex-row">
         <div className="w-full lg:w-5/12">
-          <UserCard user={user} />
+          <UserInfoCard user={user} />
         </div>
         <div className="flex w-full flex-col gap-4 md:flex-row lg:w-7/12">
           <div className="w-full md:w-1/2">

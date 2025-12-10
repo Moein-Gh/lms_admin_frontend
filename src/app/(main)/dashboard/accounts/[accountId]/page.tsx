@@ -5,6 +5,7 @@ import { useAccount } from "@/hooks/use-account";
 import { AccountInfoCard } from "../_components/account-info-card";
 import { AccountLoansSection } from "../_components/account-loans-section";
 import { AccountSubscriptionFeesSection } from "../_components/account-subscription-fees-section";
+import AccountTransactions from "../_components/account-transactions";
 
 export default function AccountDetailPage() {
   const { accountId } = useParams();
@@ -30,6 +31,7 @@ export default function AccountDetailPage() {
         <TabsList className="mx-auto">
           <TabsTrigger value="loans">وام‌ ها</TabsTrigger>
           <TabsTrigger value="subscriptionFees">ماهیانه ها</TabsTrigger>
+          <TabsTrigger value="transactions">تراکنش‌ها</TabsTrigger>
         </TabsList>
 
         <TabsContent value="loans">
@@ -38,6 +40,10 @@ export default function AccountDetailPage() {
 
         <TabsContent value="subscriptionFees">
           <AccountSubscriptionFeesSection accountId={account.id} />
+        </TabsContent>
+
+        <TabsContent value="transactions">
+          <AccountTransactions accountId={account.id} />
         </TabsContent>
       </Tabs>
     </div>

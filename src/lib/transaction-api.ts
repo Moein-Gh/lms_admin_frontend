@@ -20,6 +20,9 @@ export interface ListTransactionsParams extends PaginationParams {
   userId?: string;
   kind?: Transaction["kind"];
   status?: TransactionStatus;
+  accountId?: string;
+  targetType?: string;
+  targetId?: string;
 }
 
 /**

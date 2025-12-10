@@ -26,20 +26,25 @@ const userCardConfig: DataCardConfig<User> = {
   secondaryField: "code",
   renderSecondary: (code) => <FormattedNumber type="normal" value={code as number} />,
   badge: {
-    field: "isActive",
-    render: (isActive) => <Badge variant={isActive ? "active" : "inactive"}>{isActive ? "فعال" : "غیرفعال"}</Badge>
+    field: "RoleAssignments",
+    render: (_, user) =>
+      user.RoleAssignments && user.RoleAssignments.length > 0 ? (
+        user.RoleAssignments.map((ra) => (
+          <Badge key={ra.id} variant="secondary" className="text-xs font-medium">
+            {ra.role?.name}
+          </Badge>
+        ))
+      ) : (
+        <Badge variant="secondary" className="text-xs font-medium">
+          -
+        </Badge>
+      )
   },
   detailFields: [
     {
-      key: "identity",
-      label: "شماره تلفن",
-      render: (_, user) => (user.identity.phone ? <FormattedNumber type="normal" value={user.identity.phone} /> : "-")
-    },
-    {
-      key: "identity",
-      label: "کد ملی",
-      render: (_, user) =>
-        user.identity.nationalCode ? <FormattedNumber type="normal" value={user.identity.nationalCode} /> : "-"
+      key: "isActive",
+      label: "وضعیت",
+      render: (isActive) => <Badge variant={isActive ? "active" : "inactive"}>{isActive ? "فعال" : "غیرفعال"}</Badge>
     }
   ],
   actions: (user) => [

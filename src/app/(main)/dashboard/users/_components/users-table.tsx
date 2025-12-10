@@ -55,8 +55,7 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                 <TableHead className="w-1/12 text-center">#</TableHead>
                 <TableHead className="w-3/12">کاربر</TableHead>
                 <TableHead className="w-1/12">کد</TableHead>
-                <TableHead className="w-2/12">شماره تلفن</TableHead>
-                <TableHead className="w-2/12">کد ملی</TableHead>
+                <TableHead className="w-1/12">نقش ها</TableHead>
                 <TableHead className="w-1/12">وضعیت</TableHead>
                 <TableHead className="w-2/12 text-center">عملیات</TableHead>
               </TableRow>
@@ -82,20 +81,16 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                     </div>
                   </TableCell>
 
-                  <TableCell className="w-2/12 text-start">
-                    {user.identity.phone ? (
-                      <FormattedNumber type="normal" value={user.identity.phone} className="" />
-                    ) : (
-                      "-"
-                    )}
+                  <TableCell className="w-1/12">
+                    <div className="flex flex-col gap-1">
+                      {user.RoleAssignments?.map((roleAssignment) => (
+                        <Badge key={roleAssignment.id} variant="secondary" className="text-xs font-medium">
+                          {roleAssignment.role?.name}
+                        </Badge>
+                      ))}
+                    </div>
                   </TableCell>
-                  <TableCell className="w-2/12 text-start">
-                    {user.identity.nationalCode ? (
-                      <FormattedNumber type="normal" value={user.identity.nationalCode} className="" />
-                    ) : (
-                      "-"
-                    )}
-                  </TableCell>
+
                   <TableCell className="w-1/12">
                     <Badge variant={user.isActive ? "active" : "inactive"}>{user.isActive ? "فعال" : "غیرفعال"}</Badge>
                   </TableCell>

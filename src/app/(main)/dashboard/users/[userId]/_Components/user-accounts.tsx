@@ -3,7 +3,7 @@
 import NoAccountCard from "@/components/entity-specific/account/no-account-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAccounts } from "@/hooks/use-account";
-import { AccountCardsDesign } from "./account-designs/account-cards";
+import { AccountCardsDesign } from "./account-designs/account-card";
 
 type UserAccountsProps = {
   userId: string;
