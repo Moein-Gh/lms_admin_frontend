@@ -23,6 +23,8 @@ export function StepSelectAccount({
 
   const { data: accountsData, isLoading } = useAccounts(params, { enabled: !!formData.userId });
 
+  accountsData?.data.filter((a) => a.status === AccountStatus.ACTIVE || a.status === AccountStatus.RESTRICTED);
+
   const sortedAccounts = React.useMemo(() => {
     if (!accountsData?.data) return [];
     return [...accountsData.data].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -36,14 +38,16 @@ export function StepSelectAccount({
         <NoAccountCard title="حسابی یافت نشد" description="برای این کاربر حسابی با وام فعال یافت نشد." />
       ) : (
         <div className="grid grid-cols-1 gap-2 max-h-[300px] overflow-y-auto">
-          {sortedAccounts.map((account) => (
-            <AccountCardSelectable
-              key={account.id}
-              account={account}
-              selected={formData.accountId === account.id}
-              onSelect={(a) => setFormData({ ...formData, accountId: a.id, loanId: undefined, targetId: a.id })}
-            />
-          ))}
+          {sortedAccounts
+            .filter((a) => a.status === AccountStatus.ACTIVE || a.status === AccountStatus.RESTRICTED)
+            .map((account) => (
+              <AccountCardSelectable
+                key={account.id}
+                account={account}
+                selected={formData.accountId === account.id}
+                onSelect={(a) => setFormData({ ...formData, accountId: a.id, loanId: undefined, targetId: a.id })}
+              />
+            ))}
         </div>
       )}
     </>

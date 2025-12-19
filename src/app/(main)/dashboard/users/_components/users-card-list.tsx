@@ -26,14 +26,16 @@ const userCardConfig: DataCardConfig<User> = {
   secondaryField: "code",
   renderSecondary: (code) => <FormattedNumber type="normal" value={code as number} />,
   badge: {
-    field: "RoleAssignments",
+    field: "roleAssignments",
     render: (_, user) =>
-      user.RoleAssignments && user.RoleAssignments.length > 0 ? (
-        user.RoleAssignments.map((ra) => (
-          <Badge key={ra.id} variant="secondary" className="text-xs font-medium">
-            {ra.role?.name}
-          </Badge>
-        ))
+      user.roleAssignments && user.roleAssignments.length > 0 ? (
+        <div className="flex flex-wrap gap-1">
+          {user.roleAssignments.map((ra) => (
+            <Badge key={ra.id} variant="secondary" className="text-xs font-medium">
+              {ra.role?.name}
+            </Badge>
+          ))}
+        </div>
       ) : (
         <Badge variant="secondary" className="text-xs font-medium">
           -

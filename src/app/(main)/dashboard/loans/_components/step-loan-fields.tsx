@@ -68,7 +68,6 @@ export function StepLoanFields({
           <Input
             id="paymentMonths"
             placeholder="تعداد ماه"
-            defaultValue={10}
             {...register("paymentMonths", { required: true, valueAsNumber: true })}
           />
           {errors.paymentMonths && <span className="text-xs text-destructive">این فیلد الزامی است</span>}

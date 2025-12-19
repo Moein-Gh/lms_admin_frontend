@@ -1,75 +1,77 @@
 "use client";
 
 import * as React from "react";
-import { Check } from "lucide-react";
+import { CalendarIcon, Plus, Trash2, Clock } from "lucide-react";
 import { toast } from "sonner";
 
-import { RoleAssignmentCard } from "@/components/entity-specific/role-assignment/role-assignment-card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CalendarHijri } from "@/components/ui/calendar-hijri";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-  DrawerFooter,
-  DrawerClose
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useRoles } from "@/hooks/use-role";
 import { useCreateRoleAssignment, useDeleteRoleAssignment, useRoleAssignments } from "@/hooks/use-role-assignment";
+import { cn, formatDate } from "@/lib/utils";
 import { RoleAssignment } from "@/types/entities/role-assignment.type";
 
 type Props = {
   userId: string;
-  currentRoleId?: string | null;
 };
-
-type NewRow = { tempId: string; roleId?: string; expiresAt?: Date | undefined };
 
 export function RoleAssignmentDialog({ userId }: Props) {
   const isMobile = useIsMobile();
   const [open, setOpen] = React.useState(false);
 
+  // Data Fetching
   const { data: assignments } = useRoleAssignments({
     userId: userId,
-    pageSize: 10
+    pageSize: 100 // Fetch all to be safe
   });
   const { data: roles } = useRoles({ pageSize: 100 });
 
+  // Mutations
   const create = useCreateRoleAssignment();
   const remove = useDeleteRoleAssignment();
 
-  const [newRows, setNewRows] = React.useState<NewRow[]>([]);
-  const assignedRoleIds = React.useMemo(() => new Set((assignments?.data ?? []).map((a) => a.roleId)), [assignments]);
+  // State for new assignment
+  const [selectedRoleId, setSelectedRoleId] = React.useState<string>("");
+  const [expiresAt, setExpiresAt] = React.useState<Date | undefined>(undefined);
+
+  // Derived State
+  const activeAssignments = React.useMemo(() => {
+    const all = assignments?.data ?? [];
+    return all.filter((a) => a.isActive !== false);
+  }, [assignments]);
+
+  const assignedRoleIds = React.useMemo(() => new Set(activeAssignments.map((a) => a.roleId)), [activeAssignments]);
+
   const availableRoles = React.useMemo(
     () => (roles?.data ?? []).filter((r) => !assignedRoleIds.has(r.id)),
     [roles, assignedRoleIds]
   );
-  console.log(assignments);
+
+  // Reset form when dialog closes
   React.useEffect(() => {
-    if (!open) setNewRows([]);
+    if (!open) {
+      setSelectedRoleId("");
+      setExpiresAt(undefined);
+    }
   }, [open]);
 
-  const handleAddRow = () => {
-    setNewRows((s) => [...s, { tempId: String(Date.now()) }]);
-  };
-
-  const handleCreate = async (row: NewRow) => {
-    if (!row.roleId) {
-      toast.error("لطفاً یک نقش انتخاب کنید");
-      return;
-    }
+  // Handlers
+  const handleCreate = async () => {
+    if (!selectedRoleId) return;
 
     try {
-      await create.mutateAsync({ userId, roleId: row.roleId, expiresAt: row.expiresAt });
+      await create.mutateAsync({ userId, roleId: selectedRoleId, expiresAt });
       toast.success("نقش با موفقیت اضافه شد");
-      setNewRows((s) => s.filter((r) => r.tempId !== row.tempId));
+      setSelectedRoleId("");
+      setExpiresAt(undefined);
     } catch (err) {
       console.error(err);
       toast.error("خطا در افزودن نقش");
@@ -77,12 +79,6 @@ export function RoleAssignmentDialog({ userId }: Props) {
   };
 
   const handleDelete = async (ra: RoleAssignment) => {
-    const currentCount = assignments?.data.length ?? 0;
-    if (currentCount <= 1) {
-      toast.error("کاربر باید حداقل یک نقش داشته باشد");
-      return;
-    }
-
     try {
       await remove.mutateAsync(ra.id);
       toast.success("نقش حذف شد");
@@ -92,108 +88,114 @@ export function RoleAssignmentDialog({ userId }: Props) {
     }
   };
 
+  // Render Content
   const content = (
-    <div className="space-y-4 w-full">
-      <div className="space-y-2">
-        <label className="text-sm font-medium">نقش‌های فعلی</label>
-        <div className="flex flex-col gap-2">
-          {assignments?.data.map((ra) => (
-            <RoleAssignmentCard key={ra.id} roleAssignment={ra} onDelete={() => handleDelete(ra)} />
-          ))}
-        </div>
+    <div className="space-y-6">
+      {/* List of Current Roles */}
+      <div className="space-y-3">
+        {activeAssignments.length === 0 ? (
+          <div className="text-sm text-muted-foreground text-center py-4 border border-dashed rounded-lg">
+            این کاربر هیچ نقشی ندارد.
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {activeAssignments.map((ra) => (
+              <div
+                key={ra.id}
+                className="flex items-center justify-between p-3 rounded-lg border bg-card/50 hover:bg-card transition-colors"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="font-medium text-sm truncate">{ra.role?.name ?? "نقش نامشخص"}</span>
+                  {ra.expiresAt && (
+                    <Badge
+                      variant="secondary"
+                      className="text-[10px] px-1.5 h-5 gap-1 font-normal text-muted-foreground"
+                    >
+                      <Clock className="w-3 h-3" />
+                      {formatDate(ra.expiresAt)}
+                    </Badge>
+                  )}
+                </div>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 shrink-0"
+                  onClick={() => handleDelete(ra)}
+                  disabled={remove.isPending}
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span className="sr-only">حذف نقش</span>
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <Separator />
 
-      <div className="space-y-2">
+      {/* Add New Role Form */}
+      <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium">افزودن نقش</label>
-          <div className="text-xs text-muted-foreground">{availableRoles.length} نقش در دسترس</div>
+          <Label className="text-sm font-medium">افزودن نقش جدید</Label>
+          {availableRoles.length === 0 && (
+            <span className="text-xs text-muted-foreground">همه نقش‌ها اختصاص داده شده‌اند</span>
+          )}
         </div>
 
-        <div className="p-3 rounded-md border bg-transparent shadow-sm">
-          <div className="text-xs text-muted-foreground mb-2">
-            نقش‌هایی که قبلاً به کاربر اختصاص داده نشده‌اند انتخاب کنید
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-end">
+          <div className="flex w-full gap-3 sm:contents">
+            <div className="flex-1 space-y-1.5 min-w-0">
+              <span className="text-xs text-muted-foreground px-1">نقش</span>
+              <Select value={selectedRoleId} onValueChange={setSelectedRoleId} disabled={availableRoles.length === 0}>
+                <SelectTrigger className="h-9">
+                  <SelectValue placeholder="انتخاب نقش..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableRoles.map((role) => (
+                    <SelectItem key={role.id} value={role.id}>
+                      {role.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex-1 sm:w-[160px] sm:flex-none space-y-1.5 min-w-0">
+              <span className="text-xs text-muted-foreground px-1">انقضا</span>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full h-9 justify-start text-left font-normal px-3",
+                      !expiresAt && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
+                    {expiresAt ? (
+                      <span className="truncate">{new Date(expiresAt).toLocaleDateString("fa-IR")}</span>
+                    ) : (
+                      <span>بدون انقضا</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarHijri selected={expiresAt} onSelect={setExpiresAt} disabled={(date) => date < new Date()} />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
-          <div className="flex flex-col gap-2">
-            {newRows.map((row) => (
-              <div key={row.tempId} className="p-3 rounded-md border bg-transparent">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="sm:col-span-1">
-                    <label className="text-xs font-medium mb-1 block">نقش</label>
-                    <Select
-                      value={row.roleId}
-                      onValueChange={(v) =>
-                        setNewRows((s) => s.map((r) => (r.tempId === row.tempId ? { ...r, roleId: v } : r)))
-                      }
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="انتخاب نقش" />
-                      </SelectTrigger>
-                      <SelectContent side="top">
-                        {availableRoles.length === 0 ? (
-                          <SelectItem key="no-roles" value="" disabled>
-                            نقشی برای افزودن موجود نیست
-                          </SelectItem>
-                        ) : (
-                          availableRoles.map((role) => (
-                            <SelectItem key={role.id} value={role.id}>
-                              {role.name}
-                            </SelectItem>
-                          ))
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="sm:col-span-1">
-                    <label className="text-xs font-medium mb-1 block">انقضا</label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button variant="outline" className="w-full whitespace-nowrap text-sm">
-                          {row.expiresAt ? new Date(row.expiresAt).toLocaleDateString("fa-IR") : "بدون انقضا"}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent align="start" className="w-auto p-0">
-                        <CalendarHijri
-                          selected={row.expiresAt}
-                          onSelect={(d?: Date) => {
-                            setNewRows((s) => s.map((r) => (r.tempId === row.tempId ? { ...r, expiresAt: d } : r)));
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-end gap-2 mt-3">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => setNewRows((s) => s.filter((r) => r.tempId !== row.tempId))}
-                  >
-                    لغو
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    onClick={() => handleCreate(row)}
-                    disabled={!row.roleId || create.isPending}
-                    aria-label="افزودن نقش"
-                  >
-                    افزودن
-                  </Button>
-                </div>
-              </div>
-            ))}
-
-            {newRows.length === 0 && (
-              <div className="text-sm text-muted-foreground">
-                برای اضافه کردن نقش، روی «افزودن نقش» در پایین کلیک کنید.
-              </div>
-            )}
-          </div>
+          <Button
+            className="w-full sm:w-auto h-9"
+            onClick={handleCreate}
+            disabled={!selectedRoleId || create.isPending}
+          >
+            <Plus className="w-4 h-4 sm:ml-2" />
+            <span className="sm:inline">افزودن</span>
+          </Button>
         </div>
       </div>
     </div>
@@ -209,21 +211,9 @@ export function RoleAssignmentDialog({ userId }: Props) {
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader className="text-start">
-            <DrawerTitle>نقش‌های کاربر</DrawerTitle>
+            <DrawerTitle>مدیریت نقش‌های کاربر</DrawerTitle>
           </DrawerHeader>
-          <div className="px-4 py-2">{content}</div>
-          <DrawerFooter>
-            <div className="flex items-center gap-2">
-              <Button size="sm" onClick={handleAddRow} disabled={availableRoles.length === 0} aria-label="افزودن نقش">
-                افزودن نقش
-              </Button>
-              <DrawerClose asChild>
-                <Button variant="outline" onClick={() => setOpen(false)}>
-                  بستن
-                </Button>
-              </DrawerClose>
-            </div>
-          </DrawerFooter>
+          <div className="px-4 py-2 pb-8">{content}</div>
         </DrawerContent>
       </Drawer>
     );
@@ -236,20 +226,11 @@ export function RoleAssignmentDialog({ userId }: Props) {
           مدیریت نقش‌ها
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[640px]">
+      <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
-          <DialogTitle>نقش‌های کاربر</DialogTitle>
+          <DialogTitle>مدیریت نقش‌های کاربر</DialogTitle>
         </DialogHeader>
-
-        <div className="pt-2">{content}</div>
-        <div className="flex items-center justify-end gap-2 mt-4">
-          <Button size="sm" onClick={handleAddRow} disabled={availableRoles.length === 0} aria-label="افزودن نقش">
-            افزودن نقش
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => setOpen(false)}>
-            بستن
-          </Button>
-        </div>
+        <div className="py-2">{content}</div>
       </DialogContent>
     </Dialog>
   );

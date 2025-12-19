@@ -16,5 +16,5 @@ export interface User {
   identity: Partial<Identity>;
 
   balanceSummary?: UserBalanceSummary;
-  RoleAssignments?: RoleAssignment[];
+  roleAssignments?: RoleAssignment[];
 }

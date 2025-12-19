@@ -4,7 +4,6 @@ import type { AllocationFormData } from "@/components/journal/allocate-journal-p
 import { useInstallments } from "@/hooks/use-installment";
 import { OrderDirection } from "@/types/api";
 import { InstallmentStatus } from "@/types/entities/installment.type";
-import { FormattedNumber } from "../formatted-number";
 
 export function StepSelectInstallment({
   formData,

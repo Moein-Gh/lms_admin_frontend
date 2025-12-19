@@ -43,7 +43,7 @@ export function ComboboxFilter<T>({
   }, [items, searchQuery, getItemLabel]);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={true}>
       <PopoverTrigger asChild>
         <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
           {selectedItem ? getItemLabel(selectedItem) : placeholder}
@@ -58,7 +58,7 @@ export function ComboboxFilter<T>({
         <Command shouldFilter={false}>
           <CommandInput placeholder={searchPlaceholder} value={searchQuery} onValueChange={setSearchQuery} />
           <CommandList
-            className="max-h-[260px] overflow-y-auto"
+            className="max-h-[260px] overflow-y-auto overscroll-contain touch-pan-y"
             onWheel={(e) => {
               // Prevent wheel events from bubbling to parent containers
               // so the dropdown list can be scrolled when using mouse/touchpad.

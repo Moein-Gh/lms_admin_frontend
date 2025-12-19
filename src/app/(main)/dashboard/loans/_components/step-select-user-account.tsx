@@ -1,8 +1,6 @@
 import AccountCardSelectable from "@/components/entity-specific/account/account-card-selectable";
 import { ComboboxFilter } from "@/components/filters/combobox-filter";
-import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
 import { AccountStatus, type Account } from "@/types/entities/account.type";
 
 type StepSelectUserAccountProps = {
@@ -51,7 +49,7 @@ export function StepSelectUserAccount({
         allLabel={""}
       />
       {selectedUser && (
-        <div className="mt-3 grid grid-cols-1 gap-2">
+        <div className="mt-3 grid grid-cols-1 gap-2 max-h-[300px] overflow-y-auto px-1">
           {accountsLoading ? (
             <p className="text-sm text-muted-foreground">در حال بارگذاری حساب‌ها...</p>
           ) : activeAccounts.length === 0 ? (

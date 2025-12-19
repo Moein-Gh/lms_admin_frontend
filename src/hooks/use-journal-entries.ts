@@ -21,6 +21,7 @@ export function useCreateJournalEntry() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["journalEntries"] });
       queryClient.invalidateQueries({ queryKey: ["journals"] });
+      queryClient.invalidateQueries({ queryKey: ["installments"] });
     }
   });
 }

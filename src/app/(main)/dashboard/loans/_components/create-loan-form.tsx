@@ -34,7 +34,7 @@ export function CreateLoanForm({ types, accounts, isMobile, create, setOpen }: C
       name: "",
       amount: "",
       startDate: new Date(),
-      paymentMonths: 12
+      paymentMonths: 10
     }
   });
 

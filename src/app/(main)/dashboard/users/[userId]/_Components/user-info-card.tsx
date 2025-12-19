@@ -103,7 +103,7 @@ export default function UserInfoCard({ user }: Props) {
 
           <div className="flex items-center gap-2">
             {/* Assign role dialog (includes trigger) */}
-            <RoleAssignmentDialog userId={user.id} currentRoleId={user.RoleAssignments?.[0]?.roleId ?? null} />
+            <RoleAssignmentDialog userId={user.id} />
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="outline" size="icon" className="h-9 w-9 shrink-0">

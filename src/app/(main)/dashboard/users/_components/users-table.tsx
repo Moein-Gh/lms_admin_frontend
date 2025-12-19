@@ -54,9 +54,11 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
               <TableRow>
                 <TableHead className="w-1/12 text-center">#</TableHead>
                 <TableHead className="w-3/12">کاربر</TableHead>
-                <TableHead className="w-1/12">کد</TableHead>
-                <TableHead className="w-1/12">نقش ها</TableHead>
-                <TableHead className="w-1/12">وضعیت</TableHead>
+                <TableHead className="w-1/12 text-center">کد</TableHead>
+                <TableHead className="w-2/12 text-center">نقش ها</TableHead>
+                <TableHead className="w-1/12 text-center">وضعیت</TableHead>
+                <TableHead className="w-1/12 text-center">تاریخ عضویت</TableHead>
+
                 <TableHead className="w-2/12 text-center">عملیات</TableHead>
               </TableRow>
             </TableHeader>
@@ -73,7 +75,7 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-1/12">
+                  <TableCell className="w-1/12 text-center">
                     <div className="flex items-center gap-3">
                       <div className="min-w-0 flex-1">
                         <FormattedNumber type="normal" value={user.code} className="truncate font-medium" />
@@ -81,9 +83,9 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                     </div>
                   </TableCell>
 
-                  <TableCell className="w-1/12">
-                    <div className="flex flex-col gap-1">
-                      {user.RoleAssignments?.map((roleAssignment) => (
+                  <TableCell className="w-2/12 text-center">
+                    <div className="flex flex-row gap-1 items-center">
+                      {user.roleAssignments?.map((roleAssignment) => (
                         <Badge key={roleAssignment.id} variant="secondary" className="text-xs font-medium">
                           {roleAssignment.role?.name}
                         </Badge>
@@ -91,9 +93,16 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                     </div>
                   </TableCell>
 
-                  <TableCell className="w-1/12">
+                  <TableCell className="w-1/12 text-center">
                     <Badge variant={user.isActive ? "active" : "inactive"}>{user.isActive ? "فعال" : "غیرفعال"}</Badge>
                   </TableCell>
+
+                  <TableCell className="w-1/12 text-center">
+                    {user.identity.createdAt
+                      ? new Date(user.identity.createdAt).toLocaleDateString("fa-IR")
+                      : "تاریخ نامشخص"}
+                  </TableCell>
+
                   <TableCell className="w-2/12">
                     <div className="flex items-center justify-center gap-2">
                       <Tooltip>

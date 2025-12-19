@@ -2,6 +2,7 @@ import { LandmarkIcon } from "lucide-react";
 import LoanCardSelectable from "@/components/entity-specific/loan/loan-card-selectable";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { useLoans } from "@/hooks/use-loan";
+import { LoanStatus } from "@/types/entities/loan.type";
 
 export function StepSelectLoan({
   formData,
@@ -11,7 +12,7 @@ export function StepSelectLoan({
   setFormData: (data: Partial<AllocationFormData>) => void;
 }) {
   const { data: loansData, isLoading } = useLoans(
-    { accountId: formData.accountId, pageSize: 100 },
+    { accountId: formData.accountId, status: LoanStatus.ACTIVE, pageSize: 100 },
     { enabled: !!formData.accountId }
   );
 
