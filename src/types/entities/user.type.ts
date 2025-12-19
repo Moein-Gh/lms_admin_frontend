@@ -1,7 +1,7 @@
 import { AccountBalanceSummary } from "./account-balance.type";
 import { Identity } from "./identity.type";
 import { LoanBalanceSummary } from "./loan-balane.type";
-import { RoleAssignment } from "./role.type";
+import { type RoleAssignment } from "./role-assignment.type";
 
 export type UserBalanceSummary = {
   accounts: AccountBalanceSummary[];
