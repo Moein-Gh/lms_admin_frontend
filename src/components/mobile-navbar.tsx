@@ -61,7 +61,7 @@ export function MobileNavbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="mb-2 w-full overflow-hidden rounded-3xl border border-border/40 bg-background/95 shadow-2xl shadow-black/20 backdrop-blur-2xl dark:border-border/20 dark:shadow-black/50"
+            className="mb-2 w-full overflow-hidden rounded-3xl border border-border/40 bg-navbar-bg shadow-nice shadow-black/20 backdrop-blur-sm dark:border-border/20 dark:shadow-black/50"
           >
             <div className="flex flex-col gap-3 p-4">
               {/* Top Row: Profile, Settings, Theme */}
@@ -124,7 +124,7 @@ export function MobileNavbar() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="px-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground"
+                    className="px-1 text-[10px] font-medium uppercase tracking-wider text-navbar-text"
                   >
                     دسترسی سریع
                   </motion.div>
@@ -166,7 +166,8 @@ export function MobileNavbar() {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className="flex h-18 w-full items-center justify-between gap-1 rounded-[1.75rem] border border-border/40 bg-background/80 px-3 shadow-2xl shadow-black/10 backdrop-blur-2xl dark:border-border/20 dark:shadow-black/40"
+        className="flex h-14 w-full items-center justify-between gap-1 rounded-[1.75rem]  bg-navbar-bg px-3 shadow-md shadow-black/15 backdrop-blur-sm dark:bg-navbar-bg dark:shadow-white/10"
+        style={{ color: "var(--color-navbar-text)" }}
       >
         {/* Floating active indicator */}
         <div className="absolute inset-0 rounded-[1.75rem] pointer-events-none" />
@@ -204,28 +205,17 @@ export function MobileNavbar() {
               scale: hoveredIndex === navbarItems.length || isExpanded ? 1 : hoveredIndex === null ? 1 : 0.85
             }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="relative flex w-full max-w-[3.5rem] aspect-square items-center justify-center"
+            className="relative flex w-full max-w-14 aspect-square items-center justify-center"
           >
-            {/* Active state for expanded */}
+            {/* Dot indicator (no square) */}
             {isExpanded && (
               <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="absolute inset-0 rounded-2xl bg-primary"
+                layoutId="navbar-active-indicator"
+                className="absolute -bottom-1 size-1.5 rounded-full"
+                style={{ backgroundColor: "currentColor", boxShadow: "0 0 8px currentColor" }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
               />
             )}
-
-            {/* Hover effect */}
-            <motion.div
-              animate={{
-                scale: hoveredIndex === navbarItems.length && !isExpanded ? 1 : 0,
-                opacity: hoveredIndex === navbarItems.length && !isExpanded ? 1 : 0
-              }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 rounded-2xl bg-muted/50"
-            />
 
             <motion.div className="relative flex w-full h-full items-center justify-center">
               <motion.div
@@ -234,28 +224,18 @@ export function MobileNavbar() {
                 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
-                <MoreHorizontal
-                  className={cn(
-                    "size-5.5 transition-colors duration-300",
-                    isExpanded ? "text-primary-foreground" : "text-muted-foreground group-hover:text-foreground"
-                  )}
-                />
+                <MoreHorizontal className={cn("size-5.5 transition-colors duration-300 text-current")} />
               </motion.div>
             </motion.div>
 
-            <motion.div
-              className="pointer-events-none absolute inset-0 rounded-2xl"
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileTap={{ scale: 1.5, opacity: [0, 0.3, 0] }}
-              transition={{ duration: 0.4 }}
-            />
+            {/* removed square/ripple overlays for minimal UI */}
           </motion.div>
         </button>
 
         {/* Back Button */}
         {hasHistory && (
           <>
-            <div className="h-6 w-px shrink-0 bg-border/40" />
+            <div className="h-10 w-px shrink-0 bg-border" />
             <button
               onClick={() => router.back()}
               onMouseEnter={() => setHoveredIndex(navbarItems.length + 1)}
@@ -280,7 +260,7 @@ export function MobileNavbar() {
                 />
 
                 <motion.div className="relative flex w-full h-full items-center justify-center">
-                  <ArrowLeft className="size-5.5 text-muted-foreground transition-colors duration-300 group-hover:text-foreground" />
+                  <ArrowLeft className="size-5.5 transition-colors duration-300 text-current" />
                 </motion.div>
 
                 {/* Ripple effect on tap */}

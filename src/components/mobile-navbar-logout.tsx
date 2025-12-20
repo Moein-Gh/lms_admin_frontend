@@ -38,9 +38,9 @@ export function MobileNavbarLogout({ onLogoutStart }: MobileNavbarLogoutProps) {
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={handleLogoutClick}
-        className="flex size-[52px] shrink-0 items-center justify-center rounded-xl border border-destructive/50 bg-destructive/10 text-destructive transition-colors hover:border-destructive hover:bg-destructive/20"
+        className="flex size-[52px] shrink-0 items-center justify-center rounded-xl bg-destructive/75 text-white shadow-sm transition-colors hover:brightness-95"
       >
-        <LogOut className="size-4.5" />
+        <LogOut className="size-4.5 text-white" />
       </motion.button>
 
       {/* Logout Confirmation Drawer */}
