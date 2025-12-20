@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { MoreHorizontal, User, Moon, Sun, Settings } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { MoreHorizontal, User, Moon, Sun, Settings, ArrowLeft } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
@@ -12,13 +12,26 @@ import { cn } from "@/lib/utils";
 import { navbarItems, additionalNavbarItems } from "@/navigation/navbar/navbar-items";
 import { setValueToCookie } from "@/server/server-actions";
 import { usePreferencesStore } from "@/stores/preferences/preferences-provider";
+import { NavItem } from "./nav-item";
 
 export function MobileNavbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hasHistory, setHasHistory] = useState(false);
   const themeMode = usePreferencesStore((s) => s.themeMode);
   const setThemeMode = usePreferencesStore((s) => s.setThemeMode);
+
+  useEffect(() => {
+    const checkHistory = () => {
+      setHasHistory(window.history.length > 1);
+    };
+
+    checkHistory();
+    window.addEventListener("popstate", checkHistory);
+    return () => window.removeEventListener("popstate", checkHistory);
+  }, []);
 
   useEffect(() => {
     if (isExpanded) {
@@ -39,7 +52,7 @@ export function MobileNavbar() {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 flex flex-col items-center gap-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] md:hidden">
+    <div className="z-50 flex w-full flex-col items-start flex-1 min-w-0">
       {/* Expanded options panel */}
       <AnimatePresence>
         {isExpanded && (
@@ -48,7 +61,7 @@ export function MobileNavbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="mx-4 w-[calc(100%-2rem)] overflow-hidden rounded-3xl border border-border/40 bg-background/95 shadow-2xl shadow-black/20 backdrop-blur-2xl dark:border-border/20 dark:shadow-black/50"
+            className="mb-2 w-full overflow-hidden rounded-3xl border border-border/40 bg-background/95 shadow-2xl shadow-black/20 backdrop-blur-2xl dark:border-border/20 dark:shadow-black/50"
           >
             <div className="flex flex-col gap-3 p-4">
               {/* Top Row: Profile, Settings, Theme */}
@@ -151,12 +164,9 @@ export function MobileNavbar() {
       {/* Main navbar */}
       <motion.nav
         initial={{ y: 100, opacity: 0 }}
-        animate={{
-          y: 0,
-          opacity: 1
-        }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className="relative mx-4 flex h-[4.5rem] items-center justify-around gap-1 rounded-[1.75rem] border border-border/40 bg-background/80 px-3 shadow-2xl shadow-black/10 backdrop-blur-2xl dark:border-border/20 dark:shadow-black/40"
+        className="flex h-18 w-full items-center justify-between gap-1 rounded-[1.75rem] border border-border/40 bg-background/80 px-3 shadow-2xl shadow-black/10 backdrop-blur-2xl dark:border-border/20 dark:shadow-black/40"
       >
         {/* Floating active indicator */}
         <div className="absolute inset-0 rounded-[1.75rem] pointer-events-none" />
@@ -187,14 +197,14 @@ export function MobileNavbar() {
           onClick={() => setIsExpanded(!isExpanded)}
           onMouseEnter={() => setHoveredIndex(navbarItems.length)}
           onMouseLeave={() => setHoveredIndex(null)}
-          className="group relative flex flex-1 items-center justify-center"
+          className="group relative flex flex-1 min-w-0 items-center justify-center"
         >
           <motion.div
             animate={{
               scale: hoveredIndex === navbarItems.length || isExpanded ? 1 : hoveredIndex === null ? 1 : 0.85
             }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="relative flex items-center justify-center"
+            className="relative flex w-full max-w-[3.5rem] aspect-square items-center justify-center"
           >
             {/* Active state for expanded */}
             {isExpanded && (
@@ -203,7 +213,7 @@ export function MobileNavbar() {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{ duration: 0.15 }}
-                className="absolute inset-0 size-14 rounded-2xl bg-primary"
+                className="absolute inset-0 rounded-2xl bg-primary"
               />
             )}
 
@@ -214,10 +224,10 @@ export function MobileNavbar() {
                 opacity: hoveredIndex === navbarItems.length && !isExpanded ? 1 : 0
               }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 size-14 rounded-2xl bg-muted/50"
+              className="absolute inset-0 rounded-2xl bg-muted/50"
             />
 
-            <motion.div className="relative flex size-14 items-center justify-center">
+            <motion.div className="relative flex w-full h-full items-center justify-center">
               <motion.div
                 animate={{
                   rotate: isExpanded ? 90 : 0
@@ -233,15 +243,57 @@ export function MobileNavbar() {
               </motion.div>
             </motion.div>
 
-            {/* Ripple effect on tap */}
             <motion.div
-              className="pointer-events-none absolute inset-0 size-14 rounded-2xl"
+              className="pointer-events-none absolute inset-0 rounded-2xl"
               initial={{ scale: 0.8, opacity: 0 }}
               whileTap={{ scale: 1.5, opacity: [0, 0.3, 0] }}
               transition={{ duration: 0.4 }}
             />
           </motion.div>
         </button>
+
+        {/* Back Button */}
+        {hasHistory && (
+          <>
+            <div className="h-6 w-px shrink-0 bg-border/40" />
+            <button
+              onClick={() => router.back()}
+              onMouseEnter={() => setHoveredIndex(navbarItems.length + 1)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="group relative flex flex-1 min-w-0 items-center justify-center"
+            >
+              <motion.div
+                animate={{
+                  scale: hoveredIndex === navbarItems.length + 1 ? 1 : hoveredIndex === null ? 1 : 0.85
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="relative flex w-full max-w-14 aspect-square items-center justify-center"
+              >
+                {/* Hover effect */}
+                <motion.div
+                  animate={{
+                    scale: hoveredIndex === navbarItems.length + 1 ? 1 : 0,
+                    opacity: hoveredIndex === navbarItems.length + 1 ? 1 : 0
+                  }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute inset-0 rounded-2xl bg-muted/50"
+                />
+
+                <motion.div className="relative flex w-full h-full items-center justify-center">
+                  <ArrowLeft className="size-5.5 text-muted-foreground transition-colors duration-300 group-hover:text-foreground" />
+                </motion.div>
+
+                {/* Ripple effect on tap */}
+                <motion.div
+                  className="pointer-events-none absolute inset-0 rounded-2xl"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileTap={{ scale: 1.5, opacity: [0, 0.3, 0] }}
+                  transition={{ duration: 0.4 }}
+                />
+              </motion.div>
+            </button>
+          </>
+        )}
       </motion.nav>
 
       {/* Backdrop overlay */}
@@ -257,88 +309,5 @@ export function MobileNavbar() {
         )}
       </AnimatePresence>
     </div>
-  );
-}
-
-interface NavItemProps {
-  href: string;
-  icon: React.ElementType;
-  isActive: boolean;
-  index: number;
-  hoveredIndex: number | null;
-  onClick: () => void;
-  onHoverStart: () => void;
-  onHoverEnd: () => void;
-}
-
-function NavItem({ href, icon: Icon, isActive, index, hoveredIndex, onClick, onHoverStart, onHoverEnd }: NavItemProps) {
-  const isHovered = hoveredIndex === index;
-  const shouldScale = hoveredIndex === null || isHovered;
-
-  return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className="group relative flex flex-1 items-center justify-center"
-      onMouseEnter={onHoverStart}
-      onMouseLeave={onHoverEnd}
-    >
-      <motion.div
-        animate={{
-          scale: isActive ? 1 : shouldScale ? 1 : 0.85
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className="relative flex items-center justify-center"
-      >
-        {/* Active background */}
-        {isActive && (
-          <motion.div
-            layoutId="activeBg"
-            className="absolute inset-0 size-14 rounded-2xl bg-primary"
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          />
-        )}
-
-        {/* Hover effect */}
-        <motion.div
-          animate={{
-            scale: isHovered && !isActive ? 1 : 0,
-            opacity: isHovered && !isActive ? 1 : 0
-          }}
-          transition={{ duration: 0.2 }}
-          className="absolute inset-0 size-14 rounded-2xl bg-muted/50"
-        />
-
-        {/* Icon container */}
-        <motion.div
-          className="relative flex size-14 flex-col items-center justify-center gap-0.5"
-          animate={{
-            y: isActive ? -2 : 0
-          }}
-          transition={{ type: "spring", stiffness: 400, damping: 20 }}
-        >
-          <Icon
-            className={cn(
-              "size-5.5 transition-colors duration-300",
-              isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-foreground"
-            )}
-          />
-
-          {/* Active indicator dot */}
-          {isActive && (
-            <motion.div
-              initial={{ scale: 0, y: 10 }}
-              animate={{ scale: 1, y: 14 }}
-              exit={{ scale: 0, y: 10 }}
-              transition={{ type: "spring", stiffness: 500, damping: 25 }}
-              className="absolute bottom-1 size-1 rounded-full bg-primary-foreground shadow-sm"
-            />
-          )}
-        </motion.div>
-
-        {/* Ripple effect on tap */}
-        <div className="pointer-events-none absolute inset-0 size-14 rounded-2xl" />
-      </motion.div>
-    </Link>
   );
 }
