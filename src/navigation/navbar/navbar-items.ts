@@ -43,58 +43,7 @@ export const navbarItems: NavbarItem[] = [
   }
 ];
 
-// Additional items from sidebar not in main navbar
 export const additionalNavbarItems: NavbarItem[] = [
-  {
-    title: "نقش‌ها",
-    url: "/dashboard/roles",
-    icon: ShieldUser
-  },
-  {
-    title: "انواع وام",
-    url: "/dashboard/loan-types",
-    icon: Settings2
-  },
-  {
-    title: "نقش‌ها",
-    url: "/dashboard/roles",
-    icon: ShieldUser
-  },
-  {
-    title: "انواع وام",
-    url: "/dashboard/loan-types",
-    icon: Settings2
-  },
-  {
-    title: "نقش‌ها",
-    url: "/dashboard/roles",
-    icon: ShieldUser
-  },
-  {
-    title: "انواع وام",
-    url: "/dashboard/loan-types",
-    icon: Settings2
-  },
-  {
-    title: "نقش‌ها",
-    url: "/dashboard/roles",
-    icon: ShieldUser
-  },
-  {
-    title: "انواع وام",
-    url: "/dashboard/loan-types",
-    icon: Settings2
-  },
-  {
-    title: "نقش‌ها",
-    url: "/dashboard/roles",
-    icon: ShieldUser
-  },
-  {
-    title: "انواع وام",
-    url: "/dashboard/loan-types",
-    icon: Settings2
-  },
   {
     title: "نقش‌ها",
     url: "/dashboard/roles",
