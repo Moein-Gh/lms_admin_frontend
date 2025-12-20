@@ -59,7 +59,8 @@ const transactionCardConfig: DataCardConfig<Transaction> = {
       label: "مشاهده",
       onClick: () => {
         window.location.href = `/dashboard/transactions/${tx.id}`;
-      }
+      },
+      side: "right"
     }
   ]
 };

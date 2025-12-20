@@ -3,7 +3,6 @@ import { LoanType } from "@/types/entities/loan-type.type";
 import api from "./api";
 
 export interface CreateLoanTypeRequest {
-  code: number;
   name: string;
   commissionPercentage: number;
   defaultInstallments: number;
@@ -14,7 +13,6 @@ export interface CreateLoanTypeRequest {
 }
 
 export interface UpdateLoanTypeRequest {
-  code?: number;
   name?: string;
   commissionPercentage?: number;
   defaultInstallments?: number;

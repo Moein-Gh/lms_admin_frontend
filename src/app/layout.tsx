@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import type { Metadata, Viewport } from "next";
 
 import { Vazirmatn } from "next/font/google";
 
@@ -14,6 +15,29 @@ const vazirmatn = Vazirmatn({
   subsets: ["latin", "arabic"],
   variable: "--font-display"
 });
+
+export const metadata: Metadata = {
+  title: "Studio Admin",
+  description: "پنل مدیریت استودیو",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Studio Admin"
+  },
+  formatDetection: {
+    telephone: false
+  }
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover"
+};
 
 export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   const themeMode = await getPreference<ThemeMode>("theme_mode", THEME_MODE_VALUES, "light");

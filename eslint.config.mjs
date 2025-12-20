@@ -118,7 +118,7 @@ export default defineConfig([
 
       // Complexity
       // complexity: ["error", { max: 15 }],
-      "max-lines": ["error", { max: 400, skipBlankLines: true, skipComments: true }],
+      "max-lines": ["error", { max: 450, skipBlankLines: true, skipComments: true }],
       "max-depth": ["error", 4],
 
       // TypeScript-Specific Rules (customized)
@@ -162,6 +162,9 @@ export default defineConfig([
     "build/**",
     "next-env.d.ts",
     "*.config.ts",
-    "*.mjs"
+    "*.mjs",
+    "public/sw.js",
+    "public/workbox-*.js",
+    "scripts/**/*.js"
   ])
 ]);

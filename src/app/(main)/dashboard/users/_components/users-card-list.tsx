@@ -55,7 +55,8 @@ const userCardConfig: DataCardConfig<User> = {
       label: "مشاهده",
       onClick: () => {
         window.location.href = `/dashboard/users/${user.id}`;
-      }
+      },
+      side: "right"
     }
   ]
 };

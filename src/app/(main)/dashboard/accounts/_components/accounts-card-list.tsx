@@ -73,7 +73,8 @@ const accountCardConfig: DataCardConfig<Account> = {
       label: "مشاهده",
       onClick: () => {
         window.location.href = `/dashboard/accounts/${acc.id}`;
-      }
+      },
+      side: "right"
     }
   ]
 };

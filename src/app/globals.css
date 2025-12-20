@@ -47,6 +47,15 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --color-toaster-normal-bg: var(--toaster-popover-bg);
+  --color-toaster-normal-text: var(--toaster-popover-foreground);
+  --color-toaster-success-bg: var(--toaster-success);
+  --color-toaster-success-text: var(--toaster-success-foreground);
+  --color-toaster-error-bg: var(--toaster-error);
+  --color-toaster-error-text: var(--toaster-error-foreground);
+  --color-toaster-warning-bg: var(--toaster-warning);
+  --color-toaster-warning-text: var(--toaster-warning-foreground);
 }
 
 /* Default theme styles (used when no data-theme-preset is set or when 'default' is selected).
@@ -90,6 +99,16 @@ These serve as the fallback; there is no separate default.css file. */
   --sidebar-ring: oklch(0.708 0 0);
   --background: lab(92.18% -0.42 -2.9);
   --foreground: oklch(0.145 0 0);
+  /* Toaster color variables (light) */
+  --toaster-popover-bg: var(--popover);
+  --toaster-popover-foreground: var(--popover-foreground);
+  --toaster-success: oklch(0.42 0.12 140);
+  --toaster-success-foreground: var(--success-foreground);
+  --toaster-error: var(--destructive);
+  --toaster-error-foreground: var(--destructive-foreground);
+  --toaster-warning: oklch(0.98 0.18 90);
+  --toaster-warning-foreground: var(--foreground);
+
   /* Scrollbar colors (can be themed via .dark or data-theme-preset overrides) */
   --scrollbar-thumb: oklch(0.6 0 0 / 0.5);
   --scrollbar-thumb-hover: oklch(0.6 0 0 / 0.65);
@@ -134,6 +153,15 @@ These serve as the fallback; there is no separate default.css file. */
   /* Dark theme scrollbar overrides */
   --scrollbar-thumb: oklch(0.85 0 0 / 0.18);
   --scrollbar-thumb-hover: oklch(0.85 0 0 / 0.28);
+  /* Toaster color variables (dark) */
+  --toaster-popover-bg: var(--popover);
+  --toaster-popover-foreground: var(--popover-foreground);
+  --toaster-success: oklch(0.44 0.18 140);
+  --toaster-success-foreground: var(--success-foreground);
+  --toaster-error: oklch(28.651% 0.03224 19.184);
+  --toaster-error-foreground: var(--destructive-foreground);
+  --toaster-warning: oklch(0.56 0.16 90);
+  --toaster-warning-foreground: var(--foreground);
 }
 
 @layer utilities {

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { MobileNavbar } from "@/components/mobile-navbar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { getPreference } from "@/server/server-actions";
@@ -54,8 +55,9 @@ export default async function Layout({ children }: Readonly<{ children: ReactNod
         )}
       >
         <DashboardHeader navbarStyle={navbarStyle} layoutPreferences={layoutPreferences} />
-        <div className="h-full p-4 md:p-6">{children}</div>
+        <div className="flex flex-1 flex-col p-4 pb-24 md:p-6 md:pb-6">{children}</div>
       </SidebarInset>
+      <MobileNavbar />
     </SidebarProvider>
   );
 }

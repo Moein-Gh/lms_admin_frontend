@@ -3,6 +3,7 @@ import { UseMutationResult, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useAccounts } from "@/hooks/use-account";
+import { getApiErrorMessage } from "@/lib/api-error";
 import { type CreateLoanRequest } from "@/lib/loan-api";
 import { listUsers } from "@/lib/user-api";
 import { AccountStatus } from "@/types/entities/account.type";
@@ -71,7 +72,7 @@ export function CreateLoanForm({ types, accounts, isMobile, create, setOpen }: C
             reset();
           },
           onError: (error: unknown) => {
-            toast.error("خطا در ایجاد وام");
+            toast.error(getApiErrorMessage(error, "خطا در ایجاد وام"));
           }
         });
       })}

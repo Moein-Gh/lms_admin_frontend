@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { ChevronDown, ChevronLeft } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { animate } from "motion";
 import { AnimatePresence, motion, useMotionValue } from "motion/react";
 
@@ -20,6 +20,7 @@ type DataCardAction = {
   label: string;
   onClick: () => void;
   variant?: "default" | "destructive";
+  side?: "left" | "right";
 };
 
 type DataCardField<T> = {
@@ -137,7 +138,23 @@ function DataCardItem<T>({ item, id, config }: DataCardItemProps<T>) {
   const isFocused = focusedId === id;
   const isSwiped = swipedId === id;
   const actions = typeof config.actions === "function" ? config.actions(item) : config.actions;
-  const hasActions = actions && actions.length > 0;
+  const isRtl = typeof document !== "undefined" && document.documentElement.dir === "rtl";
+
+  const definedLeftActions = actions?.filter((a) => a.side === "left") ?? [];
+  const definedRightActions = actions?.filter((a) => a.side === "right") ?? [];
+
+  // In RTL, users often swipe in the opposite direction compared to LTR habits.
+  // If a card only defines actions on one side, mirror them so either swipe direction reveals an action.
+  const leftActions =
+    isRtl && definedLeftActions.length === 0 && definedRightActions.length > 0
+      ? definedRightActions
+      : definedLeftActions;
+  const rightActions =
+    isRtl && definedRightActions.length === 0 && definedLeftActions.length > 0
+      ? definedLeftActions
+      : definedRightActions;
+
+  const hasActions = leftActions.length + rightActions.length > 0;
 
   const handleTap = () => {
     // Only toggle expand if not dragging
@@ -154,22 +171,30 @@ function DataCardItem<T>({ item, id, config }: DataCardItemProps<T>) {
 
   const handleDrag = () => {
     const currentX = x.get();
-    const threshold = cardWidth ? -cardWidth * 0.2 : -50;
-    setIsSwipeActive(currentX < threshold);
+    const leftThreshold = cardWidth ? -cardWidth * 0.2 : -50;
+    const rightThreshold = cardWidth ? cardWidth * 0.2 : 50;
+    setIsSwipeActive(currentX < leftThreshold || currentX > rightThreshold);
     // if user drags back past threshold, close the revealed state
-    if (isSwiped && currentX > threshold + 8) {
+    if (isSwiped && currentX > leftThreshold + 8 && currentX < rightThreshold - 8) {
       setSwipedId(null);
     }
   };
 
   const handleDragEnd = () => {
     const currentX = x.get();
-    const revealThreshold = cardWidth ? -cardWidth * 0.2 : -80;
+    const leftRevealThreshold = cardWidth ? -cardWidth * 0.2 : -80;
+    const rightRevealThreshold = cardWidth ? cardWidth * 0.2 : 80;
 
-    // If user swiped past 20% show the action (don't auto-trigger)
-    if (currentX < revealThreshold && hasActions) {
+    // If user swiped left past 20% and there are right actions
+    if (currentX < leftRevealThreshold && rightActions.length > 0) {
       setSwipedId(id);
-      const target = Math.round(revealThreshold);
+      const target = Math.round(leftRevealThreshold);
+      animate(x, target, { duration: 0.15 });
+    }
+    // If user swiped right past 20% and there are left actions
+    else if (currentX > rightRevealThreshold && leftActions.length > 0) {
+      setSwipedId(id);
+      const target = Math.round(rightRevealThreshold);
       animate(x, target, { duration: 0.15 });
     } else {
       // snap back
@@ -196,9 +221,17 @@ function DataCardItem<T>({ item, id, config }: DataCardItemProps<T>) {
 
   // Keep motion value in sync when swipedId changes elsewhere
   React.useEffect(() => {
-    const revealX = cardWidth ? -Math.round(cardWidth * 0.2) : -80;
+    const leftRevealX = cardWidth ? -Math.round(cardWidth * 0.2) : -80;
+    const rightRevealX = cardWidth ? Math.round(cardWidth * 0.2) : 80;
+    const currentX = x.get();
+
     if (isSwiped) {
-      animate(x, revealX, { duration: 0.15 });
+      // Determine which direction was swiped based on current position
+      if (currentX < 0 && rightActions.length > 0) {
+        animate(x, leftRevealX, { duration: 0.15 });
+      } else if (currentX > 0 && leftActions.length > 0) {
+        animate(x, rightRevealX, { duration: 0.15 });
+      }
     } else {
       animate(x, 0, { duration: 0.15 });
     }
@@ -219,13 +252,25 @@ function DataCardItem<T>({ item, id, config }: DataCardItemProps<T>) {
       )}
     >
       {/* Swipe actions background */}
-      {hasActions && (
+      {rightActions.length > 0 && (
         <DataCardSwipeActions
-          actions={actions}
+          actions={rightActions}
           isActive={isSwipeActive || isSwiped}
+          side="right"
           onActionClick={() => {
-            // trigger primary action and close
-            actions[0].onClick();
+            rightActions[0].onClick();
+            setSwipedId(null);
+            animate(x, 0, { duration: 0.15 });
+          }}
+        />
+      )}
+      {leftActions.length > 0 && (
+        <DataCardSwipeActions
+          actions={leftActions}
+          isActive={isSwipeActive || isSwiped}
+          side="left"
+          onActionClick={() => {
+            leftActions[0].onClick();
             setSwipedId(null);
             animate(x, 0, { duration: 0.15 });
           }}
@@ -235,15 +280,18 @@ function DataCardItem<T>({ item, id, config }: DataCardItemProps<T>) {
       {/* Card content */}
       <motion.div
         drag={hasActions ? "x" : false}
-        dragConstraints={{ left: hasActions ? Math.round(-Math.max(cardWidth * 0.6, 100)) : 0, right: 0 }}
-        dragElastic={{ left: 0.1, right: 0 }}
+        dragConstraints={{
+          left: rightActions.length > 0 ? Math.round(-Math.max(cardWidth * 0.6, 100)) : 0,
+          right: leftActions.length > 0 ? Math.round(Math.max(cardWidth * 0.6, 100)) : 0
+        }}
+        dragElastic={{ left: rightActions.length > 0 ? 0.1 : 0, right: leftActions.length > 0 ? 0.1 : 0 }}
         dragSnapToOrigin
         onDragStart={handleDragStart}
         onDrag={handleDrag}
         onDragEnd={handleDragEnd}
         onClick={handleTap}
         style={{ x }}
-        className="relative bg-card cursor-pointer touch-pan-y"
+        className="relative z-10 bg-card cursor-pointer touch-pan-y"
       >
         <DataCardHeader item={item} config={config} isExpanded={isExpanded} />
 
@@ -356,29 +404,34 @@ function DataCardField<T>({ field, item }: DataCardFieldProps<T>) {
 type DataCardSwipeActionsProps = {
   actions: DataCardAction[];
   isActive: boolean;
+  side: "left" | "right";
   onActionClick?: () => void;
 };
 
-function DataCardSwipeActions({ actions, isActive, onActionClick }: DataCardSwipeActionsProps) {
+function DataCardSwipeActions({ actions, isActive, side, onActionClick }: DataCardSwipeActionsProps) {
   const primaryAction = actions[0];
+  const backgroundColor = primaryAction.variant === "destructive" ? "#ef4444" : "#3b82f6";
 
   return (
     <div
       data-slot="data-card-swipe-actions"
       data-active={isActive}
+      data-side={side}
       className={cn(
-        "absolute inset-y-0 left-0 flex items-center justify-center",
-        "w-24 transition-opacity",
-        primaryAction.variant === "destructive" ? "bg-destructive" : "bg-primary",
+        "absolute inset-y-0 flex items-center justify-center",
+        "w-24 transition-opacity z-0",
+        side === "left" ? "left-0" : "right-0",
         isActive ? "opacity-100" : "opacity-70"
       )}
+      style={{ backgroundColor }}
     >
       <Button
         aria-label={primaryAction.label}
         type="button"
         onClick={onActionClick}
-        data-size="icon"
-        className="h-full w-full text-primary-foreground"
+        variant="ghost"
+        size="icon"
+        className="h-full w-full rounded-none text-white hover:bg-transparent hover:text-white"
       >
         {primaryAction.icon}
       </Button>

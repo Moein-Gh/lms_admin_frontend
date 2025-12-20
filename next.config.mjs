@@ -1,6 +1,17 @@
+import withPWAInit from "@ducanh2912/next-pwa";
+
+const withPWA = withPWAInit({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  register: true,
+  skipWaiting: true,
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
+  // Silence Turbopack error when using Webpack-based plugins like next-pwa
+  turbopack: {},
   compiler: {
     removeConsole: process.env.NODE_ENV === "production"
   },
@@ -27,4 +38,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);

@@ -83,10 +83,10 @@ export function UsersTable({ data, isLoading, error, pagination }: Props) {
                     </div>
                   </TableCell>
 
-                  <TableCell className="w-2/12 text-center">
-                    <div className="flex flex-row gap-1 items-center">
+                  <TableCell className="w-2/12 ">
+                    <div className="flex flex-row gap-1 items-center justify-center">
                       {user.roleAssignments?.map((roleAssignment) => (
-                        <Badge key={roleAssignment.id} variant="secondary" className="text-xs font-medium">
+                        <Badge key={roleAssignment.id} variant="secondary" className="text-xs font-medium text-center">
                           {roleAssignment.role?.name}
                         </Badge>
                       ))}

@@ -65,7 +65,8 @@ const loanCardConfig: DataCardConfig<Loan> = {
       label: "مشاهده",
       onClick: () => {
         window.location.href = `/dashboard/loans/${loan.id}`;
-      }
+      },
+      side: "right"
     }
   ]
 };
