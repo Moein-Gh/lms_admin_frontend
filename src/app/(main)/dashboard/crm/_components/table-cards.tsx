@@ -3,7 +3,6 @@
 import { Download } from "lucide-react";
 
 import { DataTable } from "@/components/data-table/data-table";
-import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardAction } from "@/components/ui/card";
@@ -39,7 +38,6 @@ export function TableCards() {
           <div className="overflow-hidden rounded-md border">
             <DataTable table={table} columns={recentLeadsColumns} />
           </div>
-          <DataTablePagination table={table} />
         </CardContent>
       </Card>
     </div>

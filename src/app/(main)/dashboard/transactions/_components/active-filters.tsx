@@ -34,12 +34,8 @@ function kindLabel(kind?: TransactionKind) {
       return "برداشت";
     case TransactionKind.LOAN_DISBURSEMENT:
       return "پرداخت وام";
-    case TransactionKind.LOAN_REPAYMENT:
-      return "بازپرداخت وام";
-    case TransactionKind.SUBSCRIPTION_PAYMENT:
-      return "پرداخت اشتراک";
-    case TransactionKind.FEE:
-      return "کارمزد";
+    case TransactionKind.TRANSFER:
+      return "انتقال وجه";
     default:
       return "-";
   }

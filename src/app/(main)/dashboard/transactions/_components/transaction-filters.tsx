@@ -171,9 +171,7 @@ const TRANSACTION_KINDS: { value: TransactionKind; label: string }[] = [
   { value: TransactionKind.DEPOSIT, label: "واریز" },
   { value: TransactionKind.WITHDRAWAL, label: "برداشت" },
   { value: TransactionKind.LOAN_DISBURSEMENT, label: "پرداخت وام" },
-  { value: TransactionKind.LOAN_REPAYMENT, label: "بازپرداخت وام" },
-  { value: TransactionKind.FEE, label: "کارمزد" },
-  { value: TransactionKind.SUBSCRIPTION_PAYMENT, label: "پرداخت اشتراک" }
+  { value: TransactionKind.TRANSFER, label: "انتقال وجه" }
 ];
 
 const TRANSACTION_STATUSES = [
