@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 
+import { useSearchParams } from "next/navigation";
 import { PaginationControls } from "@/components/pagination-controls";
 import { useAccounts } from "@/hooks/use-account";
 import { usePagination } from "@/hooks/use-pagination";
 
+import { OrderDirection } from "@/types/api";
 import { AccountFilters } from "./_components/account-filters-dialog";
 import { AccountsCardList } from "./_components/accounts-card-list";
 import { AccountsHeader } from "./_components/accounts-header";
@@ -20,13 +22,20 @@ export default function AccountsPage() {
     status: undefined
   });
 
+  const searchParams = useSearchParams();
+
+  const orderBy = searchParams.get("orderBy") ?? undefined;
+  const orderDir = searchParams.get("orderDir") as OrderDirection | undefined;
+
   const { data, isLoading, error } = useAccounts({
     page: pagination.page,
     pageSize: pagination.pageSize,
     search: filters.search,
     accountTypeId: filters.accountTypeId,
     userId: filters.userId,
-    status: filters.status
+    status: filters.status,
+    orderBy,
+    orderDir
   });
 
   const handleFiltersChange = (newFilters: AccountFilters) => {
@@ -52,12 +61,7 @@ export default function AccountsPage() {
 
       {/* Desktop: Table view */}
       <div className="hidden sm:block">
-        <AccountsTable
-          data={data ?? null}
-          isLoading={isLoading}
-          error={error}
-          pagination={{ page: pagination.page, pageSize: pagination.pageSize }}
-        />
+        <AccountsTable data={data ?? null} isLoading={isLoading} error={error} />
       </div>
 
       {/* Mobile: Card view */}

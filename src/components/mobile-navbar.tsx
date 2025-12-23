@@ -166,7 +166,7 @@ export function MobileNavbar() {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        className="flex h-14 w-full items-center justify-between gap-1 rounded-[1.75rem]  bg-navbar-bg px-3 shadow-md shadow-black/15 backdrop-blur-sm dark:bg-navbar-bg dark:shadow-white/10"
+        className="flex h-16 w-full items-center justify-between gap-1 rounded-[1.75rem]  bg-navbar-bg px-3 shadow-md shadow-black/15 backdrop-blur-sm dark:bg-navbar-bg dark:shadow-white/10"
         style={{ color: "var(--color-navbar-text)" }}
       >
         {/* Floating active indicator */}

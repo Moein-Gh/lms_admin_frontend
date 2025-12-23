@@ -84,8 +84,8 @@ These serve as the fallback; there is no separate default.css file. */
   --destructive: oklch(44.945% 0.18122 23.838);
   --border: oklch(84.522% 0.0001 271.152);
   --input: oklch(0.922 0 0);
-  --navbar-bg: #3d8295;
-  --navbar-text: oklch(86.586% 0.01557 17.112);
+  --navbar-bg: rgba(0, 73, 94, 0.376);
+  --navbar-text: oklch(100% 0.00011 271.152);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);

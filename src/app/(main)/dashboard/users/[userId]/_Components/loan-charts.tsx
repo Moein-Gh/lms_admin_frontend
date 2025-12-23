@@ -147,7 +147,7 @@ export default function LoanCharts({ balance = [] }: LoanChartsProps) {
 
         {/* Chart 2: Per-Loan Progress (Stacked Bar) */}
         <CarouselItem>
-          <Card className="flex flex-col h-full border-none shadow-none bg-card">
+          <Card className="flex flex-col py-6  h-full border-none shadow-none bg-card">
             <CardHeader className="items-center pb-0">
               <CardTitle>پیشرفت وام‌ها</CardTitle>
               <CardDescription>وضعیت پرداخت هر وام</CardDescription>

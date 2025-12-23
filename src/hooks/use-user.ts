@@ -41,6 +41,7 @@ export function useUsers(
   return useQuery({
     queryKey: userKeys.list(params),
     queryFn: () => listUsers(params),
+    staleTime: 0,
     ...options
   });
 }

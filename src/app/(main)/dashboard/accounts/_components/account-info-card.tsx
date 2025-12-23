@@ -2,16 +2,36 @@
 
 import React from "react";
 import Link from "next/link";
-import { Building2, Calendar, Copy, CreditCard, Hash, Tag, User, Wallet } from "lucide-react";
+import {
+  Building2,
+  Calendar,
+  Copy,
+  CreditCard,
+  Hash,
+  Tag,
+  User,
+  Wallet,
+  MoreHorizontal,
+  BanknoteArrowDown
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge, type BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem
+} from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { AccountStatus, type Account } from "@/types/entities/account.type";
 import BuyoutPanel from "./buyout-panel";
+import TransferPanel from "./transfer/transfer-panel";
 
 function formatCardNumber(cardNumber: string) {
   return cardNumber.match(/.{1,4}/g)?.join(" ") ?? cardNumber;
@@ -33,6 +53,9 @@ export function AccountInfoCard({ account }: { account: Account }) {
 
   // Buyout panel open state; panel behavior is handled by `BuyoutPanel`
   const [buyOutOpen, setBuyOutOpen] = React.useState(false);
+  const [transferOpen, setTransferOpen] = React.useState(false);
+
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -68,20 +91,67 @@ export function AccountInfoCard({ account }: { account: Account }) {
               </div>
               <div className="flex items-center gap-2">
                 {account.status !== AccountStatus.INACTIVE && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        type="button"
-                        onClick={() => setBuyOutOpen(true)}
-                        aria-label="تسویه حساب"
-                      >
-                        تسویه
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>تسویه حساب</TooltipContent>
-                  </Tooltip>
+                  <div className="flex flex-row gap-3">
+                    {!isMobile ? (
+                      <>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              type="button"
+                              onClick={() => setBuyOutOpen(true)}
+                              aria-label="تسویه حساب"
+                            >
+                              تسویه
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>تسویه حساب</TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              type="button"
+                              onClick={() => setTransferOpen(true)}
+                              aria-label="انتقال وجه"
+                            >
+                              انتقال وجه
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>انتقال وجه به حساب دیگر</TooltipContent>
+                        </Tooltip>
+                      </>
+                    ) : (
+                      <DropdownMenu modal={false}>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="icon" aria-label="منو اقدامات">
+                            <MoreHorizontal className="size-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-30 text-start " align="start">
+                          <DropdownMenuGroup>
+                            <DropdownMenuItem
+                              className="flex h-10 justify-between items-center text-start"
+                              onSelect={() => setTransferOpen(true)}
+                            >
+                              <Wallet className="h-4 w-4" />
+                              <span>انتقال وجه</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              className="flex h-10 justify-between items-center bg-destructive/50 text-start"
+                              onSelect={() => setBuyOutOpen(true)}
+                            >
+                              <BanknoteArrowDown className="h-4 w-4 text-foreground" />
+                              <span>تسویه</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
@@ -156,6 +226,12 @@ export function AccountInfoCard({ account }: { account: Account }) {
       </Card>
 
       <BuyoutPanel open={buyOutOpen} onOpenChange={setBuyOutOpen} accountId={account.id} />
+      <TransferPanel
+        open={transferOpen}
+        onOpenChange={setTransferOpen}
+        sourceAccountId={account.id}
+        userId={account.user?.id}
+      />
     </>
   );
 }

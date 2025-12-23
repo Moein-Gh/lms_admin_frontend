@@ -40,7 +40,7 @@ function TransactionStatusCell({ status }: { status: Transaction["status"] }) {
 }
 
 function TransactionKindCell({ kind }: { kind: TransactionKind }) {
-  let variant: "active" | "outline" | "inactive";
+  let variant: "active" | "outline" | "inactive" | "secondary";
   let label: string;
   switch (kind) {
     case TransactionKind.DEPOSIT:
@@ -55,17 +55,9 @@ function TransactionKindCell({ kind }: { kind: TransactionKind }) {
       variant = "inactive";
       label = "پرداخت وام";
       break;
-    case TransactionKind.LOAN_REPAYMENT:
-      variant = "active";
-      label = "بازپرداخت وام";
-      break;
-    case TransactionKind.SUBSCRIPTION_PAYMENT:
-      variant = "inactive";
-      label = "پرداخت اشتراک";
-      break;
-    case TransactionKind.FEE:
-      variant = "inactive";
-      label = "کارمزد";
+    case TransactionKind.TRANSFER:
+      variant = "secondary";
+      label = "انتقال";
       break;
     default:
       variant = "outline";

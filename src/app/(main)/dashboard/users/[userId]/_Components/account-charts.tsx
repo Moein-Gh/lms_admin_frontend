@@ -103,7 +103,7 @@ export function AccountCharts({ userId, summary }: AccountChartsProps) {
               <CardDescription>ترکیب سپرده و ماهیانه</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
-              <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
+              <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-62.5">
                 <PieChart>
                   <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
                   <Pie data={pieData} dataKey="value" nameKey="browser" innerRadius={60} strokeWidth={5}>
@@ -112,7 +112,7 @@ export function AccountCharts({ userId, summary }: AccountChartsProps) {
                         if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                           return (
                             <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
-                              <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
+                              <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-2xl font-bold">
                                 {totalStats.totalAmount.toLocaleString("fa-IR")}
                               </tspan>
                             </text>
@@ -127,7 +127,7 @@ export function AccountCharts({ userId, summary }: AccountChartsProps) {
               <div className="mt-4 grid grid-cols-2 gap-4 text-center text-sm">
                 <div className="flex flex-col gap-1">
                   <span className="text-muted-foreground">تعداد سپرده</span>
-                  <span className="font-bold">
+                  <span className="font-bold text">
                     <FormattedNumber type="normal" value={totalStats.regularCount} />
                   </span>
                 </div>

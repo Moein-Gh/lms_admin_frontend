@@ -6,6 +6,7 @@ import {
   listTransactions,
   updateTransaction,
   approveTransaction,
+  createTransfer,
   type ListTransactionsParams,
   type UpdateTransactionRequest,
   type CreateTransactionRequest
@@ -60,6 +61,17 @@ export function useCreateTransaction() {
     mutationFn: (data: CreateTransactionRequest | FormData) => createTransaction(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
+    }
+  });
+}
+
+export function useCreateTransfer() {
+  const queryClient = useQueryClient();
+  return useMutation<Transaction, unknown, Parameters<typeof createTransfer>[0], unknown>({
+    mutationFn: (data) => createTransfer(data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: transactionKeys.details() });
     }
   });
 }

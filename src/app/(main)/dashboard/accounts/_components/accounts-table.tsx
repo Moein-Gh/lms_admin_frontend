@@ -1,40 +1,40 @@
 "use client";
 
-import Link from "next/link";
+import * as React from "react";
 
-import { Eye } from "lucide-react";
-
-import { FormattedNumber } from "@/components/formatted-number";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/data-table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-function formatCardNumber(cardNumber?: string) {
-  if (!cardNumber) return "-";
-  return cardNumber.replace(/(\d{4})(?=\d)/g, "$1-");
-}
-import { formatDate } from "@/lib/utils";
+import { useServerDataTable } from "@/hooks/use-server-data-table";
+
 import { PaginatedResponseDto } from "@/types/api";
-import { Account, AccountStatusLabels } from "@/types/entities/account.type";
+import { Account } from "@/types/entities/account.type";
+import { columns } from "./columns";
 
 type Props = {
   data: PaginatedResponseDto<Account> | null;
   isLoading: boolean;
   error: unknown;
-  pagination: {
-    page: number;
-    pageSize: number;
-  };
 };
 
-export function AccountsTable({ data, isLoading, error, pagination }: Props) {
+export function AccountsTable({ data, isLoading, error }: Props) {
+  // reuse server data table hook like users table
+  const tableData = data?.data ?? [];
+  const pageCount = data?.meta.totalPages ?? 0;
+
+  const dataKey = React.useMemo(() => tableData.map((a) => a.id).join(","), [tableData]);
+
+  const table = useServerDataTable({
+    data: tableData,
+    columns,
+    pageCount
+  });
+
   if (error) {
     return (
-      <Card>
-        <CardContent>
+      <Card className="relative w-full overflow-auto rounded-xl bg-card max-h-[70vh]">
+        <CardContent className="p-0">
           <div className="p-8 text-center">
             <p className="text-destructive">خطا در بارگذاری حساب‌ها</p>
           </div>
@@ -45,11 +45,10 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
 
   if (isLoading) {
     return (
-      <Card>
-        <CardContent>
+      <Card className="relative w-full overflow-auto rounded-xl bg-card max-h-[70vh]">
+        <CardContent className="p-0">
           <div className="p-4 space-y-3">
-            {Array.from({ length: 5 }).map((_, i) => (
-              // eslint-disable-next-line react/no-array-index-key
+            {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="flex items-center gap-4">
                 <Skeleton className="size-12 rounded-full" />
                 <div className="flex-1 space-y-2">
@@ -64,97 +63,13 @@ export function AccountsTable({ data, isLoading, error, pagination }: Props) {
     );
   }
 
-  if (!data || data.data.length === 0) {
-    return (
-      <Card>
-        <CardContent>
-          <div className="p-8 text-center">
-            <p className="text-muted-foreground">هیچ حسابی یافت نشد</p>
-          </div>
+  return (
+    <div className="space-y-4">
+      <Card className="relative w-full overflow-auto rounded-xl bg-card max-h-[70vh]">
+        <CardContent className="p-0">
+          <DataTable key={dataKey} table={table} columns={columns} />
         </CardContent>
       </Card>
-    );
-  }
-
-  return (
-    <div className="relative w-full overflow-auto rounded-xl bg-card max-h-[70vh]">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="text-center">#</TableHead>
-            <TableHead>نام حساب</TableHead>
-            <TableHead>کد</TableHead>
-            <TableHead>نوع حساب</TableHead>
-            <TableHead>بانک</TableHead>
-            <TableHead>دارنده حساب</TableHead>
-            <TableHead>شماره کارت</TableHead>
-            <TableHead>موجودی</TableHead>
-            <TableHead>وضعیت</TableHead>
-            <TableHead>تاریخ افتتاح حساب</TableHead>
-            <TableHead className="text-center">عملیات</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.data.map((account: Account, index: number) => (
-            <TableRow key={account.id}>
-              <TableCell className="text-center  text-muted-foreground">
-                {(pagination.page - 1) * pagination.pageSize + index + 1}
-              </TableCell>
-              <TableCell className="font-medium">{account.name}</TableCell>
-              <TableCell>
-                <Badge variant="secondary" className="">
-                  {account.code}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                {account.accountType ? <Badge variant="outline">{account.accountType.name}</Badge> : "-"}
-              </TableCell>
-              <TableCell>{account.bankName || "-"}</TableCell>
-              <TableCell>
-                {account.user?.id && account.user.identity.name ? (
-                  <Link
-                    href={`/dashboard/users/${account.user.id}`}
-                    className="text-primary font-bold hover:text-primary/80 transition-colors"
-                    style={{ textDecoration: "none" }}
-                  >
-                    {account.user.identity.name}
-                  </Link>
-                ) : (
-                  "-"
-                )}
-              </TableCell>
-              <TableCell>
-                <span className=" text-sm">{formatCardNumber(account.cardNumber)} **** ****</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-medium text-primary">
-                  <FormattedNumber type="price" value={Number(account.balanceSummary?.totalDeposits) || 0} />
-                </span>
-              </TableCell>
-              <TableCell>
-                <Badge variant={AccountStatusLabels[account.status].badgeVariant}>
-                  {AccountStatusLabels[account.status].label}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-sm text-muted-foreground">{formatDate(account.createdAt)}</TableCell>
-              <TableCell>
-                <div className="flex items-center justify-center">
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon" asChild>
-                        <Link href={`/dashboard/accounts/${account.id}`}>
-                          <Eye />
-                        </Link>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>مشاهده جزئیات حساب</TooltipContent>
-                  </Tooltip>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
     </div>
   );
 }

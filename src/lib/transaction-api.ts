@@ -56,6 +56,21 @@ export async function createTransaction(data: CreateTransactionRequest | FormDat
   return response.data;
 }
 
+export interface CreateTransferRequest {
+  sourceAccountId: string;
+  destinationAccountId: string;
+  amount: string;
+  description?: string | null;
+}
+
+/**
+ * Create a transfer between accounts
+ */
+export async function createTransfer(data: CreateTransferRequest): Promise<Transaction> {
+  const response = await api.post<Transaction>("/transactions/transfer", data);
+  return response.data;
+}
+
 /**
  * Approve a pending transaction
  */

@@ -16,6 +16,7 @@ import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-ki
 import { ColumnDef, flexRender, type Table as TanStackTable } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 import { DraggableRow } from "./draggable-row";
 
@@ -57,9 +58,19 @@ function renderTableBody<TData, TValue>({
   }
   return table.getRowModel().rows.map((row) => (
     <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-      {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-      ))}
+      {row.getVisibleCells().map((cell) => {
+        const meta = cell.column.columnDef.meta;
+        const size = cell.column.columnDef.size;
+        return (
+          <TableCell
+            key={cell.id}
+            className={cn(meta?.className, "text-center")}
+            style={typeof size === "number" && size !== 150 ? { width: size } : undefined}
+          >
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          </TableCell>
+        );
+      })}
     </TableRow>
   ));
 }
@@ -87,13 +98,20 @@ export function DataTable<TData, TValue>({
   }
 
   const tableContent = (
-    <Table>
+    <Table className="table-fixed">
       <TableHeader className="bg-muted sticky top-0 z-10">
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
+              const meta = header.column.columnDef.meta;
+              const size = header.column.columnDef.size;
               return (
-                <TableHead key={header.id} colSpan={header.colSpan}>
+                <TableHead
+                  key={header.id}
+                  colSpan={header.colSpan}
+                  className={cn(meta?.className, "text-center")}
+                  style={typeof size === "number" && size !== 150 ? { width: size } : undefined}
+                >
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                 </TableHead>
               );

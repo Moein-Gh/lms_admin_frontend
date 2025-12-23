@@ -57,9 +57,11 @@ function LoanCard({ loan }: { loan: Loan }) {
           </Badge>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button size="icon" variant="outline" className="size-9 md:size-10">
-                <ArrowLeftIcon className="size-5" />
-              </Button>
+              <a href={`/dashboard/loans/${loan.id}`} className="size-9 md:size-10 ">
+                <Button size="icon" variant="outline" className="w-full h-full cursor-pointer">
+                  <ArrowLeftIcon className="size-5" />
+                </Button>
+              </a>
             </TooltipTrigger>
             <TooltipContent side="top">مشاهده</TooltipContent>
           </Tooltip>

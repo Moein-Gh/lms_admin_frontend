@@ -1,15 +1,9 @@
 "use client";
 
 import { CreateUserDialog } from "./create-user-dialog";
-import { UserFilters, UserFiltersDialog } from "./user-filters-dialog";
+import { UserFiltersDialog } from "./user-filters-dialog";
 
-type Props = {
-  filters: UserFilters;
-  onFiltersChange: (f: UserFilters) => void;
-  onReset: () => void;
-};
-
-export function UsersHeader({ filters, onFiltersChange, onReset }: Props) {
+export function UsersHeader() {
   return (
     <div className="flex items-center justify-between">
       <div>
@@ -17,7 +11,7 @@ export function UsersHeader({ filters, onFiltersChange, onReset }: Props) {
         <p className="text-muted-foreground mt-1">مدیریت و مشاهده لیست کاربران</p>
       </div>
       <div className="flex items-center gap-2">
-        <UserFiltersDialog filters={filters} onFiltersChange={onFiltersChange} onReset={onReset} />
+        <UserFiltersDialog />
         <CreateUserDialog />
       </div>
     </div>

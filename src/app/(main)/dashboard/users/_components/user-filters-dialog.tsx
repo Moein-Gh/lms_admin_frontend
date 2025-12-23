@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-
 import { FilterIcon, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -26,32 +25,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Pills } from "@/components/ui/pills";
+import { useDataTableParams } from "@/hooks/use-data-table-params";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-export interface UserFilters {
-  search: string;
-  isActive?: boolean;
-}
-
-interface UserFiltersDialogProps {
-  filters: UserFilters;
-  onFiltersChange: (filters: UserFilters) => void;
-  onReset: () => void;
-}
-
-export function UserFiltersDialog({ filters, onFiltersChange, onReset }: UserFiltersDialogProps) {
+export function UserFiltersDialog() {
   const [open, setOpen] = React.useState(false);
   const isMobile = useIsMobile();
-
-  const handleApply = (newFilters: UserFilters) => {
-    onFiltersChange(newFilters);
-    setOpen(false);
-  };
-
-  const handleReset = () => {
-    onReset();
-    setOpen(false);
-  };
 
   if (isMobile) {
     return (
@@ -68,7 +47,7 @@ export function UserFiltersDialog({ filters, onFiltersChange, onReset }: UserFil
             <DrawerDescription>کاربران را بر اساس معیارهای مختلف فیلتر کنید</DrawerDescription>
           </DrawerHeader>
           <div className="px-4">
-            <FilterForm filters={filters} onApply={handleApply} onReset={handleReset} />
+            <FilterForm onOpenChange={setOpen} />
           </div>
           <DrawerFooter className="pt-2">
             <DrawerClose asChild>
@@ -93,29 +72,41 @@ export function UserFiltersDialog({ filters, onFiltersChange, onReset }: UserFil
           <DialogTitle>فیلتر و جستجو</DialogTitle>
           <DialogDescription>کاربران را بر اساس معیارهای مختلف فیلتر کنید</DialogDescription>
         </DialogHeader>
-        <FilterForm filters={filters} onApply={handleApply} onReset={handleReset} />
+        <FilterForm onOpenChange={setOpen} />
       </DialogContent>
     </Dialog>
   );
 }
 
-interface FilterFormProps {
-  filters: UserFilters;
-  onApply: (filters: UserFilters) => void;
-  onReset: () => void;
-}
+function FilterForm({ onOpenChange }: { onOpenChange: (open: boolean) => void }) {
+  const { searchParams, setParams, reset } = useDataTableParams();
 
-function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
-  const [localFilters, setLocalFilters] = React.useState<UserFilters>(filters);
+  // Local state for form inputs before applying
+  const [search, setSearch] = React.useState(searchParams.get("search") ?? "");
+  const [isActive, setIsActive] = React.useState<string | undefined>(searchParams.get("isActive") ?? "all");
+
+  // Sync local state with URL when URL changes (e.g. clear filters)
+  React.useEffect(() => {
+    setSearch(searchParams.get("search") ?? "");
+    setIsActive(searchParams.get("isActive") ?? "all");
+  }, [searchParams]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onApply(localFilters);
+
+    setParams({
+      search: search || null,
+      isActive: isActive && isActive !== "all" ? isActive : null
+    });
+
+    onOpenChange(false);
   };
 
   const handleReset = () => {
-    setLocalFilters({ search: "", isActive: undefined });
-    onReset();
+    reset();
+    setSearch("");
+    setIsActive("all");
+    onOpenChange(false);
   };
 
   return (
@@ -127,15 +118,11 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
           <Input
             id="search"
             placeholder="نام، شماره تلفن یا ایمیل..."
-            value={localFilters.search}
-            onChange={(e) => setLocalFilters({ ...localFilters, search: e.target.value })}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
-          {localFilters.search && (
-            <button
-              type="button"
-              onClick={() => setLocalFilters({ ...localFilters, search: "" })}
-              className="absolute top-1/2 left-2 -translate-y-1/2"
-            >
+          {search && (
+            <button type="button" onClick={() => setSearch("")} className="absolute top-1/2 left-2 -translate-y-1/2">
               <XIcon className="text-muted-foreground size-4" />
             </button>
           )}
@@ -148,18 +135,13 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
         <Pills
           options={[
             { value: "all", label: "همه کاربران" },
-            { value: "active", label: "فعال" },
-            { value: "inactive", label: "غیرفعال" }
+            { value: "true", label: "فعال" },
+            { value: "false", label: "غیرفعال" }
           ]}
           size="sm"
           variant="outline"
-          value={localFilters.isActive === undefined ? "all" : localFilters.isActive ? "active" : "inactive"}
-          onValueChange={(value) =>
-            setLocalFilters({
-              ...localFilters,
-              isActive: value === "all" || value === undefined ? undefined : value === "active" ? true : false
-            })
-          }
+          value={isActive ?? "all"}
+          onValueChange={(value) => setIsActive(value)}
         />
       </div>
 

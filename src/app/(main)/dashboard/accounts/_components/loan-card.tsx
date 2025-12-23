@@ -78,9 +78,11 @@ export function LoanCard({ loan }: { loan: Loan }) {
       </div>
 
       {/* Footer: Button */}
-      <Button asChild variant="outline" size="sm" className="w-full rounded-lg font-bold h-9">
-        <a href={`/dashboard/loans/${loan.id}`}>مشاهده جزئیات</a>
-      </Button>
+      <a href={`/dashboard/loan/${loan.id}`} className="w-full">
+        <Button variant="outline" size="sm" className="w-full rounded-lg font-bold h-9">
+          مشاهده جزئیات
+        </Button>
+      </a>
     </Card>
   );
 }

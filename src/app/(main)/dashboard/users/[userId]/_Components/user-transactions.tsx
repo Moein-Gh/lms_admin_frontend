@@ -54,12 +54,8 @@ const getKindConfig = (kind: TransactionKind): { label: string; isIncome: boolea
       return { label: "برداشت", isIncome: false };
     case TransactionKind.LOAN_DISBURSEMENT:
       return { label: "پرداخت وام", isIncome: false };
-    case TransactionKind.LOAN_REPAYMENT:
-      return { label: "بازپرداخت وام", isIncome: true };
-    case TransactionKind.SUBSCRIPTION_PAYMENT:
-      return { label: "پرداخت اشتراک", isIncome: false };
-    case TransactionKind.FEE:
-      return { label: "کارمزد", isIncome: false };
+    case TransactionKind.TRANSFER:
+      return { label: "انتقال", isIncome: false };
     default:
       return { label: "نامشخص", isIncome: false };
   }
@@ -97,9 +93,11 @@ function TransactionCard({ transaction }: { transaction: Transaction }) {
           </Badge>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button size="icon" variant="outline" className="size-9 md:size-10">
-                <ArrowLeftIcon className="size-5" />
-              </Button>
+              <a href={`/dashboard/transactions/${transaction.id}`}>
+                <Button size="icon" variant="outline" className="size-9 md:size-10 cursor-pointer">
+                  <ArrowLeftIcon className="size-5" />
+                </Button>
+              </a>
             </TooltipTrigger>
             <TooltipContent side="top">مشاهده</TooltipContent>
           </Tooltip>

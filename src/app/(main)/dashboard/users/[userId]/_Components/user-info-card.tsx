@@ -1,9 +1,8 @@
 "use client";
 
-import { Calendar, CreditCard, Hash, MessageCircle, Phone, Trash } from "lucide-react";
+import { Calendar, CreditCard, Hash, MessageCircle, Phone, Trash, User2Icon } from "lucide-react";
 
 import { FormattedNumber } from "@/components/formatted-number";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -27,32 +26,19 @@ export default function UserInfoCard({ user }: Props) {
     updatedAt?: string | Date;
   };
 
-  const avatarSrc =
-    identity.avatarUrl ?? `https://i5p1o7caz2.ufs.sh/f/x2U4h8rqrclvSEGweo3DWPs8bGcKq1fhNvCwgj4op3rZF0nd`;
-
   return (
     <Card className="w-full h-full flex flex-col bg-card border-none shadow-none ">
-      <CardHeader className="flex flex-row items-center justify-center gap-4 pb-4 pt-6">
-        <div className="relative shrink-0">
-          <Avatar className="h-16 w-16 md:h-20 md:w-20 border-2 border-background shadow-sm">
-            <AvatarImage src={avatarSrc} alt={identity.name ?? "کاربر"} className="object-cover" />
-          </Avatar>
-          <span
-            className={
-              "absolute bottom-0 right-0 flex items-center justify-center rounded-full border-2 border-card " +
-              (user.isActive ? "bg-emerald-500 w-4 h-4 md:w-5 md:h-5" : "bg-gray-400 w-4 h-4 md:w-5 md:h-5")
-            }
-            title={user.isActive ? "فعال" : "غیرفعال"}
-          >
-            <span className="sr-only">{user.isActive ? "فعال" : "غیرفعال"}</span>
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-1.5 min-w-0">
-          <h2 className="text-lg font-bold truncate text-foreground">{identity.name ?? "کاربر بدون نام"}</h2>
-          <Badge variant="secondary" className="w-fit text-xs font-normal px-2.5 py-0.5">
-            {user.isActive ? "حساب کاربری فعال" : "حساب کاربری غیرفعال"}
-          </Badge>
+      <CardHeader className="px-6 pt-6 pb-4 flex flex-col gap-4 bg-accent/40 hover:bg-accent/60 transition-colors rounded-lg">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
+            <User2Icon className="w-6 h-6 text-foreground" />
+          </div>
+          <div className="flex flex-col gap-1 min-w-0">
+            <h2 className="text-xl font-bold truncate text-foreground">{identity.name ?? "کاربر بدون نام"}</h2>
+            <Badge variant="secondary" className="text-xs font-normal px-2.5 py-0.5">
+              {user.isActive ? " فعال" : " غیرفعال"}
+            </Badge>
+          </div>
         </div>
       </CardHeader>
 
