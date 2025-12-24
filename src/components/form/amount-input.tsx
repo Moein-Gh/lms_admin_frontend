@@ -58,12 +58,14 @@ const AmountInput = React.forwardRef<HTMLInputElement, AmountInputProps>(
 
     // Single-field behavior (existing)
     const [display, setDisplay] = React.useState<string>("");
+    const [rawValue, setRawValue] = React.useState<string>("");
 
     React.useEffect(() => {
       if (!singleMode) return;
       const raw = value == null ? "" : String(value);
       const latin = persianToLatinDigits(raw);
       const cleaned = allowDecimals ? latin.replace(/[^0-9.]/g, "") : latin.replace(/[^0-9]/g, "");
+      setRawValue(cleaned);
       setDisplay(formatWithSeparator(cleaned, thousandSeparator));
     }, [value, thousandSeparator, allowDecimals, singleMode]);
 
@@ -80,14 +82,16 @@ const AmountInput = React.forwardRef<HTMLInputElement, AmountInputProps>(
       }
 
       setDisplay(formatWithSeparator(raw, thousandSeparator));
+      setRawValue(raw);
       onValueChange?.(raw);
 
       if (rest.onChange) {
         try {
-          rest.onChange({
+          const synthetic = {
             ...e,
-            target: { ...e.target, value: raw }
-          } as unknown as React.ChangeEvent<HTMLInputElement>);
+            target: { ...e.target, value: raw, name: (rest as any).name }
+          } as unknown as React.ChangeEvent<HTMLInputElement>;
+          rest.onChange(synthetic);
         } catch {
           // some consumers (like react-hook-form's register) expect a normal event handler shape
         }
@@ -180,13 +184,20 @@ const AmountInput = React.forwardRef<HTMLInputElement, AmountInputProps>(
     };
 
     if (!singleMode) {
+      // when used inside native forms we want the submitted value to be the raw numeric string
+      const hiddenName = rest.name;
+      const visibleProps = { ...rest };
+      if (hiddenName) delete visibleProps.name;
+      if (visibleProps.onChange) delete visibleProps.onChange;
+
       return (
         <div className={`flex gap-2 ${className ?? ""}`}>
+          {hiddenName && <input type="hidden" name={hiddenName} value={assembleRaw(chunkVals)} />}
           {Array.from({ length: chunks }).map((_, i) => (
             <Input
               key={i}
               ref={(el) => {
-                chunkRefs.current[i] = el;
+                chunkRefs.current.splice(i, 1, el);
               }}
               value={chunkVals[i] ?? ""}
               onChange={(e) => handleChunkChange(i, e.target.value)}
@@ -194,8 +205,8 @@ const AmountInput = React.forwardRef<HTMLInputElement, AmountInputProps>(
               onPaste={(e) => handlePaste(e, i)}
               maxLength={chunkLength}
               inputMode="numeric"
-              className="text-center w-[68px] sm:w-[84px]"
-              {...rest}
+              className="text-center w-17 sm:w-21"
+              {...visibleProps}
             />
           ))}
         </div>
@@ -203,14 +214,18 @@ const AmountInput = React.forwardRef<HTMLInputElement, AmountInputProps>(
     }
 
     return (
-      <Input
-        {...rest}
-        ref={ref}
-        value={display}
-        onChange={handleChange}
-        inputMode={allowDecimals ? "decimal" : "numeric"}
-        className={className}
-      />
+      <>
+        {rest.name && <input type="hidden" name={rest.name} value={rawValue} />}
+        <Input
+          {...rest}
+          ref={ref}
+          name={rest.name ? undefined : rest.name}
+          value={display}
+          onChange={handleChange}
+          inputMode={allowDecimals ? "decimal" : "numeric"}
+          className={className}
+        />
+      </>
     );
   }
 );
