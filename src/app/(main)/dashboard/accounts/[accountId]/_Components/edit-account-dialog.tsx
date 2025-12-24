@@ -40,7 +40,6 @@ type FormValues = {
   isActive?: boolean;
   name?: string;
   phone?: string;
-  nationalCode?: string;
   countryCode?: string;
   email?: string;
 };
@@ -63,7 +62,6 @@ export function EditUserDialog({ user, onUpdated }: Props) {
   const identity = user.identity as {
     name?: string | null;
     phone?: string | null;
-    nationalCode?: string | null;
     countryCode?: string | null;
     email?: string | null;
   };
@@ -73,7 +71,6 @@ export function EditUserDialog({ user, onUpdated }: Props) {
       isActive: !!user.isActive,
       name: identity.name ?? "",
       phone: identity.phone ?? "",
-      nationalCode: identity.nationalCode ?? "",
       countryCode: identity.countryCode ?? "",
       email: identity.email ?? ""
     }
@@ -84,19 +81,10 @@ export function EditUserDialog({ user, onUpdated }: Props) {
       isActive: !!user.isActive,
       name: identity.name ?? "",
       phone: identity.phone ?? "",
-      nationalCode: identity.nationalCode ?? "",
       countryCode: identity.countryCode ?? "",
       email: identity.email ?? ""
     });
-  }, [
-    identity.name,
-    identity.phone,
-    identity.nationalCode,
-    identity.countryCode,
-    identity.email,
-    user.isActive,
-    reset
-  ]);
+  }, [identity.name, identity.phone, identity.countryCode, identity.email, user.isActive, reset]);
 
   const onSubmit = async (values: FormValues) => {
     try {
@@ -112,7 +100,6 @@ export function EditUserDialog({ user, onUpdated }: Props) {
           ...baseIdentity,
           name: values.name ?? baseIdentity.name,
           phone: values.phone ?? baseIdentity.phone,
-          nationalCode: values.nationalCode ?? baseIdentity.nationalCode,
           countryCode: values.countryCode ?? baseIdentity.countryCode,
           email: values.email ?? baseIdentity.email
         };
@@ -156,11 +143,6 @@ export function EditUserDialog({ user, onUpdated }: Props) {
           <div className="space-y-2">
             <Label>شماره تلفن</Label>
             <Input {...register("phone")} />
-          </div>
-
-          <div className="space-y-2">
-            <Label>کد ملی</Label>
-            <Input {...register("nationalCode")} />
           </div>
 
           <div className="space-y-2">

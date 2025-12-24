@@ -8,7 +8,7 @@ export interface CreateUserRequest {
   phone: string;
   name: string;
   countryCode: string;
-  nationalCode?: string;
+  roles: string[];
 }
 
 export interface RegisterUserInput {
@@ -16,7 +16,6 @@ export interface RegisterUserInput {
   email?: string | null;
   name: string;
   countryCode: string;
-  nationalCode: string;
 }
 
 export type RegisterUserResult = {
@@ -27,7 +26,6 @@ export interface UpdateUserRequest {
   isActive?: boolean;
   name?: string;
   phone?: string;
-  nationalCode?: string;
   countryCode?: string;
   email?: string;
 }

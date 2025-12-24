@@ -1,18 +1,15 @@
 "use client";
 
-import { Calendar, CreditCard, Hash, MessageCircle, Phone, Trash, User2Icon } from "lucide-react";
-
+import { Calendar, Hash, Phone, User2Icon } from "lucide-react";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatDate } from "@/lib/utils";
 import { User } from "@/types/entities/user.type";
 
 import { EditUserDialog } from "./edit-user-dialog";
-import RoleAssignmentDialog from "./role-assignment-dialog";
+import UserDeletePanel from "./user-delete-panel";
 
 type Props = { user: User };
 
@@ -21,7 +18,6 @@ export default function UserInfoCard({ user }: Props) {
     avatarUrl?: string;
     name?: string;
     phone?: string;
-    nationalCode?: string;
     createdAt?: string | Date;
     updatedAt?: string | Date;
   };
@@ -55,16 +51,6 @@ export default function UserInfoCard({ user }: Props) {
 
         <div className="flex items-center justify-between p-2.5 rounded-lg bg-accent/40 hover:bg-accent/60 transition-colors">
           <span className="text-[15px] text-muted-foreground flex items-center gap-1.5">
-            <CreditCard className="h-3 w-3" />
-            کد ملی
-          </span>
-          <span className="text-base font-bold dir-ltr truncate">
-            <FormattedNumber type="normal" value={identity.nationalCode ?? ""} />
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between p-2.5 rounded-lg bg-accent/40 hover:bg-accent/60 transition-colors">
-          <span className="text-[15px] text-muted-foreground flex items-center gap-1.5">
             <Hash className="h-3 w-3" />
             کد کاربر
           </span>
@@ -87,27 +73,7 @@ export default function UserInfoCard({ user }: Props) {
             <EditUserDialog user={user} />
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Assign role dialog (includes trigger) */}
-            <RoleAssignmentDialog userId={user.id} />
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" className="h-9 w-9 shrink-0">
-                  <MessageCircle className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>ارسال پیام</TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="destructive" size="icon" className="h-9 w-9 shrink-0 hover:bg-destructive/90">
-                  <Trash className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>حذف کاربر</TooltipContent>
-            </Tooltip>
-          </div>
+          <UserDeletePanel userId={user.id} />
         </div>
       </CardFooter>
     </Card>

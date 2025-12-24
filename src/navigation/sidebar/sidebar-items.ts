@@ -86,7 +86,7 @@ export const sidebarItems: NavGroup[] = [
       {
         title: "وام‌ها",
         url: "/dashboard/loans",
-        icon: ArrowLeftRight
+        icon: HandCoins
       },
       {
         title: "انواع وام",

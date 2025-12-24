@@ -16,7 +16,6 @@ export interface RegisterAccountInput {
   email?: string | null;
   name: string;
   countryCode: string;
-  nationalCode: string;
 }
 
 export interface UpdateAccountRequest {

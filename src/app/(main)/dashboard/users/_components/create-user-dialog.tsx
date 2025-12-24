@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -20,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useRoles } from "@/hooks/use-role";
 import { useCreateUser } from "@/hooks/use-user";
 
 export function CreateUserDialog() {
@@ -31,7 +33,7 @@ export function CreateUserDialog() {
   type FormValues = {
     phone: string;
     name: string;
-    nationalCode: string;
+    roles: string[];
   };
 
   const {
@@ -44,11 +46,18 @@ export function CreateUserDialog() {
     defaultValues: {
       phone: "",
       name: "",
-      nationalCode: ""
+      roles: []
     }
   });
 
+  const { data: rolesData, isLoading: rolesLoading } = useRoles();
+  const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
+
   const onSubmit = (data: FormValues) => {
+    if (selectedRoles.length === 0) {
+      toast.error("لطفاً حداقل یک نقش انتخاب کنید");
+      return;
+    }
     const parsed = parsePhoneNumber(data.phone || "");
     if (!parsed || !parsed.countryCallingCode) {
       toast.error("لطفاً شماره تلفن معتبر وارد کنید");
@@ -58,13 +67,14 @@ export function CreateUserDialog() {
       countryCode: `+${parsed.countryCallingCode}`,
       phone: parsed.nationalNumber,
       name: data.name.trim(),
-      nationalCode: data.nationalCode.trim() || undefined
+      roles: selectedRoles
     } as const;
     createUser.mutate(payload, {
       onSuccess: () => {
         toast.success("کاربر با موفقیت ایجاد شد");
         setOpen(false);
         reset();
+        setSelectedRoles([]);
       },
       onError: (err: unknown) => {
         let msg = "خطا در ایجاد کاربر";
@@ -78,6 +88,14 @@ export function CreateUserDialog() {
 
   const formContent = (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
+      <div className="space-y-2">
+        <Label htmlFor="name" className="text-sm font-medium">
+          نام و نام خانوادگی <span className="text-destructive">*</span>
+        </Label>
+        <Input id="name" placeholder="نام" required {...register("name", { required: true })} />
+        {errors.name && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="phone" className="text-sm font-medium">
           شماره موبایل
@@ -95,19 +113,32 @@ export function CreateUserDialog() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="national" className="text-sm font-medium">
-          کد ملی <span className="text-destructive">*</span>
+        <Label htmlFor="roles" className="text-sm font-medium">
+          نقش‌ها <span className="text-destructive">*</span>
         </Label>
-        <Input id="national" placeholder="کد ملی" required {...register("nationalCode", { required: true })} />
-        {errors.nationalCode && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="name" className="text-sm font-medium">
-          نام و نام خانوادگی <span className="text-destructive">*</span>
-        </Label>
-        <Input id="name" placeholder="نام" required {...register("name", { required: true })} />
-        {errors.name && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+        <div className="flex flex-wrap gap-2">
+          {rolesLoading && <div className="text-sm text-muted-foreground">در حال بارگذاری...</div>}
+          {!rolesLoading &&
+            (rolesData?.data ?? []).map((r) => {
+              const selected = selectedRoles.includes(r.id);
+              return (
+                <Badge
+                  key={r.id}
+                  onClick={() => {
+                    setSelectedRoles((prev) => {
+                      if (prev.includes(r.id)) return prev.filter((p) => p !== r.id);
+                      return [...prev, r.id];
+                    });
+                  }}
+                  className={`cursor-pointer ${selected ? "ring-2 ring-primary" : ""}`}
+                  variant={selected ? "active" : "outline"}
+                >
+                  {r.name}
+                </Badge>
+              );
+            })}
+        </div>
+        {selectedRoles.length === 0 && <span className="text-xs text-destructive">لطفاً حداقل یک نقش انتخاب کنید</span>}
       </div>
 
       {!isMobile && (
