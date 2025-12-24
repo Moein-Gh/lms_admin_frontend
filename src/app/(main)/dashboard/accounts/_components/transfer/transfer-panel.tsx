@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 
 import AccountCardSelectable from "@/components/entity-specific/account/account-card-selectable";
+import AmountInput from "@/components/form/amount-input";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
@@ -37,6 +38,7 @@ export default function TransferPanel({ open, onOpenChange, sourceAccountId, use
 
   const {
     register,
+    control,
     handleSubmit,
     watch,
     reset,
@@ -114,7 +116,14 @@ export default function TransferPanel({ open, onOpenChange, sourceAccountId, use
             <label className="text-sm font-medium">
               مبلغ<span className="text-destructive">*</span>
             </label>
-            <Input type="number" placeholder="مبلغ انتقال" {...register("amount", { required: true })} />
+            <Controller
+              control={control}
+              name="amount"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <AmountInput placeholder="مبلغ انتقال" value={field.value} onChange={field.onChange} />
+              )}
+            />
             {errors.amount && <div className="text-xs text-destructive">این فیلد الزامی است</div>}
           </div>
 

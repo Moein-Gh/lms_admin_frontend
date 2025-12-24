@@ -2,6 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 
+import { PaginationControls } from "@/components/pagination-controls";
+import { usePagination } from "@/hooks/use-pagination";
 import { useUsers } from "@/hooks/use-user";
 import { OrderDirection } from "@/types/api";
 import { UsersCardList } from "./_components/users-card-list";
@@ -18,7 +20,7 @@ export default function UsersPage() {
   const isActive = isActiveParam === "true" ? true : isActiveParam === "false" ? false : undefined;
   const orderBy = searchParams.get("orderBy") ?? undefined;
   const orderDir = searchParams.get("orderDir") as OrderDirection | undefined;
-
+  const pagination = usePagination({ initialPage: 1, initialPageSize: 100 });
   const { data, isLoading, error } = useUsers({
     page,
     pageSize,
@@ -41,6 +43,19 @@ export default function UsersPage() {
       <div className="block sm:hidden">
         <UsersCardList data={data ?? null} isLoading={isLoading} error={error} />
       </div>
+
+      {/* Pagination */}
+      {data && (
+        <div className="border-t p-4">
+          <PaginationControls
+            meta={data.meta}
+            page={pagination.page}
+            pageSize={pagination.pageSize}
+            onPageChange={pagination.setPage}
+            onPageSizeChange={pagination.setPageSize}
+          />
+        </div>
+      )}
     </div>
   );
 }

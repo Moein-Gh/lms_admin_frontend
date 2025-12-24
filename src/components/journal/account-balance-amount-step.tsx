@@ -1,6 +1,6 @@
 import * as React from "react";
 import { BanknoteIcon } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import AmountInput from "@/components/form/amount-input";
 import type { AllocationFormData } from "./allocate-journal-panel.types";
 
 export function AccountBalanceAmountStep({
@@ -18,12 +18,11 @@ export function AccountBalanceAmountStep({
         <BanknoteIcon className="size-4 text-muted-foreground" />
         <span>مبلغ</span>
       </div>
-      <Input
+      <AmountInput
         id="amount"
-        type="number"
         placeholder={unbalancedAmount ? `مبلغ پیشنهادی: ${unbalancedAmount}` : "مبلغ را وارد کنید"}
         value={formData.amount ?? ""}
-        onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+        onChange={(e) => setFormData({ ...formData, amount: (e.target as HTMLInputElement).value })}
         min="0"
         step="0.01"
       />

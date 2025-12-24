@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { UseFormSetValue, UseFormRegister, FieldErrors } from "react-hook-form";
+import AmountInput from "@/components/form/amount-input";
 import { Button } from "@/components/ui/button";
 import { CalendarHijri } from "@/components/ui/calendar-hijri";
 import { Input } from "@/components/ui/input";
@@ -44,13 +45,11 @@ export function StepLoanFields({
             مبلغ
             <span className="text-destructive">*</span>
           </Label>
-          <Input
+          <AmountInput
             id="amount"
-            type="number"
             placeholder="مبلغ وام"
             {...amountRegister}
             onBlur={(e) => {
-              // call RHF's onBlur then mark as touched so errors don't show immediately on open
               if (typeof amountRegister.onBlur === "function") {
                 amountRegister.onBlur(e);
               }

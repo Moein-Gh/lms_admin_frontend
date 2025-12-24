@@ -6,6 +6,7 @@ import { ArrowLeftIcon, ArrowRightIcon, PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import AmountInput from "@/components/form/amount-input";
 import { SelectUserSection } from "@/components/form/select-user-section";
 import TransactionKindSection from "@/components/form/transaction-kind-section";
 import UploadField from "@/components/form/upload-field";
@@ -201,7 +202,7 @@ function CreateTransactionForm({ isMobile, create, setOpen, step, setStep, setCa
             <Label htmlFor="amount" className="text-sm font-medium">
               مبلغ<span className="text-destructive">*</span>
             </Label>
-            <Input id="amount" type="number" placeholder="مبلغ تراکنش" {...register("amount", { required: true })} />
+            <AmountInput id="amount" placeholder="مبلغ تراکنش" {...register("amount", { required: true })} />
             {errors.amount && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
           </div>
           <div className="space-y-2">
