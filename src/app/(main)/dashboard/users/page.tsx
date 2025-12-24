@@ -13,17 +13,17 @@ import { UsersTable } from "./_components/users-table";
 export default function UsersPage() {
   const searchParams = useSearchParams();
 
-  const page = Number(searchParams.get("page") ?? 1);
-  const pageSize = Number(searchParams.get("per_page") ?? 10);
+  const pageParam = Number(searchParams.get("page") ?? 1);
+  const pageSizeParam = Number(searchParams.get("per_page") ?? 10);
   const search = searchParams.get("search") ?? undefined;
   const isActiveParam = searchParams.get("isActive");
   const isActive = isActiveParam === "true" ? true : isActiveParam === "false" ? false : undefined;
   const orderBy = searchParams.get("orderBy") ?? undefined;
   const orderDir = searchParams.get("orderDir") as OrderDirection | undefined;
-  const pagination = usePagination({ initialPage: 1, initialPageSize: 100 });
+  const pagination = usePagination({ initialPage: pageParam, initialPageSize: pageSizeParam });
   const { data, isLoading, error } = useUsers({
-    page,
-    pageSize,
+    page: pagination.page,
+    pageSize: pagination.pageSize,
     search,
     isActive,
     orderBy,
