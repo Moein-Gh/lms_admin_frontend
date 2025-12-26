@@ -13,7 +13,7 @@ import {
   DataCardSkeleton
 } from "@/components/ui/data-card";
 import { PaginatedResponseDto } from "@/types/api";
-import { Transaction, TRANSACTION_STATUS_BADGE } from "@/types/entities/transaction.type";
+import { Transaction, TRANSACTION_STATUS_BADGE, TransactionStatus } from "@/types/entities/transaction.type";
 import { User } from "@/types/entities/user.type";
 
 type Props = {
@@ -23,24 +23,36 @@ type Props = {
 };
 
 const transactionCardConfig: DataCardConfig<Transaction> = {
-  // Most important: amount (primary) and the user who made it (secondary)
-  primaryField: "amount",
-  renderPrimary: (amount, tx) => <FormattedNumber type="price" value={String(amount)} />,
-  secondaryField: "user",
-  renderSecondary: (user) =>
+  // Primary: User name, Secondary: Transaction code, Badge: Amount
+  primaryField: "user",
+  renderPrimary: (user) =>
     user ? String((user as User).identity.name ?? (user as User).identity.phone ?? "بدون نام") : "بدون کاربر",
+  secondaryField: "code",
+  renderSecondary: (code) => <FormattedNumber type="normal" value={String(code)} />,
   badge: {
-    field: "status",
-    render: (status) => {
-      const meta = TRANSACTION_STATUS_BADGE[status as Transaction["status"]];
-      return <Badge variant={meta.variant}>{meta.label}</Badge>;
+    field: "amount",
+    render: (amount) => <FormattedNumber type="price" value={String(amount)} />
+  },
+  statusColor: (tx) => {
+    switch (tx.status) {
+      case TransactionStatus.APPROVED:
+        return "bg-success";
+      case TransactionStatus.PENDING:
+        return "bg-amber-500";
+      case TransactionStatus.REJECTED:
+        return "bg-destructive";
+      default:
+        return "bg-blue-500";
     }
   },
   detailFields: [
     {
-      key: "code",
-      label: "کد تراکنش",
-      render: (value) => String(value ?? "-")
+      key: "status",
+      label: "وضعیت",
+      render: (status) => {
+        const meta = TRANSACTION_STATUS_BADGE[status as Transaction["status"]];
+        return <Badge variant={meta.variant}>{meta.label}</Badge>;
+      }
     },
     {
       key: "createdAt",

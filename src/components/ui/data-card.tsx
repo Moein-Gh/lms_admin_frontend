@@ -36,6 +36,7 @@ type DataCardConfig<T> = {
     field: keyof T;
     render: (value: T[keyof T], item: T) => React.ReactNode;
   };
+  statusColor?: (item: T) => string;
   detailFields: DataCardField<T>[];
   actions?: DataCardAction[] | ((item: T) => DataCardAction[]);
   renderPrimary?: (value: T[keyof T], item: T) => React.ReactNode;
@@ -329,7 +330,9 @@ function DataCardHeader<T>({ item, config, isExpanded }: DataCardHeaderProps<T>)
 
   return (
     <div data-slot="data-card-header" className="flex items-center gap-3 p-4">
-      <div className="min-w-0 flex-1 flex items-center gap-3">
+      <div className="min-w-0 flex-1 flex items-center gap-2">
+        {config.statusColor && <div className={cn("size-2 rounded-full shrink-0", config.statusColor(item))} />}
+
         {secondaryValue !== null && (
           <p className="truncate text-sm text-muted-foreground">
             {config.renderSecondary ? config.renderSecondary(secondaryValue, item) : String(secondaryValue ?? "")}

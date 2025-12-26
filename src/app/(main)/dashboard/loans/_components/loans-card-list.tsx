@@ -31,6 +31,16 @@ const loanCardConfig: DataCardConfig<Loan> = {
     field: "amount",
     render: (amt) => <FormattedNumber type="price" value={Number(amt) || 0} />
   },
+  statusColor: (loan) => {
+    switch (loan.status) {
+      case LoanStatus.ACTIVE:
+        return "bg-success";
+      case LoanStatus.PENDING:
+        return "bg-amber-500";
+      default:
+        return "bg-muted-foreground";
+    }
+  },
   // Move other info into detail fields
   detailFields: [
     {

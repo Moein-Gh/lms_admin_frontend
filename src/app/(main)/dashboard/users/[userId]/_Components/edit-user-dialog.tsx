@@ -206,9 +206,9 @@ export function EditUserDialog({ user, onUpdated }: Props) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" aria-label="ویرایش">
             <Edit2 className="size-4" />
-            ویرایش
+            {!isMobile && <span className="me-2">ویرایش</span>}
           </Button>
         </DrawerTrigger>
         <DrawerContent>
@@ -233,9 +233,9 @@ export function EditUserDialog({ user, onUpdated }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="outline">
+        <Button size="sm" variant="outline" aria-label="ویرایش">
           <Edit2 className="size-4" />
-          ویرایش
+          {!isMobile && <span className="me-2">ویرایش</span>}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[520px]">

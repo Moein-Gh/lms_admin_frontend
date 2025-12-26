@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, Users } from "lucide-react";
+import { ChevronLeft, User } from "lucide-react";
 
 import {
   Breadcrumb,
@@ -11,17 +11,11 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
-import { CreateUserDialog } from "./create-user-dialog";
-import { UserFiltersDialog } from "./user-filters-dialog";
 
-type UsersHeaderProps = {
-  total?: number;
-};
-
-export function UsersHeader({ total }: UsersHeaderProps) {
+export function ProfileHeader() {
   return (
     <div
-      data-slot="users-header"
+      data-slot="profile-header"
       className={cn("flex items-center justify-between gap-4", "border-b border-border/40 pb-6")}
     >
       <div className="flex flex-col gap-1">
@@ -34,27 +28,18 @@ export function UsersHeader({ total }: UsersHeaderProps) {
               <ChevronLeft />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbPage>کاربران</BreadcrumbPage>
+              <BreadcrumbPage>پروفایل کاربری</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex items-center gap-3">
           <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl sm:h-12 sm:w-12">
-            <Users className="size-6 sm:size-7" />
+            <User className="size-6 sm:size-7" />
           </div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold tracking-tight sm:text-3xl">کاربران</h1>
-            {total !== undefined && (
-              <span className="bg-muted text-muted-foreground rounded-full px-2.5 py-0.5 text-xs font-medium">
-                {total.toLocaleString("fa-IR")} کاربر
-              </span>
-            )}
+            <h1 className="text-xl font-bold tracking-tight sm:text-3xl">پروفایل کاربری</h1>
           </div>
         </div>
-      </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <UserFiltersDialog />
-        <CreateUserDialog />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CalendarIcon, Plus, Trash2, Clock } from "lucide-react";
+import { CalendarIcon, Plus, Trash2, Clock, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
@@ -205,8 +205,9 @@ export function RoleAssignmentDialog({ userId }: Props) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
-          <Button size="sm" variant="outline">
-            مدیریت نقش‌ها
+          <Button size="sm" variant="outline" aria-label="مدیریت نقش‌ها">
+            <ShieldCheck className="size-4" />
+            {!isMobile && <span className="me-2">مدیریت نقش‌ها</span>}
           </Button>
         </DrawerTrigger>
         <DrawerContent>
@@ -222,8 +223,9 @@ export function RoleAssignmentDialog({ userId }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="outline">
-          مدیریت نقش‌ها
+        <Button size="sm" variant="outline" aria-label="مدیریت نقش‌ها">
+          <ShieldCheck className="size-4" />
+          {!isMobile && <span className="me-2">مدیریت نقش‌ها</span>}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[550px]">

@@ -5,7 +5,6 @@ import { ArrowLeft, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { users } from "@/data/users";
 import { cn } from "@/lib/utils";
 import type { ContentLayout, NavbarStyle, SidebarCollapsible, SidebarVariant } from "@/types/preferences/layout";
 
@@ -69,7 +68,7 @@ export function DashboardHeader({ navbarStyle }: DashboardHeaderProps) {
         <div className="flex items-center gap-2">
           {/* <LayoutControls {...layoutPreferences} /> */}
           <ThemeSwitcher />
-          <AccountSwitcher users={users} />
+          <AccountSwitcher />
         </div>
       </div>
     </header>

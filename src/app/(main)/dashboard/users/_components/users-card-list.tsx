@@ -42,6 +42,7 @@ const userCardConfig: DataCardConfig<User> = {
         </Badge>
       )
   },
+  statusColor: (user) => (user.isActive ? "bg-success" : "bg-destructive"),
   detailFields: [
     {
       key: "isActive",

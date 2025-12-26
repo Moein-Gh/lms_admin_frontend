@@ -1,8 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { ChevronLeft, Layers, Plus } from "lucide-react";
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,6 +29,7 @@ import {
   DrawerTrigger
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 import { LoanTypeForm } from "./loan-type-form";
 
 export function LoanTypesHeader() {
@@ -30,17 +39,41 @@ export function LoanTypesHeader() {
   const Title = "تعریف نوع وام جدید";
   const Description = "اطلاعات نوع وام جدید را وارد کنید.";
 
+  const headerContent = (
+    <div className="flex flex-col gap-1">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/dashboard">داشبورد</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator>
+            <ChevronLeft />
+          </BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbPage>انواع وام</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="flex items-center gap-3">
+        <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl sm:h-12 sm:w-12">
+          <Layers className="size-6 sm:size-7" />
+        </div>
+        <h1 className="text-xl font-bold tracking-tight sm:text-3xl">انواع وام</h1>
+      </div>
+    </div>
+  );
+
   if (isMobile) {
     return (
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">انواع وام</h1>
-          <p className="text-muted-foreground mt-1">مدیریت و مشاهده لیست انواع وام</p>
-        </div>
+      <div
+        data-slot="loan-types-header"
+        className={cn("flex items-center justify-between gap-4", "border-b border-border/40 pb-6")}
+      >
+        {headerContent}
 
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
-            <Button size="icon" className="rounded-lg">
+            <Button size="icon" className="rounded-lg shrink-0">
               <Plus className="size-5" />
             </Button>
           </DrawerTrigger>
@@ -61,11 +94,14 @@ export function LoanTypesHeader() {
   }
 
   return (
-    <div className="flex items-center justify-between">
-      <h1 className="text-2xl font-bold">انواع وام</h1>
+    <div
+      data-slot="loan-types-header"
+      className={cn("flex items-center justify-between gap-4", "border-b border-border/40 pb-6")}
+    >
+      {headerContent}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button>
+          <Button className="shrink-0">
             <Plus className="ml-2 size-4" />
             نوع وام جدید
           </Button>

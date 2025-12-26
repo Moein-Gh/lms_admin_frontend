@@ -55,7 +55,12 @@ export default function AccountsPage() {
 
   return (
     <div className="space-y-6 w-full min-w-0">
-      <AccountsHeader filters={filters} onFiltersChange={handleFiltersChange} onReset={handleResetFilters} />
+      <AccountsHeader
+        filters={filters}
+        onFiltersChange={handleFiltersChange}
+        onReset={handleResetFilters}
+        total={data?.meta.totalItems}
+      />
 
       <ActiveFilters filters={filters} onReset={handleResetFilters} />
 

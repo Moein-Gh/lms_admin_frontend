@@ -13,7 +13,7 @@ import {
   DataCardSkeleton
 } from "@/components/ui/data-card";
 import { PaginatedResponseDto } from "@/types/api";
-import { Account, AccountStatusLabels } from "@/types/entities/account.type";
+import { Account, AccountStatus, AccountStatusLabels } from "@/types/entities/account.type";
 
 type Props = {
   data: PaginatedResponseDto<Account> | null;
@@ -31,6 +31,18 @@ const accountCardConfig: DataCardConfig<Account> = {
   badge: {
     field: "bankName",
     render: (bank) => <span className="text-sm text-muted-foreground">{String(bank ?? "-")}</span>
+  },
+  statusColor: (acc) => {
+    switch (acc.status) {
+      case AccountStatus.ACTIVE:
+        return "bg-success";
+      case AccountStatus.RESTRICTED:
+        return "bg-warning";
+      case AccountStatus.INACTIVE:
+        return "bg-destructive";
+      default:
+        return "bg-muted-foreground";
+    }
   },
   detailFields: [
     {

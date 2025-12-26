@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@ta
 import {
   createUser,
   deleteUser,
+  getMe,
   getUserById,
   listUsers,
   registerUser,
@@ -17,11 +18,26 @@ import { User } from "@/types/entities/user.type";
 // Query keys for user-related queries
 export const userKeys = {
   all: ["users"] as const,
+  me: () => [...userKeys.all, "me"] as const,
   lists: () => [...userKeys.all, "list"] as const,
   list: (params?: ListUsersParams) => [...userKeys.lists(), params] as const,
   details: () => [...userKeys.all, "detail"] as const,
   detail: (id: string) => [...userKeys.details(), id] as const
 };
+
+/**
+ * Hook to fetch the current logged in user
+ */
+export function useMe(
+  options?: Omit<UseQueryOptions<User, Error, User, ReturnType<typeof userKeys.me>>, "queryKey" | "queryFn">
+) {
+  return useQuery({
+    queryKey: userKeys.me(),
+    queryFn: getMe,
+    staleTime: Infinity,
+    ...options
+  });
+}
 
 /**
  * Hook to fetch a paginated list of users
@@ -106,6 +122,16 @@ export function useUpdateUser() {
       });
       // Invalidate user lists to reflect changes
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+      // If the updated user is the current logged-in user, invalidate/refetch the `me` query
+      try {
+        const me = queryClient.getQueryData(userKeys.me());
+        // me may be undefined or partial; compare by id
+        if ((me as any)?.id === updatedUser.id) {
+          queryClient.invalidateQueries({ queryKey: userKeys.me() });
+        }
+      } catch (e) {
+        // ignore errors in non-browser or unexpected cache shapes
+      }
     }
   });
 }

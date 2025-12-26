@@ -7,6 +7,7 @@ import { MoreHorizontal, User, Moon, Sun, Settings, ArrowLeft } from "lucide-rea
 import { AnimatePresence, motion } from "motion/react";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
+import { useMe } from "@/hooks/use-user";
 import { updateThemeMode } from "@/lib/theme-utils";
 import { cn } from "@/lib/utils";
 import { navbarItems, additionalNavbarItems } from "@/navigation/navbar/navbar-items";
@@ -17,6 +18,7 @@ import { NavItem } from "./nav-item";
 export function MobileNavbar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { data: user } = useMe();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasHistory, setHasHistory] = useState(false);
@@ -81,7 +83,7 @@ export function MobileNavbar() {
                     <User className="size-4.5" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="truncate text-xs font-semibold">کاربر مهمان</h3>
+                    <h3 className="truncate text-xs font-semibold">{user?.identity?.name ?? "کاربر"}</h3>
                     <p className="truncate text-[10px] text-muted-foreground">مشاهده پروفایل</p>
                   </div>
                 </Link>

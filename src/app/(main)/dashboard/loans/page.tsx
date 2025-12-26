@@ -45,7 +45,12 @@ export default function LoansPage() {
 
   return (
     <div className="space-y-6 w-full min-w-0">
-      <LoansHeader filters={filters} onFiltersChange={handleFiltersChange} onReset={handleResetFilters} />
+      <LoansHeader
+        filters={filters}
+        onFiltersChange={handleFiltersChange}
+        onReset={handleResetFilters}
+        total={data?.meta.totalItems}
+      />
 
       <ActiveFilters filters={filters} onReset={handleResetFilters} />
 

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
+import { userKeys } from "@/hooks/use-user";
 import {
   createRoleAssignment,
   CreateRoleAssignmentRequest,
@@ -68,13 +69,22 @@ export function useCreateRoleAssignment() {
 
   return useMutation({
     mutationFn: (data: CreateRoleAssignmentRequest) => createRoleAssignment(data),
-    // access the mutation variables (data) so we can invalidate the specific user's list
+
     onSuccess: (_created, variables) => {
-      // Invalidate the specific user's list to ensure only that cache is refreshed
       if (variables?.userId) {
-        queryClient.invalidateQueries({ queryKey: roleAssignmentKeys.list({ userId: variables.userId } as any) });
+        queryClient.invalidateQueries({ queryKey: roleAssignmentKeys.list({ userId: variables.userId }) });
+        try {
+          const me = queryClient.getQueryData(userKeys.me());
+          if (me && typeof me === "object" && "id" in me) {
+            const id = (me as { id?: unknown }).id;
+            if (typeof id === "string" && id === variables.userId) {
+              queryClient.invalidateQueries({ queryKey: userKeys.me() });
+            }
+          }
+        } catch {
+          // ignore
+        }
       }
-      // As a fallback, invalidate the general lists prefix
       queryClient.invalidateQueries({ queryKey: roleAssignmentKeys.lists() });
     }
   });
@@ -87,12 +97,23 @@ export function useUpdateRoleAssignment() {
     mutationFn: ({ roleAssignmentId, data }: { roleAssignmentId: string; data: UpdateRoleAssignmentRequest }) =>
       updateRoleAssignment(roleAssignmentId, data),
     onSuccess: (updatedRoleAssignment) => {
-      // Invalidate the specific roleAssignment detail query
       queryClient.invalidateQueries({
         queryKey: roleAssignmentKeys.detail(updatedRoleAssignment.id)
       });
-      // Invalidate roleAssignment lists to reflect changes
+
       queryClient.invalidateQueries({ queryKey: roleAssignmentKeys.lists() });
+
+      try {
+        const me = queryClient.getQueryData(userKeys.me());
+        if (me && typeof me === "object" && "id" in me) {
+          const id = (me as { id?: unknown }).id;
+          if (typeof id === "string" && id === updatedRoleAssignment.userId) {
+            queryClient.invalidateQueries({ queryKey: userKeys.me() });
+          }
+        }
+      } catch {
+        // ignore
+      }
     }
   });
 }
@@ -103,10 +124,56 @@ export function useDeleteRoleAssignment() {
   return useMutation({
     mutationFn: (roleAssignmentId: string) => deleteRoleAssignment(roleAssignmentId),
     onSuccess: (_data, roleAssignmentId) => {
-      // Remove the deleted roleAssignment from cache
+      // Attempt to determine the affected user by searching cached role-assignment lists
+      let affectedUserId: string | undefined;
+      try {
+        const listQueries = queryClient.getQueriesData({ queryKey: roleAssignmentKeys.lists() }) as Array<
+          [unknown, unknown]
+        >;
+        for (const [, data] of listQueries) {
+          let items: unknown[] = [];
+          if (Array.isArray(data)) {
+            items = data as unknown[];
+          } else if (data && typeof data === "object" && "data" in data) {
+            const d = (data as { data?: unknown }).data;
+            if (Array.isArray(d)) items = d;
+          }
+
+          // iterate items with early-continues to avoid deep nesting
+          for (const item of items) {
+            if (!item || typeof item !== "object") continue;
+            const itemId = (item as { id?: unknown }).id;
+            if (typeof itemId !== "string" || itemId !== roleAssignmentId) continue;
+            const uid = (item as { userId?: unknown }).userId;
+            if (typeof uid === "string") {
+              affectedUserId = uid;
+              break;
+            }
+          }
+          if (affectedUserId) break;
+        }
+      } catch (e) {
+        // ignore
+      }
+
+      // Remove any cached detail for the deleted roleAssignment
       queryClient.removeQueries({ queryKey: roleAssignmentKeys.detail(roleAssignmentId) });
-      // Invalidate roleAssignment lists
+
+      // Invalidate roleAssignment lists so UI updates
       queryClient.invalidateQueries({ queryKey: roleAssignmentKeys.lists() });
+
+      // If we detected an affected user and it's the current logged-in user, invalidate `me`
+      try {
+        const me = queryClient.getQueryData(userKeys.me());
+        if (affectedUserId && me && typeof me === "object" && "id" in me) {
+          const id = (me as { id?: unknown }).id;
+          if (typeof id === "string" && id === affectedUserId) {
+            queryClient.invalidateQueries({ queryKey: userKeys.me() });
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
     }
   });
 }

@@ -1,3 +1,4 @@
+import type { User } from "@/types/entities/user.type";
 import api from "./api";
 
 type RequestSmsPayload = {
@@ -16,6 +17,9 @@ type AuthResponse = {
   accessToken: string;
   refreshToken: string;
   sessionId: string;
+  user: User;
+  userId: string;
+  success: boolean;
 };
 
 export async function requestSms(payload: RequestSmsPayload): Promise<void> {

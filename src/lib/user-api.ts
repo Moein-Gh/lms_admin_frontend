@@ -46,6 +46,14 @@ export async function listUsers(params?: ListUsersParams): Promise<PaginatedResp
 }
 
 /**
+ * Get the current logged in user
+ */
+export async function getMe(): Promise<User> {
+  const response = await api.get<User>("/auth/me");
+  return response.data;
+}
+
+/**
  * Get a single user by ID
  */
 export async function getUserById(userId: string): Promise<User> {

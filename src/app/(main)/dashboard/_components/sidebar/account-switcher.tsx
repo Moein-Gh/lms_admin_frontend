@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { CircleUser, LogOut, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,21 +14,18 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useLogout } from "@/hooks/use-auth";
+import { useMe } from "@/hooks/use-user";
 import { getInitials } from "@/lib/utils";
 
-export function AccountSwitcher({
-  users
-}: {
-  readonly users: ReadonlyArray<{
-    readonly id: string;
-    readonly name: string;
-    readonly email: string;
-    readonly avatar: string;
-    readonly role: string;
-  }>;
-}) {
-  const activeUser = users[0];
+export function AccountSwitcher() {
+  const { data: user } = useMe();
   const logout = useLogout();
+
+  const activeUser = {
+    name: user?.identity?.name ?? "کاربر",
+    role: user?.roleAssignments?.[0]?.role?.name ?? "مهمان",
+    avatar: "" // Add avatar logic if available in User entity
+  };
 
   return (
     <DropdownMenu>
@@ -51,9 +49,11 @@ export function AccountSwitcher({
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className="justify-end gap-3">
-            حساب کاربری
-            <User />
+          <DropdownMenuItem asChild className="justify-end gap-3">
+            <Link href="/dashboard/profile">
+              حساب کاربری
+              <User />
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

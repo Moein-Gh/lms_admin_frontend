@@ -44,7 +44,12 @@ export default function TransactionsPage() {
 
   return (
     <div className="space-y-6 w-full min-w-0">
-      <TransactionsHeader filters={filters} onFiltersChange={handleFiltersChange} onReset={handleResetFilters} />
+      <TransactionsHeader
+        filters={filters}
+        onFiltersChange={handleFiltersChange}
+        onReset={handleResetFilters}
+        total={data?.meta.totalItems}
+      />
 
       <ActiveFilters filters={filters} onReset={handleResetFilters} />
 

@@ -32,7 +32,7 @@ export default function UsersPage() {
 
   return (
     <div className="space-y-6">
-      <UsersHeader />
+      <UsersHeader total={data?.meta.totalItems} />
 
       {/* Desktop: Table view */}
       <div className="hidden sm:block">

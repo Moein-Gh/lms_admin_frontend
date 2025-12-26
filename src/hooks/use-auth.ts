@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { logout as apiLogout, requestSms, verifySms } from "@/lib/auth-api";
+import { userKeys } from "./use-user";
 
 export function useRequestSms() {
   return useMutation({
@@ -11,9 +12,15 @@ export function useRequestSms() {
 }
 
 export function useVerifySms() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: verifySms,
     onSuccess: (data) => {
+      // Seed the user cache with the logged in user
+      if (data.user) {
+        queryClient.setQueryData(userKeys.me(), data.user);
+      }
+
       try {
         // Store session id for later logout
         if (data.sessionId) localStorage.setItem("sessionId", data.sessionId);
