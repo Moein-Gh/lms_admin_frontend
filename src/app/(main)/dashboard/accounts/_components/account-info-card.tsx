@@ -5,14 +5,14 @@ import Link from "next/link";
 import {
   Building2,
   Calendar,
-  Copy,
   CreditCard,
   Hash,
   Tag,
   User,
   Wallet,
   MoreHorizontal,
-  BanknoteArrowDown
+  BanknoteArrowDown,
+  CheckCircle
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -28,14 +28,11 @@ import {
   DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useActivateAccount } from "@/hooks/use-account";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { AccountStatus, type Account } from "@/types/entities/account.type";
 import BuyoutPanel from "./buyout-panel";
 import TransferPanel from "./transfer/transfer-panel";
-
-function formatCardNumber(cardNumber: string) {
-  return cardNumber.match(/.{1,4}/g)?.join(" ") ?? cardNumber;
-}
 
 export type AccountStatusLabel = {
   readonly label: string;
@@ -56,6 +53,18 @@ export function AccountInfoCard({ account }: { account: Account }) {
   const [transferOpen, setTransferOpen] = React.useState(false);
 
   const isMobile = useIsMobile();
+  const { mutate: activate, isPending: isActivating } = useActivateAccount();
+
+  const handleActivate = () => {
+    activate(account.id, {
+      onSuccess: () => {
+        toast.success("حساب با موفقیت فعال شد");
+      },
+      onError: () => {
+        toast.error("خطا در فعال‌سازی حساب");
+      }
+    });
+  };
 
   return (
     <>
@@ -90,7 +99,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                {account.status !== AccountStatus.INACTIVE && (
+                {account.status !== AccountStatus.INACTIVE ? (
                   <div className="flex flex-row gap-3">
                     {!isMobile ? (
                       <>
@@ -152,6 +161,17 @@ export function AccountInfoCard({ account }: { account: Account }) {
                       </DropdownMenu>
                     )}
                   </div>
+                ) : (
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={handleActivate}
+                    disabled={isActivating}
+                    className="gap-2"
+                  >
+                    <CheckCircle className="h-4 w-4" />
+                    <span>فعال‌سازی حساب</span>
+                  </Button>
                 )}
               </div>
             </div>

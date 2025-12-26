@@ -63,3 +63,8 @@ export async function updateAccount(accountId: string, data: UpdateAccountReques
 export async function deleteAccount(accountId: string): Promise<void> {
   await api.delete(`/accounts/${accountId}`);
 }
+
+export async function activateAccount(accountId: string): Promise<Account> {
+  const response = await api.patch<Account>(`/accounts/${accountId}/activate`);
+  return response.data;
+}

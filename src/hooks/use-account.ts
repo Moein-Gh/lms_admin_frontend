@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
 
 import {
+  activateAccount,
   buyOutAccount,
   createAccount,
   deleteAccount,
@@ -108,6 +109,22 @@ export function useBuyOutAccount() {
       queryClient.invalidateQueries({ queryKey: accountKeys.detail(newAccount.id) });
       queryClient.invalidateQueries({ queryKey: ["subscription-fees", newAccount.id] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+    }
+  });
+}
+
+export function useActivateAccount() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (accountId: string) => activateAccount(accountId),
+    onSuccess: (activatedAccount) => {
+      // Invalidate the specific account detail query
+      queryClient.invalidateQueries({
+        queryKey: accountKeys.detail(activatedAccount.id)
+      });
+      // Invalidate account lists to reflect changes
+      queryClient.invalidateQueries({ queryKey: accountKeys.lists() });
     }
   });
 }
