@@ -38,7 +38,7 @@ export function EntitySummaryCard({
     <Link
       href={href}
       className={cn(
-        "group flex items-center gap-3 rounded-lg border bg-card p-2.5 transition-colors hover:bg-accent/50",
+        "group flex items-center gap-3 rounded-lg bg-card p-2.5 transition-colors hover:bg-accent/50",
         className
       )}
     >

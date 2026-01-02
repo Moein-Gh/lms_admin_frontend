@@ -1,10 +1,8 @@
 "use client";
 
-import { Mail, Phone, Shield, User } from "lucide-react";
+import { Mail, Phone, Shield, User, UserRoundIcon } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getInitials } from "@/lib/utils";
 
 type ProfileInfoProps = {
   user: {
@@ -23,10 +21,9 @@ export function ProfileInfo({ user, action, footer }: ProfileInfoProps) {
     <Card className="py-6">
       <CardHeader className="flex flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Avatar className="size-10 sm:size-16 rounded-xl">
-            <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback className="rounded-xl text-lg">{getInitials(user.name)}</AvatarFallback>
-          </Avatar>
+          <div className="flex size-10 sm:size-16 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <UserRoundIcon className="size-6 sm:size-8" />
+          </div>
           <div className="flex flex-col gap-1">
             <CardTitle className="text-lg sm:text-2xl truncate">{user.name}</CardTitle>
             <CardDescription className="flex items-center gap-1.5 truncate text-sm sm:text-base">
