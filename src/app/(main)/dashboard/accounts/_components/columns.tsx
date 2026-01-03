@@ -6,16 +6,17 @@ import { Eye } from "lucide-react";
 
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { FormattedNumber } from "@/components/formatted-number";
-import { Badge } from "@/components/ui/badge";
+import { Badge, BadgeVariant } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { formatDate } from "@/lib/utils";
 import { Account, AccountStatusLabels } from "@/types/entities/account.type";
 
 export const columns: ColumnDef<Account>[] = [
   {
     id: "rowNumber",
-    meta: { className: "w-12" },
+    meta: { className: "w-1/24" },
     header: "#",
     cell: ({ row, table }) => {
       const { pageIndex, pageSize } = table.getState().pagination;
@@ -26,13 +27,13 @@ export const columns: ColumnDef<Account>[] = [
   },
   {
     accessorKey: "name",
-    meta: { className: "w-3/12" },
+    meta: { className: "w-[calc(100%/12)]" },
     header: ({ column }) => <DataTableColumnHeader column={column} title="نام حساب" />,
     cell: ({ row }) => <div className="font-medium truncate">{row.original.name}</div>
   },
   {
     accessorKey: "code",
-    meta: { className: "w-2/12" },
+    meta: { className: "w-[calc(100%/12)]" },
     header: ({ column }) => <DataTableColumnHeader column={column} title="کد" />,
     cell: ({ row }) => (
       <div className="text-center">
@@ -41,23 +42,33 @@ export const columns: ColumnDef<Account>[] = [
     )
   },
   {
-    accessorKey: "accountType.name",
-    id: "accountType",
-    meta: { className: "w-2/12" },
-    header: "نوع حساب",
-    cell: ({ row }) =>
-      row.original.accountType ? <Badge variant="outline">{row.original.accountType.name}</Badge> : "-"
+    accessorKey: "balanceSummary.totalDeposits",
+    id: "balance",
+    meta: { className: "w-[calc(100%/12)]" },
+    header: ({ column }) => <DataTableColumnHeader column={column} title="موجودی" />,
+    enableSorting: false,
+    cell: ({ row }) => (
+      <div className="text-center font-medium text-primary">
+        <FormattedNumber type="price" value={Number(row.original.balanceSummary?.totalDeposits) || 0} />
+      </div>
+    )
   },
   {
     accessorKey: "bankName",
-    meta: { className: "w-2/12" },
+    meta: { className: "w-[calc(100%/12)]" },
     header: "بانک",
     cell: ({ row }) => row.original.bankName || "-"
   },
   {
+    accessorKey: "bookCode",
+    meta: { className: "w-[calc(100%/12)]" },
+    header: "شماره دفترچه",
+    cell: ({ row }) => row.original.bookCode || "-"
+  },
+  {
     accessorKey: "user.identity.name",
     id: "owner",
-    meta: { className: "w-3/12" },
+    meta: { className: "w-[calc(100%/12)]" },
     header: "دارنده حساب",
     cell: ({ row }) => {
       const user = row.original.user;
@@ -73,43 +84,48 @@ export const columns: ColumnDef<Account>[] = [
   },
   {
     accessorKey: "cardNumber",
-    meta: { className: "w-32" },
+    meta: { className: "w-[calc(100%/12)]" },
     header: "شماره کارت",
     cell: ({ row }) => {
       const card = row.original.cardNumber;
       if (!card) return "-";
-      return <span className="text-sm">{card.replace(/(\d{4})(?=\d)/g, "$1-")} **** ****</span>;
+      return (
+        <span className="text-sm">
+          {card.slice(-8, -4)}-{card.slice(-4)}
+        </span>
+      );
     }
   },
   {
-    accessorKey: "balanceSummary.totalDeposits",
-    id: "balance",
-    meta: { className: "w-36" },
-    header: ({ column }) => <DataTableColumnHeader column={column} title="موجودی" />,
-    enableSorting: false,
-    cell: ({ row }) => (
-      <div className="text-center font-medium text-primary">
-        <FormattedNumber type="price" value={Number(row.original.balanceSummary?.totalDeposits) || 0} />
-      </div>
-    )
+    accessorKey: "accountType.name",
+    id: "accountType",
+    meta: { className: "w-[calc(100%/12)]" },
+    header: "نوع حساب",
+    cell: ({ row }) =>
+      row.original.accountType ? <Badge variant="outline">{row.original.accountType.name}</Badge> : "-"
   },
   {
     accessorKey: "status",
-    meta: { className: "w-24" },
+    meta: { className: "w-[calc(100%/12)]" },
     header: ({ column }) => <DataTableColumnHeader column={column} title="وضعیت" />,
     cell: ({ row }) => {
       const status = row.original.status;
-      const label = AccountStatusLabels[status].label;
-      const variant = AccountStatusLabels[status].badgeVariant;
-      return <Badge variant={variant}>{label}</Badge>;
+      const statusLabel = Object.prototype.hasOwnProperty.call(AccountStatusLabels, status)
+        ? AccountStatusLabels[status]
+        : { label: "نامشخص", badgeVariant: "secondary" };
+      return <Badge variant={statusLabel.badgeVariant as BadgeVariant}>{statusLabel.label}</Badge>;
     }
   },
   {
     accessorKey: "createdAt",
     id: "createdAt",
-    meta: { className: "w-40" },
+    meta: { className: "w-[calc(100%/12)]" },
     header: ({ column }) => <DataTableColumnHeader column={column} title="تاریخ افتتاح حساب" />,
-    cell: ({ row }) => <div className="text-sm text-muted-foreground">{formatDate(row.original.createdAt)}</div>
+    cell: ({ row }) => (
+      <div className="text-sm text-muted-foreground">
+        {formatPersianDate(row.original.createdAt, DATE_FORMATS.SHORT)}
+      </div>
+    )
   },
   {
     id: "actions",

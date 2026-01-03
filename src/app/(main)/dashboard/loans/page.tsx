@@ -56,12 +56,7 @@ export default function LoansPage() {
 
       {/* Desktop: Table view */}
       <div className="hidden sm:block">
-        <LoansTable
-          data={data ? { data: data.data } : undefined}
-          isLoading={isLoading}
-          error={error}
-          pagination={{ page: pagination.page, pageSize: pagination.pageSize }}
-        />
+        <LoansTable data={data ?? null} isLoading={isLoading} error={error} />
       </div>
 
       {/* Mobile: Card view */}

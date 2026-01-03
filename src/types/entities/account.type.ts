@@ -11,6 +11,7 @@ export interface Account {
   userId: string;
   cardNumber: string;
   bankName: string;
+  bookCode: string;
   status: AccountStatus;
 
   createdAt: Date;
@@ -23,9 +24,9 @@ export interface Account {
 }
 
 export enum AccountStatus {
-  ACTIVE = "active",
-  INACTIVE = "inactive",
-  RESTRICTED = "restricted"
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  BUSY = "BUSY"
 }
 
 export type AccountStatusLabel = {
@@ -36,5 +37,5 @@ export type AccountStatusLabel = {
 export const AccountStatusLabels: Record<AccountStatus, AccountStatusLabel> = {
   [AccountStatus.ACTIVE]: { label: "فعال", badgeVariant: "default" },
   [AccountStatus.INACTIVE]: { label: "غیرفعال", badgeVariant: "inactive" },
-  [AccountStatus.RESTRICTED]: { label: "دارای وام فعال", badgeVariant: "destructive" }
+  [AccountStatus.BUSY]: { label: "دارای وام فعال", badgeVariant: "destructive" }
 };

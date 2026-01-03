@@ -11,6 +11,16 @@ export interface CreateJournalEntriesRequest {
   allocationType: AllocationType;
 }
 
+export interface CreateMultipleJournalEntriesRequest {
+  journalId: string;
+  allocationType: AllocationType;
+  targetType: JournalEntryTarget;
+  items: Array<{
+    targetId: string;
+    amount: number;
+  }>;
+}
+
 export interface ListJournalEntriesParams extends PaginationParams {
   search?: string;
   journalId?: string;
@@ -28,6 +38,14 @@ export async function listJournalEntries(
  */
 export async function createJournalEntry(data: CreateJournalEntriesRequest): Promise<JournalEntry> {
   const response = await api.post<JournalEntry>("/journal-entries", data);
+  return response.data;
+}
+
+/**
+ * Create multiple journal entries at once
+ */
+export async function createMultipleJournalEntries(data: CreateMultipleJournalEntriesRequest): Promise<JournalEntry[]> {
+  const response = await api.post<JournalEntry[]>("/journal-entries/multiple", data);
   return response.data;
 }
 

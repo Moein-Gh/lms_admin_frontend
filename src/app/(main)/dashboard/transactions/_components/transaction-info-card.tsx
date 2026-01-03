@@ -25,6 +25,7 @@ type TransactionInfoCardProps = {
 function canApproveTransaction(transaction: Transaction): boolean {
   const { kind, status } = transaction;
   const isAllocated = status === TransactionStatus.ALLOCATED;
+
   const isPending = status === TransactionStatus.PENDING;
 
   // DEPOSIT can only be approved when ALLOCATED
@@ -48,7 +49,7 @@ function TransactionActionButtons({
 }) {
   const canDelete =
     transaction.status === TransactionStatus.PENDING || transaction.status === TransactionStatus.ALLOCATED;
-
+  console.log(canApproveTransaction(transaction));
   return (
     <div className="flex flex-row gap-3 w-full items-center justify-center sm:w-auto sm:items-center">
       {canApproveTransaction(transaction) && (

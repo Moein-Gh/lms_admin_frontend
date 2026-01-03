@@ -8,6 +8,7 @@ export interface CreateAccountRequest {
   userId: string;
   cardNumber: string;
   bankName: string;
+  bookCode?: string;
   createdAt: Date | string;
 }
 
@@ -25,6 +26,7 @@ export interface UpdateAccountRequest {
   cardNumber?: string;
   bankName?: string;
   status?: AccountStatus;
+  bookCode?: string;
 }
 
 export interface ListAccountsParams extends PaginationParams {

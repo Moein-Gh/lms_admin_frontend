@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { useCreateJournalEntry } from "@/hooks/use-journal-entries";
+import { useCreateMultipleJournalEntries } from "@/hooks/use-journal-entries";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { transactionKeys } from "@/hooks/use-transaction";
 import { AllocationType, JournalEntryTarget } from "@/types/entities/journal-entry.type";
@@ -36,16 +36,16 @@ const ALLOCATION_TO_TARGET_MAP: Record<AllocationType, JournalEntryTarget> = {
 export function AllocateJournalPanel({ onSuccess, journal }: Props) {
   const [open, setOpen] = React.useState(false);
   const [currentStep, setCurrentStep] = React.useState(1);
-  const [formData, setFormData] = React.useState<Partial<AllocationFormData>>({});
+  const [formData, setFormData] = React.useState<Partial<AllocationFormData>>({ items: [] });
   const isMobile = useIsMobile();
-  const addEntryMutation = useCreateJournalEntry();
+  const addEntryMutation = useCreateMultipleJournalEntries();
   const unbalancedAmount = calculateUnbalancedAmount(journal.entries);
   const queryClient = useQueryClient();
   const { CloseButton, Header, Title, Description, Footer } = useResponsivePanelElements(isMobile);
 
   const resetForm = React.useCallback(() => {
     setCurrentStep(1);
-    setFormData({});
+    setFormData({ items: [] });
   }, []);
 
   const handleClose = React.useCallback(() => {
@@ -62,14 +62,13 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
   }, []);
 
   const handleSubmit = React.useCallback(() => {
-    if (!formData.allocationType || !formData.amount || !formData.targetId) return;
+    if (!formData.allocationType || !formData.items || formData.items.length === 0) return;
     addEntryMutation.mutate(
       {
         journalId: journal.id,
-        amount: Number(formData.amount),
         targetType: ALLOCATION_TO_TARGET_MAP[formData.allocationType],
-        targetId: formData.targetId,
-        allocationType: formData.allocationType
+        allocationType: formData.allocationType,
+        items: formData.items
       },
       {
         onSuccess: () => {
@@ -99,8 +98,8 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
       fromStep2:
         formData.allocationType === AllocationType.LOAN_REPAYMENT
           ? !!formData.loanId
-          : !!(formData.targetId && formData.amount),
-      canSubmit: !!(formData.targetId && formData.amount)
+          : !!(formData.items && formData.items.length > 0),
+      canSubmit: !!(formData.items && formData.items.length > 0)
     }),
     [formData]
   );
@@ -111,10 +110,10 @@ export function AllocateJournalPanel({ onSuccess, journal }: Props) {
     if (currentStep === 2) {
       if (formData.allocationType === AllocationType.ACCOUNT_BALANCE) return "مبلغ را وارد کنید";
       if (formData.allocationType === AllocationType.LOAN_REPAYMENT) return "وام را انتخاب کنید";
-      if (formData.allocationType === AllocationType.SUBSCRIPTION_FEE) return "ماهیانه را انتخاب کنید";
+      if (formData.allocationType === AllocationType.SUBSCRIPTION_FEE) return "یک یا چند ماهیانه را انتخاب کنید";
     }
     if (formData.allocationType === AllocationType.LOAN_REPAYMENT && currentStep === 3) {
-      return "قسط را انتخاب کنید";
+      return "یک یا چند قسط را انتخاب کنید";
     }
     return "";
   }, [currentStep, formData.allocationType]);

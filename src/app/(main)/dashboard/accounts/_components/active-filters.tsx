@@ -19,7 +19,7 @@ function statusLabel(status: AccountStatus) {
       return "فعال";
     case AccountStatus.INACTIVE:
       return "غیرفعال";
-    case AccountStatus.RESTRICTED:
+    case AccountStatus.BUSY:
       return "محدود";
     default:
       return status;

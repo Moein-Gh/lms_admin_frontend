@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Pills } from "@/components/ui/pills";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import type { CreateLoanRequest } from "@/lib/loan-api";
 
 type StepLoanFieldsProps = {
@@ -81,7 +82,7 @@ export function StepLoanFields({
         <Popover open={calOpen} onOpenChange={setCalOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" className="w-full justify-between font-normal">
-              {selectedStartDate ? new Date(selectedStartDate).toLocaleDateString("fa-IR") : "انتخاب تاریخ"}
+              {selectedStartDate ? formatPersianDate(selectedStartDate, DATE_FORMATS.SHORT) : "انتخاب تاریخ"}
             </Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-auto p-0">

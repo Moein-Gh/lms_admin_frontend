@@ -3,7 +3,6 @@ import SubscriptionFeeCardSelectable from "@/components/entity-specific/subscrip
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { useSubscriptionFees } from "@/hooks/use-subscription-fee";
 import { OrderDirection } from "@/types/api";
-import { AllocationType } from "@/types/entities/journal-entry.type";
 
 export function StepSelectFee({
   formData,
@@ -18,11 +17,36 @@ export function StepSelectFee({
     orderDir: OrderDirection.ASC
   });
 
+  const selectedIds = new Set((formData.items ?? []).map((item) => item.targetId));
+  const selectedCount = selectedIds.size;
+
+  const handleToggleFee = (feeId: string, amount: number) => {
+    const currentItems = formData.items ?? [];
+    const isSelected = selectedIds.has(feeId);
+
+    if (isSelected) {
+      // Remove from selection
+      setFormData({
+        ...formData,
+        items: currentItems.filter((item) => item.targetId !== feeId)
+      });
+    } else {
+      // Add to selection
+      setFormData({
+        ...formData,
+        items: [...currentItems, { targetId: feeId, amount }]
+      });
+    }
+  };
+
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-        <ReceiptIcon className="size-4 text-muted-foreground" />
-        <span>انتخاب ماهیانه</span>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <ReceiptIcon className="size-4 text-muted-foreground" />
+          <span>انتخاب ماهیانه</span>
+        </div>
+        {selectedCount > 0 && <div className="text-sm text-muted-foreground">{selectedCount} ماهیانه انتخاب شده</div>}
       </div>
 
       {isLoading ? (
@@ -33,15 +57,8 @@ export function StepSelectFee({
             <SubscriptionFeeCardSelectable
               key={fee.id}
               fee={fee}
-              selected={formData.targetId === fee.id}
-              onSelect={() =>
-                setFormData({
-                  ...formData,
-                  targetId: fee.id,
-                  allocationType: AllocationType.SUBSCRIPTION_FEE,
-                  amount: fee.amount
-                })
-              }
+              selected={selectedIds.has(fee.id)}
+              onSelect={() => handleToggleFee(fee.id, Number(fee.amount))}
             />
           ))}
         </div>

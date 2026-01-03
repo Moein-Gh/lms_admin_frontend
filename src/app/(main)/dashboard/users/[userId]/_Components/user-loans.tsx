@@ -10,7 +10,8 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useLoans } from "@/hooks/use-loan";
-import { cn, formatDate } from "@/lib/utils";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
+import { cn } from "@/lib/utils";
 import { Loan, LoanStatus } from "@/types/entities/loan.type";
 
 const getStatusConfig = (status: LoanStatus) => {
@@ -85,7 +86,7 @@ function LoanCard({ loan }: { loan: Loan }) {
           <span className="text-xs text-muted-foreground">تاریخ شروع</span>
           <div className="flex items-center gap-1.5">
             <Calendar className="size-3.5 text-muted-foreground" />
-            <span className="text-sm">{formatDate(loan.startDate)}</span>
+            <span className="text-sm">{formatPersianDate(loan.startDate, DATE_FORMATS.SHORT)}</span>
           </div>
         </div>
       </div>

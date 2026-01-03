@@ -17,7 +17,7 @@ import {
 import { toast } from "sonner";
 
 import { FormattedNumber } from "@/components/formatted-number";
-import { Badge, type BadgeVariant } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -30,20 +30,10 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useActivateAccount } from "@/hooks/use-account";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { AccountStatus, type Account } from "@/types/entities/account.type";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
+import { AccountStatus, AccountStatusLabels, type Account } from "@/types/entities/account.type";
 import BuyoutPanel from "./buyout-panel";
 import TransferPanel from "./transfer/transfer-panel";
-
-export type AccountStatusLabel = {
-  readonly label: string;
-  readonly badgeVariant: BadgeVariant;
-};
-
-export const AccountStatusLabels: Record<AccountStatus, AccountStatusLabel> = {
-  [AccountStatus.ACTIVE]: { label: "فعال", badgeVariant: "default" },
-  [AccountStatus.INACTIVE]: { label: "غیرفعال", badgeVariant: "inactive" },
-  [AccountStatus.RESTRICTED]: { label: "دارای وام فعال", badgeVariant: "destructive" }
-};
 
 export function AccountInfoCard({ account }: { account: Account }) {
   const statusInfo = AccountStatusLabels[account.status];
@@ -205,7 +195,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
                   <span>تاریخ افتتاح</span>
                 </div>
                 <p className="text-base font-medium text-foreground">
-                  {new Date(account.createdAt).toLocaleDateString("fa-IR")}
+                  {formatPersianDate(account.createdAt, DATE_FORMATS.SHORT)}
                 </p>
               </div>
 

@@ -5,8 +5,8 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { formatDate } from "@/lib/utils";
-import { User } from "@/types/entities/user.type";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
+import { User, UserStatus } from "@/types/entities/user.type";
 
 import { EditUserDialog } from "./edit-user-dialog";
 import UserDeletePanel from "./user-delete-panel";
@@ -32,7 +32,7 @@ export default function UserInfoCard({ user }: Props) {
           <div className="flex flex-col gap-1 min-w-0">
             <h2 className="text-xl font-bold truncate text-foreground">{identity.name ?? "کاربر بدون نام"}</h2>
             <Badge variant="secondary" className="text-xs font-normal px-2.5 py-0.5">
-              {user.isActive ? " فعال" : " غیرفعال"}
+              {user.status === UserStatus.ACTIVE ? " فعال" : " غیرفعال"}
             </Badge>
           </div>
         </div>
@@ -62,7 +62,9 @@ export default function UserInfoCard({ user }: Props) {
             <Calendar className="h-3 w-3" />
             تاریخ عضویت
           </span>
-          <span className="text-base font-medium truncate">{formatDate(identity.createdAt!)}</span>
+          <span className="text-base font-medium truncate">
+            {formatPersianDate(identity.createdAt!, DATE_FORMATS.SHORT)}
+          </span>
         </div>
       </CardContent>
 

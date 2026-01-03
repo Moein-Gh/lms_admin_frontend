@@ -1,10 +1,10 @@
-import { AccountBalanceSummary } from "./account-balance.type";
+import { BadgeVariant } from "@/components/ui/badge";
 import { Identity } from "./identity.type";
 import { LoanBalanceSummary } from "./loan-balane.type";
 import { type RoleAssignment } from "./role-assignment.type";
 
 export type UserBalanceSummary = {
-  accounts: AccountBalanceSummary[];
+  accounts: UserBalanceSummary[];
   loans: LoanBalanceSummary[];
 };
 
@@ -26,3 +26,13 @@ export interface User {
   balanceSummary?: UserBalanceSummary;
   roleAssignments?: RoleAssignment[];
 }
+
+export type UserStatusLabel = {
+  readonly label: string;
+  readonly badgeVariant: BadgeVariant;
+};
+
+export const UserStatusLabels: Record<UserStatus, UserStatusLabel> = {
+  [UserStatus.ACTIVE]: { label: "فعال", badgeVariant: "default" },
+  [UserStatus.INACTIVE]: { label: "غیرفعال", badgeVariant: "inactive" }
+};

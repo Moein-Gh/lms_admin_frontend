@@ -116,6 +116,12 @@ export function CreateUserDialog() {
         <Label htmlFor="roles" className="text-sm font-medium">
           نقش‌ها <span className="text-destructive">*</span>
         </Label>
+        <input
+          type="hidden"
+          {...register("roles", {
+            validate: (v) => (v && v.length > 0) || "لطفاً حداقل یک نقش انتخاب کنید"
+          })}
+        />
         <div className="flex flex-wrap gap-2">
           {rolesLoading && <div className="text-sm text-muted-foreground">در حال بارگذاری...</div>}
           {!rolesLoading &&
@@ -126,8 +132,9 @@ export function CreateUserDialog() {
                   key={r.id}
                   onClick={() => {
                     setSelectedRoles((prev) => {
-                      if (prev.includes(r.id)) return prev.filter((p) => p !== r.id);
-                      return [...prev, r.id];
+                      const next = prev.includes(r.id) ? prev.filter((p) => p !== r.id) : [...prev, r.id];
+                      setValue("roles", next, { shouldDirty: true });
+                      return next;
                     });
                   }}
                   className={`cursor-pointer ${selected ? "ring-2 ring-primary" : ""}`}
@@ -138,7 +145,7 @@ export function CreateUserDialog() {
               );
             })}
         </div>
-        {selectedRoles.length === 0 && <span className="text-xs text-destructive">لطفاً حداقل یک نقش انتخاب کنید</span>}
+        {errors.roles && <span className="text-xs text-destructive">{(errors.roles as any).message}</span>}
       </div>
 
       {!isMobile && (

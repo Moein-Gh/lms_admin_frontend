@@ -227,7 +227,7 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
           <SelectContent>
             <SelectItem value="all">همه وام‌ها</SelectItem>
             <SelectItem value={LoanStatus.ACTIVE}>فعال</SelectItem>
-            <SelectItem value={LoanStatus.CLOSED}>تسویه شده</SelectItem>
+            <SelectItem value={LoanStatus.PAID}>تسویه شده</SelectItem>
             <SelectItem value={LoanStatus.PENDING}>در انتظار بررسی</SelectItem>
           </SelectContent>
         </Select>

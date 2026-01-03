@@ -2,18 +2,21 @@
 
 import * as React from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 
 import { AccountTypeSection } from "@/components/form/account-type-section";
-import { BankSection } from "@/components/form/bank-name-section";
 
 import { SelectUserSection } from "@/components/form/select-user-section";
 import { CalendarHijri } from "@/components/ui/calendar-hijri";
+import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { createAccount, type CreateAccountRequest } from "@/lib/account-api";
 import { listAccountTypes } from "@/lib/account-type-api";
+import { BANK_NAMES } from "@/lib/bank-names";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { listUsers } from "@/lib/user-api";
 import CardNumberField from "../card-number-input";
 import { CreateAccountDialogMobile } from "./create-account-dialog-mobile";
@@ -56,6 +59,7 @@ export function CreateAccountDialog() {
     handleSubmit,
     setValue,
     reset,
+    control,
     formState: { errors }
   } = useForm<CreateAccountRequest>({
     defaultValues: {
@@ -63,6 +67,7 @@ export function CreateAccountDialog() {
       userId: "",
       cardNumber: "",
       bankName: "",
+      bookCode: "",
       createdAt: undefined
     }
   });
@@ -143,34 +148,64 @@ export function CreateAccountDialog() {
           }}
           error={!!errors.accountTypeId}
         />
-        <BankSection register={register} error={!!errors.bankName} />
+        <div className="space-y-2">
+          <label className="text-sm font-medium">نام بانک</label>
+          {/* Use Controller for Select to bind with RHF */}
+          <Controller
+            name="bankName"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Select dir="rtl" required value={field.value || ""} onValueChange={(val) => field.onChange(val)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="انتخاب بانک" />
+                </SelectTrigger>
+                <SelectContent>
+                  {BANK_NAMES.map((b) => (
+                    <SelectItem dir="rtl" key={b} value={b}>
+                      {b}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+          {errors.bankName && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+        </div>
       </div>
 
-      {/* Created at date */}
-      <div className="space-y-2">
-        <label className="text-sm font-medium">تاریخ ایجاد</label>
-        <Popover open={createdAtOpen} onOpenChange={setCreatedAtOpen}>
-          <PopoverTrigger asChild>
-            <button
-              type="button"
-              className="w-full rounded-md border px-3 py-2 text-sm text-muted-foreground flex items-center justify-between"
-            >
-              {createdAt ? new Date(createdAt).toLocaleDateString("fa-IR") : "انتخاب تاریخ"}
-            </button>
-          </PopoverTrigger>
-          <PopoverContent align="start" className="w-auto p-0">
-            <CalendarHijri
-              selected={createdAt}
-              onSelect={(d?: Date) => {
-                if (!d) return;
-                setCreatedAt(d);
-                setValue("createdAt", d.toISOString(), { shouldValidate: true });
-                setCreatedAtOpen(false);
-              }}
-            />
-          </PopoverContent>
-        </Popover>
-        {errors.createdAt && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+      {/* Created at date and book code */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <label className="text-sm font-medium">تاریخ ایجاد</label>
+          <Popover open={createdAtOpen} onOpenChange={setCreatedAtOpen}>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className="w-full rounded-md border px-3 py-2 text-sm text-muted-foreground flex items-center justify-between"
+              >
+                {createdAt ? formatPersianDate(createdAt, DATE_FORMATS.SHORT) : "انتخاب تاریخ"}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="start" className="w-auto p-0">
+              <CalendarHijri
+                selected={createdAt}
+                onSelect={(d?: Date) => {
+                  if (!d) return;
+                  setCreatedAt(d);
+                  setValue("createdAt", d.toISOString(), { shouldValidate: true });
+                  setCreatedAtOpen(false);
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+          {errors.createdAt && <span className="text-xs text-destructive">این فیلد الزامی است</span>}
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium">شماره دفترچه</label>
+          <Input type="text" placeholder="10" {...register("bookCode")} className="text-end" />
+        </div>
       </div>
 
       {!isMobile && <FormActionsSection isPending={create.isPending} onReset={reset} />}
@@ -187,8 +222,18 @@ export function CreateAccountDialog() {
       inputsRef.current.clear();
       setCreatedAt(undefined);
       setValue("createdAt", "");
+      setValue("bankName", "");
+      setValue("bookCode", "");
     }
   }, [open, reset, setValue]);
+
+  React.useEffect(() => {
+    if (open && !createdAt) {
+      const now = new Date();
+      setCreatedAt(now);
+      setValue("createdAt", now.toISOString(), { shouldValidate: true });
+    }
+  }, [open, createdAt, setValue]);
 
   if (isMobile) {
     return <CreateAccountDialogMobile open={open} setOpen={setOpen} formContent={formContent} create={create} />;

@@ -16,7 +16,8 @@ import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useRoles } from "@/hooks/use-role";
 import { useCreateRoleAssignment, useDeleteRoleAssignment, useRoleAssignments } from "@/hooks/use-role-assignment";
-import { cn, formatDate } from "@/lib/utils";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
+import { cn } from "@/lib/utils";
 import { RoleAssignment } from "@/types/entities/role-assignment.type";
 
 type Props = {
@@ -112,7 +113,7 @@ export function RoleAssignmentDialog({ userId }: Props) {
                       className="text-[10px] px-1.5 h-5 gap-1 font-normal text-muted-foreground"
                     >
                       <Clock className="w-3 h-3" />
-                      {formatDate(ra.expiresAt)}
+                      {formatPersianDate(ra.expiresAt, DATE_FORMATS.SHORT)}
                     </Badge>
                   )}
                 </div>
@@ -175,7 +176,7 @@ export function RoleAssignmentDialog({ userId }: Props) {
                   >
                     <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
                     {expiresAt ? (
-                      <span className="truncate">{new Date(expiresAt).toLocaleDateString("fa-IR")}</span>
+                      <span className="truncate">{formatPersianDate(expiresAt, DATE_FORMATS.SHORT)}</span>
                     ) : (
                       <span>بدون انقضا</span>
                     )}

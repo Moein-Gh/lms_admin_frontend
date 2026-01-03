@@ -16,14 +16,12 @@ export function StepSelectAccount({
   const params = React.useMemo(() => {
     const base = { userId: formData.userId, pageSize: 100 } as const;
     if (formData.allocationType === AllocationType.LOAN_REPAYMENT) {
-      return { ...base, status: AccountStatus.RESTRICTED };
+      return { ...base, status: AccountStatus.BUSY };
     }
     return base;
   }, [formData.userId, formData.allocationType]);
 
   const { data: accountsData, isLoading } = useAccounts(params, { enabled: !!formData.userId });
-
-  accountsData?.data.filter((a) => a.status === AccountStatus.ACTIVE || a.status === AccountStatus.RESTRICTED);
 
   const sortedAccounts = React.useMemo(() => {
     if (!accountsData?.data) return [];
@@ -37,15 +35,15 @@ export function StepSelectAccount({
       ) : sortedAccounts.length === 0 ? (
         <NoAccountCard title="حسابی یافت نشد" description="برای این کاربر حسابی با وام فعال یافت نشد." />
       ) : (
-        <div className="grid grid-cols-1 gap-2 max-h-[300px] overflow-y-auto">
+        <div className="grid grid-cols-1 gap-2 max-h-75 overflow-y-auto">
           {sortedAccounts
-            .filter((a) => a.status === AccountStatus.ACTIVE || a.status === AccountStatus.RESTRICTED)
+            .filter((a) => a.status === AccountStatus.ACTIVE || a.status === AccountStatus.BUSY)
             .map((account) => (
               <AccountCardSelectable
                 key={account.id}
                 account={account}
                 selected={formData.accountId === account.id}
-                onSelect={(a) => setFormData({ ...formData, accountId: a.id, loanId: undefined, targetId: a.id })}
+                onSelect={(a) => setFormData({ ...formData, accountId: a.id, loanId: undefined, items: [] })}
               />
             ))}
         </div>

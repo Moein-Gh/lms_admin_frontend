@@ -12,9 +12,9 @@ import type { Loan } from "@/types/entities/loan.type";
 export function LoanCard({ loan }: { loan: Loan }) {
   const statusConfig = {
     ACTIVE: {
-      bg: "bg-green-500/10 dark:bg-green-500/20",
-      text: "text-green-600 dark:text-green-400",
-      border: "border-green-200 dark:border-green-800",
+      bg: "bg-blue-500/10 dark:bg-blue-500/20",
+      text: "text-blue-600 dark:text-blue-400",
+      border: "border-blue-200 dark:border-blue-800",
       label: "فعال"
     },
     PENDING: {
@@ -23,11 +23,11 @@ export function LoanCard({ loan }: { loan: Loan }) {
       border: "border-yellow-200 dark:border-yellow-800",
       label: "در انتظار"
     },
-    CLOSED: {
-      bg: "bg-muted",
-      text: "text-muted-foreground",
-      border: "border-border",
-      label: "بسته شده"
+    PAID: {
+      bg: "bg-green-500/10 dark:bg-green-500/20",
+      text: "text-green-600 dark:text-green-400",
+      border: "border-green-200 dark:border-green-800",
+      label: "تسویه شده"
     }
   } as const;
 
@@ -62,7 +62,7 @@ export function LoanCard({ loan }: { loan: Loan }) {
         <div className="flex flex-col items-center gap-1 px-2">
           <span className="text-[10px] text-muted-foreground">شروع</span>
           <span className="text-xs font-bold">
-            <FormattedDate value={loan.startDate} options={{ year: "numeric", month: "long" }} />
+            <FormattedDate value={loan.startDate} format="MMMM yyyy" />
           </span>
         </div>
         <div className="flex flex-col items-center gap-1 px-2">
@@ -72,13 +72,13 @@ export function LoanCard({ loan }: { loan: Loan }) {
         <div className="flex flex-col items-center gap-1 px-2">
           <span className="text-[10px] text-muted-foreground">ثبت</span>
           <span className="text-xs font-bold">
-            <FormattedDate value={loan.createdAt} options={{ year: "numeric", month: "long" }} />
+            <FormattedDate value={loan.createdAt} format="MMMM yyyy" />
           </span>
         </div>
       </div>
 
       {/* Footer: Button */}
-      <a href={`/dashboard/loan/${loan.id}`} className="w-full">
+      <a href={`/dashboard/loans/${loan.id}`} className="w-full">
         <Button variant="outline" size="sm" className="w-full rounded-lg font-bold h-9">
           مشاهده جزئیات
         </Button>

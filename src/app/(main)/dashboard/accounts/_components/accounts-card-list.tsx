@@ -13,7 +13,7 @@ import {
   DataCardSkeleton
 } from "@/components/ui/data-card";
 import { PaginatedResponseDto } from "@/types/api";
-import { Account, AccountStatus, AccountStatusLabels } from "@/types/entities/account.type";
+import { Account, AccountStatusLabels } from "@/types/entities/account.type";
 
 type Props = {
   data: PaginatedResponseDto<Account> | null;
@@ -33,23 +33,24 @@ const accountCardConfig: DataCardConfig<Account> = {
     render: (bank) => <span className="text-sm text-muted-foreground">{String(bank ?? "-")}</span>
   },
   statusColor: (acc) => {
-    switch (acc.status) {
-      case AccountStatus.ACTIVE:
-        return "bg-success";
-      case AccountStatus.RESTRICTED:
-        return "bg-warning";
-      case AccountStatus.INACTIVE:
-        return "bg-destructive";
-      default:
-        return "bg-muted-foreground";
-    }
+    const variant = AccountStatusLabels[acc.status]?.badgeVariant ?? "secondary";
+    const map: Record<string, string> = {
+      default: "bg-success",
+      warning: "bg-warning",
+      secondary: "bg-muted-foreground",
+      destructive: "bg-destructive",
+      outline: "bg-muted-foreground",
+      active: "bg-success",
+      inactive: "bg-destructive"
+    };
+    return map[variant] ?? "bg-muted-foreground";
   },
   detailFields: [
     {
       key: "status",
       label: "وضعیت",
       render: (v) => {
-        const label = AccountStatusLabels[v as Account["status"]];
+        const label = AccountStatusLabels[v as Account["status"]] ?? { label: "نامشخص", badgeVariant: "secondary" };
         return <Badge variant={label.badgeVariant}>{label.label}</Badge>;
       }
     },

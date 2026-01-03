@@ -9,7 +9,8 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { User } from "@/types/entities/user.type";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
+import { User, UserStatus } from "@/types/entities/user.type";
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -66,28 +67,27 @@ export const columns: ColumnDef<User>[] = [
     )
   },
   {
-    accessorKey: "isActive",
-
+    accessorKey: "status",
     meta: { className: "w-1/12" },
     header: ({ column }) => <DataTableColumnHeader column={column} title="وضعیت" />,
     cell: ({ row }) => (
       <div className="text-center">
-        <Badge variant={row.original.isActive ? "active" : "inactive"}>
-          {row.original.isActive ? "فعال" : "غیرفعال"}
+        <Badge variant={row.original.status === UserStatus.ACTIVE ? "active" : "inactive"}>
+          {row.original.status === UserStatus.ACTIVE ? "فعال" : "غیرفعال"}
         </Badge>
       </div>
     )
   },
   {
     accessorKey: "identity.createdAt",
-    id: "createdAt", // Send "createdAt" to API instead of "identity.createdAt"
+    id: "createdAt",
 
     meta: { className: "w-1/12" },
     header: ({ column }) => <DataTableColumnHeader column={column} title="تاریخ عضویت" />,
     cell: ({ row }) => (
       <div className="text-center">
         {row.original.identity.createdAt
-          ? new Date(row.original.identity.createdAt).toLocaleDateString("fa-IR")
+          ? formatPersianDate(row.original.identity.createdAt, DATE_FORMATS.SHORT)
           : "تاریخ نامشخص"}
       </div>
     )

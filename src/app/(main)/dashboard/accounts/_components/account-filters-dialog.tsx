@@ -228,7 +228,7 @@ function FilterForm({ filters, onApply, onReset }: FilterFormProps) {
             <SelectItem value="all">همه حساب‌ها</SelectItem>
             <SelectItem value={AccountStatus.ACTIVE}>فعال</SelectItem>
             <SelectItem value={AccountStatus.INACTIVE}>غیرفعال</SelectItem>
-            <SelectItem value={AccountStatus.RESTRICTED}>محدود</SelectItem>
+            <SelectItem value={AccountStatus.BUSY}>محدود</SelectItem>
           </SelectContent>
         </Select>
       </div>

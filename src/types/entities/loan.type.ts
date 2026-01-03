@@ -5,13 +5,13 @@ import { LoanType } from "./loan-type.type";
 export enum LoanStatus {
   PENDING = "PENDING",
   ACTIVE = "ACTIVE",
-  CLOSED = "CLOSED"
+  PAID = "PAID"
 }
 
 export const LoanStatusLabels: Record<LoanStatus, string> = {
   [LoanStatus.PENDING]: "در انتظار",
   [LoanStatus.ACTIVE]: "فعال",
-  [LoanStatus.CLOSED]: "بسته شده"
+  [LoanStatus.PAID]: "بسته شده"
 };
 
 export interface Loan {

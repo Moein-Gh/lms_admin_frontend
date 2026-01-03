@@ -10,7 +10,8 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTransactions } from "@/hooks/use-transaction";
-import { cn, formatDate } from "@/lib/utils";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
+import { cn } from "@/lib/utils";
 import { Transaction, TransactionKind, TransactionStatus } from "@/types/entities/transaction.type";
 
 type UserTransactionsProps = {
@@ -126,7 +127,7 @@ function TransactionCard({ transaction }: { transaction: Transaction }) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">تاریخ</span>
-          <span className="text-sm">{formatDate(transaction.createdAt)}</span>
+          <span className="text-sm">{formatPersianDate(transaction.createdAt, DATE_FORMATS.SHORT)}</span>
         </div>
       </div>
     </div>
