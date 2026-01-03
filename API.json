@@ -541,7 +541,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"isActive\":false,\r\n    \"identityId\":\"ad575a6a-1599-41c5-9748-82ba714a7619\"\r\n}",
+              "raw": "{\r\n    \"status\":\"ACTIVE\",\r\n    \"identityId\":\"ad575a6a-1599-41c5-9748-82ba714a7619\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"

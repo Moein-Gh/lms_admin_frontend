@@ -14,10 +14,17 @@ export function StepTwo({
   targetLabel: string;
   targetList: readonly { id: string; name?: string; code?: number }[];
 }) {
+  const selectedId = formData.items && formData.items.length > 0 ? formData.items[0].targetId : "";
+
+  const handleSelect = (value: string) => {
+    const existingAmount = formData.items && formData.items.length > 0 ? formData.items[0].amount : 0;
+    setFormData({ ...formData, items: [{ targetId: value, amount: existingAmount }] });
+  };
+
   return (
     <div className="space-y-2">
       <Label htmlFor="target">{targetLabel}</Label>
-      <Select value={formData.targetId} onValueChange={(value) => setFormData({ ...formData, targetId: value })}>
+      <Select value={selectedId} onValueChange={handleSelect}>
         <SelectTrigger id="target">
           <SelectValue placeholder={targetLabel} />
         </SelectTrigger>

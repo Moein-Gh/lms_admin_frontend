@@ -59,7 +59,7 @@ export function SubscriptionFeeCard({ fee }: { fee: SubscriptionFee }) {
 
       <div className="text-center border-t pt-3 border-dashed">
         <span className="text-sm font-medium text-muted-foreground">
-          <FormattedDate value={dateValue} options={{ year: "numeric", month: "long" }} />
+          <FormattedDate value={dateValue} />
         </span>
       </div>
     </Card>

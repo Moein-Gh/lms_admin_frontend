@@ -29,7 +29,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useUpdateUser } from "@/hooks/use-user";
-import { User } from "@/types/entities/user.type";
+import { User, UserStatus } from "@/types/entities/user.type";
 
 type Props = {
   user: User;
@@ -37,7 +37,7 @@ type Props = {
 };
 
 type FormValues = {
-  isActive?: boolean;
+  status?: UserStatus;
   name?: string;
   phone?: string;
   countryCode?: string;
@@ -48,7 +48,7 @@ type FormValues = {
  * EditUserDialog
  * - Uses react-hook-form
  * - Mirrors the UX of UserFiltersDialog (Dialog on desktop, Drawer on mobile)
- * - Submits only supported fields to the existing updateUser API: currently `isActive` and `identityId`.
+ * - Submits only supported fields to the existing updateUser API: currently `status` and `identityId`.
  * - The API does not accept direct identity edits (name/phone) — those fields are shown as read-only.
  */
 export function EditUserDialog({ user, onUpdated }: Props) {
@@ -68,7 +68,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
 
   const { register, handleSubmit, reset, control } = useForm<FormValues>({
     defaultValues: {
-      isActive: !!user.isActive,
+      status: user.status,
       name: identity.name ?? "",
       phone: identity.phone ?? "",
       countryCode: identity.countryCode ?? "",
@@ -78,13 +78,13 @@ export function EditUserDialog({ user, onUpdated }: Props) {
 
   React.useEffect(() => {
     reset({
-      isActive: !!user.isActive,
+      status: user.status,
       name: identity.name ?? "",
       phone: identity.phone ?? "",
       countryCode: identity.countryCode ?? "",
       email: identity.email ?? ""
     });
-  }, [identity.name, identity.phone, identity.countryCode, identity.email, user.isActive, reset]);
+  }, [identity.name, identity.phone, identity.countryCode, identity.email, user.status, reset]);
 
   const onSubmit = async (values: FormValues) => {
     try {
@@ -94,7 +94,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
 
       // optimistic local update callback
       if (onUpdated) {
-        const updatedIsActive = values.isActive ?? user.isActive;
+        const updatedStatus = values.status ?? user.status;
         const baseIdentity = user.identity;
         const updatedIdentity = {
           ...baseIdentity,
@@ -106,7 +106,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
 
         const updatedUser: User = {
           ...user,
-          isActive: updatedIsActive,
+          status: updatedStatus,
           identity: updatedIdentity
         };
 
@@ -158,7 +158,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
           <div className="flex items-center gap-3">
             <Label>فعال</Label>
             <Controller
-              name="isActive"
+              name="status"
               control={control}
               render={({ field }) => (
                 <Switch checked={!!field.value} onCheckedChange={field.onChange} dir="ltr" disabled={disabled} />

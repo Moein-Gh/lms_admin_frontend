@@ -6,6 +6,7 @@ import { PaginationControls } from "@/components/pagination-controls";
 import { usePagination } from "@/hooks/use-pagination";
 import { useUsers } from "@/hooks/use-user";
 import { OrderDirection } from "@/types/api";
+import { UserStatus } from "@/types/entities/user.type";
 import { UsersCardList } from "./_components/users-card-list";
 import { UsersHeader } from "./_components/users-header";
 import { UsersTable } from "./_components/users-table";
@@ -16,8 +17,8 @@ export default function UsersPage() {
   const pageParam = Number(searchParams.get("page") ?? 1);
   const pageSizeParam = Number(searchParams.get("per_page") ?? 10);
   const search = searchParams.get("search") ?? undefined;
-  const isActiveParam = searchParams.get("isActive");
-  const isActive = isActiveParam === "true" ? true : isActiveParam === "false" ? false : undefined;
+  const statusParam = searchParams.get("status");
+
   const orderBy = searchParams.get("orderBy") ?? undefined;
   const orderDir = searchParams.get("orderDir") as OrderDirection | undefined;
   const pagination = usePagination({ initialPage: pageParam, initialPageSize: pageSizeParam });
@@ -25,7 +26,7 @@ export default function UsersPage() {
     page: pagination.page,
     pageSize: pagination.pageSize,
     search,
-    isActive,
+    status: statusParam ? (statusParam as UserStatus) : undefined,
     orderBy,
     orderDir
   });

@@ -12,7 +12,7 @@ import {
   DataCardSkeleton
 } from "@/components/ui/data-card";
 import { PaginatedResponseDto } from "@/types/api";
-import { User } from "@/types/entities/user.type";
+import { User, UserStatus } from "@/types/entities/user.type";
 
 type Props = {
   data: PaginatedResponseDto<User> | null;
@@ -42,12 +42,16 @@ const userCardConfig: DataCardConfig<User> = {
         </Badge>
       )
   },
-  statusColor: (user) => (user.isActive ? "bg-success" : "bg-destructive"),
+  statusColor: (user) => (user.status === UserStatus.ACTIVE ? "bg-success" : "bg-destructive"),
   detailFields: [
     {
-      key: "isActive",
+      key: "status",
       label: "وضعیت",
-      render: (isActive) => <Badge variant={isActive ? "active" : "inactive"}>{isActive ? "فعال" : "غیرفعال"}</Badge>
+      render: (status) => (
+        <Badge variant={status === UserStatus.ACTIVE ? "active" : "inactive"}>
+          {status === UserStatus.ACTIVE ? "فعال" : "غیرفعال"}
+        </Badge>
+      )
     }
   ],
   actions: (user) => [

@@ -9,6 +9,7 @@ import React from "react";
 import { PaginationControls } from "@/components/pagination-controls";
 import { usePagination } from "@/hooks/use-pagination";
 import { useUsers } from "@/hooks/use-user";
+import { UserStatus } from "@/types/entities/user.type";
 
 // ============================================================================
 // Example 1: Basic Usage with User List
@@ -26,7 +27,7 @@ export function UserListExample() {
     page: pagination.page,
     pageSize: pagination.pageSize,
     // Additional filters
-    isActive: true,
+    status: UserStatus.ACTIVE,
     search: ""
   });
 
@@ -121,7 +122,7 @@ export function UserListWithFilters() {
     page: pagination.page,
     pageSize: pagination.pageSize,
     search,
-    isActive
+    status: isActive === undefined ? undefined : isActive ? UserStatus.ACTIVE : UserStatus.INACTIVE
   });
 
   // Reset to first page when filters change

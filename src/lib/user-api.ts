@@ -1,6 +1,6 @@
 import { PaginatedResponseDto, PaginationParams } from "@/types/api";
 import { Identity } from "@/types/entities/identity.type";
-import { User } from "@/types/entities/user.type";
+import { User, UserStatus } from "@/types/entities/user.type";
 
 import api from "./api";
 
@@ -23,7 +23,7 @@ export type RegisterUserResult = {
 };
 
 export interface UpdateUserRequest {
-  isActive?: boolean;
+  status?: UserStatus;
   name?: string;
   phone?: string;
   countryCode?: string;
@@ -32,7 +32,7 @@ export interface UpdateUserRequest {
 
 export interface ListUsersParams extends PaginationParams {
   search?: string;
-  isActive?: boolean;
+  status?: UserStatus;
 }
 
 /**

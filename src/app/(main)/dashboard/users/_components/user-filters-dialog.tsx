@@ -27,6 +27,7 @@ import { Label } from "@/components/ui/label";
 import { Pills } from "@/components/ui/pills";
 import { useDataTableParams } from "@/hooks/use-data-table-params";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { UserStatus } from "@/types/entities/user.type";
 
 export function UserFiltersDialog() {
   const [open, setOpen] = React.useState(false);
@@ -83,12 +84,12 @@ function FilterForm({ onOpenChange }: { onOpenChange: (open: boolean) => void })
 
   // Local state for form inputs before applying
   const [search, setSearch] = React.useState(searchParams.get("search") ?? "");
-  const [isActive, setIsActive] = React.useState<string | undefined>(searchParams.get("isActive") ?? "all");
+  const [status, setStatus] = React.useState<string | undefined>(searchParams.get("status") ?? "all");
 
   // Sync local state with URL when URL changes (e.g. clear filters)
   React.useEffect(() => {
     setSearch(searchParams.get("search") ?? "");
-    setIsActive(searchParams.get("isActive") ?? "all");
+    setStatus(searchParams.get("status") ?? "all");
   }, [searchParams]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -96,7 +97,7 @@ function FilterForm({ onOpenChange }: { onOpenChange: (open: boolean) => void })
 
     setParams({
       search: search || null,
-      isActive: isActive && isActive !== "all" ? isActive : null
+      status: status && status !== "all" ? status : null
     });
 
     onOpenChange(false);
@@ -105,7 +106,7 @@ function FilterForm({ onOpenChange }: { onOpenChange: (open: boolean) => void })
   const handleReset = () => {
     reset();
     setSearch("");
-    setIsActive("all");
+    setStatus("all");
     onOpenChange(false);
   };
 
@@ -135,13 +136,13 @@ function FilterForm({ onOpenChange }: { onOpenChange: (open: boolean) => void })
         <Pills
           options={[
             { value: "all", label: "همه کاربران" },
-            { value: "true", label: "فعال" },
-            { value: "false", label: "غیرفعال" }
+            { value: UserStatus.ACTIVE, label: "فعال" },
+            { value: UserStatus.INACTIVE, label: "غیرفعال" }
           ]}
           size="sm"
           variant="outline"
-          value={isActive ?? "all"}
-          onValueChange={(value) => setIsActive(value)}
+          value={status ?? "all"}
+          onValueChange={(value) => setStatus(value)}
         />
       </div>
 

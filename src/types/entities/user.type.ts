@@ -1,10 +1,11 @@
 import { BadgeVariant } from "@/components/ui/badge";
+import { AccountBalanceSummary } from "./account-balance.type";
 import { Identity } from "./identity.type";
 import { LoanBalanceSummary } from "./loan-balane.type";
 import { type RoleAssignment } from "./role-assignment.type";
 
 export type UserBalanceSummary = {
-  accounts: UserBalanceSummary[];
+  accounts: AccountBalanceSummary[];
   loans: LoanBalanceSummary[];
 };
 

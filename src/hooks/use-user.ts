@@ -13,7 +13,7 @@ import {
   type RegisterUserInput,
   type UpdateUserRequest
 } from "@/lib/user-api";
-import { User } from "@/types/entities/user.type";
+import { User, UserStatus } from "@/types/entities/user.type";
 
 // Query keys for user-related queries
 export const userKeys = {
@@ -160,7 +160,7 @@ export function useToggleUserStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, isActive }: { userId: string; isActive: boolean }) => updateUser(userId, { isActive }),
+    mutationFn: ({ userId, status }: { userId: string; status: UserStatus }) => updateUser(userId, { status }),
     onSuccess: (updatedUser) => {
       // Update cache optimistically
       queryClient.setQueryData(userKeys.detail(updatedUser.id), updatedUser);
