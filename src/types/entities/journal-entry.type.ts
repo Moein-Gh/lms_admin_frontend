@@ -31,14 +31,14 @@ export const DEBIT_CREDIT_META = {
 export const JOURNAL_ENTRY_TARGET_META = {
   [JournalEntryTarget.INSTALLMENT]: { label: "قسط", variant: "outline" },
   [JournalEntryTarget.LOAN]: { label: "وام", variant: "active" },
-  [JournalEntryTarget.SUBSCRIPTION_FEE]: { label: "حق‌اشتراک", variant: "inactive" },
+  [JournalEntryTarget.SUBSCRIPTION_FEE]: { label: "ماهیانه", variant: "inactive" },
   [JournalEntryTarget.ACCOUNT]: { label: "حساب", variant: "outline" }
 } as const;
 
 export const ALLOCATION_TYPE_META = {
   [AllocationType.ACCOUNT_BALANCE]: { label: "تخصیص از موجودی حساب", variant: "active" },
   [AllocationType.LOAN_REPAYMENT]: { label: "تخصیص برای بازپرداخت وام", variant: "active" },
-  [AllocationType.SUBSCRIPTION_FEE]: { label: "تخصیص برای حق‌اشتراک", variant: "outline" }
+  [AllocationType.SUBSCRIPTION_FEE]: { label: "تخصیص برای ماهیانه", variant: "outline" }
 } as const;
 
 export interface JournalEntry {

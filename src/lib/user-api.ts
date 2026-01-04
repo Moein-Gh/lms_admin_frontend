@@ -1,5 +1,6 @@
 import { PaginatedResponseDto, PaginationParams } from "@/types/api";
 import { Identity } from "@/types/entities/identity.type";
+import { GetUpcomingPaymentsQueryDto, UpcomingPaymentsResponseDto } from "@/types/entities/payment.type";
 import { User, UserStatus } from "@/types/entities/user.type";
 
 import api from "./api";
@@ -95,4 +96,17 @@ export async function updateIdentity(identityId: string, data: Partial<Identity>
  */
 export async function deleteUser(userId: string): Promise<void> {
   await api.delete(`/users/${userId}`);
+}
+
+/**
+ * Get user's upcoming payments
+ */
+export async function getUserUpcomingPayments(
+  userId: string,
+  params?: GetUpcomingPaymentsQueryDto
+): Promise<UpcomingPaymentsResponseDto> {
+  const response = await api.get<UpcomingPaymentsResponseDto>(`/users/${userId}/upcoming-payments`, {
+    params
+  });
+  return response.data;
 }

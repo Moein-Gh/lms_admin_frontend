@@ -5,6 +5,7 @@ import {
   deleteUser,
   getMe,
   getUserById,
+  getUserUpcomingPayments,
   listUsers,
   registerUser,
   updateUser,
@@ -13,6 +14,7 @@ import {
   type RegisterUserInput,
   type UpdateUserRequest
 } from "@/lib/user-api";
+import type { GetUpcomingPaymentsQueryDto } from "@/types/entities/payment.type";
 import { User, UserStatus } from "@/types/entities/user.type";
 
 // Query keys for user-related queries
@@ -22,7 +24,9 @@ export const userKeys = {
   lists: () => [...userKeys.all, "list"] as const,
   list: (params?: ListUsersParams) => [...userKeys.lists(), params] as const,
   details: () => [...userKeys.all, "detail"] as const,
-  detail: (id: string) => [...userKeys.details(), id] as const
+  detail: (id: string) => [...userKeys.details(), id] as const,
+  upcomingPayments: (id: string, params?: GetUpcomingPaymentsQueryDto) =>
+    [...userKeys.details(), id, "upcoming-payments", params] as const
 };
 
 /**
@@ -167,5 +171,29 @@ export function useToggleUserStatus() {
       // Invalidate lists to reflect the change
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
     }
+  });
+}
+
+/**
+ * Hook to fetch user's upcoming payments
+ */
+export function useUserUpcomingPayments(
+  userId: string,
+  params?: GetUpcomingPaymentsQueryDto,
+  options?: Omit<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUserUpcomingPayments>>,
+      Error,
+      Awaited<ReturnType<typeof getUserUpcomingPayments>>,
+      ReturnType<typeof userKeys.upcomingPayments>
+    >,
+    "queryKey" | "queryFn"
+  >
+) {
+  return useQuery({
+    queryKey: userKeys.upcomingPayments(userId, params),
+    queryFn: () => getUserUpcomingPayments(userId, params),
+    enabled: !!userId,
+    ...options
   });
 }
