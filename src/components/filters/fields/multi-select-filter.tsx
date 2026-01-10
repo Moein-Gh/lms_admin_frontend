@@ -4,6 +4,7 @@ import * as React from "react";
 import { CheckIcon, SearchIcon } from "lucide-react";
 import { motion } from "motion/react";
 
+import { Input } from "@/components/ui/input";
 import { Pills, type PillOption } from "@/components/ui/pills";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -59,7 +60,7 @@ export function MultiSelectFilter({
         {searchable && (
           <div className="relative">
             <SearchIcon className="text-muted-foreground pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2" />
-            <input
+            <Input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

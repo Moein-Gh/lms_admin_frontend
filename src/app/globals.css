@@ -305,6 +305,18 @@ These serve as the fallback; there is no separate default.css file. */
   direction: rtl;
 }
 
+html[dir="rtl"] {
+  direction: rtl;
+}
+
+html[dir="rtl"] body {
+  direction: inherit;
+}
+
+html[dir="rtl"] * {
+  direction: inherit;
+}
+
 /* Flip text alignment */
 [dir="rtl"] .text-left {
   text-align: right;

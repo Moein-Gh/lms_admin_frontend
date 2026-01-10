@@ -308,8 +308,8 @@ export function DesktopFilterDialog<TFilters extends FilterState>({
                   className="p-6 min-h-0 text-right"
                 >
                   {/* Title of selected category */}
-                  <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-right ">
+                  <div dir="rtl" className="mb-4 ">
+                    <h3 className="text-lg font-semibold text-start ">
                       {selectedCategory === "__sort__" ? "مرتب‌سازی" : (currentField?.label ?? "")}
                     </h3>
                     {currentField?.description && (

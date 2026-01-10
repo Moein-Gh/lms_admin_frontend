@@ -50,8 +50,6 @@ export const accountFilterConfig: EntityFilterConfig<AccountFilters> = {
     options: [
       { value: "createdAt_desc", label: "جدیدترین" },
       { value: "createdAt_asc", label: "قدیمی‌ترین" },
-      { value: "balance_desc", label: "بیشترین موجودی" },
-      { value: "balance_asc", label: "کمترین موجودی" },
       { value: "accountNumber_asc", label: "شماره حساب (صعودی)" },
       { value: "accountNumber_desc", label: "شماره حساب (نزولی)" }
     ]
