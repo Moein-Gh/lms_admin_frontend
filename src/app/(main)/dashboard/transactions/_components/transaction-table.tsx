@@ -3,20 +3,26 @@
 import * as React from "react";
 
 import { DataTable } from "@/components/data-table/data-table";
+import { ActiveFilters, type EntityFilterConfig } from "@/components/filters";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useServerDataTable } from "@/hooks/use-server-data-table";
 import { PaginatedResponseDto } from "@/types/api";
 import { Transaction } from "@/types/entities/transaction.type";
 import { columns } from "./columns";
+import type { TransactionFilters } from "./transaction-filter-config";
 
 type Props = {
   data: PaginatedResponseDto<Transaction> | null;
   isLoading: boolean;
   error: unknown;
+  filterConfig: EntityFilterConfig<TransactionFilters>;
+  filters: TransactionFilters;
+  onFiltersChange: (filters: TransactionFilters) => void;
+  onReset: () => void;
 };
 
-export function TransactionsTable({ data, isLoading, error }: Props) {
+export function TransactionsTable({ data, isLoading, error, filterConfig, filters, onFiltersChange, onReset }: Props) {
   const tableData = data?.data ?? [];
   const pageCount = data?.meta.totalPages ?? 0;
 
@@ -63,6 +69,7 @@ export function TransactionsTable({ data, isLoading, error }: Props) {
 
   return (
     <div className="space-y-4">
+      <ActiveFilters config={filterConfig} filters={filters} onFiltersChange={onFiltersChange} onReset={onReset} />
       <Card className="relative w-full overflow-auto rounded-xl bg-card max-h-[70vh]">
         <CardContent className="p-0">
           <DataTable key={dataKey} table={table} columns={columns} />

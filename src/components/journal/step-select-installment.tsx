@@ -15,7 +15,7 @@ export function StepSelectInstallment({
   const { data: installmentsData, isLoading } = useInstallments(
     {
       loanId: formData.loanId,
-      pageSize: 5,
+      pageSize: 20,
       status: InstallmentStatus.ACTIVE,
       orderBy: "dueDate",
       orderDir: OrderDirection.ASC

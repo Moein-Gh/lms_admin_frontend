@@ -12,16 +12,13 @@ import {
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
 import { CreateTransactionDialog } from "./create-transaction-dialog";
-import { TransactionFilters } from "./transaction-filters";
 
 type Props = {
-  filters: TransactionFilters;
-  onFiltersChange: (f: TransactionFilters) => void;
-  onReset: () => void;
+  filterTrigger: React.ReactNode;
   total?: number;
 };
 
-export function TransactionsHeader({ filters, onFiltersChange, onReset, total }: Props) {
+export function TransactionsHeader({ filterTrigger, total }: Props) {
   return (
     <div
       data-slot="transactions-header"
@@ -56,7 +53,7 @@ export function TransactionsHeader({ filters, onFiltersChange, onReset, total }:
         </div>
       </div>
       <div className="flex items-center gap-2 shrink-0">
-        <TransactionFilters filters={filters} onFiltersChange={onFiltersChange} onReset={onReset} />
+        {filterTrigger}
         <CreateTransactionDialog />
       </div>
     </div>

@@ -1,430 +1,367 @@
 "use client";
 
 import * as React from "react";
-
-import { FilterIcon, SearchIcon, SparklesIcon, XIcon } from "lucide-react";
+import { SearchIcon, SlidersHorizontalIcon, XIcon } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import { Input } from "@/components/ui/input";
-import { ResponsivePanel } from "@/components/ui/responsive-panel";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger
+} from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
 
-// Base filter type - extend this for your specific filters
+// ============================================
+// Types
+// ============================================
+
 export interface BaseFilters {
-  search: string;
-  [key: string]: string | number | boolean | undefined;
+  search?: string;
 }
 
-// Quick filter preset
-export interface QuickFilter<T extends BaseFilters> {
-  label: string;
-  filters: Partial<T>;
+export interface QuickFilter<TFilters extends BaseFilters> {
+  readonly label: string;
+  readonly filters: Partial<TFilters>;
 }
 
-// Filter tab configuration
 export interface FilterTab {
-  id: string;
-  label: string;
-  content: React.ReactNode;
+  readonly id: string;
+  readonly label: string;
+  readonly content: React.ReactNode;
 }
 
-// Active filter display
 export interface ActiveFilter {
-  key: string;
-  label: string;
+  readonly key: string;
+  readonly label: string;
 }
 
-// Main component props
-export interface AdvancedFilterProps<T extends BaseFilters> {
-  // Trigger button
-  triggerLabel?: string;
-  triggerIcon?: React.ReactNode;
+type AdvancedFilterProps<TFilters extends BaseFilters> = {
+  readonly filters: TFilters;
+  readonly onFiltersChange: (filters: TFilters) => void;
+  readonly onReset: () => void;
+  readonly quickFilters?: readonly QuickFilter<TFilters>[];
+  readonly tabs: readonly FilterTab[];
+  readonly getActiveFilters: (filters: TFilters) => ActiveFilter[];
+  readonly searchPlaceholder?: string;
+  readonly title?: string;
+  readonly description?: string;
+  readonly triggerLabel?: string;
+  readonly resultCount?: number;
+};
 
-  // Dialog/Drawer headers
-  title?: string;
-  description?: string;
+// ============================================
+// Filter Content (shared between mobile/desktop)
+// ============================================
 
-  // Filter state
-  filters: T;
-  onFiltersChange: (filters: T) => void;
-  onReset: () => void;
+type FilterContentProps<TFilters extends BaseFilters> = {
+  readonly filters: TFilters;
+  readonly onFiltersChange: (filters: TFilters) => void;
+  readonly quickFilters?: readonly QuickFilter<TFilters>[];
+  readonly tabs: readonly FilterTab[];
+  readonly searchPlaceholder?: string;
+};
 
-  // Quick filters (optional)
-  quickFilters?: QuickFilter<T>[];
-
-  // Advanced filter tabs
-  tabs: FilterTab[];
-
-  // Active filters display (optional)
-  getActiveFilters?: (filters: T) => ActiveFilter[];
-
-  // Custom search placeholder
-  searchPlaceholder?: string;
-
-  // Hide search if not needed
-  hideSearch?: boolean;
-}
-
-function SearchBar<T extends BaseFilters>({
-  localFilters,
-  setLocalFilters,
-  searchFocused,
-  setSearchFocused,
-  searchPlaceholder,
+function FilterContent<TFilters extends BaseFilters>({
+  filters,
+  onFiltersChange,
   quickFilters,
-  applyQuickFilter,
-  hideSearch
-}: {
-  localFilters: T;
-  setLocalFilters: React.Dispatch<React.SetStateAction<T>>;
-  searchFocused: boolean;
-  setSearchFocused: React.Dispatch<React.SetStateAction<boolean>>;
-  searchPlaceholder: string;
-  quickFilters: QuickFilter<T>[];
-  applyQuickFilter: (quickFilter: QuickFilter<T>) => void;
-  hideSearch: boolean;
-}) {
-  if (hideSearch) return null;
+  tabs,
+  searchPlaceholder = "جستجو..."
+}: FilterContentProps<TFilters>) {
+  const [activeTab, setActiveTab] = React.useState(tabs[0]?.id ?? "");
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onFiltersChange({ ...filters, search: e.target.value || undefined });
+  };
+
+  const handleQuickFilter = (quickFilter: QuickFilter<TFilters>) => {
+    onFiltersChange({ ...filters, ...quickFilter.filters });
+  };
+
   return (
-    <div className="space-y-3 px-4">
+    <div className="space-y-4">
+      {/* Search */}
       <div className="relative">
-        <SparklesIcon
-          className={cn(
-            "absolute start-4 top-1/2 size-6 -translate-y-1/2 transition-colors",
-            searchFocused ? "text-primary" : "text-muted-foreground"
-          )}
-        />
-        <Input
+        <SearchIcon className="text-muted-foreground pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2" />
+        <input
+          type="text"
+          value={filters.search ?? ""}
+          onChange={handleSearchChange}
           placeholder={searchPlaceholder}
-          value={localFilters.search}
-          onChange={(e) => setLocalFilters({ ...localFilters, search: e.target.value })}
-          onFocus={() => setSearchFocused(true)}
-          onBlur={() => setSearchFocused(false)}
-          className="h-16 ps-14 text-lg"
+          className="border-input bg-background placeholder:text-muted-foreground focus:ring-ring h-10 w-full rounded-lg border ps-9 pe-4 text-sm transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none"
         />
       </div>
-      {quickFilters.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {quickFilters.map((filter) => (
-            <Badge
-              key={filter.label}
-              variant="outline"
-              className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
-              onClick={() => applyQuickFilter(filter)}
-            >
-              {filter.label}
-            </Badge>
-          ))}
+
+      {/* Quick Filters */}
+      {quickFilters && quickFilters.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-muted-foreground text-xs font-medium">فیلترهای سریع</p>
+          <div className="flex flex-wrap gap-2">
+            {quickFilters.map((qf, index) => (
+              <motion.button
+                key={qf.label}
+                type="button"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleQuickFilter(qf)}
+                className="bg-secondary hover:bg-secondary/80 rounded-full px-3 py-1.5 text-xs font-medium transition-colors"
+              >
+                {qf.label}
+              </motion.button>
+            ))}
+          </div>
         </div>
       )}
-    </div>
-  );
-}
 
-function ActiveFiltersDisplay({
-  activeFilters,
-  removeFilter
-}: {
-  activeFilters: ActiveFilter[];
-  removeFilter: (key: string) => void;
-}) {
-  if (activeFilters.length === 0) return null;
-  return (
-    <div className="space-y-2 px-4">
-      <span className="text-xs font-medium text-muted-foreground">فیلترهای فعال ({activeFilters.length}):</span>
-      <div className="flex flex-wrap gap-2">
-        {activeFilters.map((filter) => (
-          <Badge key={filter.key} variant="default" className="gap-2 pe-1 ps-3">
-            <span>{filter.label}</span>
-            <button onClick={() => removeFilter(filter.key)} className="rounded-full hover:bg-primary/80">
-              <XIcon className="size-3" />
-            </button>
-          </Badge>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function AdvancedTabs<T extends BaseFilters>({
-  tabs,
-  localFilters,
-  setLocalFilters,
-  isMobile,
-  hideSearch
-}: {
-  tabs: FilterTab[];
-  localFilters: T;
-  setLocalFilters: React.Dispatch<React.SetStateAction<T>>;
-  isMobile: boolean;
-  hideSearch: boolean;
-}) {
-  return (
-    <div className="px-4">
-      {!hideSearch && <h4 className="mb-3 text-sm font-medium text-muted-foreground">فیلترهای پیشرفته</h4>}
-      <Tabs defaultValue={tabs[0]?.id} dir="rtl" className="w-full">
-        <TabsList
-          className={cn(
-            "grid w-full",
-            tabs.length === 1 && "grid-cols-1",
-            tabs.length === 2 && "grid-cols-2",
-            tabs.length === 3 && "grid-cols-3",
-            tabs.length >= 4 && "grid-cols-4"
-          )}
-        >
+      {/* Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="w-full justify-start">
           {tabs.map((tab) => (
-            <TabsTrigger key={tab.id} value={tab.id}>
+            <TabsTrigger key={tab.id} value={tab.id} className="flex-1 sm:flex-none">
               {tab.label}
             </TabsTrigger>
           ))}
         </TabsList>
-        <ScrollArea className={cn(isMobile ? "h-56" : "h-64")}>
-          <div className="pt-4">
-            {tabs.map((tab) => (
-              <TabsContent key={tab.id} value={tab.id} className="mt-0">
+
+        {tabs.map((tab) => (
+          <TabsContent key={tab.id} value={tab.id} className="mt-4">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={tab.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                {/* Clone the content and inject filters/onChange props */}
                 {React.isValidElement(tab.content)
-                  ? React.cloneElement(tab.content as React.ReactElement<{ filters?: T; onChange?: (f: T) => void }>, {
-                      filters: localFilters,
-                      onChange: setLocalFilters
-                    })
+                  ? React.cloneElement(
+                      tab.content as React.ReactElement<{ filters?: TFilters; onChange?: (f: TFilters) => void }>,
+                      {
+                        filters,
+                        onChange: onFiltersChange
+                      }
+                    )
                   : tab.content}
-              </TabsContent>
-            ))}
-          </div>
-        </ScrollArea>
+              </motion.div>
+            </AnimatePresence>
+          </TabsContent>
+        ))}
       </Tabs>
     </div>
   );
 }
 
-function FooterButtons({
-  handleReset,
-  handleApply,
-  activeFiltersLength
-}: {
-  handleReset: () => void;
-  handleApply: () => void;
-  activeFiltersLength: number;
-}) {
-  return (
-    <div className="border-border flex items-center justify-end gap-2 border-t px-4 pt-3">
-      <Button variant="outline" size="sm" onClick={handleReset}>
-        پاک کردن
-      </Button>
-      <Button size="sm" onClick={handleApply}>
-        اعمال {activeFiltersLength > 0 && `(${activeFiltersLength})`}
-      </Button>
-    </div>
-  );
-}
+// ============================================
+// Desktop Dialog
+// ============================================
 
-function FilterDialogContent({
-  isMobile,
-  title,
-  description,
-  children
-}: {
-  isMobile: boolean;
-  title: string;
-  description: string;
-  children: React.ReactNode;
-}) {
-  if (isMobile) {
-    return (
-      <>
-        <DrawerHeader className="text-start">
-          <DrawerTitle>{title}</DrawerTitle>
-          <DrawerDescription>{description}</DrawerDescription>
-        </DrawerHeader>
-        {children}
-        <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant="outline">بستن</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <DialogHeader className="text-start">
-        <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
-      </DialogHeader>
-      {children}
-    </>
-  );
-}
-
-function useFilterHandlers<T extends BaseFilters>(
-  filters: T,
-  onFiltersChange: (filters: T) => void,
-  onReset: () => void,
-  setOpen: (open: boolean) => void
-) {
-  const [localFilters, setLocalFilters] = React.useState<T>(filters);
-
-  React.useEffect(() => {
-    setLocalFilters(filters);
-  }, [filters]);
-
-  const handleApply = React.useCallback(() => {
-    onFiltersChange(localFilters);
-    setOpen(false);
-  }, [onFiltersChange, localFilters, setOpen]);
-
-  const handleReset = React.useCallback(() => {
-    onReset();
-    setOpen(false);
-  }, [onReset, setOpen]);
-
-  const applyQuickFilter = React.useCallback(
-    (quickFilter: QuickFilter<T>) => {
-      setLocalFilters({ ...localFilters, ...quickFilter.filters });
-    },
-    [localFilters]
-  );
-
-  const removeFilter = React.useCallback(
-    (key: string) => {
-      const newFilters = { ...localFilters };
-      if (key === "search") {
-        newFilters.search = "";
-      } else if (key in newFilters) {
-        delete newFilters[key as keyof T];
-      }
-      setLocalFilters(newFilters);
-    },
-    [localFilters]
-  );
-
-  return { localFilters, setLocalFilters, handleApply, handleReset, applyQuickFilter, removeFilter };
-}
-
-function AdvancedFilterPanel<T extends BaseFilters>({
-  isMobile,
-  title,
-  description,
-  localFilters,
-  setLocalFilters,
-  searchFocused,
-  setSearchFocused,
-  searchPlaceholder,
-  quickFilters,
-  applyQuickFilter,
-  hideSearch,
-  activeFilters,
-  removeFilter,
-  tabs,
-  handleReset,
-  handleApply
-}: {
-  isMobile: boolean;
-  title: string;
-  description: string;
-  localFilters: T;
-  setLocalFilters: React.Dispatch<React.SetStateAction<T>>;
-  searchFocused: boolean;
-  setSearchFocused: React.Dispatch<React.SetStateAction<boolean>>;
-  searchPlaceholder: string;
-  quickFilters: QuickFilter<T>[];
-  applyQuickFilter: (quickFilter: QuickFilter<T>) => void;
-  hideSearch: boolean;
-  activeFilters: ActiveFilter[];
-  removeFilter: (key: string) => void;
-  tabs: FilterTab[];
-  handleReset: () => void;
-  handleApply: () => void;
-}) {
-  return (
-    <FilterDialogContent isMobile={isMobile} title={title} description={description}>
-      <div className={cn("space-y-4", isMobile ? "pb-4" : "py-4")}>
-        <SearchBar
-          localFilters={localFilters}
-          setLocalFilters={setLocalFilters}
-          searchFocused={searchFocused}
-          setSearchFocused={setSearchFocused}
-          searchPlaceholder={searchPlaceholder}
-          quickFilters={quickFilters}
-          applyQuickFilter={applyQuickFilter}
-          hideSearch={hideSearch}
-        />
-        {!hideSearch && <Separator />}
-        <ActiveFiltersDisplay activeFilters={activeFilters} removeFilter={removeFilter} />
-        <AdvancedTabs
-          tabs={tabs}
-          localFilters={localFilters}
-          setLocalFilters={setLocalFilters}
-          isMobile={isMobile}
-          hideSearch={hideSearch}
-        />
-        <FooterButtons handleReset={handleReset} handleApply={handleApply} activeFiltersLength={activeFilters.length} />
-      </div>
-    </FilterDialogContent>
-  );
-}
-
-export function AdvancedFilter<T extends BaseFilters>({
-  triggerLabel = "جستجو و فیلتر",
-  triggerIcon = <FilterIcon className="size-4" />,
-  title = "جستجو و فیلتر پیشرفته",
-  description = "جستجو کنید یا از فیلترها استفاده کنید",
+function DesktopFilter<TFilters extends BaseFilters>({
   filters,
   onFiltersChange,
   onReset,
-  quickFilters = [],
+  quickFilters,
   tabs,
   getActiveFilters,
-  searchPlaceholder = "جستجو...",
-  hideSearch = false
-}: AdvancedFilterProps<T>) {
+  searchPlaceholder,
+  title = "فیلترها",
+  description,
+  triggerLabel = "فیلترها",
+  resultCount
+}: AdvancedFilterProps<TFilters>) {
   const [open, setOpen] = React.useState(false);
-  const [searchFocused, setSearchFocused] = React.useState(false);
-  const isMobile = useIsMobile();
+  const [localFilters, setLocalFilters] = React.useState<TFilters>(filters);
 
-  const { localFilters, setLocalFilters, handleApply, handleReset, applyQuickFilter, removeFilter } = useFilterHandlers(
-    filters,
-    onFiltersChange,
-    onReset,
-    setOpen
-  );
+  React.useEffect(() => {
+    if (open) {
+      setLocalFilters(filters);
+    }
+  }, [open, filters]);
 
-  const activeFilters = getActiveFilters?.(localFilters) ?? [];
+  const handleApply = () => {
+    onFiltersChange(localFilters);
+    setOpen(false);
+  };
+
+  const handleReset = () => {
+    onReset();
+    setOpen(false);
+  };
+
+  const activeFilters = getActiveFilters(filters);
 
   return (
-    <>
-      <Button variant="outline" size="default" onClick={() => setOpen(true)}>
-        {triggerIcon}
-        <span className="hidden md:inline">{triggerLabel}</span>
-      </Button>
-      <ResponsivePanel open={open} onOpenChange={setOpen}>
-        <AdvancedFilterPanel
-          isMobile={isMobile}
-          title={title}
-          description={description}
-          localFilters={localFilters}
-          setLocalFilters={setLocalFilters}
-          searchFocused={searchFocused}
-          setSearchFocused={setSearchFocused}
-          searchPlaceholder={searchPlaceholder}
-          quickFilters={quickFilters}
-          applyQuickFilter={applyQuickFilter}
-          hideSearch={hideSearch}
-          activeFilters={activeFilters}
-          removeFilter={removeFilter}
-          tabs={tabs}
-          handleReset={handleReset}
-          handleApply={handleApply}
-        />
-      </ResponsivePanel>
-    </>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline">
+          <SlidersHorizontalIcon className="size-4" />
+          {triggerLabel}
+          {activeFilters.length > 0 && (
+            <Badge variant="default" className="me-2 size-5 p-0">
+              {activeFilters.length}
+            </Badge>
+          )}
+        </Button>
+      </DialogTrigger>
+
+      <DialogContent className="flex max-h-[85vh] max-w-2xl flex-col gap-0 overflow-hidden p-0">
+        <DialogHeader className="border-border shrink-0 border-b px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <DialogTitle>{title}</DialogTitle>
+              {description && <DialogDescription>{description}</DialogDescription>}
+            </div>
+            <DialogClose asChild>
+              <Button variant="ghost" size="icon" className="size-8">
+                <XIcon className="size-4" />
+                <span className="sr-only">بستن</span>
+              </Button>
+            </DialogClose>
+          </div>
+        </DialogHeader>
+
+        <ScrollArea className="flex-1">
+          <div className="p-6">
+            <FilterContent
+              filters={localFilters}
+              onFiltersChange={setLocalFilters}
+              quickFilters={quickFilters}
+              tabs={tabs}
+              searchPlaceholder={searchPlaceholder}
+            />
+          </div>
+        </ScrollArea>
+
+        <DialogFooter className="border-border shrink-0 border-t px-6 py-4">
+          <div className="flex w-full items-center justify-between gap-4">
+            <Button variant="ghost" onClick={handleReset}>
+              پاک کردن همه
+            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" onClick={() => setOpen(false)}>
+                انصراف
+              </Button>
+              <Button onClick={handleApply}>
+                {resultCount !== undefined ? `نمایش ${resultCount.toLocaleString("fa-IR")} نتیجه` : "اعمال"}
+              </Button>
+            </div>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
+}
+
+// ============================================
+// Mobile Drawer
+// ============================================
+
+function MobileFilter<TFilters extends BaseFilters>({
+  filters,
+  onFiltersChange,
+  onReset,
+  quickFilters,
+  tabs,
+  getActiveFilters,
+  searchPlaceholder,
+  title = "فیلترها",
+  description,
+  triggerLabel = "فیلترها",
+  resultCount
+}: AdvancedFilterProps<TFilters>) {
+  const [open, setOpen] = React.useState(false);
+  const [localFilters, setLocalFilters] = React.useState<TFilters>(filters);
+
+  React.useEffect(() => {
+    if (open) {
+      setLocalFilters(filters);
+    }
+  }, [open, filters]);
+
+  const handleApply = () => {
+    onFiltersChange(localFilters);
+    setOpen(false);
+  };
+
+  const handleReset = () => {
+    onReset();
+    setOpen(false);
+  };
+
+  const activeFilters = getActiveFilters(filters);
+
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
+        <Button variant="outline">
+          <SlidersHorizontalIcon className="size-4" />
+          {triggerLabel}
+          {activeFilters.length > 0 && (
+            <Badge variant="default" className="me-2 size-5 p-0">
+              {activeFilters.length}
+            </Badge>
+          )}
+        </Button>
+      </DrawerTrigger>
+
+      <DrawerContent className="flex max-h-[96dvh] flex-col">
+        <DrawerHeader className="border-border shrink-0 border-b text-start">
+          <DrawerTitle>{title}</DrawerTitle>
+          {description && <DrawerDescription>{description}</DrawerDescription>}
+        </DrawerHeader>
+
+        <DrawerBody className="flex-1 overflow-auto p-4">
+          <FilterContent
+            filters={localFilters}
+            onFiltersChange={setLocalFilters}
+            quickFilters={quickFilters}
+            tabs={tabs}
+            searchPlaceholder={searchPlaceholder}
+          />
+        </DrawerBody>
+
+        <DrawerFooter className="border-border shrink-0 border-t">
+          <div className="flex items-center gap-2">
+            <Button variant="outline" onClick={handleReset} className="flex-1">
+              پاک کردن همه
+            </Button>
+            <Button onClick={handleApply} className="flex-1">
+              {resultCount !== undefined ? `نمایش ${resultCount.toLocaleString("fa-IR")} نتیجه` : "اعمال"}
+            </Button>
+          </div>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+// ============================================
+// Main Export (Auto-detects mobile/desktop)
+// ============================================
+
+export function AdvancedFilter<TFilters extends BaseFilters>(props: AdvancedFilterProps<TFilters>) {
+  const isMobile = useIsMobile();
+
+  return isMobile ? <MobileFilter {...props} /> : <DesktopFilter {...props} />;
 }

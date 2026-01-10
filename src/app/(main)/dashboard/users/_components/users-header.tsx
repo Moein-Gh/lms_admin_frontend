@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { ChevronLeft, Users } from "lucide-react";
 
 import {
@@ -11,14 +12,15 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
+
 import { CreateUserDialog } from "./create-user-dialog";
-import { UserFiltersDialog } from "./user-filters-dialog";
 
 type UsersHeaderProps = {
   total?: number;
+  filterTrigger?: React.ReactNode;
 };
 
-export function UsersHeader({ total }: UsersHeaderProps) {
+export function UsersHeader({ total, filterTrigger }: UsersHeaderProps) {
   return (
     <div
       data-slot="users-header"
@@ -52,8 +54,8 @@ export function UsersHeader({ total }: UsersHeaderProps) {
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <UserFiltersDialog />
+      <div className="flex shrink-0 items-center gap-2">
+        {filterTrigger}
         <CreateUserDialog />
       </div>
     </div>

@@ -68,7 +68,7 @@ export function UserFiltersDialog() {
           فیلتر و جستجو
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle>فیلتر و جستجو</DialogTitle>
           <DialogDescription>کاربران را بر اساس معیارهای مختلف فیلتر کنید</DialogDescription>

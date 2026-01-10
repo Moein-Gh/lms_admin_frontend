@@ -71,9 +71,16 @@ export function AccountCardSelectable({ account, selected, onSelect }: AccountCa
             </div>
           </div>
 
-          <Badge variant={statusMeta.badgeVariant} className="shrink-0 px-2 py-0.5 text-[10px] font-medium shadow-none">
-            {statusMeta.label}
-          </Badge>
+          <div className="flex items-center gap-2 shrink-0">
+            {account.bookCode && (
+              <span className="inline-flex items-center text-[11px] text-foreground font-medium bg-primary/5 px-2 py-0.5 rounded-md border border-primary/10 shrink-0">
+                شماره دفتر: {account.bookCode}
+              </span>
+            )}
+            <Badge variant={statusMeta.badgeVariant} className="px-2 py-0.5 text-[10px] font-medium shadow-none">
+              {statusMeta.label}
+            </Badge>
+          </div>
         </div>
 
         {/* Footer: Financials & Date */}

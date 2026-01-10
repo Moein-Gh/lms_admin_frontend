@@ -4,7 +4,7 @@ const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
   register: true,
-  skipWaiting: true,
+  skipWaiting: true
 });
 
 /** @type {import('next').NextConfig} */
@@ -32,10 +32,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "utfs.io",
-      },
-    ],
-  },
+        hostname: "utfs.io"
+      }
+    ]
+  }
 };
 
 export default withPWA(nextConfig);

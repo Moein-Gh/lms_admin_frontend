@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { DataTable } from "@/components/data-table/data-table";
+import { ActiveFilters, type EntityFilterConfig } from "@/components/filters";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -10,15 +11,20 @@ import { useServerDataTable } from "@/hooks/use-server-data-table";
 
 import { PaginatedResponseDto } from "@/types/api";
 import { Account } from "@/types/entities/account.type";
+import type { AccountFilters } from "./account-filter-config";
 import { columns } from "./columns";
 
 type Props = {
   data: PaginatedResponseDto<Account> | null;
   isLoading: boolean;
   error: unknown;
+  filterConfig: EntityFilterConfig<AccountFilters>;
+  filters: AccountFilters;
+  onFiltersChange: (filters: AccountFilters) => void;
+  onReset: () => void;
 };
 
-export function AccountsTable({ data, isLoading, error }: Props) {
+export function AccountsTable({ data, isLoading, error, filterConfig, filters, onFiltersChange, onReset }: Props) {
   // reuse server data table hook like users table
   const tableData = data?.data ?? [];
   const pageCount = data?.meta.totalPages ?? 0;
@@ -65,6 +71,7 @@ export function AccountsTable({ data, isLoading, error }: Props) {
 
   return (
     <div className="space-y-4">
+      <ActiveFilters config={filterConfig} filters={filters} onFiltersChange={onFiltersChange} onReset={onReset} />
       <Card className="relative w-full overflow-auto rounded-xl bg-card max-h-[70vh]">
         <CardContent className="p-0">
           <DataTable key={dataKey} table={table} columns={columns} />

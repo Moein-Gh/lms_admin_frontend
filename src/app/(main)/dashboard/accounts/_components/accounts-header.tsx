@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { ChevronLeft, Wallet } from "lucide-react";
 
 import {
@@ -11,17 +12,15 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
-import { AccountFilters, AccountFiltersDialog } from "./account-filters-dialog";
+
 import { CreateAccountDialog } from "./create-account/create-account-dialog";
 
-type Props = {
-  filters: AccountFilters;
-  onFiltersChange: (f: AccountFilters) => void;
-  onReset: () => void;
+type AccountsHeaderProps = {
   total?: number;
+  filterTrigger?: React.ReactNode;
 };
 
-export function AccountsHeader({ filters, onFiltersChange, onReset, total }: Props) {
+export function AccountsHeader({ total, filterTrigger }: AccountsHeaderProps) {
   return (
     <div
       data-slot="accounts-header"
@@ -55,8 +54,8 @@ export function AccountsHeader({ filters, onFiltersChange, onReset, total }: Pro
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <AccountFiltersDialog filters={filters} onFiltersChange={onFiltersChange} onReset={onReset} />
+      <div className="flex shrink-0 items-center gap-2">
+        {filterTrigger}
         <CreateAccountDialog />
       </div>
     </div>

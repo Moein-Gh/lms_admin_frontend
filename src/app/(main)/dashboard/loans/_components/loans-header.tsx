@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { ChevronLeft, HandCoins } from "lucide-react";
 
 import {
@@ -11,17 +12,15 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { cn } from "@/lib/utils";
-import { CreateLoanDialog } from "./create-loan-dialog";
-import { LoanFilters, LoanFiltersDialog } from "./loan-filters-dialog";
 
-type Props = {
-  filters: LoanFilters;
-  onFiltersChange: (f: LoanFilters) => void;
-  onReset: () => void;
+import { CreateLoanDialog } from "./create-loan-dialog";
+
+type LoansHeaderProps = {
   total?: number;
+  filterTrigger?: React.ReactNode;
 };
 
-export function LoansHeader({ filters, onFiltersChange, onReset, total }: Props) {
+export function LoansHeader({ total, filterTrigger }: LoansHeaderProps) {
   return (
     <div
       data-slot="loans-header"
@@ -55,8 +54,8 @@ export function LoansHeader({ filters, onFiltersChange, onReset, total }: Props)
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <LoanFiltersDialog filters={filters} onFiltersChange={onFiltersChange} onReset={onReset} />
+      <div className="flex shrink-0 items-center gap-2">
+        {filterTrigger}
         <CreateLoanDialog />
       </div>
     </div>

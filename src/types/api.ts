@@ -44,4 +44,8 @@ export interface PaginationParams {
   orderBy?: string;
   orderDir?: OrderDirection;
   search?: string;
+  minCreatedAt?: string; // ISO date string
+  maxCreatedAt?: string; // ISO date string
+  minUpdatedAt?: string; // ISO date string
+  maxUpdatedAt?: string; // ISO date string
 }
