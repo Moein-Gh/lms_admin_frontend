@@ -37,7 +37,7 @@ export function SubscriptionFeeCard({ fee }: { fee: SubscriptionFee }) {
         : fee.createdAt;
 
   return (
-    <Card dir="rtl" className="p-4 hover:shadow-md transition-all duration-200 flex flex-col gap-4">
+    <Card className="p-4 hover:shadow-md transition-all duration-200 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <div
           className={cn("px-2.5 py-0.5 rounded-full text-xs font-bold border", status.bg, status.text, status.border)}

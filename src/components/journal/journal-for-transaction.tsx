@@ -157,7 +157,7 @@ function JournalCard({ journal }: { journal: Journal }) {
       </CardContent>
 
       <ResponsivePanel open={openDelete} onOpenChange={setOpenDelete} variant="destructive">
-        <div dir="rtl" className="w-full">
+        <div className="w-full">
           <DialogTitle className="pb-6">حذف ثبت حسابداری</DialogTitle>
           <p className="text-start text-sm">آیا مطمئن هستید که می‌خواهید این ثبت را حذف کنید؟</p>
           <p className="text-start text-sm">این عمل قابل بازگشت نیست.</p>

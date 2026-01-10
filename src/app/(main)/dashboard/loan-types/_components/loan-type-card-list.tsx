@@ -87,7 +87,7 @@ export function LoanTypeCardList() {
       <Drawer open={!!editingLoanType} onOpenChange={(open) => !open && setEditingLoanType(null)}>
         <DrawerContent>
           <div className="mx-auto w-full max-w-sm">
-            <DrawerHeader className="text-right">
+            <DrawerHeader className="text-start">
               <DrawerTitle>ویرایش {editingLoanType?.name}</DrawerTitle>
               <DrawerDescription>اطلاعات نوع وام را ویرایش کنید.</DrawerDescription>
             </DrawerHeader>
@@ -106,12 +106,12 @@ export function LoanTypeCardList() {
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deletingLoanType} onOpenChange={(open) => !open && setDeletingLoanType(null)}>
-        <AlertDialogContent className="text-right">
+        <AlertDialogContent className="text-start">
           <AlertDialogHeader>
             <AlertDialogTitle>آیا از حذف این نوع وام اطمینان دارید؟</AlertDialogTitle>
             <AlertDialogDescription>این عمل غیرقابل بازگشت است.</AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="flex-row-reverse gap-2">
+          <AlertDialogFooter className=" gap-2">
             <AlertDialogCancel>انصراف</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}

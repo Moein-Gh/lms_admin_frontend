@@ -45,7 +45,7 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
   };
 
   return (
-    <div className={cn("flex flex-col gap-3", className)} dir="rtl">
+    <div className={cn("flex flex-col gap-3", className)}>
       {/* Presets */}
       {presets && presets.length > 0 && (
         <div className="flex flex-wrap gap-2">
@@ -79,7 +79,7 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={cn("justify-start text-right font-normal", !date.from && "text-muted-foreground")}
+                className={cn("justify-start text-start font-normal", !date.from && "text-muted-foreground")}
               >
                 <CalendarIcon className="ms-2 size-4" />
                 {date.from ? format(date.from, "PPP", { locale: faIR }) : "انتخاب تاریخ"}
@@ -109,7 +109,7 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={cn("justify-start text-right font-normal", !date.to && "text-muted-foreground")}
+                className={cn("justify-start text-start font-normal", !date.to && "text-muted-foreground")}
               >
                 <CalendarIcon className="ms-2 size-4" />
                 {date.to ? format(date.to, "PPP", { locale: faIR }) : "انتخاب تاریخ"}

@@ -35,7 +35,7 @@ export function SubscriptionFeeCardSelectable({ fee, selected, onSelect }: Subsc
           {selected && <Check className="w-3 h-3" />}
         </div>
 
-        <div className="flex-1 min-w-0 flex items-center justify-between gap-4 flex-row-reverse">
+        <div className="flex-1 min-w-0 flex items-center justify-between gap-4 ">
           <div className="flex items-center gap-3 min-w-0">
             <Calendar className={cn("w-5 h-5 shrink-0", selected ? "text-primary" : "text-muted-foreground")} />
             <div className="min-w-0">

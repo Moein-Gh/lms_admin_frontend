@@ -112,7 +112,7 @@ function LoanSidebar({ amount, balanceSummary }: { amount: string; balanceSummar
                   <FormattedNumber type="price" value={paid} />
                 </span>
               </div>
-              <div className="text-xs text-muted-foreground text-left">
+              <div className="text-xs text-muted-foreground text-end">
                 <FormattedNumber type="normal" value={paidCount} /> قسط
               </div>
             </div>

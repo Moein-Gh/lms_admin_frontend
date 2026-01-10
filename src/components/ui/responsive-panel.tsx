@@ -30,7 +30,7 @@ export function ResponsivePanel({ children, open, onOpenChange, variant = "defau
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent dir="rtl" className={cn(variantStyles[safeVariant], "px-6 pb-6 flex flex-col max-h-[96dvh]")}>
+        <DrawerContent className={cn(variantStyles[safeVariant], "px-6 pb-6 flex flex-col max-h-[96dvh]")}>
           {children}
         </DrawerContent>
       </Drawer>
@@ -39,9 +39,7 @@ export function ResponsivePanel({ children, open, onOpenChange, variant = "defau
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={cn("sm:max-w-2xl", variantStyles[safeVariant])} dir="rtl">
-        {children}
-      </DialogContent>
+      <DialogContent className={cn("sm:max-w-2xl", variantStyles[safeVariant])}>{children}</DialogContent>
     </Dialog>
   );
 }

@@ -70,7 +70,7 @@ export function LoanDeletePanel({ loan, onDelete }: { loan: Loan; onDelete?: (id
       </Tooltip>
 
       <ResponsivePanel open={open} onOpenChange={setOpen} variant="destructive">
-        <div dir="rtl" className="w-full">
+        <div className="w-full">
           <DialogTitle className="sr-only">حذف وام</DialogTitle>
 
           <p className="text-start text-sm">برای حذف این وام، لطفاً عبارت زیر را دقیقاً وارد کنید:</p>

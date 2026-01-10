@@ -56,7 +56,7 @@ export function MultiSelectFilter({
     const pillOptions = filteredOptions.map((o) => ({ value: o.value, label: o.label, icon: o.icon }));
 
     return (
-      <div dir="rtl" className={cn("flex flex-col gap-2", className)}>
+      <div className={cn("flex flex-col gap-2", className)}>
         {searchable && (
           <div className="relative">
             <SearchIcon className="text-muted-foreground pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2" />
@@ -91,7 +91,7 @@ export function MultiSelectFilter({
   }
 
   return (
-    <div dir="rtl" className={cn("flex flex-col gap-2", className)}>
+    <div className={cn("flex flex-col gap-2", className)}>
       {searchable && (
         <div className="relative">
           <SearchIcon className="text-muted-foreground pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2" />

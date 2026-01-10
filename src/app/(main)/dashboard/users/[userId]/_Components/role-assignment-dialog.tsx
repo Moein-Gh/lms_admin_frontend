@@ -170,7 +170,7 @@ export function RoleAssignmentDialog({ userId }: Props) {
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full h-9 justify-start text-left font-normal px-3",
+                      "w-full h-9 justify-start text-end font-normal px-3",
                       !expiresAt && "text-muted-foreground"
                     )}
                   >

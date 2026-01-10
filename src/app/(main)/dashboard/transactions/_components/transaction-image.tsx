@@ -92,8 +92,8 @@ export function TransactionImage({ images, transaction }: TransactionImageProps)
           <div className="relative flex flex-col h-[85vh] md:h-[80vh]">
             <div className="absolute top-0 left-0 gap-6 z-50 flex flex-row items-center justify-between p-4 bg-linear-to-b from-black/60 to-transparent text-white">
               <div className="flex flex-col items-end gap-1">
-                <div className="font-medium opacity-90 text-right">پیش‌نمایش تصویر</div>
-                <div className="text-xs text-muted-foreground text-right">
+                <div className="font-medium opacity-90 text-start">پیش‌نمایش تصویر</div>
+                <div className="text-xs text-muted-foreground text-start">
                   {userName && <span className="block">{userName}</span>}
                   {txCode && <span className="block">{txCode}</span>}
                 </div>

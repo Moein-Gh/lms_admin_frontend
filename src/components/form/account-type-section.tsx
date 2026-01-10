@@ -23,13 +23,13 @@ export function AccountTypeSection({ options, value, onChange, error }: Props) {
         نوع حساب
         <span className="text-destructive">*</span>
       </Label>
-      <Select dir="rtl" onValueChange={(v) => onChange(v || undefined)} defaultValue={value ? options[0]?.value : ""}>
-        <SelectTrigger className="w-full text-right">
+      <Select onValueChange={(v) => onChange(v || undefined)} defaultValue={value ? options[0]?.value : ""}>
+        <SelectTrigger className="w-full text-start">
           <SelectValue placeholder="انتخاب نوع حساب" />
         </SelectTrigger>
-        <SelectContent dir="rtl" className="text-right">
+        <SelectContent className="text-start">
           {options.map((o) => (
-            <SelectItem key={o.value} value={o.value} className="text-right">
+            <SelectItem key={o.value} value={o.value} className="text-start">
               {o.label}
             </SelectItem>
           ))}

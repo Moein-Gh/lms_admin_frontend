@@ -52,7 +52,7 @@ export function LoanUpdatePanel({ loan }: { loan: Loan }) {
         <TooltipContent>ویرایش وام</TooltipContent>
       </Tooltip>
       <ResponsivePanel open={open} onOpenChange={setOpen}>
-        <div dir="rtl" className="w-full">
+        <div className="w-full">
           <DialogTitle className="pb-6">ویرایش نام وام</DialogTitle>
           <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
             <label className="text-start text-sm font-medium" htmlFor="loan-name">

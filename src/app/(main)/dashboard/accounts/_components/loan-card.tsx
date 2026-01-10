@@ -34,7 +34,7 @@ export function LoanCard({ loan }: { loan: Loan }) {
   const status = statusConfig[loan.status];
 
   return (
-    <Card dir="rtl" className="p-4 hover:shadow-md transition-all duration-200 flex flex-col gap-4">
+    <Card className="p-4 hover:shadow-md transition-all duration-200 flex flex-col gap-4">
       {/* Header: Status & Code */}
       <div className="flex items-center justify-between">
         <div

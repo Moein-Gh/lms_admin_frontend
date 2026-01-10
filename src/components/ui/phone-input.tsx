@@ -27,7 +27,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
   return (
     <PhoneNumberInput
       ref={ref}
-      className={cn("flex flex-row-reverse", className)}
+      className={cn("flex ", className)}
       flagComponent={FlagComponent}
       countrySelectComponent={CountrySelect}
       inputComponent={InputComponent}

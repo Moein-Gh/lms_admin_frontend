@@ -79,7 +79,7 @@ export function LoanTypesHeader() {
           </DrawerTrigger>
           <DrawerContent>
             <div className="mx-auto w-full max-w-sm">
-              <DrawerHeader className="text-right">
+              <DrawerHeader className="text-start">
                 <DrawerTitle>{Title}</DrawerTitle>
                 <DrawerDescription>{Description}</DrawerDescription>
               </DrawerHeader>
@@ -107,7 +107,7 @@ export function LoanTypesHeader() {
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader className="text-right">
+          <DialogHeader className="text-start">
             <DialogTitle>{Title}</DialogTitle>
             <DialogDescription>{Description}</DialogDescription>
           </DialogHeader>

@@ -159,7 +159,7 @@ function Sidebar({
     }
 
     // During SSR, we can't access document, so default to "right" for RTL
-    // since the layout.tsx sets dir="rtl" on the html element
+    // since the layout.tsx sets  on the html element
     if (typeof document === "undefined") {
       return "right";
     }

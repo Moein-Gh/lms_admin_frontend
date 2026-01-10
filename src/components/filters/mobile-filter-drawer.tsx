@@ -192,7 +192,7 @@ export function MobileFilterDrawer<TFilters extends FilterState>({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent dir="rtl" className="flex max-h-[96dvh] flex-col">
+      <DrawerContent className="flex max-h-[96dvh] flex-col">
         {/* Header */}
         <DrawerHeader className="border-border shrink-0 border-b text-start group-data-[vaul-drawer-direction=bottom]/drawer-content:text-start group-data-[vaul-drawer-direction=top]/drawer-content:text-start">
           {view === "categories" ? (

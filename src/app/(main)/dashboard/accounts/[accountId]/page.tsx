@@ -27,7 +27,7 @@ export default function AccountDetailPage() {
     <div className="container max-w-4xl mx-auto py-4 sm:py-8 px-4 space-y-6 sm:space-y-8">
       <AccountInfoCard account={account} />
 
-      <Tabs defaultValue="loans" className="space-y-4" dir="rtl">
+      <Tabs defaultValue="loans" className="space-y-4">
         <TabsList className="mx-auto">
           <TabsTrigger value="loans">وام‌ ها</TabsTrigger>
           <TabsTrigger value="subscriptionFees">ماهیانه ها</TabsTrigger>

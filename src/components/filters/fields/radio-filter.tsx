@@ -41,7 +41,7 @@ export function RadioFilterField({
   const pillValue = value ?? "__all__";
 
   return (
-    <div dir="rtl" className={cn(className)}>
+    <div className={cn(className)}>
       <Pills
         mode="single"
         variant="outline"

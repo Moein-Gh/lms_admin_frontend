@@ -156,13 +156,13 @@ export function CreateAccountDialog() {
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
-              <Select dir="rtl" required value={field.value || ""} onValueChange={(val) => field.onChange(val)}>
+              <Select required value={field.value || ""} onValueChange={(val) => field.onChange(val)}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="انتخاب بانک" />
                 </SelectTrigger>
                 <SelectContent>
                   {BANK_NAMES.map((b) => (
-                    <SelectItem dir="rtl" key={b} value={b}>
+                    <SelectItem key={b} value={b}>
                       {b}
                     </SelectItem>
                   ))}

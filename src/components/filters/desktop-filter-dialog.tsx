@@ -231,12 +231,11 @@ export function DesktopFilterDialog<TFilters extends FilterState>({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        dir="rtl"
         showCloseButton={false}
         className="flex max-h-[90vh] w-250 max-w-[95vw] sm:max-w-none flex-col gap-0 overflow-hidden p-0"
       >
         {/* Header */}
-        <DialogHeader className="border-border shrink-0 border-b px-6 py-4 text-right">
+        <DialogHeader className="border-border shrink-0 border-b px-6 py-4 text-start">
           <div>
             <DialogTitle>{config.title}</DialogTitle>
             {config.description && <DialogDescription>{config.description}</DialogDescription>}
@@ -270,7 +269,6 @@ export function DesktopFilterDialog<TFilters extends FilterState>({
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.03 }}
-                    dir="rtl"
                     className={cn(
                       "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-start text-sm transition-colors",
                       selectedCategory === category.key
@@ -305,10 +303,10 @@ export function DesktopFilterDialog<TFilters extends FilterState>({
                   animate="animate"
                   exit="exit"
                   transition={{ duration: 0.2 }}
-                  className="p-6 min-h-0 text-right"
+                  className="p-6 min-h-0 text-start"
                 >
                   {/* Title of selected category */}
-                  <div dir="rtl" className="mb-4 ">
+                  <div className="mb-4 ">
                     <h3 className="text-lg font-semibold text-start ">
                       {selectedCategory === "__sort__" ? "مرتب‌سازی" : (currentField?.label ?? "")}
                     </h3>

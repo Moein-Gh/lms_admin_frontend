@@ -202,7 +202,6 @@ export function ActiveFilters<TFilters extends FilterState>({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       className={cn("flex flex-wrap items-center gap-2", className)}
-      dir="rtl"
     >
       <span className="text-muted-foreground text-sm font-medium">فیلترهای فعال:</span>
 

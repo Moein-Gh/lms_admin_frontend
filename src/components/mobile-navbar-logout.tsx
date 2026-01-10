@@ -45,7 +45,7 @@ export function MobileNavbarLogout({ onLogoutStart }: MobileNavbarLogoutProps) {
 
       {/* Logout Confirmation Drawer */}
       <Drawer open={showLogoutDrawer} onOpenChange={setShowLogoutDrawer}>
-        <DrawerContent dir="rtl" className="border-destructive/50">
+        <DrawerContent className="border-destructive/50">
           <DrawerHeader className="text-center">
             <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-destructive/10">
               <AlertTriangle className="size-8 text-destructive" />

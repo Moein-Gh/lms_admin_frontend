@@ -68,7 +68,7 @@ export default function UserPage() {
         </div>
       </div>
       <div className="w-full">
-        <Tabs defaultValue={tabs[0].value} dir="rtl" className="w-full">
+        <Tabs defaultValue={tabs[0].value} className="w-full">
           <div className="w-full lg:max-w-xl lg:mx-auto">
             <TabsList className="px-2 py-4 w-full flex gap-2 sm:gap-4 justify-center bg-card rounded-xl min-h-12">
               {tabs.map((tab) => (

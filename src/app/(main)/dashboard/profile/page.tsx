@@ -35,7 +35,7 @@ export default function ProfilePage() {
     <div className="space-y-6">
       <ProfileHeader />
 
-      <Tabs defaultValue="personal" dir="rtl" className="w-full">
+      <Tabs defaultValue="personal" className="w-full">
         <div className="flex justify-center mb-6">
           <TabsList className="flex gap-2 w-full max-w-md overflow-x-auto px-2">
             <TabsTrigger value="personal" className="flex items-center gap-2">

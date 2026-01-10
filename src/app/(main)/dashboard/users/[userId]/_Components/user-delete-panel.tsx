@@ -74,7 +74,7 @@ export default function UserDeletePanel({ userId }: { userId: string }) {
       </Button>
 
       <ResponsivePanel open={open} onOpenChange={setOpen} variant="destructive">
-        <div dir="rtl" className="w-full">
+        <div className="w-full">
           <DialogTitle className="pb-6">حذف کاربر</DialogTitle>
           <p className="text-start text-sm">
             حذف کاربر فقط در صورتی امکان‌پذیر است که کاربر حساب یا تراکنش نداشته باشد.

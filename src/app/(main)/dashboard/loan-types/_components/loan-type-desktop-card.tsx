@@ -102,14 +102,14 @@ export function LoanTypeDesktopCard({ loanType }: LoanTypeDesktopCardProps) {
                 <Trash2 className="size-4 text-destructive" />
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="text-right">
+            <AlertDialogContent className="text-start">
               <AlertDialogHeader>
                 <AlertDialogTitle>آیا از حذف این نوع وام اطمینان دارید؟</AlertDialogTitle>
                 <AlertDialogDescription>
                   این عمل غیرقابل بازگشت است و تمامی اطلاعات مربوط به این نوع وام حذف خواهد شد.
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter className="flex-row-reverse gap-2">
+              <AlertDialogFooter className=" gap-2">
                 <AlertDialogCancel>انصراف</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleDelete}

@@ -28,7 +28,7 @@ export function SortFilter({ options, value, onChange, className }: SortFilterPr
   };
 
   return (
-    <div dir="rtl" className={cn(className)}>
+    <div className={cn(className)}>
       <Pills
         mode="single"
         variant="outline"

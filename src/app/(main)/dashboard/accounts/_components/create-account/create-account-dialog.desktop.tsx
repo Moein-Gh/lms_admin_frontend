@@ -19,7 +19,7 @@ export function CreateAccountDialogDesktop({ open, setOpen, formContent }: Creat
           افزودن حساب جدید
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]" dir="rtl">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader className="text-start">
           <DialogTitle>افزودن حساب جدید</DialogTitle>
           <div className="text-sm text-muted-foreground">اطلاعات حساب بانکی جدید را وارد کنید</div>

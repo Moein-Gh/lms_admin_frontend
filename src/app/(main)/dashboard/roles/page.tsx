@@ -24,10 +24,10 @@ export default function RolesPage() {
           <Table className="w-full table-fixed">
             <TableHeader>
               <tr className="text-sm text-muted-foreground">
-                <TableHead className="px-4 py-3 text-left">کد</TableHead>
-                <TableHead className="px-4 py-3 text-left">نام</TableHead>
-                <TableHead className="px-4 py-3 text-left">کد کلید</TableHead>
-                <TableHead className="px-4 py-3 text-left">توضیحات</TableHead>
+                <TableHead className="px-4 py-3 text-end">کد</TableHead>
+                <TableHead className="px-4 py-3 text-end">نام</TableHead>
+                <TableHead className="px-4 py-3 text-end">کد کلید</TableHead>
+                <TableHead className="px-4 py-3 text-end">توضیحات</TableHead>
               </tr>
             </TableHeader>
             <TableBody>

@@ -52,7 +52,7 @@ export function TransactionUpdatePanel({ transaction }: { transaction: Transacti
         <Pencil />
       </Button>
       <ResponsivePanel open={open} onOpenChange={setOpen}>
-        <div dir="rtl" className="w-full">
+        <div className="w-full">
           <DialogTitle className="pb-6">ویرایش تراکنش</DialogTitle>
           <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
             <label className="text-start text-sm font-medium" htmlFor="transaction-note">

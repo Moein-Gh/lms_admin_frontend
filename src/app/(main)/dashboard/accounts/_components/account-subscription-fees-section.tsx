@@ -14,7 +14,7 @@ export function AccountSubscriptionFeesSection({ accountId }: { accountId: strin
   if (!fees || fees.data.length === 0) return <div>ماهیانه ای برای این حساب ثبت نشده است</div>;
 
   return (
-    <div className="space-y-5" dir="rtl">
+    <div className="space-y-5">
       <div className="flex items-center gap-2">
         <div className="h-1 w-1 rounded-full bg-primary" />
         <h3 className="font-bold text-base">ماهیانه های این حساب</h3>

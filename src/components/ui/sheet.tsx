@@ -45,13 +45,13 @@ function SheetContent({
 }) {
   // Compute effective positioning classes that counteract the global RTL
   // utility flips in `globals.css`. The project flips `.left-0` and
-  // `.right-0` under [dir="rtl"], so when we want the sheet to appear
+  // `.right-0` under [], so when we want the sheet to appear
   // visually on the "right" in RTL we must use `left-0` (which will be
   // flipped to `right:0`). Similarly handle border side classes so the
   // divider is on the inner edge of the sheet.
   // Use useMemo to compute synchronously and match SSR/CSR.
   const positionClasses = React.useMemo(() => {
-    // During SSR, assume RTL since layout.tsx sets dir="rtl"
+    // During SSR, assume RTL since layout.tsx sets
     const dir = typeof document !== "undefined" ? document.documentElement?.dir || document.dir || "ltr" : "rtl";
 
     if (side === "right") {

@@ -53,7 +53,7 @@ export default function BuyoutPanel({ open, onOpenChange, accountId }: BuyoutPan
 
   return (
     <ResponsivePanel open={open} onOpenChange={onOpenChange} variant="destructive">
-      <div dir="rtl" className="w-full">
+      <div className="w-full">
         <DialogTitle className="sr-only">تسویه حساب</DialogTitle>
 
         <p className="text-start text-sm">برای تسویه این حساب، لطفاً عبارت زیر را دقیقاً وارد کنید:</p>
