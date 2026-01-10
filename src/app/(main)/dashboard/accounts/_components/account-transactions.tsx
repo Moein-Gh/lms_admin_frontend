@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  transactionFilterConfig,
+  type TransactionFilters
+} from "@/app/(main)/dashboard/transactions/_components/transaction-filter-config";
 import { TransactionsTable } from "@/app/(main)/dashboard/transactions/_components/transaction-table";
 import { TransactionsCardList } from "@/app/(main)/dashboard/transactions/_components/transactions-card-list";
 import { PaginationControls } from "@/components/pagination-controls";
@@ -19,11 +23,24 @@ const AccountTransactions = ({ accountId }: Props) => {
     accountId
   });
 
+  // Empty filter handlers since account transactions don't need filters
+  const handleFiltersChange = () => {};
+  const handleReset = () => {};
+  const currentFilters: TransactionFilters = transactionFilterConfig.defaultFilters;
+
   return (
     <div className="space-y-4">
       {/* Desktop: Table view */}
       <div className="hidden sm:block">
-        <TransactionsTable data={data ?? null} isLoading={isLoading} error={error} />
+        <TransactionsTable
+          data={data ?? null}
+          isLoading={isLoading}
+          error={error}
+          filterConfig={transactionFilterConfig}
+          filters={currentFilters}
+          onFiltersChange={handleFiltersChange}
+          onReset={handleReset}
+        />
       </div>
 
       {/* Mobile: Card view */}

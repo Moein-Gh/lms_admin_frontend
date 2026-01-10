@@ -25,7 +25,7 @@ function Drawer({ open, ...props }: React.ComponentProps<typeof DrawerPrimitive.
     };
   }, [open]);
 
-  return <DrawerPrimitive.Root data-slot="drawer" repositionInputs={false} handleOnly open={open} {...props} />;
+  return <DrawerPrimitive.Root data-slot="drawer" repositionInputs={false} open={open} {...props} />;
 }
 
 function DrawerTrigger({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
@@ -69,7 +69,7 @@ function DrawerContent({ className, children, ...props }: React.ComponentProps<t
         )}
         {...props}
       >
-        <div className="bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
+        <div className="bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block group-data-[vaul-drawer-direction=top]/drawer-content:block group-data-[vaul-drawer-direction=top]/drawer-content:order-last group-data-[vaul-drawer-direction=top]/drawer-content:mb-4 group-data-[vaul-drawer-direction=top]/drawer-content:mt-0" />
         {children}
       </DrawerPrimitive.Content>
     </DrawerPortal>
