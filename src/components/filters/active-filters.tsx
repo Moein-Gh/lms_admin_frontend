@@ -1,13 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
-import { faIR } from "date-fns/locale";
 import { XIcon } from "lucide-react";
 import { motion } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { cn } from "@/lib/utils";
 
 import type { EntityFilterConfig, FilterField, FilterState, FilterValue } from "./types";
@@ -64,8 +63,8 @@ function getFilterDisplayValue(field: FilterField, value: FilterValue): string |
       if (!Array.isArray(value) || value.length !== 2) return null;
       const [from, to] = value as [Date, Date];
 
-      const fromStr = format(from, "d MMM yyyy", { locale: faIR });
-      const toStr = format(to, "d MMM yyyy", { locale: faIR });
+      const fromStr = formatPersianDate(from, DATE_FORMATS.MEDIUM);
+      const toStr = formatPersianDate(to, DATE_FORMATS.MEDIUM);
       return `${fromStr} تا ${toStr}`;
     }
 

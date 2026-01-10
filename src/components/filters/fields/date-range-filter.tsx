@@ -1,12 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
-import { faIR } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { CalendarHijri } from "@/components/ui/calendar-hijri";
+import { Pills, type PillOption } from "@/components/ui/pills";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
@@ -44,29 +43,48 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
     onChange(undefined);
   };
 
+  const persianFormatter = React.useMemo(
+    () => new Intl.DateTimeFormat("fa-IR-u-ca-persian", { day: "numeric", month: "long", year: "numeric" }),
+    []
+  );
+
+  const selectedPresetValue = React.useMemo(() => {
+    if (!presets || !date.from || !date.to) return undefined;
+    const idx = presets.findIndex(
+      (p) => date.from!.getTime() === p.range[0].getTime() && date.to!.getTime() === p.range[1].getTime()
+    );
+    return idx === -1 ? undefined : String(idx);
+  }, [presets, date.from, date.to]);
+
+  const presetMap = React.useMemo(() => {
+    const map: Record<string, [Date, Date]> = {};
+    presets?.forEach((p, i) => {
+      map[String(i)] = p.range;
+    });
+    return map;
+  }, [presets]);
+
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       {/* Presets */}
       {presets && presets.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {presets.map((preset) => (
-            <Button
-              key={preset.label}
-              variant="outline"
-              size="sm"
-              onClick={() => handlePreset(preset.range)}
-              className={cn(
-                "text-xs",
-                date.from &&
-                  date.to &&
-                  date.from.getTime() === preset.range[0].getTime() &&
-                  date.to.getTime() === preset.range[1].getTime() &&
-                  "bg-primary text-primary-foreground"
-              )}
-            >
-              {preset.label}
-            </Button>
-          ))}
+        <div dir="rtl">
+          <Pills
+            mode="single"
+            variant="outline"
+            size="sm"
+            options={presets.map((p, i) => ({ value: String(i), label: p.label })) as PillOption<string>[]}
+            value={selectedPresetValue}
+            allowDeselect={true}
+            onValueChange={(val) => {
+              if (val === undefined) {
+                handleClear();
+                return;
+              }
+              const range = presetMap[String(val)];
+              handlePreset(range);
+            }}
+          />
         </div>
       )}
 
@@ -82,11 +100,11 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
                 className={cn("justify-start text-start font-normal", !date.from && "text-muted-foreground")}
               >
                 <CalendarIcon className="ms-2 size-4" />
-                {date.from ? format(date.from, "PPP", { locale: faIR }) : "انتخاب تاریخ"}
+                {date.from ? persianFormatter.format(date.from) : "انتخاب تاریخ"}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
+              <CalendarHijri
                 mode="single"
                 selected={date.from}
                 onSelect={(newDate) => handleSelect({ ...date, from: newDate })}
@@ -112,11 +130,11 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
                 className={cn("justify-start text-start font-normal", !date.to && "text-muted-foreground")}
               >
                 <CalendarIcon className="ms-2 size-4" />
-                {date.to ? format(date.to, "PPP", { locale: faIR }) : "انتخاب تاریخ"}
+                {date.to ? persianFormatter.format(date.to) : "انتخاب تاریخ"}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
+              <CalendarHijri
                 mode="single"
                 selected={date.to}
                 onSelect={(newDate) => handleSelect({ ...date, to: newDate })}
@@ -126,7 +144,6 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
                   if (date.from && day < date.from) return true;
                   return false;
                 }}
-                initialFocus
               />
             </PopoverContent>
           </Popover>

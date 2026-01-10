@@ -232,7 +232,7 @@ export function DesktopFilterDialog<TFilters extends FilterState>({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="flex max-h-[90vh] w-250 max-w-[95vw] sm:max-w-none flex-col gap-0 overflow-hidden p-0"
+        className="flex h-full max-h-[90vh] w-250 max-w-[95vw] sm:max-w-none flex-col gap-0 overflow-hidden p-0"
       >
         {/* Header */}
         <DialogHeader className="border-border shrink-0 border-b px-6 py-4 text-start">
@@ -243,7 +243,7 @@ export function DesktopFilterDialog<TFilters extends FilterState>({
         </DialogHeader>
 
         {/* Main content - RTL: sidebar must be first so it sits on the right */}
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1 overflow-hidden h-full min-h-0">
           {/* Sidebar - Filter categories */}
           <div className="bg-muted/30 border-border flex w-64 shrink-0 flex-col border-e shadow-sm h-full min-h-0">
             {/* Search in sidebar if configured */}
@@ -259,8 +259,8 @@ export function DesktopFilterDialog<TFilters extends FilterState>({
             )}
 
             {/* Category list */}
-            <ScrollArea className="flex-1 min-h-0">
-              <nav className="space-y-1 p-2 ">
+            <ScrollArea className="flex-1 h-full min-h-0">
+              <nav className="h-full space-y-1 p-2 overflow-auto">
                 {categories.map((category, index) => (
                   <motion.button
                     key={category.key}
