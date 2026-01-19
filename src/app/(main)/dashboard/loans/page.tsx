@@ -7,6 +7,7 @@ import { EntityFilterTrigger } from "@/components/filters";
 import { PaginationControls } from "@/components/pagination-controls";
 import { useLoans } from "@/hooks/use-loan";
 import { usePagination } from "@/hooks/use-pagination";
+import { useUsers } from "@/hooks/use-user";
 import { OrderDirection } from "@/types/api";
 import { LoanStatus } from "@/types/entities/loan.type";
 
@@ -33,7 +34,7 @@ export default function LoansPage() {
   const search = searchParams.get("search") ?? undefined;
   const statusParam = searchParams.get("status");
   const loanTypeIdParam = searchParams.get("loanTypeId") ?? undefined;
-  const userIdParam = searchParams.get("userId") ?? undefined;
+  const userIdParam = searchParams.get("userId")?.split(",").filter(Boolean) ?? undefined;
 
   // Parse date range filters
   const minCreatedAt = searchParams.get("minCreatedAt") ?? undefined;
@@ -52,6 +53,7 @@ export default function LoansPage() {
     search,
     loanTypeId: loanTypeIdParam,
     status: statusParam ? (statusParam as LoanStatus) : undefined,
+    userId: userIdParam?.[0],
     orderBy,
     orderDir,
     minCreatedAt,
@@ -59,6 +61,26 @@ export default function LoansPage() {
     minUpdatedAt,
     maxUpdatedAt
   });
+
+  // Load users for user filter options
+  const { data: usersData } = useUsers({ page: 1, pageSize: 100 });
+
+  // Inject dynamic options into the filter config
+  const mergedConfig = React.useMemo(() => {
+    const cfg = { ...loanFilterConfig };
+    cfg.filters = cfg.filters.map((f) => {
+      if (f.key === "userId") {
+        return {
+          ...f,
+          options: (usersData?.data ?? []).map((u) => ({ value: u.id, label: u.identity.name ?? String(u.code) }))
+        };
+      }
+
+      return f;
+    });
+
+    return cfg;
+  }, [usersData]);
 
   // Convert URL params to filter state
   const filters: LoanFilters = React.useMemo(
@@ -111,9 +133,9 @@ export default function LoansPage() {
         params.set("loanTypeId", newFilters.loanTypeId);
       }
 
-      // User ID
-      if (newFilters.userId) {
-        params.set("userId", newFilters.userId);
+      // User ID (multi-select array -> CSV)
+      if (newFilters.userId && Array.isArray(newFilters.userId) && newFilters.userId.length > 0) {
+        params.set("userId", newFilters.userId.join(","));
       }
 
       // Date range filters - convert from Date tuples to ISO strings
@@ -152,7 +174,7 @@ export default function LoansPage() {
         total={data?.meta.totalItems}
         filterTrigger={
           <EntityFilterTrigger
-            config={loanFilterConfig}
+            config={mergedConfig}
             filters={filters}
             onFiltersChange={handleFiltersChange}
             onReset={handleReset}
@@ -166,7 +188,7 @@ export default function LoansPage() {
           data={data ?? null}
           isLoading={isLoading}
           error={error}
-          filterConfig={loanFilterConfig}
+          filterConfig={mergedConfig}
           filters={filters}
           onFiltersChange={handleFiltersChange}
           onReset={handleReset}

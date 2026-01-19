@@ -1,11 +1,19 @@
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
 
-import { FinancialSummaryParams, getEntitiesSummary, getFinancialSummary } from "@/lib/report-api";
+import {
+  FinancialSummaryParams,
+  getEntitiesSummary,
+  getFinancialSummary,
+  getInstallmentProjection,
+  InstallmentProjectionParams
+} from "@/lib/report-api";
 
 // Query keys for report-related queries
 export const reportKeys = {
   financialSummary: (params?: FinancialSummaryParams) => ["reports", "financial-summary", params] as const,
-  entitiesSummary: () => ["reports", "entities"] as const
+  entitiesSummary: () => ["reports", "entities"] as const,
+  installmentProjection: (params?: InstallmentProjectionParams) =>
+    ["reports", "installment-projection", params] as const
 };
 
 /**
@@ -44,6 +52,28 @@ export function useEntitiesSummary(
   return useQuery({
     queryKey: reportKeys.entitiesSummary(),
     queryFn: () => getEntitiesSummary(),
+    ...options
+  });
+}
+
+/**
+ * Hook to fetch installment projection
+ */
+export function useInstallmentProjection(
+  params?: InstallmentProjectionParams,
+  options?: Omit<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getInstallmentProjection>>,
+      Error,
+      Awaited<ReturnType<typeof getInstallmentProjection>>,
+      ReturnType<typeof reportKeys.installmentProjection>
+    >,
+    "queryKey" | "queryFn"
+  >
+) {
+  return useQuery({
+    queryKey: reportKeys.installmentProjection(params),
+    queryFn: () => getInstallmentProjection(params ?? {}),
     ...options
   });
 }

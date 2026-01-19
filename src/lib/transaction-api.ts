@@ -1,9 +1,9 @@
 import { PaginatedResponseDto, PaginationParams } from "@/types/api";
-import { Transaction, TransactionStatus } from "@/types/entities/transaction.type";
+import { Transaction, TransactionKind, TransactionStatus } from "@/types/entities/transaction.type";
 import api from "./api";
 
 export interface CreateTransactionRequest {
-  kind: Transaction["kind"];
+  kind: TransactionKind;
   amount: string;
   userId: string;
   externalRef?: string | null;
@@ -18,7 +18,7 @@ export interface UpdateTransactionRequest {
 export interface ListTransactionsParams extends PaginationParams {
   search?: string;
   userId?: string;
-  kind?: Transaction["kind"];
+  kind?: TransactionKind;
   status?: TransactionStatus;
   accountId?: string;
   targetType?: string;

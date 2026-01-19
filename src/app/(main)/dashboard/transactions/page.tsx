@@ -1,10 +1,12 @@
 "use client";
+import * as React from "react";
 import { useSearchParams } from "next/navigation";
 
 import { EntityFilter } from "@/components/filters";
 import { PaginationControls } from "@/components/pagination-controls";
 import { usePagination } from "@/hooks/use-pagination";
 import { useTransactions } from "@/hooks/use-transaction";
+import { useUsers } from "@/hooks/use-user";
 import { TransactionKind, TransactionStatus } from "@/types/entities/transaction.type";
 import {
   dateRangeToISO,
@@ -24,6 +26,7 @@ export default function TransactionsPage() {
   const search = searchParams.get("search") ?? undefined;
   const status = (searchParams.get("status") as TransactionStatus | null) ?? undefined;
   const kind = (searchParams.get("kind") as TransactionKind | null) ?? undefined;
+  const userIdParam = searchParams.get("userId")?.split(",").filter(Boolean) ?? undefined;
   const sortBy = searchParams.get("sortBy") ?? transactionFilterConfig.defaultFilters.sortBy;
 
   // Parse date range filters
@@ -37,17 +40,41 @@ export default function TransactionsPage() {
     pageSize: pagination.pageSize,
     search,
     status,
+    kind,
+    userId: userIdParam?.[0],
     minCreatedAt,
     maxCreatedAt,
     minUpdatedAt,
     maxUpdatedAt
   });
 
+  // Load users for user filter options
+  const { data: usersData } = useUsers({ page: 1, pageSize: 100 });
+
+  // Inject dynamic options into the filter config
+  const mergedConfig = React.useMemo(() => {
+    const cfg = { ...transactionFilterConfig };
+    cfg.filters = cfg.filters.map((f) => {
+      if (f.key === "userId") {
+        return {
+          ...f,
+          options: (usersData?.data ?? []).map((u) => ({ value: u.id, label: u.identity.name ?? String(u.code) }))
+        };
+      }
+
+      return f;
+    });
+
+    return cfg;
+  }, [usersData]);
+
   const handleFiltersChange = (newFilters: TransactionFilters) => {
     const params = new URLSearchParams();
     if (newFilters.search) params.set("search", newFilters.search);
     if (newFilters.status) params.set("status", newFilters.status);
     if (newFilters.kind) params.set("kind", newFilters.kind);
+    if (newFilters.userId && Array.isArray(newFilters.userId) && newFilters.userId.length > 0)
+      params.set("userId", newFilters.userId.join(","));
     if (newFilters.sortBy) params.set("sortBy", newFilters.sortBy);
 
     // Date range filters - convert from Date tuples to ISO strings
@@ -72,6 +99,7 @@ export default function TransactionsPage() {
     search,
     status,
     kind,
+    userId: userIdParam,
     sortBy,
     // Store ISO strings for API
     minCreatedAt,
@@ -85,7 +113,7 @@ export default function TransactionsPage() {
 
   const filterTrigger = (
     <EntityFilter
-      config={transactionFilterConfig}
+      config={mergedConfig}
       filters={currentFilters}
       onFiltersChange={handleFiltersChange}
       onReset={handleReset}
@@ -102,7 +130,7 @@ export default function TransactionsPage() {
           data={data ?? null}
           isLoading={isLoading}
           error={error}
-          filterConfig={transactionFilterConfig}
+          filterConfig={mergedConfig}
           filters={currentFilters}
           onFiltersChange={handleFiltersChange}
           onReset={handleReset}

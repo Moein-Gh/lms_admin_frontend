@@ -11,7 +11,7 @@ export type LoanFilters = FilterState & {
   sortBy?: string;
   status?: string;
   loanTypeId?: string;
-  userId?: string;
+  userId?: string[];
   // Date range ISO strings for API
   minCreatedAt?: string;
   maxCreatedAt?: string;
@@ -71,6 +71,17 @@ export const loanFilterConfig: EntityFilterConfig<LoanFilters> = {
         { value: LoanStatus.ACTIVE, label: LoanStatusLabels[LoanStatus.ACTIVE] },
         { value: LoanStatus.PAID, label: LoanStatusLabels[LoanStatus.PAID] }
       ]
+    },
+
+    // User filter (populate options dynamically)
+    {
+      type: "multi-select",
+      key: "userId",
+      label: "کاربر",
+      searchable: true,
+      searchPlaceholder: "جستجوی کاربر...",
+      asPills: true,
+      options: []
     },
 
     // Created at date range

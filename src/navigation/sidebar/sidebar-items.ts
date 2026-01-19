@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Settings2,
   User,
+  BarChart,
   type LucideIcon
 } from "lucide-react";
 
@@ -103,6 +104,17 @@ export const sidebarItems: NavGroup[] = [
         title: "تراکنش‌ها",
         url: "/dashboard/transactions",
         icon: ArrowLeftRight
+      }
+    ]
+  },
+  {
+    id: 6,
+    label: "گزارش‌ها",
+    items: [
+      {
+        title: "گزارش‌ها",
+        url: "/dashboard/reports",
+        icon: BarChart
       }
     ]
   }

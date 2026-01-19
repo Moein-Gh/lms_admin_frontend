@@ -1,3 +1,5 @@
+import { type InstallmentProjection } from "@/types/entities/installment-projection.type";
+
 import api from "./api";
 
 export interface FinancialMetric {
@@ -44,5 +46,17 @@ export async function getFinancialSummary(params: FinancialSummaryParams): Promi
 }
 export async function getEntitiesSummary(): Promise<EntitiesSummary> {
   const response = await api.get<EntitiesSummary>("/report/dashboard/entities");
+  return response.data;
+}
+
+export interface InstallmentProjectionParams {
+  page?: number;
+  pageSize?: number;
+}
+
+export async function getInstallmentProjection(
+  params: InstallmentProjectionParams = {}
+): Promise<InstallmentProjection> {
+  const response = await api.get<InstallmentProjection>("/report/projections/installments", { params });
   return response.data;
 }

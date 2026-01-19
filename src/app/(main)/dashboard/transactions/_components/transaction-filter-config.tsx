@@ -14,8 +14,8 @@ import {
 export type TransactionFilters = FilterState & {
   search?: string;
   sortBy?: string;
-  status?: string;
-  kind?: string;
+  status?: TransactionStatus;
+  kind?: TransactionKind;
   // Date range ISO strings for API
   minCreatedAt?: string;
   maxCreatedAt?: string;
@@ -24,6 +24,7 @@ export type TransactionFilters = FilterState & {
   // Date range objects for UI (not sent to API)
   createdAt?: [Date, Date];
   updatedAt?: [Date, Date];
+  userId?: string[];
 };
 
 // Default filter values
@@ -112,6 +113,17 @@ export const transactionFilterConfig: EntityFilterConfig<TransactionFilters> = {
           label: TRANSACTION_KIND_META[TransactionKind.TRANSFER].label
         }
       ]
+    },
+
+    // User filter (populate options dynamically)
+    {
+      type: "multi-select",
+      key: "userId",
+      label: "کاربر",
+      searchable: true,
+      searchPlaceholder: "جستجوی کاربر...",
+      asPills: true,
+      options: []
     },
 
     // Created at date range

@@ -69,7 +69,7 @@ export function useCreateTransfer() {
   const queryClient = useQueryClient();
   return useMutation<Transaction, unknown, Parameters<typeof createTransfer>[0], unknown>({
     mutationFn: (data) => createTransfer(data),
-    onSuccess: (res) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
       queryClient.invalidateQueries({ queryKey: transactionKeys.details() });
     }
