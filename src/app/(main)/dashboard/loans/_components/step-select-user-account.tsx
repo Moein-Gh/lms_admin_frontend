@@ -49,7 +49,7 @@ export function StepSelectUserAccount({
         allLabel={""}
       />
       {selectedUser && (
-        <div className="mt-3 grid grid-cols-1 gap-2 max-h-[300px] overflow-y-auto px-1">
+        <div className="mt-3 grid grid-cols-1 gap-2 max-h-75 overflow-y-auto px-1">
           {accountsLoading ? (
             <p className="text-sm text-muted-foreground">در حال بارگذاری حساب‌ها...</p>
           ) : activeAccounts.length === 0 ? (

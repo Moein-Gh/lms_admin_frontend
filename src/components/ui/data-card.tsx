@@ -21,6 +21,7 @@ type DataCardAction = {
   onClick: () => void;
   variant?: "default" | "destructive";
   side?: "left" | "right";
+  renderCustom?: () => React.ReactNode;
 };
 
 type DataCardField<T> = {
@@ -294,7 +295,7 @@ function DataCardItem<T>({ item, id, config }: DataCardItemProps<T>) {
         style={{ x }}
         className="relative z-10 bg-card cursor-pointer touch-pan-y"
       >
-        <DataCardHeader item={item} config={config} isExpanded={isExpanded} />
+        <DataCardHeader item={item} config={config} isExpanded={isExpanded} actions={actions} />
 
         <AnimatePresence>
           {isExpanded && (
@@ -322,11 +323,13 @@ type DataCardHeaderProps<T> = {
   item: T;
   config: DataCardConfig<T>;
   isExpanded: boolean;
+  actions?: DataCardAction[];
 };
 
-function DataCardHeader<T>({ item, config, isExpanded }: DataCardHeaderProps<T>) {
+function DataCardHeader<T>({ item, config, isExpanded, actions }: DataCardHeaderProps<T>) {
   const primaryValue = item[config.primaryField];
   const secondaryValue = config.secondaryField ? item[config.secondaryField] : null;
+  const customActions = actions?.filter((a) => a.renderCustom) ?? [];
 
   return (
     <div data-slot="data-card-header" className="flex items-center gap-3 p-4">
@@ -346,6 +349,17 @@ function DataCardHeader<T>({ item, config, isExpanded }: DataCardHeaderProps<T>)
 
       {/* Badge */}
       {config.badge && <div className="shrink-0">{config.badge.render(item[config.badge.field], item)}</div>}
+
+      {/* Custom action buttons */}
+      {customActions.length > 0 && (
+        <div className="flex items-center gap-1 shrink-0">
+          {customActions.map((action, idx) => (
+            <div key={idx} onClick={(e) => e.stopPropagation()}>
+              {action.renderCustom?.()}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Expand indicator */}
       <motion.div

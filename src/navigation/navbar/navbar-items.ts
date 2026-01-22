@@ -7,6 +7,7 @@ import {
   ShieldUser,
   Settings2,
   BarChart,
+  FileText,
   type LucideIcon
 } from "lucide-react";
 
@@ -45,6 +46,11 @@ export const navbarItems: NavbarItem[] = [
 ];
 
 export const additionalNavbarItems: NavbarItem[] = [
+  {
+    title: "درخواست‌های وام",
+    url: "/dashboard/loan-requests",
+    icon: FileText
+  },
   {
     title: "نقش‌ها",
     url: "/dashboard/roles",

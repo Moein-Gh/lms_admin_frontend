@@ -7,7 +7,6 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
 type ComboboxFilterProps<T> = {
@@ -57,7 +56,7 @@ export function ComboboxFilter<T>({
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={false}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -70,7 +69,11 @@ export function ComboboxFilter<T>({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+      <PopoverContent
+        className="w-[--radix-popover-trigger-width] p-0"
+        align="start"
+        onWheel={(e) => e.stopPropagation()}
+      >
         <Command shouldFilter={false}>
           <div className="border-border flex items-center border-b px-3">
             <SearchIcon className="text-muted-foreground size-4 shrink-0" />
@@ -82,56 +85,52 @@ export function ComboboxFilter<T>({
             />
           </div>
 
-          <CommandList>
+          <CommandList className="max-h-75 overflow-y-auto">
             <CommandEmpty>{emptyMessage}</CommandEmpty>
 
-            <ScrollArea className="max-h-60">
-              <CommandGroup>
-                {/* All option */}
-                <CommandItem value="__all__" onSelect={() => handleSelect("__all__")}>
-                  <span
-                    className={cn(
-                      "flex size-4 shrink-0 items-center justify-center rounded-sm border",
-                      !selectedValue
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-muted-foreground/30"
-                    )}
+            <CommandGroup>
+              {/* All option */}
+              <CommandItem value="__all__" onSelect={() => handleSelect("__all__")}>
+                <span
+                  className={cn(
+                    "flex size-4 shrink-0 items-center justify-center rounded-sm border",
+                    !selectedValue ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30"
+                  )}
+                >
+                  {!selectedValue && <CheckIcon className="size-3" />}
+                </span>
+                <span className="flex-1">{allLabel}</span>
+              </CommandItem>
+
+              {/* Items */}
+              {filteredItems.map((item, index) => {
+                const itemId = getItemId(item);
+                const isSelected = selectedValue === itemId;
+
+                return (
+                  <motion.div
+                    key={itemId}
+                    initial={{ opacity: 0, x: -5 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.02 }}
                   >
-                    {!selectedValue && <CheckIcon className="size-3" />}
-                  </span>
-                  <span className="flex-1">{allLabel}</span>
-                </CommandItem>
-
-                {/* Items */}
-                {filteredItems.map((item, index) => {
-                  const itemId = getItemId(item);
-                  const isSelected = selectedValue === itemId;
-
-                  return (
-                    <motion.div
-                      key={itemId}
-                      initial={{ opacity: 0, x: -5 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.02 }}
-                    >
-                      <CommandItem value={itemId} onSelect={handleSelect}>
-                        <span
-                          className={cn(
-                            "flex size-4 shrink-0 items-center justify-center rounded-sm border",
-                            isSelected
-                              ? "border-primary bg-primary text-primary-foreground"
-                              : "border-muted-foreground/30"
-                          )}
-                        >
-                          {isSelected && <CheckIcon className="size-3" />}
-                        </span>
-                        <span className="flex-1 truncate">{getItemLabel(item)}</span>
-                      </CommandItem>
-                    </motion.div>
-                  );
-                })}
-              </CommandGroup>
-            </ScrollArea>
+                    <CommandItem value={itemId} onSelect={handleSelect}>
+                      <span
+                        className={cn(
+                          "flex size-4 shrink-0 items-center justify-center rounded-sm border",
+                          isSelected
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-muted-foreground/30"
+                        )}
+                      >
+                        {isSelected && <CheckIcon className="size-3" />}
+                      </span>
+                      <span className="flex-1 truncate">{getItemLabel(item)}</span>
+                    </CommandItem>
+                  </motion.div>
+                );
+              })}
+            </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>

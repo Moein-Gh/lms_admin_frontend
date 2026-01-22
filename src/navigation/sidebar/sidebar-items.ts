@@ -7,6 +7,7 @@ import {
   Settings2,
   User,
   BarChart,
+  FileText,
   type LucideIcon
 } from "lucide-react";
 
@@ -88,6 +89,11 @@ export const sidebarItems: NavGroup[] = [
         title: "وام‌ها",
         url: "/dashboard/loans",
         icon: HandCoins
+      },
+      {
+        title: "درخواست‌های وام",
+        url: "/dashboard/loan-requests",
+        icon: FileText
       },
       {
         title: "انواع وام",
