@@ -47,7 +47,7 @@ export const navbarItems: NavbarItem[] = [
 
 export const additionalNavbarItems: NavbarItem[] = [
   {
-    title: "درخواست‌های وام",
+    title: "درخواست‌ وام",
     url: "/dashboard/loan-requests",
     icon: FileText
   },

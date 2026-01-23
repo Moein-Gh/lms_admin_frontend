@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Check, MoreHorizontal, Pencil, Trash, X } from "lucide-react";
+import { Check, MoreVertical, Pencil, Trash, X } from "lucide-react";
 import { toast } from "sonner";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { FormattedDate } from "@/components/formatted-date";
@@ -52,7 +52,7 @@ function ActionsCell({ loanRequest }: { loanRequest: LoanRequest }) {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="size-8">
-          <MoreHorizontal className="size-4" />
+          <MoreVertical className="size-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">

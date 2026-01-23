@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Calendar, Check, FileText, MoreHorizontal, Pencil, Trash, X } from "lucide-react";
+import { Calendar, Check, FileText, MoreVertical, Pencil, Trash, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { EmptyStateCard } from "@/components/empty-state-card";
@@ -101,7 +101,7 @@ function LoanRequestCard({ loanRequest }: { loanRequest: LoanRequest }) {
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon" className="size-9 md:size-10">
-                <MoreHorizontal className="size-5" />
+                <MoreVertical className="size-5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-40">

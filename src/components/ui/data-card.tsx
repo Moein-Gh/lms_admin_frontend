@@ -350,6 +350,15 @@ function DataCardHeader<T>({ item, config, isExpanded, actions }: DataCardHeader
       {/* Badge */}
       {config.badge && <div className="shrink-0">{config.badge.render(item[config.badge.field], item)}</div>}
 
+      {/* Expand indicator */}
+      <motion.div
+        animate={{ rotate: isExpanded ? -180 : 0 }}
+        transition={{ duration: 0.2 }}
+        className="text-muted-foreground"
+      >
+        <ChevronDown className="size-5" />
+      </motion.div>
+
       {/* Custom action buttons */}
       {customActions.length > 0 && (
         <div className="flex items-center gap-1 shrink-0">
@@ -360,15 +369,6 @@ function DataCardHeader<T>({ item, config, isExpanded, actions }: DataCardHeader
           ))}
         </div>
       )}
-
-      {/* Expand indicator */}
-      <motion.div
-        animate={{ rotate: isExpanded ? -180 : 0 }}
-        transition={{ duration: 0.2 }}
-        className="text-muted-foreground"
-      >
-        <ChevronDown className="size-5" />
-      </motion.div>
     </div>
   );
 }

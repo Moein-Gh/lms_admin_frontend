@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, MoreHorizontal, Pencil, Trash, X } from "lucide-react";
+import { Check, MoreVertical, Pencil, Trash, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { FormattedDate } from "@/components/formatted-date";
@@ -63,18 +63,18 @@ function LoanRequestActions({ loanRequest }: { loanRequest: LoanRequest }) {
 
   return [
     {
-      icon: <MoreHorizontal className="size-5" />,
+      icon: <MoreVertical className="size-5" />,
       label: "اقدامات",
       onClick: () => {},
       renderCustom: () => (
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="size-9">
-              <MoreHorizontal className="size-4" />
+            <Button variant="ghost" size="icon" className="size-9 justify-center px-1">
+              <MoreVertical className="size-4 shrink-0" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-40">
-            <DropdownMenuGroup>
+            <DropdownMenuGroup className="space-y-1">
               {canApprove && (
                 <DropdownMenuItem
                   disabled={isApproving}
@@ -84,10 +84,10 @@ function LoanRequestActions({ loanRequest }: { loanRequest: LoanRequest }) {
                       onError: () => toast.error("خطا در تایید درخواست وام")
                     })
                   }
-                  className="flex justify-between items-center"
+                  className="flex justify-between items-center gap-2"
                 >
                   <span>تایید</span>
-                  <Check className="size-4" />
+                  <Check className="size-4 shrink-0" />
                 </DropdownMenuItem>
               )}
               {canReject && (
@@ -99,26 +99,29 @@ function LoanRequestActions({ loanRequest }: { loanRequest: LoanRequest }) {
                       onError: () => toast.error("خطا در رد درخواست وام")
                     })
                   }
-                  className="flex justify-between items-center text-destructive"
+                  className="flex justify-between items-center gap-2 text-destructive"
                 >
                   <span>رد</span>
-                  <X className="size-4" />
+                  <X className="size-4 shrink-0" />
                 </DropdownMenuItem>
               )}
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem onSelect={() => setEditNoteOpen(true)} className="flex justify-between items-center">
+            {(canApprove || canReject) && <DropdownMenuSeparator />}
+            <DropdownMenuGroup className="space-y-2">
+              <DropdownMenuItem
+                onSelect={() => setEditNoteOpen(true)}
+                className="flex justify-between items-center gap-2"
+              >
                 <span>ویرایش یادداشت</span>
-                <Pencil className="size-4" />
+                <Pencil className="size-4 shrink-0" />
               </DropdownMenuItem>
               <DropdownMenuItem
                 disabled={isDeleting}
                 onSelect={() => deleteLoanRequest(loanRequest.id)}
-                className="flex justify-between items-center text-destructive"
+                className="flex justify-between items-center gap-2 text-destructive"
               >
                 <span>حذف</span>
-                <Trash className="size-4" />
+                <Trash className="size-4 shrink-0 text-destructive" />
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

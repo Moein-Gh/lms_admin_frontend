@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { MoreHorizontal, User, Moon, Sun, Settings, ArrowLeft } from "lucide-react";
+import { MoreVertical, User, Moon, Sun, Settings, ArrowLeft } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
@@ -226,7 +226,7 @@ export function MobileNavbar() {
                 }}
                 transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
-                <MoreHorizontal className={cn("size-5.5 transition-colors duration-300 text-current")} />
+                <MoreVertical className={cn("size-5.5 transition-colors duration-300 text-current")} />
               </motion.div>
             </motion.div>
 

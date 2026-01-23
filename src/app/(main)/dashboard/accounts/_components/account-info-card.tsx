@@ -10,7 +10,7 @@ import {
   Tag,
   User,
   Wallet,
-  MoreHorizontal,
+  MoreVertical,
   BanknoteArrowDown,
   CheckCircle
 } from "lucide-react";
@@ -127,7 +127,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
                       <DropdownMenu modal={false}>
                         <DropdownMenuTrigger asChild>
                           <Button variant="outline" size="icon" aria-label="منو اقدامات">
-                            <MoreHorizontal className="size-4" />
+                            <MoreVertical className="size-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-30 text-start " align="start">
