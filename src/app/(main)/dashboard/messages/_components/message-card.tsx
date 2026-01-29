@@ -29,7 +29,7 @@ export function MessageCard({ message, currentUserId }: MessageCardProps) {
           : "border-border/60 hover:border-border"
       )}
     >
-      {isUnread && <div className="absolute right-0 top-0 h-full w-1 bg-gradient-to-b from-primary to-primary/60" />}
+      {isUnread && <div className="absolute right-0 top-0 h-full w-1 bg-linear-to-b from-primary to-primary/60" />}
 
       <CardContent className="p-4 sm:p-5">
         <div className="space-y-3">
