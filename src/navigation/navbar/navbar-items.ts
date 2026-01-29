@@ -8,6 +8,7 @@ import {
   Settings2,
   BarChart,
   FileText,
+  MessageSquare,
   type LucideIcon
 } from "lucide-react";
 

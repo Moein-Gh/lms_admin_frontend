@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { MoreVertical, User, Moon, Sun, Settings, ArrowLeft } from "lucide-react";
+import { MoreVertical, User, Moon, Sun, Settings, ArrowLeft, Bell } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
@@ -86,6 +86,18 @@ export function MobileNavbar() {
                     <h3 className="truncate text-xs font-semibold">{user?.identity?.name ?? "کاربر"}</h3>
                     <p className="truncate text-[10px] text-muted-foreground">مشاهده پروفایل</p>
                   </div>
+                </Link>
+
+                {/* Messages Button */}
+                <Link href="/dashboard/messages" onClick={() => setIsExpanded(false)}>
+                  <motion.div
+                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex size-[52px] shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
+                  >
+                    <Bell className="size-4.5 text-foreground" />
+                  </motion.div>
                 </Link>
 
                 {/* Settings Button */}

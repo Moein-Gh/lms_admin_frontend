@@ -8,6 +8,7 @@ import {
   User,
   BarChart,
   FileText,
+  MessageSquare,
   type LucideIcon
 } from "lucide-react";
 
@@ -125,6 +126,7 @@ export const sidebarItems: NavGroup[] = [
     ]
   }
 ];
+
 // {
 //   id: 2,
 //   label: "Pages",

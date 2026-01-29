@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Home } from "lucide-react";
+import { ArrowLeft, Home, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -67,6 +67,9 @@ export function DashboardHeader({ navbarStyle }: DashboardHeaderProps) {
         </div>
         <div className="flex items-center gap-2">
           {/* <LayoutControls {...layoutPreferences} /> */}
+          <Button variant="ghost" size="icon" onClick={() => router.push("/dashboard/messages")} aria-label="پیام‌ها">
+            <Bell className="h-[1.2rem] w-[1.2rem]" />
+          </Button>
           <ThemeSwitcher />
           <AccountSwitcher />
         </div>
