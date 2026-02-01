@@ -1,6 +1,10 @@
 import { PaginatedResponseDto, PaginationParams } from "@/types/api";
 import { Identity } from "@/types/entities/identity.type";
-import { GetUpcomingPaymentsQueryDto, UpcomingPaymentsResponseDto } from "@/types/entities/payment.type";
+import {
+  GetUpcomingPaymentsQueryDto,
+  PaymentSummaryDto,
+  UpcomingPaymentsResponseDto
+} from "@/types/entities/payment.type";
 import { User, UserStatus } from "@/types/entities/user.type";
 
 import api from "./api";
@@ -108,5 +112,13 @@ export async function getUserUpcomingPayments(
   const response = await api.get<UpcomingPaymentsResponseDto>(`/users/${userId}/upcoming-payments`, {
     params
   });
+  return response.data;
+}
+
+/**
+ * Get user's payment summary
+ */
+export async function getUserPaymentSummary(userId: string): Promise<PaymentSummaryDto> {
+  const response = await api.get<PaymentSummaryDto>(`/users/${userId}/payment-summary`);
   return response.data;
 }

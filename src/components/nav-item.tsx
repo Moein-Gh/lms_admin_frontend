@@ -5,67 +5,39 @@ import { cn } from "@/lib/utils";
 interface NavItemProps {
   href: string;
   icon: React.ElementType;
+  title: string;
   isActive: boolean;
   index: number;
-  hoveredIndex: number | null;
   onClick: () => void;
-  onHoverStart: () => void;
-  onHoverEnd: () => void;
 }
 
-export function NavItem({
-  href,
-  icon: Icon,
-  isActive,
-  index,
-  hoveredIndex,
-  onClick,
-  onHoverStart,
-  onHoverEnd
-}: NavItemProps) {
-  const isHovered = hoveredIndex === index;
-  const shouldScale = hoveredIndex === null || isHovered;
-
+export function NavItem({ href, icon: Icon, title, isActive, onClick }: NavItemProps) {
   return (
     <Link
       href={href}
       onClick={onClick}
-      className="group relative flex flex-1 min-w-0 items-center justify-center"
-      onMouseEnter={onHoverStart}
-      onMouseLeave={onHoverEnd}
+      className="group relative flex flex-1 min-w-0 items-center justify-center transition-opacity duration-200 hover:opacity-100"
+      style={{ opacity: isActive ? 1 : 0.7 }}
     >
-      <motion.div
-        animate={{
-          scale: isActive ? 1 : shouldScale ? 1 : 0.85
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-        className="relative flex w-full max-w-[3.5rem] aspect-square items-center justify-center"
-      >
-        {/* Hover effect removed: keep UI minimal, dot indicates active state */}
+      <div className="relative flex w-full max-w-[3.5rem] md:max-w-none aspect-square md:aspect-auto items-center justify-center">
+        {/* Icon and label container */}
+        <div className="relative flex w-full h-full flex-col items-center justify-center gap-1">
+          <Icon className="size-6" />
 
-        {/* Icon container */}
-        <motion.div
-          className="relative flex w-full h-full flex-col items-center justify-center gap-0.5"
-          animate={{
-            y: isActive ? -4 : 0
-          }}
-          transition={{ type: "spring", stiffness: 400, damping: 20 }}
-        >
-          <Icon className={cn("size-6 transition-colors duration-300 text-current")} />
+          {/* Label - desktop only */}
+          <span className="hidden md:block text-xs font-medium whitespace-nowrap">{title}</span>
 
-          {/* Active indicator dot */}
+          {/* Active indicator pill */}
           {isActive && (
             <motion.div
               layoutId="navbar-active-indicator"
-              className="absolute -bottom-1 size-1.5 rounded-full"
-              style={{ backgroundColor: "currentColor", boxShadow: "0 0 8px currentColor" }}
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              className="absolute -bottom-1.5 md:-bottom-2 h-0.5 w-8 rounded-full"
+              style={{ backgroundColor: "currentColor" }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             />
           )}
-        </motion.div>
-
-        {/* Removed tap/background overlays (dot indicator is sufficient) */}
-      </motion.div>
+        </div>
+      </div>
     </Link>
   );
 }

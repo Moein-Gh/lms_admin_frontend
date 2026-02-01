@@ -8,12 +8,13 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
 import { useMe } from "@/hooks/use-user";
+import { formatPersianDate } from "@/lib/date-service";
 import { updateThemeMode } from "@/lib/theme-utils";
 import { cn } from "@/lib/utils";
 import { navbarItems, additionalNavbarItems } from "@/navigation/navbar/navbar-items";
 import { setValueToCookie } from "@/server/server-actions";
+import { useNotificationsStore } from "@/stores/notifications/notifications-provider";
 import { usePreferencesStore } from "@/stores/preferences/preferences-provider";
-import { NavItem } from "./nav-item";
 
 export function MobileNavbar() {
   const pathname = usePathname();
@@ -22,8 +23,11 @@ export function MobileNavbar() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasHistory, setHasHistory] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const themeMode = usePreferencesStore((s) => s.themeMode);
   const setThemeMode = usePreferencesStore((s) => s.setThemeMode);
+  const hasUnreadPushNotifications = useNotificationsStore((s) => s.hasUnreadPushNotifications);
 
   useEffect(() => {
     const checkHistory = () => {
@@ -37,14 +41,58 @@ export function MobileNavbar() {
 
   useEffect(() => {
     if (isExpanded) {
-      document.body.style.overflow = "hidden";
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
     } else {
-      document.body.style.overflow = "";
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
     }
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
     };
   }, [isExpanded]);
+
+  useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      // Don't hide navbar when expanded panel is open
+      if (isExpanded) return;
+
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+
+      // Show navbar after 2 seconds of no scrolling
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        setIsVisible(true);
+      }, 2000);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [lastScrollY, isExpanded]);
 
   const handleThemeToggle = async () => {
     const newTheme = themeMode === "dark" ? "light" : "dark";
@@ -66,7 +114,27 @@ export function MobileNavbar() {
             className="mb-2 w-full overflow-hidden rounded-3xl border border-border/40 bg-navbar-bg shadow-nice shadow-black/20 backdrop-blur-sm dark:border-border/20 dark:shadow-black/50"
           >
             <div className="flex flex-col gap-3 p-4">
-              {/* Top Row: Profile, Settings, Theme */}
+              {/* User Info Banner */}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.02 }}
+                className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-4 shadow-sm"
+              >
+                <div className="relative flex items-center justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="truncate text-base font-bold leading-tight">{user?.identity?.name ?? "کاربر"}</h3>
+                  </div>
+                  <div className="shrink-0 text-left">
+                    <p className="text-sm font-semibold">{formatPersianDate(new Date(), "HH:mm")}</p>
+                    <p className="text-xs font-medium text-muted-foreground">
+                      {formatPersianDate(new Date(), "dd MMMM")}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Action Buttons Row */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -74,58 +142,58 @@ export function MobileNavbar() {
                 className="flex items-center gap-2"
               >
                 {/* Profile */}
-                <Link
-                  href="/dashboard/profile"
-                  onClick={() => setIsExpanded(false)}
-                  className="group flex flex-[2] items-center gap-2.5 rounded-xl border border-border/50 bg-card/50 p-2.5 transition-all hover:border-primary/50 hover:bg-card active:scale-98"
-                >
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-                    <User className="size-4.5" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="truncate text-xs font-semibold">{user?.identity?.name ?? "کاربر"}</h3>
-                    <p className="truncate text-[10px] text-muted-foreground">مشاهده پروفایل</p>
-                  </div>
-                </Link>
-
-                {/* Messages Button */}
-                <Link href="/dashboard/messages" onClick={() => setIsExpanded(false)}>
+                <Link href="/admin/profile" onClick={() => setIsExpanded(false)} className="flex-1">
                   <motion.div
                     whileTap={{ scale: 0.95 }}
                     whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex size-[52px] shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
+                    className="flex aspect-square w-full items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
                   >
-                    <Bell className="size-4.5 text-foreground" />
+                    <User className="size-5 text-foreground" />
                   </motion.div>
                 </Link>
 
-                {/* Settings Button */}
-                <Link href="/dashboard/settings" onClick={() => setIsExpanded(false)}>
+                {/* Messages */}
+                <Link href="/admin/messages" onClick={() => setIsExpanded(false)} className="flex-1">
+                  <motion.div
+                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.05 }}
+                    className="relative flex aspect-square w-full items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
+                  >
+                    <Bell className="size-5 text-foreground" />
+                    {hasUnreadPushNotifications && (
+                      <span className="absolute left-1 top-1 flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                      </span>
+                    )}
+                  </motion.div>
+                </Link>
+
+                {/* Settings */}
+                <Link href="/admin/settings" onClick={() => setIsExpanded(false)} className="flex-1">
                   <motion.div
                     whileTap={{ scale: 0.95 }}
                     whileHover={{ rotate: 90 }}
                     transition={{ duration: 0.3 }}
-                    className="flex size-[52px] shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
+                    className="flex aspect-square w-full items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
                   >
-                    <Settings className="size-4.5 text-foreground" />
+                    <Settings className="size-5 text-foreground" />
                   </motion.div>
                 </Link>
 
                 {/* Theme Switcher */}
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleThemeToggle}
-                  className="flex size-[52px] shrink-0 items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
-                >
-                  <div className="flex items-center justify-center">
+                <button onClick={handleThemeToggle} className="flex-1">
+                  <motion.div
+                    whileTap={{ scale: 0.95 }}
+                    className="flex aspect-square w-full items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
+                  >
                     {themeMode === "dark" ? (
-                      <Sun className="size-4.5 text-primary" />
+                      <Sun className="size-5 text-primary" />
                     ) : (
-                      <Moon className="size-4.5 text-primary" />
+                      <Moon className="size-5 text-primary" />
                     )}
-                  </div>
-                </motion.button>
+                  </motion.div>
+                </button>
 
                 {/* Logout */}
                 <MobileNavbarLogout onLogoutStart={() => setIsExpanded(false)} />
@@ -178,8 +246,11 @@ export function MobileNavbar() {
       {/* Main navbar */}
       <motion.nav
         initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        animate={{
+          y: isVisible ? 0 : 100,
+          opacity: isVisible ? 1 : 0
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="flex h-16 w-full items-center justify-between gap-1 rounded-[1.75rem]  bg-navbar-bg px-3 shadow-md shadow-black/15 backdrop-blur-sm dark:bg-navbar-bg dark:shadow-white/10"
         style={{ color: "var(--color-navbar-text)" }}
       >
@@ -193,17 +264,36 @@ export function MobileNavbar() {
           const Icon = item.icon;
 
           return (
-            <NavItem
+            <Link
               key={item.url}
               href={item.url}
-              icon={Icon}
-              isActive={isActive}
-              index={index}
-              hoveredIndex={hoveredIndex}
               onClick={() => setIsExpanded(false)}
-              onHoverStart={() => setHoveredIndex(index)}
-              onHoverEnd={() => setHoveredIndex(null)}
-            />
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="group relative flex flex-1 min-w-0 items-center justify-center"
+            >
+              <motion.div
+                animate={{
+                  scale: hoveredIndex === index || isActive ? 1 : hoveredIndex === null ? 1 : 0.85
+                }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="relative flex w-full max-w-14 aspect-square items-center justify-center"
+              >
+                {/* Active indicator dot */}
+                {isActive && (
+                  <motion.div
+                    layoutId="navbar-active-indicator"
+                    className="absolute -bottom-1 size-1.5 rounded-full"
+                    style={{ backgroundColor: "currentColor", boxShadow: "0 0 8px currentColor" }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  />
+                )}
+
+                <motion.div className="relative flex w-full h-full items-center justify-center">
+                  <Icon className={cn("size-5.5 transition-colors duration-300 text-current")} />
+                </motion.div>
+              </motion.div>
+            </Link>
           );
         })}
 
@@ -240,6 +330,14 @@ export function MobileNavbar() {
               >
                 <MoreVertical className={cn("size-5.5 transition-colors duration-300 text-current")} />
               </motion.div>
+
+              {/* Unread notification indicator on three dots */}
+              {hasUnreadPushNotifications && !isExpanded && (
+                <span className="absolute left-1 top-1 flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                </span>
+              )}
             </motion.div>
 
             {/* removed square/ripple overlays for minimal UI */}

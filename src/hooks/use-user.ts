@@ -5,6 +5,7 @@ import {
   deleteUser,
   getMe,
   getUserById,
+  getUserPaymentSummary,
   getUserUpcomingPayments,
   listUsers,
   registerUser,
@@ -26,7 +27,8 @@ export const userKeys = {
   details: () => [...userKeys.all, "detail"] as const,
   detail: (id: string) => [...userKeys.details(), id] as const,
   upcomingPayments: (id: string, params?: GetUpcomingPaymentsQueryDto) =>
-    [...userKeys.details(), id, "upcoming-payments", params] as const
+    [...userKeys.details(), id, "upcoming-payments", params] as const,
+  paymentSummary: (id: string) => [...userKeys.details(), id, "payment-summary"] as const
 };
 
 /**
@@ -193,6 +195,29 @@ export function useUserUpcomingPayments(
   return useQuery({
     queryKey: userKeys.upcomingPayments(userId, params),
     queryFn: () => getUserUpcomingPayments(userId, params),
+    enabled: !!userId,
+    ...options
+  });
+}
+
+/**
+ * Hook to fetch user's payment summary
+ */
+export function useUserPaymentSummary(
+  userId: string,
+  options?: Omit<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUserPaymentSummary>>,
+      Error,
+      Awaited<ReturnType<typeof getUserPaymentSummary>>,
+      ReturnType<typeof userKeys.paymentSummary>
+    >,
+    "queryKey" | "queryFn"
+  >
+) {
+  return useQuery({
+    queryKey: userKeys.paymentSummary(userId),
+    queryFn: () => getUserPaymentSummary(userId),
     enabled: !!userId,
     ...options
   });

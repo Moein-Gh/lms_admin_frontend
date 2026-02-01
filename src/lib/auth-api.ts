@@ -20,6 +20,7 @@ type AuthResponse = {
   user: User;
   userId: string;
   success: boolean;
+  hasUnreadPushNotifications?: boolean;
 };
 
 export async function requestSms(payload: RequestSmsPayload): Promise<void> {

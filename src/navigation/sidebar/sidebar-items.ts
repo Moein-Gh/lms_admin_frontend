@@ -44,13 +44,13 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "داشبورد",
-        url: "/dashboard",
+        url: "/admin",
         icon: LayoutDashboard
       }
 
       // {
       //   title: "Finance",
-      //   url: "/dashboard/finance",
+      //   url: "/admin/finance",
       //   icon: Banknote,
       // },
     ]
@@ -61,12 +61,12 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "کاربران",
-        url: "/dashboard/users",
+        url: "/admin/users",
         icon: User
       },
       {
         title: "نقش‌ها",
-        url: "/dashboard/roles",
+        url: "/admin/roles",
         icon: ShieldUser
       }
     ]
@@ -77,7 +77,7 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "حساب‌ها",
-        url: "/dashboard/accounts",
+        url: "/admin/accounts",
         icon: IdCard
       }
     ]
@@ -88,17 +88,17 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "وام‌ها",
-        url: "/dashboard/loans",
+        url: "/admin/loans",
         icon: HandCoins
       },
       {
         title: "درخواست‌های وام",
-        url: "/dashboard/loan-requests",
+        url: "/admin/loan-requests",
         icon: FileText
       },
       {
         title: "انواع وام",
-        url: "/dashboard/loan-types",
+        url: "/admin/loan-types",
         icon: Settings2
       }
     ]
@@ -109,7 +109,7 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "تراکنش‌ها",
-        url: "/dashboard/transactions",
+        url: "/admin/transactions",
         icon: ArrowLeftRight
       }
     ]
@@ -120,7 +120,7 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "گزارش‌ها",
-        url: "/dashboard/reports",
+        url: "/admin/reports",
         icon: BarChart
       }
     ]

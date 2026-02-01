@@ -21,27 +21,27 @@ export interface NavbarItem {
 export const navbarItems: NavbarItem[] = [
   {
     title: "داشبورد",
-    url: "/dashboard",
+    url: "/admin",
     icon: LayoutDashboard
   },
   {
     title: "کاربران",
-    url: "/dashboard/users",
+    url: "/admin/users",
     icon: User
   },
   {
     title: "حساب‌ها",
-    url: "/dashboard/accounts",
+    url: "/admin/accounts",
     icon: IdCard
   },
   {
     title: "وام‌ها",
-    url: "/dashboard/loans",
+    url: "/admin/loans",
     icon: HandCoins
   },
   {
     title: "تراکنش‌ها",
-    url: "/dashboard/transactions",
+    url: "/admin/transactions",
     icon: ArrowLeftRight
   }
 ];
@@ -49,22 +49,22 @@ export const navbarItems: NavbarItem[] = [
 export const additionalNavbarItems: NavbarItem[] = [
   {
     title: "درخواست‌ وام",
-    url: "/dashboard/loan-requests",
+    url: "/admin/loan-requests",
     icon: FileText
   },
   {
     title: "نقش‌ها",
-    url: "/dashboard/roles",
+    url: "/admin/roles",
     icon: ShieldUser
   },
   {
     title: "انواع وام",
-    url: "/dashboard/loan-types",
+    url: "/admin/loan-types",
     icon: Settings2
   },
   {
     title: "گزارش‌ها",
-    url: "/dashboard/reports",
+    url: "/admin/reports",
     icon: BarChart
   }
 ];

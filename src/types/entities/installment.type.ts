@@ -1,4 +1,4 @@
-import { Loan } from "./loan.type";
+import type { Loan } from "./loan.type";
 
 export enum InstallmentStatus {
   PENDING = "PENDING",
@@ -23,4 +23,21 @@ export interface Installment {
   // timestamps
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface InstallmentSummary {
+  totalCount: number;
+  paidCount: number;
+  overdueCount: number;
+  activeCount: number;
+  pendingCount: number;
+  totalAmount: string;
+  amountPaid: string;
+  amountOverdue: string;
+  amountRemaining: string;
+  paymentPercentage: number;
+  expectedCompletionDate: Date | null;
+  nextInstallmentDate: Date | null;
+  nextInstallmentAmount: string | null;
+  nextInstallmentNumber: number | null;
 }

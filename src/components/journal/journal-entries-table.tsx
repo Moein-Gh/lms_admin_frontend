@@ -17,14 +17,14 @@ function isSubscriptionFee(target: JournalEntry["target"] | undefined): target i
 function getTargetLink(type: JournalEntryTarget, id: string, target?: JournalEntry["target"]): string | null {
   switch (type) {
     case JournalEntryTarget.ACCOUNT:
-      return `/dashboard/accounts/${id}`;
+      return `/admin/accounts/${id}`;
     case JournalEntryTarget.LOAN:
-      return `/dashboard/loans/${id}`;
+      return `/admin/loans/${id}`;
     case JournalEntryTarget.SUBSCRIPTION_FEE:
       // For subscription fees, prefer linking to the related account page when available
       if (isSubscriptionFee(target)) {
-        if (target.account?.id) return `/dashboard/accounts/${target.account.id}`;
-        if ((target as any).accountId) return `/dashboard/accounts/${(target as any).accountId}`;
+        if (target.account?.id) return `/admin/accounts/${target.account.id}`;
+        if (target.accountId) return `/admin/accounts/${target.accountId}`;
       }
       return null;
     default:

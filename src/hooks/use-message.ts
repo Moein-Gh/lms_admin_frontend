@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, useInfiniteQuery, type UseQueryOptions } from "@tanstack/react-query";
 import {
   deleteMessage,
   getMessageById,
@@ -44,6 +44,25 @@ export function useMessages(
   return useQuery({
     queryKey: messageKeys.list(params),
     queryFn: () => getMessages(params),
+    ...options
+  });
+}
+
+/**
+ * Hook to fetch messages with infinite scroll
+ */
+export function useInfiniteMessages(
+  params?: Omit<MessageQueryParams, "page">,
+  options?: Omit<any, "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam">
+) {
+  return useInfiniteQuery({
+    queryKey: messageKeys.list(params),
+    queryFn: ({ pageParam = 1 }) => getMessages({ ...params, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const hasNextPage = lastPage.meta.hasNextPage;
+      return hasNextPage ? lastPage.meta.page + 1 : undefined;
+    },
     ...options
   });
 }

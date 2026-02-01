@@ -1,4 +1,5 @@
 import { Account } from "./account.type";
+import { InstallmentSummary } from "./installment.type";
 import { LoanBalanceSummary } from "./loan-balane.type";
 import { LoanType } from "./loan-type.type";
 
@@ -35,4 +36,5 @@ export interface Loan {
   updatedAt: Date;
 
   balanceSummary?: LoanBalanceSummary;
+  installmentSummary?: InstallmentSummary;
 }

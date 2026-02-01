@@ -60,6 +60,11 @@
   --color-navbar-bg: var(--navbar-bg);
   --color-navbar-text: var(--navbar-text);
 
+  --color-loan-paid: var(--loan-paid);
+  --color-loan-overdue: var(--loan-overdue);
+  --color-loan-future: var(--loan-future);
+  --color-loan-overdue-foreground: var(--loan-overdue-foreground);
+
   --shadow-nice: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
@@ -116,6 +121,12 @@ These serve as the fallback; there is no separate default.css file. */
   --toaster-warning: oklch(0.98 0.18 90);
   --toaster-warning-foreground: var(--foreground);
 
+  /* Loan progress colors (light) */
+  --loan-paid: oklch(0.55 0.18 145);
+  --loan-overdue: oklch(0.57 0.22 27);
+  --loan-overdue-foreground: oklch(0.5 0.22 27);
+  --loan-future: var(--muted);
+
   /* Scrollbar colors (can be themed via .dark or data-theme-preset overrides) */
   --scrollbar-thumb: oklch(0.6 0 0 / 0.5);
   --scrollbar-thumb-hover: oklch(0.6 0 0 / 0.65);
@@ -171,6 +182,12 @@ These serve as the fallback; there is no separate default.css file. */
   --toaster-error-foreground: var(--destructive-foreground);
   --toaster-warning: oklch(0.56 0.16 90);
   --toaster-warning-foreground: var(--foreground);
+
+  /* Loan progress colors (dark) */
+  --loan-paid: oklch(0.6 0.18 145);
+  --loan-overdue: oklch(63.895% 0.17454 21.41);
+  --loan-overdue-foreground: oklch(0.68 0.18 27);
+  --loan-future: var(--muted);
 }
 
 @layer utilities {

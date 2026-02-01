@@ -1,6 +1,11 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 
+type AuthResponse = {
+  hasUnreadPushNotifications?: boolean;
+  [key: string]: unknown;
+};
+
 const api = axios.create({
   // CRITICAL CHANGE:
   // We point to '/api' so requests go to Next.js (localhost:3000/api),
@@ -104,7 +109,19 @@ api.interceptors.response.use(
     try {
       // The browser automatically includes the cookie in this request
       // because we are hitting '/api/auth/refresh' (Same-Origin)
-      await api.post("/auth/refresh");
+      const refreshResponse = await api.post<AuthResponse>("/auth/refresh");
+
+      // Handle notification state from refresh response
+      if (refreshResponse.data?.hasUnreadPushNotifications !== undefined) {
+        // Dispatch custom event for notification state update
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("auth-notification-update", {
+              detail: { hasUnreadPushNotifications: refreshResponse.data.hasUnreadPushNotifications }
+            })
+          );
+        }
+      }
 
       processQueue(null);
       isRefreshing = false;

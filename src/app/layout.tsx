@@ -6,6 +6,7 @@ import { Vazirmatn } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/providers/query-provider";
 import { getPreference } from "@/server/server-actions";
+import { NotificationsStoreProvider } from "@/stores/notifications/notifications-provider";
 import { PreferencesStoreProvider } from "@/stores/preferences/preferences-provider";
 import { THEME_MODE_VALUES, THEME_PRESET_VALUES, type ThemeMode, type ThemePreset } from "@/types/preferences/theme";
 
@@ -54,8 +55,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body suppressHydrationWarning className={`${vazirmatn.className} min-h-screen antialiased`}>
         <QueryProvider>
           <PreferencesStoreProvider themeMode={themeMode} themePreset={themePreset}>
-            {children}
-            <Toaster />
+            <NotificationsStoreProvider>
+              {children}
+              <Toaster />
+            </NotificationsStoreProvider>
           </PreferencesStoreProvider>
         </QueryProvider>
       </body>

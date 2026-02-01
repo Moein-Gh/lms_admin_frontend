@@ -1,8 +1,10 @@
 import { useRouter } from "next/navigation";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { logout as apiLogout, requestSms, verifySms } from "@/lib/auth-api";
+import { useNotificationsStore } from "@/stores/notifications/notifications-provider";
 import { userKeys } from "./use-user";
 
 export function useRequestSms() {
@@ -13,6 +15,9 @@ export function useRequestSms() {
 
 export function useVerifySms() {
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const setHasUnreadPushNotifications = useNotificationsStore((s) => s.setHasUnreadPushNotifications);
+
   return useMutation({
     mutationFn: verifySms,
     onSuccess: (data) => {
@@ -26,6 +31,37 @@ export function useVerifySms() {
         if (data.sessionId) localStorage.setItem("sessionId", data.sessionId);
       } catch {
         // ignore
+      }
+
+      // Update notifications state
+      if (data.hasUnreadPushNotifications !== undefined) {
+        setHasUnreadPushNotifications(data.hasUnreadPushNotifications);
+
+        // Show toast if there are unread notifications
+        if (data.hasUnreadPushNotifications) {
+          toast.info("پیام جدید دارید!", {
+            description: "پیام‌های خوانده نشده در انتظار شماست",
+            action: {
+              label: "مشاهده",
+              onClick: () => router.push("/admin/messages")
+            },
+            duration: 6000
+          });
+        }
+      }
+
+      // Redirect based on user role
+      const hasAdminRole = data.user?.roleAssignments?.some(
+        (assignment) => assignment.role?.key === "admin" && assignment.isActive
+      );
+      const hasAccountHolderRole = data.user?.roleAssignments?.some(
+        (assignment) => assignment.role?.key === "account-holder" && assignment.isActive
+      );
+
+      if (hasAccountHolderRole && !hasAdminRole) {
+        router.push("/");
+      } else {
+        router.push("/admin");
       }
     }
   });
