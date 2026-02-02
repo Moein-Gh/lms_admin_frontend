@@ -1,4 +1,4 @@
-import { Calendar, CircleCheck, CircleDashed, Clock, Loader } from "lucide-react";
+import { Calendar, CircleCheck, CircleDashed, Clock, Loader, AlertCircle } from "lucide-react";
 
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
@@ -8,38 +8,52 @@ import { cn } from "@/lib/utils";
 import { Installment, InstallmentStatus } from "@/types/entities/installment.type";
 
 export function InstallmentCard({ installment }: { installment: Installment }) {
+  // Check if installment is overdue
+  const isOverdue = installment.status !== InstallmentStatus.PAID && new Date(installment.dueDate) < new Date();
+
   const statusConfig = {
+    overdue: {
+      label: "معوقه",
+      variant: "destructive" as const,
+      icon: AlertCircle,
+      color: "text-red-600 dark:text-red-500",
+      cardClass: "border-red-200 dark:border-red-900/50"
+    },
     [InstallmentStatus.PAID]: {
       label: "پرداخت شده",
       variant: "active" as const,
       icon: CircleCheck,
-      color: "text-green-600 dark:text-green-500"
+      color: "text-green-600 dark:text-green-500",
+      cardClass: ""
     },
     [InstallmentStatus.ACTIVE]: {
       label: "فعال",
       variant: "default" as const,
       icon: Clock,
-      color: "text-blue-600 dark:text-blue-500"
+      color: "text-blue-600 dark:text-blue-500",
+      cardClass: ""
     },
     [InstallmentStatus.PENDING]: {
       label: "در انتظار",
       variant: "inactive" as const,
       icon: CircleDashed,
-      color: "text-orange-600 dark:text-orange-500"
+      color: "text-orange-600 dark:text-orange-500",
+      cardClass: ""
     },
     [InstallmentStatus.ALLOCATED]: {
       label: "تخصیص یافته",
       variant: "default" as const,
       icon: Loader,
-      color: "text-yellow-600 dark:text-yellow-500"
+      color: "text-yellow-600 dark:text-yellow-500",
+      cardClass: ""
     }
   };
 
-  const status = statusConfig[installment.status];
+  const status = isOverdue ? statusConfig.overdue : statusConfig[installment.status];
   const StatusIcon = status.icon;
 
   return (
-    <Card className="@container/installment-card py-1 transition-all hover:shadow-md">
+    <Card className={cn("@container/installment-card py-1 transition-all hover:shadow-md", status.cardClass)}>
       <CardContent className="p-4">
         <div className="flex items-center gap-4">
           {/* Timeline indicator: hidden on mobile, visible at container >=400px */}
