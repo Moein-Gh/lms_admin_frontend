@@ -55,9 +55,7 @@ export interface GetUpcomingPaymentsQueryDto {
 
 export interface PaymentSummaryDto {
   upcomingAmount: string;
-  upcomingCount: number;
+  upcomingDueDate: Date | null;
   overdueAmount: string;
-  overdueCount: number;
   totalDueAmount: string;
-  totalDueCount: number;
 }

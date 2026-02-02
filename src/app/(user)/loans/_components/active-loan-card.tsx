@@ -33,7 +33,7 @@ export function ActiveLoanCard({ loan, href }: ActiveLoanCardProps) {
 
   return (
     <CardWrapper href={href ?? ""}>
-      <Card className={cn("p-4 transition-all", href && "hover:shadow-md hover:border-primary/50 cursor-pointer")}>
+      <Card className={cn("p-4 transition-all", href && " cursor-pointer")}>
         <div className="flex flex-col gap-4">
           {/* Top Row: Loan Info */}
           <div className="flex items-start justify-between gap-4">

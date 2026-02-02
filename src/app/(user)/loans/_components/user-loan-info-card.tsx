@@ -109,7 +109,7 @@ export function UserLoanInfoCard({ loan }: UserLoanInfoCardProps) {
   const paidPercentage = balanceSummary ? balanceSummary.paidPercentage : 0;
 
   return (
-    <Card className="overflow-hidden border-none shadow-md bg-card">
+    <Card className="overflow-hidden border-none bg-card">
       <div className="flex flex-col md:flex-row">
         <div className="flex-1 p-6 space-y-8">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">

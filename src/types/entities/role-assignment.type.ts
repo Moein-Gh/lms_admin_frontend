@@ -9,13 +9,22 @@ export interface RoleAssignment {
   expiresAt?: Date;
   createdAt: Date;
   updatedAt: Date;
-  isActive: boolean;
+  status: RoleAssignmentStatus;
   user?: User;
   role?: Role;
+
+  isDeleted: boolean;
+  deletedAt?: Date;
+  deletedBy?: string;
 }
 
 export interface CreateRoleAssignmentInput {
   roleId: string;
   userId: string;
   expiresAt?: Date;
+}
+
+export enum RoleAssignmentStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE"
 }

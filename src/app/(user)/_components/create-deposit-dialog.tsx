@@ -85,7 +85,7 @@ export function CreateDepositDialog() {
   });
 
   const triggerButton = (
-    <Button>
+    <Button variant="default">
       <PlusIcon className="size-4" />
       درخواست واریز
     </Button>

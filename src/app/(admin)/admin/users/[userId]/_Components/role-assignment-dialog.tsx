@@ -18,7 +18,7 @@ import { useRoles } from "@/hooks/use-role";
 import { useCreateRoleAssignment, useDeleteRoleAssignment, useRoleAssignments } from "@/hooks/use-role-assignment";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { cn } from "@/lib/utils";
-import { RoleAssignment } from "@/types/entities/role-assignment.type";
+import { RoleAssignment, RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 
 type Props = {
   userId: string;
@@ -46,7 +46,7 @@ export function RoleAssignmentDialog({ userId }: Props) {
   // Derived State
   const activeAssignments = React.useMemo(() => {
     const all = assignments?.data ?? [];
-    return all.filter((a) => a.isActive !== false);
+    return all.filter((a) => a.status === RoleAssignmentStatus.ACTIVE);
   }, [assignments]);
 
   const assignedRoleIds = React.useMemo(() => new Set(activeAssignments.map((a) => a.roleId)), [activeAssignments]);

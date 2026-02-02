@@ -33,7 +33,7 @@ export function LoansSummary() {
     <div className="space-y-4">
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="p-4 hover:shadow-md transition-shadow">
+        <Card className="p-4  transition-shadow">
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-950">
               <Wallet className="size-5 text-blue-600 dark:text-blue-400" />
@@ -47,7 +47,7 @@ export function LoansSummary() {
           </div>
         </Card>
 
-        <Card className="p-4 hover:shadow-md transition-shadow">
+        <Card className="p-4  transition-shadow">
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-950">
               <TrendingUp className="size-5 text-amber-600 dark:text-amber-400" />
@@ -61,7 +61,7 @@ export function LoansSummary() {
           </div>
         </Card>
 
-        <Card className="p-4 hover:shadow-md transition-shadow">
+        <Card className="p-4  transition-shadow">
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-green-100 dark:bg-green-950">
               <CalendarClock className="size-5 text-green-600 dark:text-green-400" />

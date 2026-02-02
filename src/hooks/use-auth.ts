@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { logout as apiLogout, requestSms, verifySms } from "@/lib/auth-api";
 import { useNotificationsStore } from "@/stores/notifications/notifications-provider";
+import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 import { userKeys } from "./use-user";
 
 export function useRequestSms() {
@@ -52,10 +53,10 @@ export function useVerifySms() {
 
       // Redirect based on user role
       const hasAdminRole = data.user?.roleAssignments?.some(
-        (assignment) => assignment.role?.key === "admin" && assignment.isActive
+        (assignment) => assignment.role?.key === "admin" && assignment.status === RoleAssignmentStatus.ACTIVE
       );
       const hasAccountHolderRole = data.user?.roleAssignments?.some(
-        (assignment) => assignment.role?.key === "account-holder" && assignment.isActive
+        (assignment) => assignment.role?.key === "account-holder" && assignment.status === RoleAssignmentStatus.ACTIVE
       );
 
       if (hasAccountHolderRole && !hasAdminRole) {

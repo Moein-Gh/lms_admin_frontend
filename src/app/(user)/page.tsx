@@ -1,17 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-current-user";
 import { useTransactions } from "@/hooks/use-transaction";
+import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 import { CreateDepositDialog } from "./_components/create-deposit-dialog";
 import { NextPaymentSection } from "./_components/next-payment-section";
 import { TransactionCard } from "./_components/transaction-card";
 
 export default function UserDashboardPage() {
   const { data: user } = useAuth();
+  const router = useRouter();
+
+  const hasAdminRole = user?.roleAssignments?.some((assignment) => {
+    return assignment.role?.key === "admin" && assignment.status === RoleAssignmentStatus.ACTIVE;
+  });
 
   // Fetch last 3 transactions for the current user
   const { data: transactionsData, isLoading } = useTransactions({
@@ -26,23 +33,30 @@ export default function UserDashboardPage() {
         {/* Header */}
         <div className="space-y-2">
           <h1 className="text-2xl font-bold md:text-3xl">داشبورد</h1>
-          <p className="text-sm text-muted-foreground md:text-base">خوش آمدید {user?.identity.name}</p>
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-muted-foreground md:text-base">خوش آمدید {user?.identity.name}</p>
+            {hasAdminRole && (
+              <Button size="sm" variant="outline" onClick={() => router.push("/admin")}>
+                رفتن به داشبورد مدیریت
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Main Content */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* Summary Cards */}
-          <div className="rounded-lg border bg-card p-4 shadow-sm">
+          <div className="rounded-lg bg-card p-4 border">
             <h3 className="text-sm font-medium text-muted-foreground">کل حساب‌ها</h3>
             <p className="mt-2 text-2xl font-bold">-</p>
           </div>
 
-          <div className="rounded-lg border bg-card p-4 shadow-sm">
+          <div className="rounded-lg bg-card p-4 border">
             <h3 className="text-sm font-medium text-muted-foreground">کل وام‌ها</h3>
             <p className="mt-2 text-2xl font-bold">-</p>
           </div>
 
-          <div className="rounded-lg border bg-card p-4 shadow-sm md:col-span-2 lg:col-span-1">
+          <div className="rounded-lg bg-card p-4 border md:col-span-2 lg:col-span-1">
             <h3 className="text-sm font-medium text-muted-foreground">موجودی کل</h3>
             <p className="mt-2 text-2xl font-bold">-</p>
           </div>
@@ -62,7 +76,7 @@ export default function UserDashboardPage() {
           {isLoading && (
             <div className="space-y-3">
               {Array.from({ length: 3 }, (_, i) => (
-                <div key={`loading-skeleton-${i}`} className="h-24 rounded-lg border bg-card animate-pulse" />
+                <div key={`loading-skeleton-${i}`} className="h-24 rounded-lg bg-card animate-pulse" />
               ))}
             </div>
           )}

@@ -24,8 +24,8 @@ export function NavItem({ href, icon: Icon, title, isActive, onClick }: NavItemP
         <div className="relative flex w-full h-full flex-col items-center justify-center gap-1">
           <Icon className="size-6" />
 
-          {/* Label - desktop only */}
-          <span className="hidden md:block text-xs font-medium whitespace-nowrap">{title}</span>
+          {/* Label */}
+          <span className="text-xs font-medium whitespace-nowrap">{title}</span>
 
           {/* Active indicator pill */}
           {isActive && (

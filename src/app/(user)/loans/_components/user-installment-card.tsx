@@ -40,7 +40,7 @@ export function UserInstallmentCard({ installment }: { installment: Installment 
   const StatusIcon = status.icon;
 
   return (
-    <Card className="@container/installment-card py-1 transition-all hover:shadow-md">
+    <Card className="@container/installment-card py-1 ">
       <CardContent className="p-4">
         <div className="flex items-center gap-4">
           {/* Timeline indicator: hidden on mobile, visible at container >=400px */}

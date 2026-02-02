@@ -3,13 +3,14 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-current-user";
+import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 
 export default function UserDashboardPage() {
   const router = useRouter();
   const { data: user } = useAuth();
 
   const hasAdminRole = user?.roleAssignments?.some(
-    (assignment) => assignment.role?.key === "admin" && assignment.isActive
+    (assignment) => assignment.role?.key === "admin" && assignment.status === RoleAssignmentStatus.ACTIVE
   );
 
   return (

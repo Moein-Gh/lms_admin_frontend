@@ -35,7 +35,7 @@ export function TransactionCard({ transaction, showViewButton = true }: Transact
   const statusMeta = TRANSACTION_STATUS_BADGE[transaction.status];
 
   return (
-    <Card className="overflow-hidden border bg-card hover:shadow-md transition-shadow">
+    <Card className="overflow-hidden border bg-card ">
       <Link href={`/transactions/${transaction.id}`} className="block p-4">
         <div className="flex items-center justify-between gap-4">
           {/* Right: Icon and Details */}

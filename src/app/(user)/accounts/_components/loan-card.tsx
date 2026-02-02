@@ -24,7 +24,7 @@ export function LoanCard({ loan }: LoanCardProps) {
 
   return (
     <Link href={`/loans/${loan.id}?back=${encodeURIComponent(backUrl)}`}>
-      <Card className="p-4 hover:shadow-md transition-all hover:border-primary/50 cursor-pointer">
+      <Card className="p-4 transition-all hover:border-primary/50 cursor-pointer">
         <div className="flex items-center gap-3">
           <div className="flex-1 flex flex-col gap-3">
             {/* Top Row: All Badges */}

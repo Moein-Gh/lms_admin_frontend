@@ -38,7 +38,7 @@ export function PaymentItemRow({ item }: PaymentItemRowProps) {
       data-paid={isPaid}
       className={cn(
         "rounded-xl border-2 border-border/50 bg-card p-3 transition-all sm:p-4",
-        "hover:border-primary/30 hover:shadow-sm",
+        "hover:border-primary/30",
         "data-[paid=true]:opacity-70 data-[paid=true]:hover:opacity-90"
       )}
     >

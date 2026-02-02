@@ -48,7 +48,7 @@ export default function UserTransactionDetailPage() {
       </Button>
 
       {/* Transaction Info Card */}
-      <Card className="overflow-hidden border-none shadow-md bg-card py-0">
+      <Card className="overflow-hidden border-none bg-card py-0">
         <div className="flex flex-col md:flex-row">
           {/* Right Side: Details */}
           <div className="flex-1 p-6 space-y-8">

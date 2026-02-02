@@ -41,11 +41,11 @@ export interface EntitiesSummary {
 }
 
 export async function getFinancialSummary(params: FinancialSummaryParams): Promise<FinancialSummary> {
-  const response = await api.get<FinancialSummary>("/report/admin/summary", { params });
+  const response = await api.get<FinancialSummary>("/report/dashboard/summary", { params });
   return response.data;
 }
 export async function getEntitiesSummary(): Promise<EntitiesSummary> {
-  const response = await api.get<EntitiesSummary>("/report/admin/entities");
+  const response = await api.get<EntitiesSummary>("/report/dashboard/entities");
   return response.data;
 }
 

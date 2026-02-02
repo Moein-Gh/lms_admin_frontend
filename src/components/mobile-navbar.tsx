@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { MoreVertical, User, Moon, Sun, Settings, ArrowLeft, Bell } from "lucide-react";
+import { MoreVertical, User, Moon, Sun, Settings, ArrowLeft, Bell, Home as HomeIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
@@ -15,6 +15,7 @@ import { navbarItems, additionalNavbarItems } from "@/navigation/navbar/navbar-i
 import { setValueToCookie } from "@/server/server-actions";
 import { useNotificationsStore } from "@/stores/notifications/notifications-provider";
 import { usePreferencesStore } from "@/stores/preferences/preferences-provider";
+import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 
 export function MobileNavbar() {
   const pathname = usePathname();
@@ -151,6 +152,21 @@ export function MobileNavbar() {
                     <User className="size-5 text-foreground" />
                   </motion.div>
                 </Link>
+
+                {/* If user is an account-holder, show quick link to user dashboard/profile */}
+                {user?.roleAssignments?.some(
+                  (a) => a.role?.key === "account-holder" && a.status === RoleAssignmentStatus.ACTIVE
+                ) && (
+                  <Link href="/" onClick={() => setIsExpanded(false)} className="flex-1">
+                    <motion.div
+                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.05 }}
+                      className="flex aspect-square w-full items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
+                    >
+                      <HomeIcon className="size-5 text-foreground" />
+                    </motion.div>
+                  </Link>
+                )}
 
                 {/* Messages */}
                 <Link href="/admin/messages" onClick={() => setIsExpanded(false)} className="flex-1">

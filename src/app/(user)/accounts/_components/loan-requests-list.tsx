@@ -57,7 +57,7 @@ export function LoanRequestsList({ accountId }: LoanRequestsListProps) {
           const isConverted = request.status === LoanRequestStatus.CONVERTED;
 
           return (
-            <Card key={request.id} className="p-4 hover:shadow-md transition-shadow">
+            <Card key={request.id} className="p-4 ">
               <div className="flex flex-col gap-3">
                 {/* Top Row: All Badges */}
                 <div className="flex items-center justify-between gap-2">

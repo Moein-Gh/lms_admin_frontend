@@ -17,7 +17,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { useRequestSms, useVerifySms } from "@/hooks/use-auth";
+import { getMe } from "@/lib/user-api";
 import type { ProblemDetails } from "@/types/api";
+import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 
 const PhoneSchema = z.object({
   phone: z
@@ -123,8 +125,35 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
         purpose: "login"
       },
       {
-        onSuccess: () => {
-          router.push("/admin");
+        onSuccess: async () => {
+          try {
+            const user = await getMe();
+
+            const hasAccountHolder = user.roleAssignments?.some(
+              (assignment) =>
+                assignment.role?.key === "account-holder" && assignment.status === RoleAssignmentStatus.ACTIVE
+            );
+
+            if (hasAccountHolder) {
+              router.push("/");
+              return;
+            }
+
+            const hasAdmin = user.roleAssignments?.some(
+              (assignment) => assignment.role?.key === "admin" && assignment.status === RoleAssignmentStatus.ACTIVE
+            );
+
+            if (hasAdmin) {
+              router.push("/admin");
+              return;
+            }
+
+            // fallback to user dashboard
+            router.push("/");
+          } catch (err) {
+            // If fetching user fails, fall back to admin route (legacy behavior)
+            router.push("/admin");
+          }
         },
         onError: (error: Error) => {
           const axiosError = error as AxiosError<ProblemDetails>;
