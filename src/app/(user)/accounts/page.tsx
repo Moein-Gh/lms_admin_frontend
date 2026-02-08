@@ -4,8 +4,8 @@ import { useState } from "react";
 import { IdCard, Wallet } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAccounts } from "@/hooks/admin/use-account";
 import { useAuth } from "@/hooks/admin/use-current-user";
+import { useUserAccounts } from "@/hooks/user/use-account";
 import { AccountTabs } from "./_components/account-tabs";
 import { BankCard } from "./_components/bank-card";
 
@@ -13,7 +13,7 @@ export default function UserAccountsPage() {
   const { data: user } = useAuth();
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
 
-  const { data: accountsData, isLoading } = useAccounts({ userId: user?.id }, { enabled: !!user?.id });
+  const { data: accountsData, isLoading } = useUserAccounts({ userId: user?.id }, { enabled: !!user?.id });
 
   const accounts = accountsData?.data ?? [];
 

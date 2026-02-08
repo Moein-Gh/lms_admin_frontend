@@ -8,8 +8,8 @@ import { PaginationControls } from "@/components/pagination-controls";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLoanRequests } from "@/hooks/admin/use-loan-request";
 import { usePagination } from "@/hooks/general/use-pagination";
+import { useUserLoanRequests } from "@/hooks/user/use-loan-request";
 import { cn } from "@/lib/utils";
 import { LoanRequestStatus, LoanRequestStatusLabels } from "@/types/entities/loan-request.type";
 
@@ -20,7 +20,7 @@ interface LoanRequestsListProps {
 export function LoanRequestsList({ accountId }: LoanRequestsListProps) {
   const pagination = usePagination({ initialPage: 1, initialPageSize: 10 });
 
-  const { data, isLoading } = useLoanRequests({
+  const { data, isLoading } = useUserLoanRequests({
     page: pagination.page,
     pageSize: pagination.pageSize,
     accountId

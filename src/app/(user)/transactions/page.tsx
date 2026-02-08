@@ -3,8 +3,8 @@
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { PaginationControls } from "@/components/pagination-controls";
 import { useAuth } from "@/hooks/admin/use-current-user";
-import { useTransactions } from "@/hooks/admin/use-transaction";
 import { usePagination } from "@/hooks/general/use-pagination";
+import { useUserTransactions } from "@/hooks/user/use-transaction";
 import { TransactionCard } from "../_components/transaction-card";
 
 export default function UserTransactionsPage() {
@@ -12,7 +12,7 @@ export default function UserTransactionsPage() {
   const { data: user } = useAuth();
 
   // Get current user's transactions only
-  const { data, isLoading, error } = useTransactions({
+  const { data, isLoading, error } = useUserTransactions({
     page: pagination.page,
     pageSize: pagination.pageSize,
     userId: user?.id

@@ -7,13 +7,13 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useTransaction } from "@/hooks/admin/use-transaction";
+import { useUserTransaction } from "@/hooks/user/use-transaction";
 import { TRANSACTION_KIND_META, TRANSACTION_STATUS_BADGE } from "@/types/entities/transaction.type";
 
 export default function UserTransactionDetailPage() {
   const { transactionId } = useParams();
   const router = useRouter();
-  const { data: transaction, isLoading, error } = useTransaction(transactionId as string);
+  const { data: transaction, isLoading, error } = useUserTransaction(transactionId as string);
 
   if (isLoading) {
     return (

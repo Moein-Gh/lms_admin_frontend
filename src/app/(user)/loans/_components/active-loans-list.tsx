@@ -6,21 +6,18 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { PaginationControls } from "@/components/pagination-controls";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/hooks/admin/use-current-user";
-import { useLoans } from "@/hooks/admin/use-loan";
 import { usePagination } from "@/hooks/general/use-pagination";
+import { useUserLoans } from "@/hooks/user/use-loan";
 import { LoanStatus } from "@/types/entities/loan.type";
 import { ActiveLoanCard } from "./active-loan-card";
 
 export function ActiveLoansList() {
-  const { data: user } = useAuth();
   const pagination = usePagination({ initialPage: 1, initialPageSize: 10 });
 
-  const { data, isLoading } = useLoans({
+  const { data, isLoading } = useUserLoans({
     page: pagination.page,
     pageSize: pagination.pageSize,
-    status: LoanStatus.ACTIVE,
-    userId: user?.id
+    status: LoanStatus.ACTIVE
   });
 
   if (isLoading) {
@@ -40,7 +37,7 @@ export function ActiveLoansList() {
         <EmptyStateCard
           icon={<FileText className="size-10" />}
           title="هیچ وام فعالی یافت نشد"
-          description="شما در حال حاضر وام فعالی ندارید."
+          description="شما در حال حاضر وام فعالی ندارید"
         />
       </div>
     );

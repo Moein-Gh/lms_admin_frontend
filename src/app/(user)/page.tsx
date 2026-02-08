@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/admin/use-current-user";
-import { useTransactions } from "@/hooks/admin/use-transaction";
+import { useUserTransactions } from "@/hooks/user/use-transaction";
 import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 import { CreateDepositDialog } from "./_components/create-deposit-dialog";
 import { NextPaymentSection } from "./_components/next-payment-section";
@@ -21,7 +21,7 @@ export default function UserDashboardPage() {
   });
 
   // Fetch last 3 transactions for the current user
-  const { data: transactionsData, isLoading } = useTransactions({
+  const { data: transactionsData, isLoading } = useUserTransactions({
     page: 1,
     pageSize: 3,
     userId: user?.id

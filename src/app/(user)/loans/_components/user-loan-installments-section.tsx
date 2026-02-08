@@ -1,6 +1,6 @@
 "use client";
 
-import { useInstallments } from "@/hooks/admin/use-installment";
+import { useUserInstallments } from "@/hooks/user/use-installment";
 import { OrderDirection } from "@/types/api";
 import { Installment } from "@/types/entities/installment.type";
 import { UserInstallmentCard } from "./user-installment-card";
@@ -10,7 +10,7 @@ export function UserLoanInstallmentsSection({ loanId }: { loanId: string }) {
     data: installments,
     isLoading,
     error
-  } = useInstallments({
+  } = useUserInstallments({
     loanId,
     orderBy: "dueDate",
     orderDir: OrderDirection.ASC

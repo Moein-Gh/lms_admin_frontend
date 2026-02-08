@@ -5,8 +5,6 @@ import {
   deleteUser,
   getMe,
   getUserById,
-  getUserPaymentSummary,
-  getUserUpcomingPayments,
   listUsers,
   registerUser,
   updateUser,
@@ -15,6 +13,7 @@ import {
   type RegisterUserInput,
   type UpdateUserRequest
 } from "@/lib/admin-APIs/user-api";
+import { getUserUpcomingPayments } from "@/lib/user-APIs/user-api";
 import type { GetUpcomingPaymentsQueryDto } from "@/types/entities/payment.type";
 import { User, UserStatus } from "@/types/entities/user.type";
 
@@ -195,29 +194,6 @@ export function useUserUpcomingPayments(
   return useQuery({
     queryKey: userKeys.upcomingPayments(userId, params),
     queryFn: () => getUserUpcomingPayments(userId, params),
-    enabled: !!userId,
-    ...options
-  });
-}
-
-/**
- * Hook to fetch user's payment summary
- */
-export function useUserPaymentSummary(
-  userId: string,
-  options?: Omit<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof getUserPaymentSummary>>,
-      Error,
-      Awaited<ReturnType<typeof getUserPaymentSummary>>,
-      ReturnType<typeof userKeys.paymentSummary>
-    >,
-    "queryKey" | "queryFn"
-  >
-) {
-  return useQuery({
-    queryKey: userKeys.paymentSummary(userId),
-    queryFn: () => getUserPaymentSummary(userId),
     enabled: !!userId,
     ...options
   });

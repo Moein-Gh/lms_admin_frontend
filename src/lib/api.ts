@@ -66,20 +66,7 @@ api.interceptors.response.use(
 
     // Global handling for Forbidden (RBAC) responses
     if (error.response?.status === 403) {
-      try {
-        const data = error.response.data as any;
-        const message = data?.detail ?? data?.title ?? "دسترسی غیرمجاز";
-        if (typeof window !== "undefined") {
-          toast.error(message);
-          // Go back one page instead of forcing navigation to a specific route
-          window.history.back();
-        }
-      } catch (e) {
-        if (typeof window !== "undefined") {
-          toast.error("دسترسی غیرمجاز");
-          window.history.back();
-        }
-      }
+      // Intentionally do nothing on 403 per user preference.
       return Promise.reject(error);
     }
 

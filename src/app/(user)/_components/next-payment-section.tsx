@@ -7,13 +7,11 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/hooks/admin/use-current-user";
-import { useUserPaymentSummary } from "@/hooks/admin/use-user";
+import { useUserPaymentSummary } from "@/hooks/user/use-dashboard";
 import { cn } from "@/lib/utils";
 
 export function NextPaymentSection() {
-  const { data: user } = useAuth();
-  const { data, isLoading } = useUserPaymentSummary(user?.id ?? "");
+  const { data, isLoading } = useUserPaymentSummary();
 
   if (isLoading) {
     return (

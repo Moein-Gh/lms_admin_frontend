@@ -1,10 +1,6 @@
 import { PaginatedResponseDto, PaginationParams } from "@/types/api";
 import { Identity } from "@/types/entities/identity.type";
-import {
-  GetUpcomingPaymentsQueryDto,
-  PaymentSummaryDto,
-  UpcomingPaymentsResponseDto
-} from "@/types/entities/payment.type";
+import { GetUpcomingPaymentsQueryDto, UpcomingPaymentsResponseDto } from "@/types/entities/payment.type";
 import { User, UserStatus } from "@/types/entities/user.type";
 
 import api from "../api";
@@ -102,23 +98,12 @@ export async function deleteUser(userId: string): Promise<void> {
   await api.delete(`/admin/users/${userId}`);
 }
 
-/**
- * Get user's upcoming payments
- */
-export async function getUserUpcomingPayments(
+export async function getUpcomingPayments(
   userId: string,
   params?: GetUpcomingPaymentsQueryDto
 ): Promise<UpcomingPaymentsResponseDto> {
   const response = await api.get<UpcomingPaymentsResponseDto>(`/admin/users/${userId}/upcoming-payments`, {
     params
   });
-  return response.data;
-}
-
-/**
- * Get user's payment summary
- */
-export async function getUserPaymentSummary(userId: string): Promise<PaymentSummaryDto> {
-  const response = await api.get<PaymentSummaryDto>(`/admin/users/${userId}/payment-summary`);
   return response.data;
 }

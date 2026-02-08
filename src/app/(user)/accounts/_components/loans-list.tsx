@@ -4,8 +4,8 @@ import { FileText } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { PaginationControls } from "@/components/pagination-controls";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLoans } from "@/hooks/admin/use-loan";
 import { usePagination } from "@/hooks/general/use-pagination";
+import { useUserLoans } from "@/hooks/user/use-loan";
 import { LoanCard } from "./loan-card";
 
 interface LoansListProps {
@@ -15,7 +15,7 @@ interface LoansListProps {
 export function LoansList({ accountId }: LoansListProps) {
   const pagination = usePagination({ initialPage: 1, initialPageSize: 10 });
 
-  const { data, isLoading } = useLoans({
+  const { data, isLoading } = useUserLoans({
     page: pagination.page,
     pageSize: pagination.pageSize,
     accountId
