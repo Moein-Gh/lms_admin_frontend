@@ -2,7 +2,7 @@
 
 import { LayoutGrid } from "lucide-react";
 
-import { useEntitiesSummary } from "@/hooks/use-report";
+import { useEntitiesSummary } from "@/hooks/admin/use-report";
 
 import { AccountsSummaryCard } from "./_components/accounts-summary-card";
 import { EntitySummaryError } from "./_components/entity-summary-error";

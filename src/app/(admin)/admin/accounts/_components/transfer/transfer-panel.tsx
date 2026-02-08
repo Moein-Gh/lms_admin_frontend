@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
-import { useAccounts } from "@/hooks/use-account";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useCreateTransfer } from "@/hooks/use-transaction";
+import { useAccounts } from "@/hooks/admin/use-account";
+import { useCreateTransfer } from "@/hooks/admin/use-transaction";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import type { Account } from "@/types/entities/account.type";
 
 type TransferPanelProps = {

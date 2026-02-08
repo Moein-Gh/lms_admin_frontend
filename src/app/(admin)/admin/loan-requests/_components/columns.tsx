@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useApproveLoanRequest, useDeleteLoanRequest, useRejectLoanRequest } from "@/hooks/use-loan-request";
+import { useApproveLoanRequest, useDeleteLoanRequest, useRejectLoanRequest } from "@/hooks/admin/use-loan-request";
 import { LoanRequest, LoanRequestStatus, LoanRequestStatusLabels } from "@/types/entities/loan-request.type";
 
 import { EditLoanRequestNoteDialog } from "./edit-loan-request-note-dialog";

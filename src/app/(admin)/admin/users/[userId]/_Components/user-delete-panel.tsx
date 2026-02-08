@@ -10,7 +10,7 @@ import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useDeleteUser } from "@/hooks/use-user";
+import { useDeleteUser } from "@/hooks/admin/use-user";
 import { RequestError } from "@/types/error";
 import RoleAssignmentDialog from "./role-assignment-dialog";
 

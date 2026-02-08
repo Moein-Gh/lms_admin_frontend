@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { JournalForTransaction } from "@/components/journal/journal-for-transaction";
-import { useTransaction } from "@/hooks/use-transaction";
+import { useTransaction } from "@/hooks/admin/use-transaction";
 import { TransactionInfoCard } from "../_components/transaction-info-card";
 
 export default function TransactionDetailPage() {

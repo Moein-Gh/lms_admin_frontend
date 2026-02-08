@@ -6,9 +6,9 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { PaginationControls } from "@/components/pagination-controls";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/hooks/use-current-user";
-import { useLoans } from "@/hooks/use-loan";
-import { usePagination } from "@/hooks/use-pagination";
+import { useAuth } from "@/hooks/admin/use-current-user";
+import { useLoans } from "@/hooks/admin/use-loan";
+import { usePagination } from "@/hooks/general/use-pagination";
 import { LoanStatus } from "@/types/entities/loan.type";
 import { ActiveLoanCard } from "./active-loan-card";
 

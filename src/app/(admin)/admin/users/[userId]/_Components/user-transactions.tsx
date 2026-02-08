@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useTransactions } from "@/hooks/use-transaction";
+import { useTransactions } from "@/hooks/admin/use-transaction";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { cn } from "@/lib/utils";
 import { Transaction, TransactionKind, TransactionStatus } from "@/types/entities/transaction.type";

@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { CreditCard, FileText, HandCoins, Receipt, Tag } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useUser } from "@/hooks/use-user";
+import { useUser } from "@/hooks/admin/use-user";
 
 import { AccountCharts } from "./_Components/account-charts";
 import LoanCharts from "./_Components/loan-charts";

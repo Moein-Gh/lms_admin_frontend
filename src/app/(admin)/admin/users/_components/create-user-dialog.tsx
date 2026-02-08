@@ -20,9 +20,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useRoles } from "@/hooks/use-role";
-import { useCreateUser } from "@/hooks/use-user";
+import { useRoles } from "@/hooks/admin/use-role";
+import { useCreateUser } from "@/hooks/admin/use-user";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 
 export function CreateUserDialog() {
   const [open, setOpen] = useState(false);

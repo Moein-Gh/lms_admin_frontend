@@ -3,8 +3,8 @@
 import { TrendingUp, Wallet, CalendarClock } from "lucide-react";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Card } from "@/components/ui/card";
-import { useAuth } from "@/hooks/use-current-user";
-import { useLoans } from "@/hooks/use-loan";
+import { useAuth } from "@/hooks/admin/use-current-user";
+import { useLoans } from "@/hooks/admin/use-loan";
 import { LoanStatus } from "@/types/entities/loan.type";
 
 export function LoansSummary() {

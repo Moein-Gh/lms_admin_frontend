@@ -12,9 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DialogTitle } from "@/components/ui/dialog";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { useJournals } from "@/hooks/use-journal";
-import { useDeleteJournalEntry } from "@/hooks/use-journal-entries";
-import { transactionKeys } from "@/hooks/use-transaction";
+import { useJournals } from "@/hooks/admin/use-journal";
+import { useDeleteJournalEntry } from "@/hooks/admin/use-journal-entries";
+import { transactionKeys } from "@/hooks/admin/use-transaction";
 import { type JournalEntry, DEBIT_CREDIT_META } from "@/types/entities/journal-entry.type";
 import type { Journal, JournalStatus } from "@/types/entities/journal.type";
 

@@ -3,9 +3,9 @@
 import * as React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { useCreateMultipleJournalEntries } from "@/hooks/use-journal-entries";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { transactionKeys } from "@/hooks/use-transaction";
+import { useCreateMultipleJournalEntries } from "@/hooks/admin/use-journal-entries";
+import { transactionKeys } from "@/hooks/admin/use-transaction";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { AllocationType, JournalEntryTarget } from "@/types/entities/journal-entry.type";
 import type { Journal } from "@/types/entities/journal.type";
 import { AccountBalanceAmountStep } from "./account-balance-amount-step";

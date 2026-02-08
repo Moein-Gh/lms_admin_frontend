@@ -3,7 +3,7 @@
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLoan } from "@/hooks/use-loan";
+import { useLoan } from "@/hooks/admin/use-loan";
 import { UserLoanInfoCard } from "../_components/user-loan-info-card";
 import { UserLoanInstallmentsSection } from "../_components/user-loan-installments-section";
 

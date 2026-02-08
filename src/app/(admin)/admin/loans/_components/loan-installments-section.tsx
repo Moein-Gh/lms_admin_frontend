@@ -1,4 +1,4 @@
-import { useInstallments } from "@/hooks/use-installment";
+import { useInstallments } from "@/hooks/admin/use-installment";
 import { OrderDirection } from "@/types/api";
 import { Installment } from "@/types/entities/installment.type";
 import { InstallmentCard } from "./installment-card";

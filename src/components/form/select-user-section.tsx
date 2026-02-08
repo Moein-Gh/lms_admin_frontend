@@ -1,6 +1,6 @@
 import { ComboboxFilter } from "@/components/filters/combobox-filter";
 import { Label } from "@/components/ui/label";
-import { useUsers } from "@/hooks/use-user";
+import { useUsers } from "@/hooks/admin/use-user";
 
 type UserItem = { id: string; name: string };
 type Props = {

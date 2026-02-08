@@ -1,7 +1,7 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLoanTypes } from "@/hooks/use-loan-type";
+import { useLoanTypes } from "@/hooks/admin/use-loan-type";
 import { LoanTypeDesktopCard } from "./loan-type-desktop-card";
 
 export function LoanTypeDesktopList() {

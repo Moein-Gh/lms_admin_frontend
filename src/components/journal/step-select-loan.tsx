@@ -1,7 +1,7 @@
 import { LandmarkIcon } from "lucide-react";
 import LoanCardSelectable from "@/components/entity-specific/loan/loan-card-selectable";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
-import { useLoans } from "@/hooks/use-loan";
+import { useLoans } from "@/hooks/admin/use-loan";
 import { LoanStatus } from "@/types/entities/loan.type";
 
 export function StepSelectLoan({

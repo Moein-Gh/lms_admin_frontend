@@ -16,8 +16,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 // Replaced OTP component with a simple input for reliability
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { useRequestSms, useVerifySms } from "@/hooks/use-auth";
-import { getMe } from "@/lib/user-api";
+import { useRequestSms, useVerifySms } from "@/hooks/auth/use-auth";
+import { getMe } from "@/lib/admin-APIs/user-api";
 import type { ProblemDetails } from "@/types/api";
 import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 

@@ -4,8 +4,8 @@ import { useState } from "react";
 import { IdCard, Wallet } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAccounts } from "@/hooks/use-account";
-import { useAuth } from "@/hooks/use-current-user";
+import { useAccounts } from "@/hooks/admin/use-account";
+import { useAuth } from "@/hooks/admin/use-current-user";
 import { AccountTabs } from "./_components/account-tabs";
 import { BankCard } from "./_components/bank-card";
 

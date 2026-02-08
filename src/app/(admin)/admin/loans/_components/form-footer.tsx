@@ -1,6 +1,6 @@
 import type { UseMutationResult } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import type { CreateLoanRequest } from "@/lib/loan-api";
+import type { CreateLoanRequest } from "@/lib/admin-APIs/loan-api";
 import type { Loan } from "@/types/entities/loan.type";
 
 type FormFooterProps = {

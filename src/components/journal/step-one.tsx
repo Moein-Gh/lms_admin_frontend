@@ -3,7 +3,7 @@ import { ComboboxFilter } from "@/components/filters/combobox-filter";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { Pills } from "@/components/ui/pills";
 import { Separator } from "@/components/ui/separator";
-import { useUsers } from "@/hooks/use-user";
+import { useUsers } from "@/hooks/admin/use-user";
 import { AllocationType } from "@/types/entities/journal-entry.type";
 import { StepSelectAccount } from "./step-select-account";
 

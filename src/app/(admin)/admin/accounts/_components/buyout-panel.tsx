@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { useBuyOutAccount } from "@/hooks/use-account";
+import { useBuyOutAccount } from "@/hooks/admin/use-account";
 
 type BuyoutPanelProps = {
   open: boolean;

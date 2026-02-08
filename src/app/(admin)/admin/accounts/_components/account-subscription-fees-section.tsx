@@ -1,4 +1,4 @@
-import { useSubscriptionFees } from "@/hooks/use-subscription-fee";
+import { useSubscriptionFees } from "@/hooks/admin/use-subscription-fee";
 import { OrderDirection } from "@/types/api";
 import { SubscriptionFeeCard } from "./subscription-fee-card";
 

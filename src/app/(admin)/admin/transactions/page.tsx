@@ -4,9 +4,9 @@ import { useSearchParams } from "next/navigation";
 
 import { EntityFilter } from "@/components/filters";
 import { PaginationControls } from "@/components/pagination-controls";
-import { usePagination } from "@/hooks/use-pagination";
-import { useTransactions } from "@/hooks/use-transaction";
-import { useUsers } from "@/hooks/use-user";
+import { useTransactions } from "@/hooks/admin/use-transaction";
+import { useUsers } from "@/hooks/admin/use-user";
+import { usePagination } from "@/hooks/general/use-pagination";
 import { TransactionKind, TransactionStatus } from "@/types/entities/transaction.type";
 import {
   dateRangeToISO,

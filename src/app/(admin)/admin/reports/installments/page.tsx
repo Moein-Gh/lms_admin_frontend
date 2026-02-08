@@ -1,7 +1,7 @@
 "use client";
 
-import { usePagination } from "@/hooks/use-pagination";
-import { useInstallmentProjection } from "@/hooks/use-report";
+import { useInstallmentProjection } from "@/hooks/admin/use-report";
+import { usePagination } from "@/hooks/general/use-pagination";
 
 import { InstallmentDetailsTabs } from "./_components/installment-details-tabs";
 import { InstallmentProjectionHeader } from "./_components/installment-projection-header";

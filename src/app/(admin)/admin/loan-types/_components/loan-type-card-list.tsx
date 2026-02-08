@@ -22,7 +22,7 @@ import {
   type DataCardConfig
 } from "@/components/ui/data-card";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import { useDeleteLoanType, useLoanTypes } from "@/hooks/use-loan-type";
+import { useDeleteLoanType, useLoanTypes } from "@/hooks/admin/use-loan-type";
 import { LoanType } from "@/types/entities/loan-type.type";
 import { LoanTypeForm } from "./loan-type-form";
 

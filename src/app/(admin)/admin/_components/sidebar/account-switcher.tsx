@@ -12,8 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useLogout } from "@/hooks/use-auth";
-import { useMe } from "@/hooks/use-user";
+import { useMe } from "@/hooks/admin/use-user";
+import { useLogout } from "@/hooks/auth/use-auth";
 
 export function AccountSwitcher() {
   const { data: user } = useMe();

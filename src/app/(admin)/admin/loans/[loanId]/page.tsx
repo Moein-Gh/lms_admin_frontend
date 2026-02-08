@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useLoan } from "@/hooks/use-loan";
+import { useLoan } from "@/hooks/admin/use-loan";
 import { LoanInfoCard } from "../_components/loan-info-card";
 import { LoanInstallmentsSection } from "../_components/loan-installments-section";
 

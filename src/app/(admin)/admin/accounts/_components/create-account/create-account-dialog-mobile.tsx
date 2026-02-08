@@ -11,7 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger
 } from "@/components/ui/drawer";
-import { CreateAccountRequest } from "@/lib/account-api";
+import { CreateAccountRequest } from "@/lib/admin-APIs/account-api";
 import { Account } from "@/types/entities/account.type";
 
 type CreateAccountDialogMobileProps = {

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { cn } from "@/lib/utils";
 
 export type ResponsivePanelProps = {

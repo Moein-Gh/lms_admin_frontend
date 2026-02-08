@@ -9,10 +9,10 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateLoanRequest } from "@/hooks/use-loan-request";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useUpdateLoanRequest } from "@/hooks/admin/use-loan-request";
+import { useIsMobile } from "@/hooks/general/use-mobile";
+import type { UpdateLoanRequestDto } from "@/lib/admin-APIs/loan-request-api";
 import { getApiErrorMessage } from "@/lib/api-error";
-import type { UpdateLoanRequestDto } from "@/lib/loan-request-api";
 import { LoanRequest } from "@/types/entities/loan-request.type";
 
 type EditLoanRequestNoteDialogProps = {

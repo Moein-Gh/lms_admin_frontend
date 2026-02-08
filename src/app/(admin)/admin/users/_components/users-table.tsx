@@ -6,7 +6,7 @@ import { DataTable } from "@/components/data-table/data-table";
 import { ActiveFilters, type EntityFilterConfig } from "@/components/filters";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useServerDataTable } from "@/hooks/use-server-data-table";
+import { useServerDataTable } from "@/hooks/general/use-server-data-table";
 import { PaginatedResponseDto } from "@/types/api";
 import { User } from "@/types/entities/user.type";
 import { columns } from "./columns";

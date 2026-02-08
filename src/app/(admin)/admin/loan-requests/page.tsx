@@ -4,9 +4,9 @@ import * as React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { EntityFilterTrigger } from "@/components/filters";
 import { PaginationControls } from "@/components/pagination-controls";
-import { useLoanRequests } from "@/hooks/use-loan-request";
-import { usePagination } from "@/hooks/use-pagination";
-import { useUsers } from "@/hooks/use-user";
+import { useLoanRequests } from "@/hooks/admin/use-loan-request";
+import { useUsers } from "@/hooks/admin/use-user";
+import { usePagination } from "@/hooks/general/use-pagination";
 import { OrderDirection } from "@/types/api";
 import { LoanRequestStatus } from "@/types/entities/loan-request.type";
 

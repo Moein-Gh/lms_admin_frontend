@@ -9,7 +9,7 @@ import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useDeleteLoan } from "@/hooks/use-loan";
+import { useDeleteLoan } from "@/hooks/admin/use-loan";
 import type { Loan } from "@/types/entities/loan.type";
 
 export function LoanDeletePanel({ loan, onDelete }: { loan: Loan; onDelete?: (id: string) => Promise<void> | void }) {

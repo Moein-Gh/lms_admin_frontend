@@ -16,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart";
-import { useAccounts } from "@/hooks/use-account";
+import { useAccounts } from "@/hooks/admin/use-account";
 import { AccountBalanceSummary } from "@/types/entities/account-balance.type";
 
 type AccountChartsProps = {

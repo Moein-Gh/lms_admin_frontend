@@ -16,8 +16,8 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart";
-import { loanKeys } from "@/hooks/use-loan";
-import { getLoanById } from "@/lib/loan-api";
+import { loanKeys } from "@/hooks/admin/use-loan";
+import { getLoanById } from "@/lib/admin-APIs/loan-api";
 import { LoanBalanceSummary } from "@/types/entities/loan-balane.type";
 
 type LoanChartsProps = {

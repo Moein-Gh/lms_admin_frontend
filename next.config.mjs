@@ -18,9 +18,18 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        // 1. When the frontend requests /api/auth/login...
+        // Admin routes: /api/admin/* -> YOUR_BACKEND_URL/admin/*
+        source: "/api/admin/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/:path*`
+      },
+      {
+        // User routes: /api/user/* -> YOUR_BACKEND_URL/user/*
+        source: "/api/user/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/:path*`
+      },
+      {
+        // Other routes (e.g., /api/auth/*) -> YOUR_BACKEND_URL/*
         source: "/api/:path*",
-        // 2. Next.js forwards it to YOUR_BACKEND_URL/auth/login
         destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`
       }
     ];

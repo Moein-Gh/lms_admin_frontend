@@ -1,8 +1,8 @@
 "use client";
 
 import { PaginationControls } from "@/components/pagination-controls";
-import { usePagination } from "@/hooks/use-pagination";
-import { useTransactions } from "@/hooks/use-transaction";
+import { useTransactions } from "@/hooks/admin/use-transaction";
+import { usePagination } from "@/hooks/general/use-pagination";
 
 import { transactionFilterConfig, TransactionFilters } from "../../transactions/_components/transaction-filter-config";
 import { TransactionsTable } from "../../transactions/_components/transaction-table";

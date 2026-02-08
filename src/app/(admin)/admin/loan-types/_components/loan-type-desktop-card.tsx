@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { useDeleteLoanType } from "@/hooks/use-loan-type";
+import { useDeleteLoanType } from "@/hooks/admin/use-loan-type";
 import { LoanType } from "@/types/entities/loan-type.type";
 import { LoanTypeForm } from "./loan-type-form";
 

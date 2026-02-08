@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
 import { NavItem } from "@/components/nav-item";
-import { useMe } from "@/hooks/use-user";
+import { useMe } from "@/hooks/admin/use-user";
 import { formatPersianDate } from "@/lib/date-service";
 import { updateThemeMode } from "@/lib/theme-utils";
 import { setValueToCookie } from "@/server/server-actions";

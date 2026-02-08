@@ -6,8 +6,8 @@ import { CalendarHijri } from "@/components/ui/calendar-hijri";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import type { CreateLoanRequestDto } from "@/lib/admin-APIs/loan-request-api";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
-import type { CreateLoanRequestDto } from "@/lib/loan-request-api";
 
 type StepLoanRequestFieldsProps = {
   setValue: UseFormSetValue<CreateLoanRequestDto>;

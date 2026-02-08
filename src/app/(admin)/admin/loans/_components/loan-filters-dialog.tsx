@@ -26,9 +26,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useLoanTypes } from "@/hooks/use-loan-type";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useUsers } from "@/hooks/use-user";
+import { useLoanTypes } from "@/hooks/admin/use-loan-type";
+import { useUsers } from "@/hooks/admin/use-user";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { LoanStatus } from "@/types/entities/loan.type";
 
 export interface LoanFilters {

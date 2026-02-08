@@ -43,16 +43,18 @@ const clearAuthAndRedirect = () => {
 
   if (typeof window !== "undefined") {
     // Optional: You could try to fire a "fire and forget" logout call here
-    // api.post('/auth/logout').catch(() => {});
+    // api.post('admin/auth/logout').catch(() => {});
 
-    window.location.href = "/auth/login";
+    window.location.href = "/admin/auth/login";
   }
 };
 
 const isAuthEndpoint = (url?: string) => {
   if (!url) return false;
   // Ensure these match your actual endpoints relative to /api
-  return url.includes("/auth/refresh") || url.includes("/auth/login") || url.includes("/auth/verify-sms");
+  return (
+    url.includes("/admin/auth/refresh") || url.includes("/admin/auth/login") || url.includes("/admin/auth/verify-sms")
+  );
 };
 
 api.interceptors.response.use(
@@ -108,8 +110,8 @@ api.interceptors.response.use(
 
     try {
       // The browser automatically includes the cookie in this request
-      // because we are hitting '/api/auth/refresh' (Same-Origin)
-      const refreshResponse = await api.post<AuthResponse>("/auth/refresh");
+      // because we are hitting '/apiadmin/auth/refresh' (Same-Origin)
+      const refreshResponse = await api.post<AuthResponse>("/admin/auth/refresh");
 
       // Handle notification state from refresh response
       if (refreshResponse.data?.hasUnreadPushNotifications !== undefined) {

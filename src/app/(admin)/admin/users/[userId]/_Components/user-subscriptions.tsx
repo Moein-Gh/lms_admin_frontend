@@ -1,7 +1,7 @@
 "use client";
 
 import NoSubscriptionFeeCard from "@/components/entity-specific/subscription-fee/no-subscription-fee-card";
-import { useSubscriptionFees } from "@/hooks/use-subscription-fee";
+import { useSubscriptionFees } from "@/hooks/admin/use-subscription-fee";
 import { OrderDirection } from "@/types/api";
 import { SubscriptionFeeStatus } from "@/types/entities/subscription-fee.type";
 import { SubscriptionFeeCard } from "../../../accounts/_components/subscription-fee-card";

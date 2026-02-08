@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useCreateLoan } from "@/hooks/use-loan";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { listAccounts } from "@/lib/account-api";
-import { listLoanTypes } from "@/lib/loan-type-api";
+import { useCreateLoan } from "@/hooks/admin/use-loan";
+import { useIsMobile } from "@/hooks/general/use-mobile";
+import { listAccounts } from "@/lib/admin-APIs/account-api";
+import { listLoanTypes } from "@/lib/admin-APIs/loan-type-api";
 import { CreateLoanDialogDesktop } from "./create-loan-dialog-desktop";
 import { CreateLoanDialogMobile } from "./create-loan-dialog-mobile";
 import { CreateLoanForm } from "./create-loan-form";

@@ -2,9 +2,9 @@
 
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { PaginationControls } from "@/components/pagination-controls";
-import { useAuth } from "@/hooks/use-current-user";
-import { usePagination } from "@/hooks/use-pagination";
-import { useTransactions } from "@/hooks/use-transaction";
+import { useAuth } from "@/hooks/admin/use-current-user";
+import { useTransactions } from "@/hooks/admin/use-transaction";
+import { usePagination } from "@/hooks/general/use-pagination";
 import { TransactionCard } from "../_components/transaction-card";
 
 export default function UserTransactionsPage() {

@@ -2,7 +2,7 @@
 
 import NoAccountCard from "@/components/entity-specific/account/no-account-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAccounts } from "@/hooks/use-account";
+import { useAccounts } from "@/hooks/admin/use-account";
 import { AccountCardsDesign } from "./account-designs/account-card";
 
 type UserAccountsProps = {

@@ -28,8 +28,8 @@ import {
   DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useActivateAccount } from "@/hooks/use-account";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useActivateAccount } from "@/hooks/admin/use-account";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { AccountStatus, AccountStatusLabels, type Account } from "@/types/entities/account.type";
 import BuyoutPanel from "./buyout-panel";

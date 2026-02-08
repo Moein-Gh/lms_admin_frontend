@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { useUpdateTransaction } from "@/hooks/use-transaction";
+import { useUpdateTransaction } from "@/hooks/admin/use-transaction";
 import type { Transaction } from "@/types/entities/transaction.type";
 
 export function TransactionUpdatePanel({ transaction }: { transaction: Transaction }) {

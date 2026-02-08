@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useLoans } from "@/hooks/use-loan";
+import { useLoans } from "@/hooks/admin/use-loan";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { cn } from "@/lib/utils";
 import { Loan, LoanStatus } from "@/types/entities/loan.type";

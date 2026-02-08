@@ -24,16 +24,16 @@ type AuthResponse = {
 };
 
 export async function requestSms(payload: RequestSmsPayload): Promise<void> {
-  await api.post("/auth/request-sms/", payload);
+  await api.post(`/admin/auth/request-sms/`, payload);
 }
 
 export async function verifySms(payload: VerifySmsPayload): Promise<AuthResponse> {
-  const response = await api.post<AuthResponse>("/auth/verify-sms", payload);
+  const response = await api.post<AuthResponse>(`/admin/auth/verify-sms`, payload);
   return response.data;
 }
 
 export async function refreshToken(): Promise<AuthResponse> {
-  const response = await api.post<AuthResponse>("/auth/refresh");
+  const response = await api.post<AuthResponse>(`/admin/auth/refresh`);
   return response.data;
 }
 
@@ -42,5 +42,5 @@ export type LogoutPayload = {
 };
 
 export async function logout(payload?: LogoutPayload): Promise<void> {
-  await api.post("/auth/logout", payload ?? {});
+  await api.post(`/admin/auth/logout`, payload ?? {});
 }

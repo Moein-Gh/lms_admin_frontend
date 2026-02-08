@@ -5,9 +5,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { EntityFilterTrigger } from "@/components/filters";
 import { PaginationControls } from "@/components/pagination-controls";
-import { useLoans } from "@/hooks/use-loan";
-import { usePagination } from "@/hooks/use-pagination";
-import { useUsers } from "@/hooks/use-user";
+import { useLoans } from "@/hooks/admin/use-loan";
+import { useUsers } from "@/hooks/admin/use-user";
+import { usePagination } from "@/hooks/general/use-pagination";
 import { OrderDirection } from "@/types/api";
 import { LoanStatus } from "@/types/entities/loan.type";
 

@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useUser, useUserUpcomingPayments } from "@/hooks/use-user";
+import { useUser, useUserUpcomingPayments } from "@/hooks/admin/use-user";
 
 import { EmptyPaymentsState } from "./_components/empty-payments-state";
 import { MonthlyPaymentSection } from "./_components/monthly-payment-section";

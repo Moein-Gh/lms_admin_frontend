@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Pills } from "@/components/ui/pills";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import type { CreateLoanRequest } from "@/lib/admin-APIs/loan-api";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
-import type { CreateLoanRequest } from "@/lib/loan-api";
 
 type StepLoanFieldsProps = {
   types: { id: string; name: string }[];

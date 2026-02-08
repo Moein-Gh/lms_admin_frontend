@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useAccount } from "@/hooks/use-account";
+import { useAccount } from "@/hooks/admin/use-account";
 import { AccountInfoCard } from "../_components/account-info-card";
 import { AccountLoansSection } from "../_components/account-loans-section";
 import { AccountSubscriptionFeesSection } from "../_components/account-subscription-fees-section";

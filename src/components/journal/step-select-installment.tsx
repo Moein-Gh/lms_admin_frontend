@@ -1,7 +1,7 @@
 import { CalendarCheckIcon } from "lucide-react";
 import InstallmentCardSelectable from "@/components/entity-specific/installment/installment-card-selectable";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
-import { useInstallments } from "@/hooks/use-installment";
+import { useInstallments } from "@/hooks/admin/use-installment";
 import { OrderDirection } from "@/types/api";
 import { InstallmentStatus } from "@/types/entities/installment.type";
 

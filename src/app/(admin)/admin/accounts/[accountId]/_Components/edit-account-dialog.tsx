@@ -27,8 +27,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useUpdateUser } from "@/hooks/use-user";
+import { useUpdateUser } from "@/hooks/admin/use-user";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { User, UserStatus } from "@/types/entities/user.type";
 
 type Props = {

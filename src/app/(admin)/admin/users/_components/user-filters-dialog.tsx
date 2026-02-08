@@ -25,8 +25,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Pills } from "@/components/ui/pills";
-import { useDataTableParams } from "@/hooks/use-data-table-params";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useDataTableParams } from "@/hooks/general/use-data-table-params";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { UserStatus } from "@/types/entities/user.type";
 
 export function UserFiltersDialog() {

@@ -1,7 +1,7 @@
 import { ReceiptIcon } from "lucide-react";
 import SubscriptionFeeCardSelectable from "@/components/entity-specific/subscription-fee/subscription-fee-card-selectable";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
-import { useSubscriptionFees } from "@/hooks/use-subscription-fee";
+import { useSubscriptionFees } from "@/hooks/admin/use-subscription-fee";
 import { OrderDirection } from "@/types/api";
 
 export function StepSelectFee({

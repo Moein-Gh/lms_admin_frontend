@@ -1,7 +1,7 @@
 import { UseFormRegister } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CreateAccountRequest } from "@/lib/account-api";
+import { CreateAccountRequest } from "@/lib/admin-APIs/account-api";
 
 type Props = {
   register: UseFormRegister<CreateAccountRequest>;

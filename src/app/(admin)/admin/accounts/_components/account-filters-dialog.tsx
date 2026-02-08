@@ -26,9 +26,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useAccountTypes } from "@/hooks/use-account-type";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useUsers } from "@/hooks/use-user";
+import { useAccountTypes } from "@/hooks/admin/use-account-type";
+import { useUsers } from "@/hooks/admin/use-user";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { AccountStatus } from "@/types/entities/account.type";
 
 export interface AccountFilters {

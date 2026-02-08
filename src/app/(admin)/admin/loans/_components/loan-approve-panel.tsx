@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { useApproveLoan } from "@/hooks/use-loan";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useApproveLoan } from "@/hooks/admin/use-loan";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import type { Loan } from "@/types/entities/loan.type";
 
 export function LoanApprovePanel({ loan, onApprove }: { loan: Loan; onApprove?: () => void }) {

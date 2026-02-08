@@ -3,8 +3,8 @@
 import { PaginationControls } from "@/components/pagination-controls";
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
-import { usePagination } from "@/hooks/use-pagination";
-import { useRoles } from "@/hooks/use-role";
+import { useRoles } from "@/hooks/admin/use-role";
+import { usePagination } from "@/hooks/general/use-pagination";
 import RolesCardList from "./_components/roles-card-list";
 
 export default function RolesPage() {

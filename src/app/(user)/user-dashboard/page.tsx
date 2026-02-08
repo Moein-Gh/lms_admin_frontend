@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/use-current-user";
+import { useAuth } from "@/hooks/admin/use-current-user";
 import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 
 export default function UserDashboardPage() {

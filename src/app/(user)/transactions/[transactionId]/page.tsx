@@ -7,7 +7,7 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useTransaction } from "@/hooks/use-transaction";
+import { useTransaction } from "@/hooks/admin/use-transaction";
 import { TRANSACTION_KIND_META, TRANSACTION_STATUS_BADGE } from "@/types/entities/transaction.type";
 
 export default function UserTransactionDetailPage() {

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FinancialMetric } from "@/lib/report-api";
+import { FinancialMetric } from "@/lib/admin-APIs/report-api";
 import { cn } from "@/lib/utils";
 
 interface FinancialMetricCardProps {

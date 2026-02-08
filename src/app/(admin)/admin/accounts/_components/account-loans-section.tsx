@@ -1,5 +1,5 @@
 import { EmptyStateCard } from "@/components/empty-state-card";
-import { useLoans } from "@/hooks/use-loan";
+import { useLoans } from "@/hooks/admin/use-loan";
 import type { Loan } from "@/types/entities/loan.type";
 import { LoanCard } from "./loan-card";
 

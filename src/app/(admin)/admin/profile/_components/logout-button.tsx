@@ -25,8 +25,8 @@ import {
   DrawerTitle,
   DrawerTrigger
 } from "@/components/ui/drawer";
-import { useLogout } from "@/hooks/use-auth";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useLogout } from "@/hooks/auth/use-auth";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 
 export function LogoutButton() {
   const logout = useLogout();

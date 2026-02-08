@@ -13,7 +13,7 @@ import {
   SidebarMenuItem
 } from "@/components/ui/sidebar";
 import { APP_CONFIG } from "@/config/app-config";
-import { useMe } from "@/hooks/use-user";
+import { useMe } from "@/hooks/admin/use-user";
 import { sidebarItems } from "@/navigation/sidebar/sidebar-items";
 
 import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";

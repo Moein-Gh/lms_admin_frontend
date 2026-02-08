@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useCreateLoanRequest } from "@/hooks/use-loan-request";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useCreateLoanRequest } from "@/hooks/admin/use-loan-request";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { CreateLoanRequestDialogDesktop } from "./create-loan-request-dialog-desktop";
 import { CreateLoanRequestDialogMobile } from "./create-loan-request-dialog-mobile";
 import { CreateLoanRequestForm } from "./create-loan-request-form";

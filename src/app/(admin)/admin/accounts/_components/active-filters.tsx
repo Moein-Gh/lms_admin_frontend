@@ -2,8 +2,8 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAccountTypes } from "@/hooks/use-account-type";
-import { useUsers } from "@/hooks/use-user";
+import { useAccountTypes } from "@/hooks/admin/use-account-type";
+import { useUsers } from "@/hooks/admin/use-user";
 import { AccountStatus } from "@/types/entities/account.type";
 
 import { AccountFilters } from "./account-filters-dialog";

@@ -1,0 +1,23 @@
+[
+  "src/lib/admin-APIs/account-api.ts",
+  "src/lib/admin-APIs/account-type-api.ts",
+  "src/lib/admin-APIs/bank-api.ts",
+  "src/lib/admin-APIs/installment.api.ts",
+  "src/lib/admin-APIs/journal-api.ts",
+  "src/lib/admin-APIs/journal-entries-api.ts",
+  "src/lib/admin-APIs/loan-api.ts",
+  "src/lib/admin-APIs/loan-request-api.ts",
+  "src/lib/admin-APIs/loan-type-api.ts",
+  "src/lib/admin-APIs/message-api.ts",
+  "src/lib/admin-APIs/message-template-api.ts",
+  "src/lib/admin-APIs/recipient-group-api.ts",
+  "src/lib/admin-APIs/report-api.ts",
+  "src/lib/admin-APIs/role-api.ts",
+  "src/lib/admin-APIs/role-assignment-api.ts",
+  "src/lib/admin-APIs/subscription-fee-api.ts",
+  "src/lib/admin-APIs/transaction-api.ts",
+  "src/lib/admin-APIs/user-api.ts",
+  "src/lib/api.ts",
+  "src/lib/auth-api.ts",
+  "src/lib/user-APIs/dashboard-api.ts"
+]

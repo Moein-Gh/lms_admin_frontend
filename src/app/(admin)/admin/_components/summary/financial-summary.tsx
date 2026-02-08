@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, Banknote, CreditCard, DollarSign, TrendingUp, Wa
 import { FinancialMetricCard } from "@/components/financial/financial-metric-card";
 import { FormattedDate } from "@/components/formatted-date";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { useFinancialSummary } from "@/hooks/use-report";
+import { useFinancialSummary } from "@/hooks/admin/use-report";
 
 const FinancialSummary = () => {
   const { data: summary, isLoading, error } = useFinancialSummary();

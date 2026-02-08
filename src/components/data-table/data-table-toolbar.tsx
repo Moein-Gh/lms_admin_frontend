@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 import { DataTableSearch } from "@/components/data-table/data-table-search";
 import { Button } from "@/components/ui/button";
-import { useDataTableParams } from "@/hooks/use-data-table-params";
+import { useDataTableParams } from "@/hooks/general/use-data-table-params";
 
 export type FilterSchema = {
   key: string;

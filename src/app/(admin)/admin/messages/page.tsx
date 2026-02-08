@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Loader2, Inbox } from "lucide-react";
 
-import { useInfiniteMessages } from "@/hooks/use-message";
-import { useMe } from "@/hooks/use-user";
+import { useInfiniteMessages } from "@/hooks/admin/use-message";
+import { useMe } from "@/hooks/admin/use-user";
 import { useNotificationsStore } from "@/stores/notifications/notifications-provider";
 import { Message, MessageType } from "@/types/entities/message.type";
 import { DateSeparator } from "./_components/date-separator";

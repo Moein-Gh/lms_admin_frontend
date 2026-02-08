@@ -2,8 +2,8 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useLoanTypes } from "@/hooks/use-loan-type";
-import { useUsers } from "@/hooks/use-user";
+import { useLoanTypes } from "@/hooks/admin/use-loan-type";
+import { useUsers } from "@/hooks/admin/use-user";
 import { LoanStatus, LoanStatusLabels } from "@/types/entities/loan.type";
 
 import { LoanFilters } from "./loan-filters-dialog";

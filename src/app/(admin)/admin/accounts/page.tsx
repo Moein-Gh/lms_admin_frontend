@@ -5,10 +5,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { EntityFilterTrigger } from "@/components/filters";
 import { PaginationControls } from "@/components/pagination-controls";
-import { useAccounts } from "@/hooks/use-account";
-import { useAccountTypes } from "@/hooks/use-account-type";
-import { usePagination } from "@/hooks/use-pagination";
-import { useUsers } from "@/hooks/use-user";
+import { useAccounts } from "@/hooks/admin/use-account";
+import { useAccountTypes } from "@/hooks/admin/use-account-type";
+import { useUsers } from "@/hooks/admin/use-user";
+import { usePagination } from "@/hooks/general/use-pagination";
 import { OrderDirection } from "@/types/api";
 import { AccountStatus } from "@/types/entities/account.type";
 

@@ -8,7 +8,7 @@ import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useUpdateLoan } from "@/hooks/use-loan";
+import { useUpdateLoan } from "@/hooks/admin/use-loan";
 import type { Loan } from "@/types/entities/loan.type";
 
 export function LoanUpdatePanel({ loan }: { loan: Loan }) {

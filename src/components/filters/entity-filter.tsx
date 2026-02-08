@@ -5,7 +5,7 @@ import { SlidersHorizontalIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 
 import { DesktopFilterDialog } from "./desktop-filter-dialog";
 import { MobileFilterDrawer } from "./mobile-filter-drawer";

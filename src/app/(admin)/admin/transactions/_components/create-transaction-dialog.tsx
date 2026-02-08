@@ -31,9 +31,9 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useCreateTransaction } from "@/hooks/use-transaction";
-import { type CreateTransactionRequest } from "@/lib/transaction-api";
+import { useCreateTransaction } from "@/hooks/admin/use-transaction";
+import { useIsMobile } from "@/hooks/general/use-mobile";
+import { type CreateTransactionRequest } from "@/lib/admin-APIs/transaction-api";
 import { TransactionKind, type Transaction } from "@/types/entities/transaction.type";
 import { RequestError } from "@/types/error";
 

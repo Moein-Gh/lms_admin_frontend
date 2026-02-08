@@ -13,9 +13,13 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useRoles } from "@/hooks/use-role";
-import { useCreateRoleAssignment, useDeleteRoleAssignment, useRoleAssignments } from "@/hooks/use-role-assignment";
+import { useRoles } from "@/hooks/admin/use-role";
+import {
+  useCreateRoleAssignment,
+  useDeleteRoleAssignment,
+  useRoleAssignments
+} from "@/hooks/admin/use-role-assignment";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { cn } from "@/lib/utils";
 import { RoleAssignment, RoleAssignmentStatus } from "@/types/entities/role-assignment.type";

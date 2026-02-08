@@ -3,7 +3,7 @@
 import { UserCircle, Mail, Phone, MapPin, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { useAuth } from "@/hooks/use-current-user";
+import { useAuth } from "@/hooks/admin/use-current-user";
 
 export default function ProfilePage() {
   const { data: user } = useAuth();

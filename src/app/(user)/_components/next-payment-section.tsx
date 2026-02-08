@@ -7,8 +7,8 @@ import { FormattedNumber } from "@/components/formatted-number";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/hooks/use-current-user";
-import { useUserPaymentSummary } from "@/hooks/use-user";
+import { useAuth } from "@/hooks/admin/use-current-user";
+import { useUserPaymentSummary } from "@/hooks/admin/use-user";
 import { cn } from "@/lib/utils";
 
 export function NextPaymentSection() {

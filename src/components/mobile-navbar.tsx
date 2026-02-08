@@ -7,7 +7,7 @@ import { MoreVertical, User, Moon, Sun, Settings, ArrowLeft, Bell, Home as HomeI
 import { AnimatePresence, motion } from "motion/react";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
-import { useMe } from "@/hooks/use-user";
+import { useMe } from "@/hooks/admin/use-user";
 import { formatPersianDate } from "@/lib/date-service";
 import { updateThemeMode } from "@/lib/theme-utils";
 import { cn } from "@/lib/utils";

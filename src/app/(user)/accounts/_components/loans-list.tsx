@@ -4,8 +4,8 @@ import { FileText } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { PaginationControls } from "@/components/pagination-controls";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLoans } from "@/hooks/use-loan";
-import { usePagination } from "@/hooks/use-pagination";
+import { useLoans } from "@/hooks/admin/use-loan";
+import { usePagination } from "@/hooks/general/use-pagination";
 import { LoanCard } from "./loan-card";
 
 interface LoansListProps {

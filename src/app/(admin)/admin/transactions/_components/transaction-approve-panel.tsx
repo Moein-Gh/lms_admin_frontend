@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useApproveTransaction } from "@/hooks/use-transaction";
+import { useApproveTransaction } from "@/hooks/admin/use-transaction";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import type { Transaction } from "@/types/entities/transaction.type";
 import { RequestError } from "@/types/error";
 

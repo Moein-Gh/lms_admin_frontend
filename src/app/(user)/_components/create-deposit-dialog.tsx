@@ -28,9 +28,9 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hooks/use-current-user";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useCreateTransaction } from "@/hooks/use-transaction";
+import { useAuth } from "@/hooks/admin/use-current-user";
+import { useCreateTransaction } from "@/hooks/admin/use-transaction";
+import { useIsMobile } from "@/hooks/general/use-mobile";
 import { TransactionKind } from "@/types/entities/transaction.type";
 import { RequestError } from "@/types/error";
 

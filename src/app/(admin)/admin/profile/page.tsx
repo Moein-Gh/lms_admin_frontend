@@ -2,7 +2,7 @@
 
 import { User2, ShieldCheck } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useMe } from "@/hooks/use-user";
+import { useMe } from "@/hooks/admin/use-user";
 import { EditUserDialog } from "../users/[userId]/_Components/edit-user-dialog";
 import { RoleAssignmentDialog } from "../users/[userId]/_Components/role-assignment-dialog";
 import { LogoutButton } from "./_components/logout-button";

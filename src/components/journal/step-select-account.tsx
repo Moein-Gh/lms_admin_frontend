@@ -2,7 +2,7 @@ import React from "react";
 import AccountCardSelectable from "@/components/entity-specific/account/account-card-selectable";
 import NoAccountCard from "@/components/entity-specific/account/no-account-card";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
-import { useAccounts } from "@/hooks/use-account";
+import { useAccounts } from "@/hooks/admin/use-account";
 import { AccountStatus } from "@/types/entities/account.type";
 import { AllocationType } from "@/types/entities/journal-entry.type";
 

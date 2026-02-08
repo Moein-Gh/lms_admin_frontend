@@ -23,7 +23,7 @@ import {
   useDeleteLoanRequest,
   useLoanRequests,
   useRejectLoanRequest
-} from "@/hooks/use-loan-request";
+} from "@/hooks/admin/use-loan-request";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { cn } from "@/lib/utils";
 import { LoanRequest, LoanRequestStatus } from "@/types/entities/loan-request.type";

@@ -6,7 +6,7 @@ import { DataTable } from "@/components/data-table/data-table";
 import { Card, CardContent } from "@/components/ui/card";
 import { DataCardSkeleton } from "@/components/ui/data-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useServerDataTable } from "@/hooks/use-server-data-table";
+import { useServerDataTable } from "@/hooks/general/use-server-data-table";
 import { type InstallmentWithRelations } from "@/types/entities/installment-projection.type";
 
 import { columns } from "./columns";
