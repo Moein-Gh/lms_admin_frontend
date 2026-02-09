@@ -1,24 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/admin/use-current-user";
 import { useUserTransactions } from "@/hooks/user/use-transaction";
-import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
 import { CreateDepositDialog } from "./_components/create-deposit-dialog";
+import { DashboardHeader } from "./_components/dashboard-header";
 import { NextPaymentSection } from "./_components/next-payment-section";
+import { CompactMetricsTabsLayout } from "./_components/overview-layouts/tabs-variations/compact-metrics-tabs-layout";
 import { TransactionCard } from "./_components/transaction-card";
 
 export default function UserDashboardPage() {
   const { data: user } = useAuth();
-  const router = useRouter();
-
-  const hasAdminRole = user?.roleAssignments?.some((assignment) => {
-    return assignment.role?.key === "admin" && assignment.status === RoleAssignmentStatus.ACTIVE;
-  });
 
   // Fetch last 3 transactions for the current user
   const { data: transactionsData, isLoading } = useUserTransactions({
@@ -31,36 +26,10 @@ export default function UserDashboardPage() {
     <div className="container mx-auto p-4 md:p-6">
       <div className="space-y-6">
         {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold md:text-3xl">داشبورد</h1>
-          <div className="flex items-center gap-3">
-            <p className="text-sm text-muted-foreground md:text-base">خوش آمدید {user?.identity.name}</p>
-            {hasAdminRole && (
-              <Button size="sm" variant="outline" onClick={() => router.push("/admin")}>
-                رفتن به داشبورد مدیریت
-              </Button>
-            )}
-          </div>
-        </div>
+        <DashboardHeader />
 
         {/* Main Content */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* Summary Cards */}
-          <div className="rounded-lg bg-card p-4 border">
-            <h3 className="text-sm font-medium text-muted-foreground">کل حساب‌ها</h3>
-            <p className="mt-2 text-2xl font-bold">-</p>
-          </div>
-
-          <div className="rounded-lg bg-card p-4 border">
-            <h3 className="text-sm font-medium text-muted-foreground">کل وام‌ها</h3>
-            <p className="mt-2 text-2xl font-bold">-</p>
-          </div>
-
-          <div className="rounded-lg bg-card p-4 border md:col-span-2 lg:col-span-1">
-            <h3 className="text-sm font-medium text-muted-foreground">موجودی کل</h3>
-            <p className="mt-2 text-2xl font-bold">-</p>
-          </div>
-        </div>
+        <CompactMetricsTabsLayout />
 
         {/* Next Payment Section */}
         <NextPaymentSection />

@@ -1,9 +1,10 @@
 "use client";
 
-import { UserCircle, Mail, Phone, MapPin, Calendar } from "lucide-react";
+import { UserCircle, Mail, Phone, MapPin, Calendar, User } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/admin/use-current-user";
+import { PageHeader } from "../_components/page-header";
 
 export default function ProfilePage() {
   const { data: user } = useAuth();
@@ -27,10 +28,7 @@ export default function ProfilePage() {
     <div className="container mx-auto p-4 md:p-6">
       <div className="space-y-6">
         {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold md:text-3xl">پروفایل کاربری</h1>
-          <p className="text-sm text-muted-foreground md:text-base">مشاهده و مدیریت اطلاعات حساب کاربری</p>
-        </div>
+        <PageHeader icon={User} title="پروفایل کاربری" subtitle="مشاهده و مدیریت اطلاعات حساب کاربری" />
 
         {/* Profile Card */}
         <Card className="p-6">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { ArrowRight, Calendar, DollarSign, Tag, ExternalLink } from "lucide-react";
+import { ArrowRight, Calendar, DollarSign, Tag, ExternalLink, Receipt } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useUserTransaction } from "@/hooks/user/use-transaction";
 import { TRANSACTION_KIND_META, TRANSACTION_STATUS_BADGE } from "@/types/entities/transaction.type";
+import { PageHeader } from "../../_components/page-header";
 
 export default function UserTransactionDetailPage() {
   const { transactionId } = useParams();
@@ -41,11 +42,8 @@ export default function UserTransactionDetailPage() {
 
   return (
     <div className="container max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
-      {/* Back Button */}
-      <Button onClick={() => router.back()} variant="ghost" size="sm" className="gap-2">
-        <ArrowRight className="size-4" />
-        بازگشت
-      </Button>
+      {/* Header */}
+      <PageHeader icon={Receipt} title={`تراکنش ${transaction.code}`} showBackButton={false} />
 
       {/* Transaction Info Card */}
       <Card className="overflow-hidden border-none bg-card py-0">

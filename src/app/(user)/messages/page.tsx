@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Loader2, Inbox } from "lucide-react";
+import { Loader2, Inbox, Mail } from "lucide-react";
 
 import { useInfiniteMessages } from "@/hooks/admin/use-message";
 import { useMe } from "@/hooks/admin/use-user";
 import { useNotificationsStore } from "@/stores/notifications/notifications-provider";
 import { Message, MessageType } from "@/types/entities/message.type";
+import { PageHeader } from "../_components/page-header";
 import { DateSeparator } from "./_components/date-separator";
 import { MessageCard } from "./_components/message-card";
 
@@ -97,6 +98,8 @@ export default function MessagesPage() {
 
   return (
     <div className="container max-w-4xl p-4 md:p-6 space-y-6 mx-auto">
+      {/* Header */}
+      <PageHeader icon={Mail} title="پیام‌ها" subtitle="مشاهده پیام‌ها و اعلان‌های سیستم" />
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">پیام‌های دریافتی</h1>
       </div>

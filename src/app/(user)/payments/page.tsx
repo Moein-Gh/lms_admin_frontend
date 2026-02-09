@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-
+import { CalendarClock } from "lucide-react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/admin/use-current-user";
 import { useUserUpcomingPayments } from "@/hooks/admin/use-user";
+import { PageHeader } from "../_components/page-header";
 
 import { EmptyPaymentsState } from "./_components/empty-payments-state";
 import { MonthlyPaymentSection } from "./_components/monthly-payment-section";
@@ -73,6 +74,9 @@ export default function UserPaymentsPage() {
       initial="hidden"
       animate="visible"
     >
+      {/* Header */}
+      <PageHeader icon={CalendarClock} title="پرداخت‌های من" subtitle="مشاهده و مدیریت پرداخت‌های آتی" />
+
       {/* Top section */}
       <motion.div variants={itemVariants}>
         <Card className="border-border/60">

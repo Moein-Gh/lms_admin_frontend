@@ -1,10 +1,12 @@
 "use client";
 
+import { ArrowLeftRight } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { PaginationControls } from "@/components/pagination-controls";
 import { useAuth } from "@/hooks/admin/use-current-user";
 import { usePagination } from "@/hooks/general/use-pagination";
 import { useUserTransactions } from "@/hooks/user/use-transaction";
+import { PageHeader } from "../_components/page-header";
 import { TransactionCard } from "../_components/transaction-card";
 
 export default function UserTransactionsPage() {
@@ -22,10 +24,7 @@ export default function UserTransactionsPage() {
     <div className="container mx-auto p-4 md:p-6">
       <div className="space-y-6">
         {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold md:text-3xl">تراکنش‌های من</h1>
-          <p className="text-sm text-muted-foreground md:text-base">مشاهده تمام تراکنش‌های شما</p>
-        </div>
+        <PageHeader icon={ArrowLeftRight} title="تراکنش‌های من" subtitle="مشاهده تمام تراکنش‌های شما" />
 
         {/* Loading State */}
         {isLoading && (

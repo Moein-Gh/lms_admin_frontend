@@ -6,6 +6,7 @@ import { EmptyStateCard } from "@/components/empty-state-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/admin/use-current-user";
 import { useUserAccounts } from "@/hooks/user/use-account";
+import { PageHeader } from "../_components/page-header";
 import { AccountTabs } from "./_components/account-tabs";
 import { BankCard } from "./_components/bank-card";
 
@@ -47,12 +48,7 @@ export default function UserAccountsPage() {
   return (
     <div className="container mx-auto p-4 md:p-6 space-y-6">
       {/* Header */}
-      <div className="space-y-2 flex flex-row items-center gap-3">
-        <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl sm:h-12 sm:w-12">
-          <IdCard className="size-6 sm:size-7" />
-        </div>
-        <h1 className="text-2xl font-bold md:text-3xl">حساب‌های من</h1>
-      </div>
+      <PageHeader icon={IdCard} title="حساب‌های من" />
 
       {/* Bank Card Hero */}
       <BankCard accounts={accounts} selectedAccount={selectedAccount} onAccountChange={setSelectedAccountId} />
