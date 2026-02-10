@@ -81,7 +81,7 @@ export default function UserPaymentsPage() {
       <motion.div variants={itemVariants}>
         <Card className="border-border/60">
           <CardContent className="px-4 sm:px-6 py-4 sm:py-6 space-y-4">
-            <PaymentHeader userName={userName} />
+            {/* <PaymentHeader userName={userName} /> */}
             <PaymentSummary grandTotal={data.grandTotal} totalPaid={data.totalPaid} totalUnpaid={data.totalUnpaid} />
           </CardContent>
         </Card>
