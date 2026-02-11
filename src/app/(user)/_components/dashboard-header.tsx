@@ -63,7 +63,6 @@ export function DashboardHeader() {
           {hasAdminRole && (
             <Button size="icon" variant="outline" onClick={() => router.push("/admin")} className=" gap-2 md:flex">
               <Shield className="size-5" />
-              <span className="hidden lg:inline">داشبورد مدیریت</span>
             </Button>
           )}
 
