@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { ArrowRight, Calendar, DollarSign, Tag, ExternalLink, Receipt } from "lucide-react";
+import { Calendar, DollarSign, Tag, ExternalLink, Receipt } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
 import { Badge } from "@/components/ui/badge";

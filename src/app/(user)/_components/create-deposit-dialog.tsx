@@ -76,25 +76,25 @@ export function CreateDepositDialog() {
 
     create.mutate(formData, {
       onSuccess: () => {
-        toast.success("درخواست واریز شما ثبت شد و پس از تایید اعمال خواهد شد");
+        toast.success("واریز شما ثبت شد و پس از تایید اعمال خواهد شد");
         setOpen(false);
         reset();
       },
-      onError: (e) => toast.error((e as RequestError).response?.data.detail ?? "خطا در ثبت درخواست")
+      onError: (e) => toast.error((e as RequestError).response?.data.detail ?? "خطا در ثبت واریز")
     });
   });
 
   const triggerButton = (
     <Button variant="default">
       <PlusIcon className="size-4" />
-      درخواست واریز
+      واریز جدید
     </Button>
   );
 
   const formContent = (
     <form onSubmit={onSubmit} className="space-y-5 py-4" encType="multipart/form-data">
       <div className="rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
-        توجه: درخواست واریز شما پس از بررسی و تایید توسط مدیریت اعمال خواهد شد.
+        توجه: واریز شما پس از بررسی و تایید توسط مدیریت اعمال خواهد شد.
       </div>
 
       <div className="space-y-2">
@@ -124,7 +124,7 @@ export function CreateDepositDialog() {
       {!isMobile && (
         <div className="flex gap-3 pt-4">
           <Button type="submit" className="flex-1" disabled={create.isPending}>
-            {create.isPending ? "در حال ثبت..." : "ثبت درخواست"}
+            {create.isPending ? "در حال ثبت..." : "ثبت واریز"}
           </Button>
           <Button type="button" variant="outline" onClick={() => reset()}>
             پاک کردن
@@ -140,8 +140,8 @@ export function CreateDepositDialog() {
         <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
         <DrawerContent>
           <DrawerHeader className="text-start">
-            <DrawerTitle>درخواست واریز جدید</DrawerTitle>
-            <DrawerDescription>ثبت درخواست واریز به حساب</DrawerDescription>
+            <DrawerTitle> واریز جدید</DrawerTitle>
+            <DrawerDescription>ثبت واریز به حساب</DrawerDescription>
           </DrawerHeader>
           <div className="px-4">{formContent}</div>
           <DrawerFooter>
@@ -153,7 +153,7 @@ export function CreateDepositDialog() {
               }}
               disabled={create.isPending}
             >
-              {create.isPending ? "در حال ثبت..." : "ثبت درخواست"}
+              {create.isPending ? "در حال ثبت..." : "ثبت واریز"}
             </Button>
             <DrawerClose asChild>
               <Button variant="outline">لغو</Button>
@@ -169,8 +169,8 @@ export function CreateDepositDialog() {
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
       <DialogContent className="sm:max-w-125">
         <DialogHeader>
-          <DialogTitle>درخواست واریز جدید</DialogTitle>
-          <DialogDescription>ثبت درخواست واریز به حساب</DialogDescription>
+          <DialogTitle> واریز جدید</DialogTitle>
+          <DialogDescription>ثبت واریز به حساب</DialogDescription>
         </DialogHeader>
         {formContent}
       </DialogContent>

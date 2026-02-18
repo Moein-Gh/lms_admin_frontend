@@ -82,6 +82,14 @@ export async function approveTransaction(transactionId: string): Promise<Transac
 }
 
 /**
+ * Reject a pending transaction
+ */
+export async function rejectTransaction(transactionId: string): Promise<Transaction> {
+  const response = await api.post<Transaction>(`/admin/transactions/reject/${transactionId}`);
+  return response.data;
+}
+
+/**
  * Update an existing transaction
  */
 export async function updateTransaction(transactionId: string, data: UpdateTransactionRequest): Promise<Transaction> {

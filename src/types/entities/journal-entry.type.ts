@@ -51,6 +51,8 @@ export interface JournalEntry {
   targetType?: JournalEntryTarget;
   targetId?: string;
   target?: Account | Loan | SubscriptionFee | Installment;
+  accountId?: string;
+  account?: Account;
   removable: boolean;
   createdAt: Date;
   journal?: Journal;

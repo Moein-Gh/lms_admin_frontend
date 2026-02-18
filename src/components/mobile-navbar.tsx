@@ -102,6 +102,18 @@ export function MobileNavbar() {
     await setValueToCookie("theme_mode", newTheme);
   };
 
+  // Determine the single most-specific active nav item (longest matching URL)
+  let activeIndex = -1;
+  if (!isExpanded && pathname) {
+    navbarItems.forEach((it, idx) => {
+      if (pathname === it.url || pathname.startsWith(`${it.url}/`)) {
+        if (activeIndex === -1 || it.url.length > navbarItems[activeIndex].url.length) {
+          activeIndex = idx;
+        }
+      }
+    });
+  }
+
   return (
     <div className="z-50 flex w-full flex-col items-start flex-1 min-w-0">
       {/* Expanded options panel */}
@@ -274,9 +286,7 @@ export function MobileNavbar() {
         <div className="absolute inset-0 rounded-[1.75rem] pointer-events-none" />
 
         {navbarItems.map((item, index) => {
-          const isActive =
-            !isExpanded &&
-            (pathname === item.url || (item.url !== "/dashboard" && pathname.startsWith(`${item.url}/`)));
+          const isActive = index === activeIndex;
           const Icon = item.icon;
 
           return (
@@ -299,8 +309,8 @@ export function MobileNavbar() {
                 {isActive && (
                   <motion.div
                     layoutId="navbar-active-indicator"
-                    className="absolute -bottom-1 size-1.5 rounded-full"
-                    style={{ backgroundColor: "currentColor", boxShadow: "0 0 8px currentColor" }}
+                    className="absolute -bottom-1.5 h-0.5 w-8 rounded-full"
+                    style={{ backgroundColor: "currentColor" }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
                 )}
@@ -331,8 +341,8 @@ export function MobileNavbar() {
             {isExpanded && (
               <motion.div
                 layoutId="navbar-active-indicator"
-                className="absolute -bottom-1 size-1.5 rounded-full"
-                style={{ backgroundColor: "currentColor", boxShadow: "0 0 8px currentColor" }}
+                className="absolute -bottom-1.5 h-0.5 w-8 rounded-full"
+                style={{ backgroundColor: "currentColor" }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
               />
             )}

@@ -70,6 +70,7 @@ export function TransactionDeletePanel({
     <>
       <Button variant="destructive" size="sm" type="button" aria-label="حذف وام" onClick={() => setOpen(true)}>
         <Trash2 />
+        حذف
       </Button>
 
       <ResponsivePanel open={open} onOpenChange={setOpen} variant="destructive">

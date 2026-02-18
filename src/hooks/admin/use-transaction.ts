@@ -9,7 +9,8 @@ import {
   createTransfer,
   type ListTransactionsParams,
   type UpdateTransactionRequest,
-  type CreateTransactionRequest
+  type CreateTransactionRequest,
+  rejectTransaction
 } from "@/lib/admin-APIs/transaction-api";
 import { Transaction } from "@/types/entities/transaction.type";
 
@@ -94,6 +95,19 @@ export function useApproveTransaction(transactionId: string) {
     mutationFn: () => approveTransaction(transactionId),
     onSuccess: (approvedTransaction) => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.detail(approvedTransaction.id) });
+      queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
+      // Invalidate journals list for this transaction
+      queryClient.invalidateQueries({ queryKey: ["journals", { transactionId }] });
+    }
+  });
+}
+
+export function useRejectTransaction(transactionId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => rejectTransaction(transactionId),
+    onSuccess: (rejectedTransaction) => {
+      queryClient.invalidateQueries({ queryKey: transactionKeys.detail(rejectedTransaction.id) });
       queryClient.invalidateQueries({ queryKey: transactionKeys.lists() });
       // Invalidate journals list for this transaction
       queryClient.invalidateQueries({ queryKey: ["journals", { transactionId }] });

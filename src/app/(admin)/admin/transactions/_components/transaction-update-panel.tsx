@@ -50,6 +50,7 @@ export function TransactionUpdatePanel({ transaction }: { transaction: Transacti
     <>
       <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
         <Pencil />
+        ویرایش
       </Button>
       <ResponsivePanel open={open} onOpenChange={setOpen}>
         <div className="w-full">
