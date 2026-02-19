@@ -60,7 +60,7 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "کاربران",
-        url: "/admin/UserIcons",
+        url: "/admin/users",
         icon: UserIcon
       },
       {
