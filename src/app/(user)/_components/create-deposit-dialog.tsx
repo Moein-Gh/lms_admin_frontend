@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import AmountInput from "@/components/form/amount-input";
 import UploadField from "@/components/form/upload-field";
+import { PlusIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

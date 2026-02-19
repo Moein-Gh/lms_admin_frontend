@@ -1,4 +1,4 @@
-import { Split } from "lucide-react";
+import { Split } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
 export function AllocateJournalTrigger({ onClick }: { readonly onClick: () => void }) {

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, Users } from "lucide-react";
+import { ChevronLeft, UsersIcon } from "@/components/icons";
 
 import {
   Breadcrumb,
@@ -42,7 +42,7 @@ export function UsersHeader({ total, filterTrigger }: UsersHeaderProps) {
         </Breadcrumb>
         <div className="flex items-center gap-3">
           <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl sm:h-12 sm:w-12">
-            <Users className="size-6 sm:size-7" />
+            <UsersIcon className="size-6 sm:size-7" />
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-bold tracking-tight sm:text-3xl">کاربران</h1>

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Wallet, CreditCard, CircleDollarSign, Coins } from "lucide-react";
 import { FormattedNumber } from "@/components/formatted-number";
+import { AccountIcon, CardIcon, LoanIcon } from "@/components/icons";
 import { useUserOverview } from "@/hooks/user/use-dashboard";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +31,7 @@ export function CompactMetricsTabsLayout() {
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          <Wallet className="size-4" />
+          <AccountIcon className="size-4" />
           حساب‌ها
         </button>
         <button
@@ -43,7 +43,7 @@ export function CompactMetricsTabsLayout() {
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          <CreditCard className="size-4" />
+          <LoanIcon className="size-4" />
           وام‌ها
         </button>
       </div>
@@ -55,7 +55,7 @@ export function CompactMetricsTabsLayout() {
             {/* Single Line Layout with Icon */}
             <div className="flex items-center gap-4">
               <div className="flex size-12 items-center justify-center rounded-xl bg-linear-to-br from-green-500/20 to-green-500/5 text-green-600 shadow-sm dark:text-green-500">
-                <Wallet className="size-6" />
+                <AccountIcon className="size-6" />
               </div>
 
               <div className="flex flex-1 items-center gap-3 md:gap-4">
@@ -82,7 +82,7 @@ export function CompactMetricsTabsLayout() {
             {/* Main Loan Header */}
             <div className="flex items-center gap-4">
               <div className="flex size-12 items-center justify-center rounded-xl bg-linear-to-br from-orange-500/20 to-orange-500/5 text-orange-600 shadow-sm dark:text-orange-500">
-                <CreditCard className="size-6" />
+                <LoanIcon className="size-6" />
               </div>
 
               <div className="flex flex-1 items-center gap-3 md:gap-4">

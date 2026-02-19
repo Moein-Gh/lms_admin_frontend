@@ -1,6 +1,6 @@
 import React from "react";
-import { IdCard } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
+import { CardIcon } from "@/components/icons";
 
 type NoAccountCardProps = {
   readonly title?: string;
@@ -15,7 +15,7 @@ const NoAccountCard = ({
     <EmptyStateCard
       title={title}
       description={description}
-      icon={<IdCard className="size-10 text-muted-foreground" />}
+      icon={<CardIcon className="size-10 text-muted-foreground" />}
     />
   );
 };

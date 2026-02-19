@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { CheckIcon } from "lucide-react";
 import { toast } from "sonner";
+import { CheckIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";

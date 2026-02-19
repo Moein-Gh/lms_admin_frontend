@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, CreditCard } from "lucide-react";
+import { ArrowRight, CardIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { useLoan } from "@/hooks/admin/use-loan";
 import { PageHeader } from "../../_components/page-header";
@@ -50,7 +50,7 @@ export default function UserLoanDetailPage() {
   return (
     <div className="container max-w-4xl mx-auto p-4 sm:py-8 space-y-6 sm:space-y-8">
       {/* Header */}
-      <PageHeader icon={CreditCard} title="جزئیات وام" subtitle="مشاهده اطلاعات و اقساط وام" />
+      <PageHeader icon={CardIcon} title="جزئیات وام" subtitle="مشاهده اطلاعات و اقساط وام" />
 
       {/* Loan Info Card */}
       <UserLoanInfoCard loan={loan} />

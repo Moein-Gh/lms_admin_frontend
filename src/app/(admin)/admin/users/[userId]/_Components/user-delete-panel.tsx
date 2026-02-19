@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { MessageCircle, Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { MessageSquare, DeleteIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -58,7 +58,7 @@ export default function UserDeletePanel({ userId }: { userId: string }) {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="outline" size="icon" className="h-9 w-9 shrink-0">
-            <MessageCircle className="h-4 w-4" />
+            <MessageSquare className="h-4 w-4" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>ارسال پیام</TooltipContent>
@@ -70,7 +70,7 @@ export default function UserDeletePanel({ userId }: { userId: string }) {
         className="h-9 w-9 shrink-0 hover:bg-destructive/90"
         onClick={() => setOpen(true)}
       >
-        <Trash className="h-4 w-4" />
+        <DeleteIcon className="h-4 w-4" />
       </Button>
 
       <ResponsivePanel open={open} onOpenChange={setOpen} variant="destructive">

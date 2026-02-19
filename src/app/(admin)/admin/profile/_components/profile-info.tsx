@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, Shield, User, UserRoundIcon } from "lucide-react";
+import { Mail, Phone, AdminIcon, UserIcon, UserRoundIcon } from "@/components/icons";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -27,7 +27,7 @@ export function ProfileInfo({ user, action, footer }: ProfileInfoProps) {
           <div className="flex flex-col gap-1">
             <CardTitle className="text-lg sm:text-2xl truncate">{user.name}</CardTitle>
             <CardDescription className="flex items-center gap-1.5 truncate text-sm sm:text-base">
-              <Shield className="size-3.5" />
+              <AdminIcon className="size-3.5" />
               {user.role}
             </CardDescription>
           </div>
@@ -37,7 +37,7 @@ export function ProfileInfo({ user, action, footer }: ProfileInfoProps) {
       <CardContent className="grid gap-4 pt-4">
         <div className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50">
           <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <User className="size-4.5" />
+            <UserIcon className="size-4.5" />
           </div>
           <div className="flex flex-col">
             <span className="text-[10px] text-muted-foreground">نام و نام خانوادگی</span>

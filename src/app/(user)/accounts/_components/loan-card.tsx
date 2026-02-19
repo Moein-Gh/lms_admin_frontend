@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Calendar, ChevronLeft } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, ChevronLeft } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -49,7 +49,7 @@ export function LoanCard({ loan }: LoanCardProps) {
             <div className="flex items-center justify-between gap-4">
               <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1">
-                  <Calendar className="size-4" />
+                  <CalendarIcon className="size-4" />
                   <FormattedDate value={loan.createdAt} />
                 </span>
                 {loan.paymentMonths && (

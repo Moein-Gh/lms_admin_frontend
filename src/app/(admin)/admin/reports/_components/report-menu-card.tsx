@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { type LucideIcon } from "lucide-react";
+import { type AppIcon } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 interface ReportMenuCardProps {
   readonly title: string;
   readonly description: string;
-  readonly icon: LucideIcon;
+  readonly icon: AppIcon;
   readonly href: string;
 }
 

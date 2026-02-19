@@ -1,7 +1,6 @@
-import { Calendar, CircleCheck, CircleDashed, Clock, Loader, AlertCircle } from "lucide-react";
-
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, CircleCheck, CircleDashed, Clock, Loader, AlertCircle } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -79,7 +78,7 @@ export function InstallmentCard({ installment }: { installment: Installment }) {
 
               <div className="flex items-center gap-4 text-xs text-muted-foreground flex-wrap">
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="size-3.5" />
+                  <CalendarIcon className="size-3.5" />
                   <span>سررسید:</span>
                   <FormattedDate value={installment.dueDate} className="font-medium tabular-nums" />
                 </div>

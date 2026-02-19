@@ -1,4 +1,4 @@
-import { CalendarClock } from "lucide-react";
+import { CalendarClock } from "@/components/icons";
 
 import { ReportMenuCard } from "./_components/report-menu-card";
 

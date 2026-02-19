@@ -1,4 +1,4 @@
-import { CreditCard } from "lucide-react";
+import { CardIcon } from "@/components/icons";
 
 import { EntitySummaryCard } from "./entity-summary-card";
 
@@ -15,7 +15,7 @@ export function LoansSummaryCard({ loans }: LoansSummaryCardProps) {
     <EntitySummaryCard
       title="وام‌ها"
       totalValue={loans.total}
-      icon={<CreditCard />}
+      icon={<CardIcon />}
       pendingCount={loans.pending}
       href="/admin/loans"
       stats={[

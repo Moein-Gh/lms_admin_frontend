@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutGrid } from "lucide-react";
+import { LayoutGridIcon } from "@/components/icons";
 
 import { useEntitiesSummary } from "@/hooks/admin/use-report";
 
@@ -22,7 +22,7 @@ const EntitiesSummary = () => {
   if (error) {
     return (
       <section className="space-y-2">
-        <EntitySummarySectionHeader title="خلاصه موجودیت‌ها" icon={<LayoutGrid className="size-3.5" />} />
+        <EntitySummarySectionHeader title="خلاصه موجودیت‌ها" icon={<LayoutGridIcon className="size-3.5" />} />
         <EntitySummaryError onRetry={() => refetch()} />
       </section>
     );
@@ -37,7 +37,7 @@ const EntitiesSummary = () => {
       <EntitySummarySectionHeader
         title="خلاصه موجودیت‌ها"
         subtitle="نمای کلی از اطلاعات سیستم"
-        icon={<LayoutGrid className="size-4" />}
+        icon={<LayoutGridIcon className="size-4" />}
       />
       <div className="grid gap-2 grid-cols-2 sm:grid-cols-4">
         <UsersSummaryCard users={summary.users} />
@@ -54,7 +54,7 @@ function EntitiesSummaryLoading() {
     <section className="space-y-2">
       <div className="flex items-center gap-1.5">
         <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <LayoutGrid className="size-4" />
+          <LayoutGridIcon className="size-4" />
         </div>
         <div>
           <h2 className="text-sm font-semibold">خلاصه موجودیت‌ها</h2>

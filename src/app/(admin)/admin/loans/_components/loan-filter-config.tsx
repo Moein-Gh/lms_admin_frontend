@@ -1,8 +1,8 @@
 "use client";
 
-import { TagsIcon } from "lucide-react";
-
 import { EntityFilterConfig, FilterState } from "@/components/filters";
+import { Tag } from "@/components/icons";
+
 import { LoanStatus, LoanStatusLabels } from "@/types/entities/loan.type";
 
 // Loan filter state type
@@ -63,7 +63,7 @@ export const loanFilterConfig: EntityFilterConfig<LoanFilters> = {
       type: "radio",
       key: "status",
       label: "وضعیت",
-      icon: <TagsIcon className="size-5" />,
+      icon: <Tag className="size-5" />,
       showAll: true,
       allLabel: "همه وام‌ها",
       options: [

@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, ChevronDown } from "@/components/icons";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
@@ -31,7 +31,7 @@ export function MonthlyPaymentSection({ month }: MonthlyPaymentSectionProps) {
               <div className="flex items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <div className="bg-primary/10 text-primary rounded-lg p-2.5 shrink-0">
-                    <Calendar className="size-5" />
+                    <CalendarIcon className="size-5" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">

@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-
 import { FormattedNumber } from "@/components/formatted-number";
+import { ChevronLeft } from "@/components/icons";
+
 import { cn } from "@/lib/utils";
 
 type EntitySummaryCardProps = {

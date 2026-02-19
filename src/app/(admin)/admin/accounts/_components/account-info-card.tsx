@@ -2,21 +2,21 @@
 
 import React from "react";
 import Link from "next/link";
-import {
-  Building2,
-  Calendar,
-  CreditCard,
-  Hash,
-  Tag,
-  User,
-  Wallet,
-  MoreVertical,
-  BanknoteArrowDown,
-  CheckCircle
-} from "lucide-react";
 import { toast } from "sonner";
 
 import { FormattedNumber } from "@/components/formatted-number";
+import {
+  Building2,
+  CalendarIcon,
+  CardIcon,
+  Hash,
+  Tag,
+  UserIcon,
+  AccountIcon,
+  MoreVertical,
+  BanknoteArrowDown,
+  CheckCircle
+} from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -72,12 +72,12 @@ export function AccountInfoCard({ account }: { account: Account }) {
                       href={`/admin/users/${account.user.id}`}
                       className="flex items-center gap-1.5 hover:text-primary transition-colors"
                     >
-                      <User className="h-3.5 w-3.5" />
+                      <UserIcon className="h-3.5 w-3.5" />
                       <span>{account.user.identity.name}</span>
                     </Link>
                   ) : (
                     <div className="flex items-center gap-1.5">
-                      <User className="h-3.5 w-3.5" />
+                      <UserIcon className="h-3.5 w-3.5" />
                       <span>بدون کاربر</span>
                     </div>
                   )}
@@ -136,7 +136,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
                               className="flex h-10 justify-between items-center text-start"
                               onSelect={() => setTransferOpen(true)}
                             >
-                              <Wallet className="h-4 w-4" />
+                              <AccountIcon className="h-4 w-4" />
                               <span>انتقال وجه</span>
                             </DropdownMenuItem>
                             <DropdownMenuItem
@@ -170,7 +170,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-8 justify-items-center">
               <div className="space-y-3 flex flex-col items-center">
                 <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                  <CreditCard className="h-3.5 w-3.5" />
+                  <CardIcon className="h-3.5 w-3.5" />
                   <span>۸ رقم آخر شماره کارت</span>
                 </div>
                 <p className="text-base font-medium text-foreground text-center">
@@ -191,7 +191,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
 
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                  <Calendar className="h-3.5 w-3.5" />
+                  <CalendarIcon className="h-3.5 w-3.5" />
                   <span>تاریخ افتتاح</span>
                 </div>
                 <p className="text-base font-medium text-foreground">
@@ -218,7 +218,7 @@ export function AccountInfoCard({ account }: { account: Account }) {
             {/* Amount display */}
             <div className="relative z-10">
               <div className="hidden md:flex items-center justify-start gap-1.5 text-xs text-muted-foreground mb-2">
-                <Wallet className="h-3.5 w-3.5" />
+                <AccountIcon className="h-3.5 w-3.5" />
                 <span>موجودی کل</span>
               </div>
               <span className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">

@@ -1,7 +1,7 @@
 "use client";
 
-import { SearchIcon, XIcon } from "lucide-react";
 import { motion } from "motion/react";
+import { SearchIcon, XIcon } from "@/components/icons";
 
 import { cn } from "@/lib/utils";
 

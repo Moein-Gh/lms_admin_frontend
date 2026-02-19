@@ -1,6 +1,6 @@
 "use client";
 
-import { UserCircle, Mail, Phone, MapPin, Calendar, User } from "lucide-react";
+import { UserCircleIcon, Mail, Phone, MapPin, UserIcon } from "@/components/icons";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/admin/use-current-user";
@@ -12,7 +12,7 @@ export default function ProfilePage() {
   const profileSections = [
     {
       title: "اطلاعات شخصی",
-      items: [{ label: "نام", value: user?.identity.name, icon: UserCircle }]
+      items: [{ label: "نام", value: user?.identity.name, icon: UserCircleIcon }]
     },
     {
       title: "اطلاعات تماس",
@@ -28,14 +28,14 @@ export default function ProfilePage() {
     <div className="container mx-auto p-4 md:p-6">
       <div className="space-y-6">
         {/* Header */}
-        <PageHeader icon={User} title="پروفایل کاربری" subtitle="مشاهده و مدیریت اطلاعات حساب کاربری" />
+        <PageHeader icon={UserIcon} title="پروفایل کاربری" subtitle="مشاهده و مدیریت اطلاعات حساب کاربری" />
 
         {/* Profile Card */}
         <Card className="p-6">
           <div className="flex flex-col items-center gap-4 md:flex-row md:items-start">
             {/* Avatar */}
             <div className="flex size-20 items-center justify-center rounded-full bg-primary/10 md:size-24">
-              <UserCircle className="size-12 text-primary md:size-16" />
+              <UserCircleIcon className="size-12 text-primary md:size-16" />
             </div>
 
             {/* User Info */}

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Trash2, CheckCircle2, AlertCircle } from "lucide-react";
 import { FormattedNumber } from "@/components/formatted-number";
+import { ArrowUpRight, DeleteIcon, CheckCircle2, AlertCircle } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -63,7 +63,7 @@ function JournalEntryCard({
             onClick={() => onRequestDelete?.(entry)}
             aria-label="حذف ثبت"
           >
-            <Trash2 className="h-4 w-4" />
+            <DeleteIcon className="h-4 w-4" />
           </Button>
         )}
       </div>
@@ -207,7 +207,7 @@ function JournalEntriesDesktopTable({
                       onClick={() => onRequestDelete?.(entry)}
                       aria-label="حذف ثبت"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <DeleteIcon className="h-4 w-4" />
                     </Button>
                   ) : (
                     <span className="text-muted-foreground">-</span>

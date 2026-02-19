@@ -1,15 +1,48 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { Calendar, DollarSign, Tag, ExternalLink, Receipt } from "lucide-react";
+import { CalendarIcon, Clock, ExternalLink, ReceiptText } from "lucide-react";
+import { TransactionAllocationSummary } from "@/app/(admin)/admin/transactions/_components/transaction-allocation-summary";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { TransactionIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useUserTransaction } from "@/hooks/user/use-transaction";
-import { TRANSACTION_KIND_META, TRANSACTION_STATUS_BADGE } from "@/types/entities/transaction.type";
+import {
+  TransactionKind,
+  TransactionStatus,
+  TRANSACTION_KIND_META,
+  TRANSACTION_STATUS_BADGE
+} from "@/types/entities/transaction.type";
 import { PageHeader } from "../../_components/page-header";
+
+/** Subtle tinted banner backgrounds per status */
+const STATUS_BANNER_BG: Record<TransactionStatus, string> = {
+  [TransactionStatus.APPROVED]: "bg-green-500/8 dark:bg-green-500/10",
+  [TransactionStatus.PENDING]: "bg-muted/60",
+  [TransactionStatus.REJECTED]: "bg-destructive/8 dark:bg-destructive/10",
+  [TransactionStatus.ALLOCATED]: "bg-primary/8 dark:bg-primary/10"
+};
+
+type DetailRowProps = {
+  readonly icon: React.ReactNode;
+  readonly label: string;
+  readonly value: React.ReactNode;
+};
+
+function DetailRow({ icon, label, value }: DetailRowProps) {
+  return (
+    <div className="flex items-center justify-between gap-4 py-3 border-b border-dashed border-border/60 last:border-0">
+      <div className="flex items-center gap-2 text-sm text-muted-foreground shrink-0">
+        <span className="[&>svg]:size-3.5 text-muted-foreground/70">{icon}</span>
+        <span>{label}</span>
+      </div>
+      <div className="text-sm font-medium text-foreground text-end min-w-0">{value}</div>
+    </div>
+  );
+}
 
 export default function UserTransactionDetailPage() {
   const { transactionId } = useParams();
@@ -39,87 +72,92 @@ export default function UserTransactionDetailPage() {
 
   const kindMeta = TRANSACTION_KIND_META[transaction.kind];
   const statusMeta = TRANSACTION_STATUS_BADGE[transaction.status];
+  const bannerBg = STATUS_BANNER_BG[transaction.status];
+
+  const isApprovedDeposit =
+    transaction.kind === TransactionKind.DEPOSIT && transaction.status === TransactionStatus.APPROVED;
+
+  const headerTitle = (
+    <>
+      تراکنش <FormattedNumber type="normal" value={transaction.code} />
+    </>
+  );
 
   return (
-    <div className="container max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
-      {/* Header */}
-      <PageHeader icon={Receipt} title={`تراکنش ${transaction.code}`} showBackButton={false} />
+    <div className="container max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
+      <PageHeader icon={TransactionIcon} title={headerTitle} showBackButton={true} />
 
-      {/* Transaction Info Card */}
-      <Card className="overflow-hidden border-none bg-card py-0">
-        <div className="flex flex-col md:flex-row">
-          {/* Right Side: Details */}
-          <div className="flex-1 p-6 space-y-8">
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-1.5">
-                <h2 className="text-2xl font-bold tracking-tight text-foreground">{`تراکنش ${transaction.code}`}</h2>
-                <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1.5 text-xs">
-                    <Tag className="h-3 w-3" />
-                    <Badge variant={kindMeta.variant} className="px-2 py-0.5">
-                      {kindMeta.label}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                  <ExternalLink className="h-3.5 w-3.5" />
-                  <span>شناسه خارجی</span>
-                </div>
-                <p className="text-base font-semibold text-foreground">{transaction.externalRef ?? "-"}</p>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                  <Calendar className="h-3.5 w-3.5" />
-                  <span>تاریخ ایجاد</span>
-                </div>
-                <p className="text-base font-medium text-foreground">
-                  <FormattedDate value={transaction.createdAt} />
-                </p>
-              </div>
-
-              {transaction.note && (
-                <div className="col-span-full space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                    <Tag className="h-3.5 w-3.5" />
-                    <span>توضیحات</span>
-                  </div>
-                  <div className="text-sm text-muted-foreground">{transaction.note}</div>
-                </div>
-              )}
-            </div>
+      {/* ── Payslip card ── */}
+      <Card className="overflow-hidden border shadow-sm bg-card py-0 gap-0">
+        {/* Banner */}
+        <div className={`${bannerBg} px-5 pt-5 pb-5`}>
+          {/* Row 1: amount label · status badge */}
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <span className="text-xs text-muted-foreground">مبلغ تراکنش</span>
+            <Badge variant={statusMeta.variant}>{statusMeta.label}</Badge>
           </div>
 
-          {/* Left Side: Amount Sidebar */}
-          <div className="md:w-64 bg-linear-to-bl from-primary/5 via-muted/10 to-transparent border-t md:border-t-0 md:border-r flex flex-row md:flex-col justify-between items-center md:items-stretch p-4 md:p-6 relative overflow-hidden">
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-1 h-full bg-linear-to-bl from-primary/50 via-primary/15 to-transparent" />
-            <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
+          {/* Row 2: amount hero */}
+          <p className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground leading-none mb-4">
+            <FormattedNumber type="price" value={transaction.amount} />
+          </p>
 
-            {/* Amount display */}
-            <div className="relative z-10">
-              <div className="hidden md:flex items-center justify-start gap-1.5 text-xs text-muted-foreground mb-2">
-                <DollarSign className="h-3.5 w-3.5" />
-                <span>مبلغ تراکنش</span>
-              </div>
-              <span className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                <FormattedNumber type="price" value={transaction.amount} />
-              </span>
-            </div>
-
-            {/* Status section */}
-            <div className="md:pt-4 md:border-t border-border/30 flex items-center justify-between relative z-10">
-              <span className="hidden md:inline text-xs text-muted-foreground">وضعیت</span>
-              <Badge variant={statusMeta.variant}>{statusMeta.label}</Badge>
-            </div>
+          {/* Row 3: code · kind */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs text-muted-foreground font-mono">{`#${transaction.code}`}</span>
+            <span className="text-border text-xs">·</span>
+            <Badge variant={kindMeta.variant}>{kindMeta.label}</Badge>
           </div>
         </div>
+
+        {/* Dashed tear-off divider */}
+        <div className="relative flex items-center px-0">
+          <div className="absolute -right-4 w-8 h-8 rounded-full bg-background border border-border" />
+          <div className="absolute -left-4 w-8 h-8 rounded-full bg-background border border-border" />
+          <div className="w-full border-t-2 border-dashed border-border/70 mx-4" />
+        </div>
+
+        {/* Detail rows */}
+        <div className="px-5 pt-4 pb-2">
+          <DetailRow
+            icon={<CalendarIcon />}
+            label="تاریخ ایجاد"
+            value={<FormattedDate value={transaction.createdAt} />}
+          />
+          <DetailRow icon={<Clock />} label="آخرین بروزرسانی" value={<FormattedDate value={transaction.updatedAt} />} />
+          <DetailRow
+            icon={<ExternalLink />}
+            label="شناسه خارجی"
+            value={
+              transaction.externalRef ? (
+                <span className="font-mono text-xs">{transaction.externalRef}</span>
+              ) : (
+                <span className="text-muted-foreground">—</span>
+              )
+            }
+          />
+
+          {transaction.note && (
+            <div className="py-3 border-b border-dashed border-border/60 space-y-1.5">
+              <p className="text-xs text-muted-foreground">توضیحات</p>
+              <p className="text-sm text-foreground font-medium leading-relaxed">{transaction.note}</p>
+            </div>
+          )}
+        </div>
       </Card>
+
+      {/* ── Allocation summary (deposit + approved only) ── */}
+      {isApprovedDeposit && (
+        <Card className="overflow-hidden py-0 gap-0">
+          <CardHeader className="flex flex-row items-center gap-3 p-4 border-b">
+            <ReceiptText className="size-4 text-muted-foreground" />
+            <p className="text-sm font-semibold text-foreground">نحوه تخصیص وجه</p>
+          </CardHeader>
+          <CardContent className="p-4">
+            <TransactionAllocationSummary transactionId={transaction.id} />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

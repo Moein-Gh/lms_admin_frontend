@@ -1,21 +1,20 @@
 import {
-  ArrowLeftRight,
-  HandCoins,
-  IdCard,
+  LoanIcon,
+  CardIcon,
   LayoutDashboard,
-  User,
-  ShieldUser,
+  UserIcon,
+  AdminIcon,
   Settings2,
   BarChart,
   FileText,
-  MessageSquare,
-  type LucideIcon
-} from "lucide-react";
+  TransactionIcon,
+  AppIcon
+} from "@/components/icons";
 
 export interface NavbarItem {
   title: string;
   url: string;
-  icon: LucideIcon;
+  icon: AppIcon;
 }
 
 export const navbarItems: NavbarItem[] = [
@@ -27,22 +26,22 @@ export const navbarItems: NavbarItem[] = [
   {
     title: "کاربران",
     url: "/admin/users",
-    icon: User
+    icon: UserIcon
   },
   {
     title: "حساب‌ها",
     url: "/admin/accounts",
-    icon: IdCard
+    icon: CardIcon
   },
   {
     title: "وام‌ها",
     url: "/admin/loans",
-    icon: HandCoins
+    icon: LoanIcon
   },
   {
     title: "تراکنش‌ها",
     url: "/admin/transactions",
-    icon: ArrowLeftRight
+    icon: TransactionIcon
   }
 ];
 
@@ -55,7 +54,7 @@ export const additionalNavbarItems: NavbarItem[] = [
   {
     title: "نقش‌ها",
     url: "/admin/roles",
-    icon: ShieldUser
+    icon: AdminIcon
   },
   {
     title: "انواع وام",

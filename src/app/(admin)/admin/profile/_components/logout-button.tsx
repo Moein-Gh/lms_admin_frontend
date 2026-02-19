@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { LogOut } from "lucide-react";
+import { LogoutIcon } from "@/components/icons";
 
 import {
   AlertDialog,
@@ -41,7 +41,7 @@ export function LogoutButton() {
       aria-label="خروج از حساب"
       disabled={logout.isPending}
     >
-      <LogOut className="size-4" />
+      <LogoutIcon className="size-4" />
       {!isMobile && (logout.isPending ? "در حال خروج..." : "خروج از حساب کاربری")}
     </Button>
   );

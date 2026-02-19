@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Calendar, Check, FileText, MoreVertical, Pencil, Trash, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, Check, FileText, MoreVertical, EditIcon, DeleteIcon, X } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -141,7 +141,7 @@ function LoanRequestCard({ loanRequest }: { loanRequest: LoanRequest }) {
               <DropdownMenuGroup>
                 <DropdownMenuItem onSelect={() => setEditNoteOpen(true)} className="flex justify-between items-center">
                   <span>ویرایش یادداشت</span>
-                  <Pencil className="size-4" />
+                  <EditIcon className="size-4" />
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   disabled={isDeleting}
@@ -154,7 +154,7 @@ function LoanRequestCard({ loanRequest }: { loanRequest: LoanRequest }) {
                   className="flex justify-between items-center text-destructive"
                 >
                   <span>حذف</span>
-                  <Trash className="size-4" />
+                  <DeleteIcon className="size-4" />
                 </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>
@@ -178,7 +178,7 @@ function LoanRequestCard({ loanRequest }: { loanRequest: LoanRequest }) {
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">تاریخ شروع</span>
           <div className="flex items-center gap-1.5">
-            <Calendar className="size-3.5 text-muted-foreground" />
+            <CalendarIcon className="size-3.5 text-muted-foreground" />
             <span className="text-sm">{formatPersianDate(loanRequest.startDate, DATE_FORMATS.SHORT)}</span>
           </div>
         </div>

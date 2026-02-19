@@ -1,9 +1,8 @@
 "use client";
 
-import { ArrowDownLeft, ArrowLeftIcon, ArrowLeftRight, ArrowUpRight } from "lucide-react";
-
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { FormattedNumber } from "@/components/formatted-number";
+import { ArrowDownLeft, ArrowLeft, ArrowUpRight, TransactionIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -96,7 +95,7 @@ function TransactionCard({ transaction }: { transaction: Transaction }) {
             <TooltipTrigger asChild>
               <a href={`/admin/transactions/${transaction.id}`}>
                 <Button size="icon" variant="outline" className="size-9 md:size-10 cursor-pointer">
-                  <ArrowLeftIcon className="size-5" />
+                  <ArrowLeft className="size-5" />
                 </Button>
               </a>
             </TooltipTrigger>
@@ -154,7 +153,7 @@ const UserTransactions = ({ userId }: UserTransactionsProps) => {
       <EmptyStateCard
         title="تراکنشی یافت نشد"
         description="برای این کاربر هنوز هیچ تراکنشی تعریف نشده است."
-        icon={<ArrowLeftRight className="size-10 text-muted-foreground" />}
+        icon={<TransactionIcon className="size-10 text-muted-foreground" />}
       />
     );
   }

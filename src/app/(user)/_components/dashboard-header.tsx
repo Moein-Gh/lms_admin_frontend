@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Bell, User, Shield } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { Bell, UserIcon, AdminIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/admin/use-current-user";
 import { cn } from "@/lib/utils";
@@ -62,7 +61,7 @@ export function DashboardHeader() {
           {/* Admin Dashboard Button - Mobile Hidden */}
           {hasAdminRole && (
             <Button size="icon" variant="outline" onClick={() => router.push("/admin")} className=" gap-2 md:flex">
-              <Shield className="size-5" />
+              <AdminIcon className="size-5" />
             </Button>
           )}
 
@@ -79,7 +78,7 @@ export function DashboardHeader() {
 
           {/* Profile Button */}
           <Button variant="outline" size="icon" className={cn("relative")} onClick={() => router.push("/profile")}>
-            <User className="size-5" />
+            <UserIcon className="size-5" />
             <span className="sr-only">پروفایل</span>
           </Button>
         </div>

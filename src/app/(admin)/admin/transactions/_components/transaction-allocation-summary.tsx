@@ -1,8 +1,17 @@
 "use client";
 
-import { Banknote, Building2, Calendar, CreditCard, Hash, Landmark, ReceiptText, User } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import {
+  BanknoteIcon,
+  Building2,
+  CalendarIcon,
+  CardIcon,
+  Hash,
+  Landmark,
+  ReceiptText,
+  UserIcon
+} from "@/components/icons";
 import { useJournals } from "@/hooks/admin/use-journal";
 import type { Account } from "@/types/entities/account.type";
 import type { Installment } from "@/types/entities/installment.type";
@@ -60,9 +69,9 @@ function toAllocationItem(entry: JournalEntry): AllocationItem | null {
       const dueDate = inst?.dueDate ?? null;
       const details: DetailField[] = [
         ...(loanLabel ? [field("loan", <Landmark className="size-3" />, loanLabel)] : []),
-        ...(userName ? [field("user", <User className="size-3" />, userName)] : []),
+        ...(userName ? [field("user", <UserIcon className="size-3" />, userName)] : []),
         ...(dueDate
-          ? [field("date", <Calendar className="size-3" />, <FormattedDate value={new Date(dueDate)} />)]
+          ? [field("date", <CalendarIcon className="size-3" />, <FormattedDate value={new Date(dueDate)} />)]
           : [])
       ];
       return {
@@ -82,8 +91,8 @@ function toAllocationItem(entry: JournalEntry): AllocationItem | null {
       const accountName = entryAccountName ?? loan?.account?.name ?? null;
       const details: DetailField[] = [
         ...(loanType ? [field("type", <Hash className="size-3" />, loanType)] : []),
-        ...(userName ? [field("user", <User className="size-3" />, userName)] : []),
-        ...(accountName ? [field("account", <CreditCard className="size-3" />, accountName)] : [])
+        ...(userName ? [field("user", <UserIcon className="size-3" />, userName)] : []),
+        ...(accountName ? [field("account", <CardIcon className="size-3" />, accountName)] : [])
       ];
       return {
         entryId: entry.id,
@@ -100,8 +109,10 @@ function toAllocationItem(entry: JournalEntry): AllocationItem | null {
       const accountId = entryAccountId ?? sub?.accountId ?? null;
       const periodDate = sub?.periodStart ? new Date(sub.periodStart) : null;
       const details: DetailField[] = [
-        ...(periodDate ? [field("period", <Calendar className="size-3" />, <FormattedDate value={periodDate} />)] : []),
-        ...(entryUserName ? [field("user", <User className="size-3" />, entryUserName)] : []),
+        ...(periodDate
+          ? [field("period", <CalendarIcon className="size-3" />, <FormattedDate value={periodDate} />)]
+          : []),
+        ...(entryUserName ? [field("user", <UserIcon className="size-3" />, entryUserName)] : []),
         ...(entryAccountCode ? [field("code", <Hash className="size-3" />, `حساب #${entryAccountCode}`)] : []),
         ...(entryBankName ? [field("bank", <Building2 className="size-3" />, entryBankName)] : [])
       ];
@@ -122,7 +133,7 @@ function toAllocationItem(entry: JournalEntry): AllocationItem | null {
       const accountCode = entryAccountCode ?? acc?.code ?? null;
       const bankName = entryBankName ?? acc?.bankName ?? null;
       const details: DetailField[] = [
-        ...(userName ? [field("user", <User className="size-3" />, userName)] : []),
+        ...(userName ? [field("user", <UserIcon className="size-3" />, userName)] : []),
         ...(accountCode ? [field("code", <Hash className="size-3" />, `حساب #${accountCode}`)] : []),
         ...(bankName ? [field("bank", <Building2 className="size-3" />, bankName)] : [])
       ];
@@ -186,7 +197,7 @@ export function TransactionAllocationSummary({ transactionId }: Props) {
 
       <div className="flex items-center justify-between gap-4 rounded-lg border bg-muted/40 px-4 py-3 mt-6">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Banknote className="size-4 shrink-0" />
+          <BanknoteIcon className="size-4 shrink-0" />
           <span>جمع تخصیص‌یافته</span>
         </div>
         <span className="text-sm font-bold text-foreground tabular-nums">

@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { MoreVertical, User, Moon, Sun, Settings, ArrowLeft, Bell, Home as HomeIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { MoreVertical, UserIcon, Moon, Sun, Settings, ArrowLeft, Bell, HomeIcon } from "@/components/icons";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
 import { useMe } from "@/hooks/admin/use-user";
@@ -161,7 +161,7 @@ export function MobileNavbar() {
                     whileHover={{ scale: 1.05 }}
                     className="flex aspect-square w-full items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card"
                   >
-                    <User className="size-5 text-foreground" />
+                    <UserIcon className="size-5 text-foreground" />
                   </motion.div>
                 </Link>
 

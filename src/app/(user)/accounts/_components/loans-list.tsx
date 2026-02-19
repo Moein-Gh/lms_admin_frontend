@@ -1,7 +1,7 @@
 "use client";
 
-import { FileText } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
+import { FileText } from "@/components/icons";
 import { PaginationControls } from "@/components/pagination-controls";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePagination } from "@/hooks/general/use-pagination";

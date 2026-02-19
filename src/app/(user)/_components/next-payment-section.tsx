@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { AlertCircle, ArrowLeft, Calendar } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { AlertCircle, ArrowLeft, CalendarIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -53,7 +53,7 @@ export function NextPaymentSection() {
                 hasOverdue ? "bg-destructive/10 text-destructive" : "bg-primary/10 text-primary"
               )}
             >
-              {hasOverdue ? <AlertCircle className="size-5" /> : <Calendar className="size-5" />}
+              {hasOverdue ? <AlertCircle className="size-5" /> : <CalendarIcon className="size-5" />}
             </div>
             <h3 className="font-bold text-base">پرداخت‌ پیش رو</h3>
           </div>

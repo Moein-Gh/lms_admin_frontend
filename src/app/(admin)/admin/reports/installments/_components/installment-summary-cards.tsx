@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, CalendarClock, CheckCircle2, Clock } from "lucide-react";
-
 import { InstallmentMetricCard } from "@/components/financial/installment-metric-card";
+import { ArrowLeft, ArrowRight, CalendarClock, CheckCircle2, Clock } from "@/components/icons";
+
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { type CurrentMonthBreakdown } from "@/types/entities/installment-projection.type";
 

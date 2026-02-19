@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 
-import { LayoutDashboard, ChartBar, Gauge, ShoppingBag, GraduationCap, Forklift, Search } from "lucide-react";
+import { LayoutDashboard, ChartBar, Gauge, ShoppingBag, GraduationCap, Forklift, Search } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import {

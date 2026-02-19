@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
+import { ArrowLeft } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/admin/use-current-user";
 import { useUserTransactions } from "@/hooks/user/use-transaction";

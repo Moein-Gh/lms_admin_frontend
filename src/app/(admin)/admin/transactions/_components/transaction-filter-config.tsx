@@ -1,8 +1,8 @@
 "use client";
 
-import { TagsIcon, Filter } from "lucide-react";
-
 import type { EntityFilterConfig, FilterState } from "@/components/filters";
+import { Tag, FilterIcon } from "@/components/icons";
+
 import {
   TRANSACTION_KIND_META,
   TRANSACTION_STATUS_BADGE,
@@ -66,7 +66,7 @@ export const transactionFilterConfig: EntityFilterConfig<TransactionFilters> = {
       type: "radio",
       key: "status",
       label: "وضعیت",
-      icon: <TagsIcon className="size-5" />,
+      icon: <Tag className="size-5" />,
       showAll: true,
       allLabel: "همه وضعیت‌ها",
       options: [
@@ -92,7 +92,7 @@ export const transactionFilterConfig: EntityFilterConfig<TransactionFilters> = {
       type: "radio",
       key: "kind",
       label: "نوع تراکنش",
-      icon: <Filter className="size-5" />,
+      icon: <FilterIcon className="size-5" />,
       showAll: true,
       allLabel: "همه انواع",
       options: [

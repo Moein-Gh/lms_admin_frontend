@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { CheckIcon, ChevronsUpDown } from "lucide-react";
 import * as RPNInput from "react-phone-number-input";
 
 const PhoneNumberInput = RPNInput.default;
 import flags from "react-phone-number-input/flags";
+import { CheckIcon, ChevronsUpDown } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";

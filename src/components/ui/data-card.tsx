@@ -2,9 +2,9 @@
 
 import * as React from "react";
 
-import { ChevronDown } from "lucide-react";
 import { animate } from "motion";
 import { AnimatePresence, motion, useMotionValue } from "motion/react";
+import { ChevronDown } from "@/components/icons";
 
 import { cn } from "@/lib/utils";
 

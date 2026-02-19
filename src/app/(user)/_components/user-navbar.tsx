@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MoreVertical, User, Moon, Sun, Bell, Home, Wallet, HandCoins } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { MoreVertical, UserIcon, Moon, Sun, Bell, HomeIcon, LoanIcon, AccountIcon } from "@/components/icons";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
 import { NavItem } from "@/components/nav-item";
@@ -19,17 +19,17 @@ const userNavItems = [
   {
     title: "داشبورد",
     url: "/",
-    icon: Home
+    icon: HomeIcon
   },
   {
     title: "حساب‌ها",
     url: "/accounts",
-    icon: Wallet
+    icon: AccountIcon
   },
   {
     title: "وام‌ها",
     url: "/loans",
-    icon: HandCoins
+    icon: LoanIcon
   }
 ];
 
@@ -167,7 +167,7 @@ export function UserNavbar() {
                     {/* Profile */}
                     <Link href="/profile" onClick={() => setIsExpanded(false)} className="flex-1">
                       <div className="flex aspect-square w-full items-center justify-center rounded-xl border border-border/50 bg-card/50 transition-colors hover:border-primary/50 hover:bg-card">
-                        <User className="size-5 text-foreground" />
+                        <UserIcon className="size-5 text-foreground" />
                       </div>
                     </Link>
 

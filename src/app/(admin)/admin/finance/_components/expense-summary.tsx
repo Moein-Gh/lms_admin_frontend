@@ -1,7 +1,7 @@
 "use client";
 
-import { ShoppingBasket, TramFront, Ellipsis } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
+import { ShoppingBasket, TramFront, Ellipsis } from "@/components/icons";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";

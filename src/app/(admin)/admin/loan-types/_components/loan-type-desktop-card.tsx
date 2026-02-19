@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Edit2, Trash2, X, Check } from "lucide-react";
 import { toast } from "sonner";
 
 import { FormattedNumber } from "@/components/formatted-number";
+import { EditIcon, DeleteIcon, X, Check } from "@/components/icons";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -94,12 +94,12 @@ export function LoanTypeDesktopCard({ loanType }: LoanTypeDesktopCardProps) {
 
         <div className="flex items-center gap-2 border-r pr-4 mr-4">
           <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)}>
-            <Edit2 className="size-4 text-muted-foreground" />
+            <EditIcon className="size-4 text-muted-foreground" />
           </Button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="ghost" size="icon">
-                <Trash2 className="size-4 text-destructive" />
+                <DeleteIcon className="size-4 text-destructive" />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent className="text-start">

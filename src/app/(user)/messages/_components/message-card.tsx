@@ -1,8 +1,8 @@
 "use client";
 
-import { Clock } from "lucide-react";
-
 import { FormattedDate } from "@/components/formatted-date";
+import { Clock } from "@/components/icons";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { DATE_FORMATS } from "@/lib/date-service";
 import { cn } from "@/lib/utils";

@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { useParams } from "next/navigation";
-import { FileText, ReceiptText } from "lucide-react";
+import { FileText, ReceiptText } from "@/components/icons";
 import { JournalForTransaction } from "@/components/journal/journal-for-transaction";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";

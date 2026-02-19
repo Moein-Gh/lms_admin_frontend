@@ -1,5 +1,4 @@
-import { ArrowLeftRight } from "lucide-react";
-
+import { TransactionIcon } from "@/components/icons";
 import { EntitySummaryCard } from "./entity-summary-card";
 
 type TransactionsSummaryCardProps = {
@@ -15,7 +14,7 @@ export function TransactionsSummaryCard({ transactions }: TransactionsSummaryCar
     <EntitySummaryCard
       title="تراکنش‌ها"
       totalValue={transactions.total}
-      icon={<ArrowLeftRight />}
+      icon={<TransactionIcon />}
       pendingCount={transactions.pending}
       href="/admin/transactions"
       stats={[

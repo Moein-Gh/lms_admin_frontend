@@ -1,4 +1,4 @@
-import { TrendingUp } from "lucide-react";
+import { TrendingUp } from "@/components/icons";
 
 import { Badge } from "../ui/badge";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";

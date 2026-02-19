@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import { CreditCard, FileText, HandCoins, Receipt, Tag } from "lucide-react";
+import { CardIcon, FileText, LoanIcon, Receipt, Tag } from "@/components/icons";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/hooks/admin/use-user";
@@ -18,12 +18,12 @@ const tabs = [
   {
     name: "حساب ها",
     value: "accounts",
-    icon: CreditCard
+    icon: CardIcon
   },
   {
     name: "وام ها",
     value: "loans",
-    icon: HandCoins
+    icon: LoanIcon
   },
   {
     name: "درخواست وام",

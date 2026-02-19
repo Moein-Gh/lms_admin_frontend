@@ -1,7 +1,7 @@
 "use client";
 
-import { TrendingUp, Wallet, CalendarClock } from "lucide-react";
 import { FormattedNumber } from "@/components/formatted-number";
+import { TrendingUp, AccountIcon, CalendarClock } from "@/components/icons";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/hooks/admin/use-current-user";
 import { useLoans } from "@/hooks/admin/use-loan";
@@ -36,7 +36,7 @@ export function LoansSummary() {
         <Card className="p-4  transition-shadow">
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-950">
-              <Wallet className="size-5 text-blue-600 dark:text-blue-400" />
+              <AccountIcon className="size-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="flex-1">
               <h3 className="text-xs font-medium text-muted-foreground">وام‌های فعال</h3>

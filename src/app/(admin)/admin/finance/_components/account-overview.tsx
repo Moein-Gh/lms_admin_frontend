@@ -1,7 +1,7 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import { siApple, siPaypal, siOpenai, siVercel, siFigma } from "simple-icons";
+import { Plus } from "@/components/icons";
 
 import { SimpleIcon } from "@/components/simple-icon";
 import { Button } from "@/components/ui/button";

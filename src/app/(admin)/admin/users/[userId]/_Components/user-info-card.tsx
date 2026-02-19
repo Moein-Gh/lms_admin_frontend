@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Activity, Calendar, Hash, Phone, User2Icon, Wallet } from "lucide-react";
 import { FormattedNumber } from "@/components/formatted-number";
-import { Badge } from "@/components/ui/badge";
+import { Activity, CalendarIcon, Hash, Phone, UserIcon, AccountIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -30,7 +29,7 @@ export default function UserInfoCard({ user }: Props) {
       <CardHeader className="px-6 pt-6 pb-4 flex flex-row justify-between gap-4 bg-accent/40 hover:bg-accent/60 transition-colors rounded-lg">
         <div className="flex items-center gap-4 min-w-0">
           <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center shrink-0">
-            <User2Icon className="w-6 h-6 text-foreground" />
+            <UserIcon className="w-6 h-6 text-foreground" />
           </div>
           <div className="flex flex-col gap-1 min-w-0">
             <h2 className="text-xl font-bold truncate text-foreground">{identity.name ?? "کاربر بدون نام"}</h2>
@@ -39,7 +38,7 @@ export default function UserInfoCard({ user }: Props) {
 
         <Link href={`/admin/users/${user.id}/payments`} className="shrink-0">
           <Button variant="secondary" size="sm" className="gap-2">
-            <Wallet className="h-4 w-4" />
+            <AccountIcon className="h-4 w-4" />
             پرداخت‌ها
           </Button>
         </Link>
@@ -66,7 +65,7 @@ export default function UserInfoCard({ user }: Props) {
 
         <div className="flex items-center justify-between p-2.5 rounded-lg bg-accent/40 hover:bg-accent/60 transition-colors">
           <span className="text-[15px] text-muted-foreground flex items-center gap-1.5">
-            <Calendar className="h-3 w-3" />
+            <CalendarIcon className="h-3 w-3" />
             تاریخ عضویت
           </span>
           <span className="text-base font-medium truncate">

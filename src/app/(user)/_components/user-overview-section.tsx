@@ -1,7 +1,7 @@
 "use client";
 
-import { Wallet, TrendingUp, Percent, CreditCard } from "lucide-react";
 import { FormattedNumber } from "@/components/formatted-number";
+import { AccountIcon, TrendingUp, Percent, CardIcon } from "@/components/icons";
 import { useUserOverview } from "@/hooks/user/use-dashboard";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +15,7 @@ const OverviewCard = ({
   readonly title: string;
   readonly value: string | number | React.ReactNode;
   readonly subtitle?: string;
-  readonly icon: typeof Wallet;
+  readonly icon: typeof AccountIcon;
   readonly variant?: "default" | "success" | "warning" | "info";
 }) => {
   const variantStyles = {
@@ -87,7 +87,7 @@ export function UserOverviewSection() {
           title="موجودی کل حساب‌ها"
           value={<FormattedNumber type="price" value={overview.totalAccountBalance} />}
           subtitle={`${overview.activeAccountsCount} حساب فعال`}
-          icon={Wallet}
+          icon={AccountIcon}
           variant="success"
         />
 
@@ -95,7 +95,7 @@ export function UserOverviewSection() {
           title="تعداد وام‌های فعال"
           value={overview.activeLoansCount}
           subtitle={overview.activeLoansCount > 0 ? "وام فعال" : "بدون وام"}
-          icon={CreditCard}
+          icon={CardIcon}
           variant="info"
         />
 

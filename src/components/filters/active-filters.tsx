@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { XIcon } from "lucide-react";
 import { motion } from "motion/react";
+import { XIcon } from "@/components/icons";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

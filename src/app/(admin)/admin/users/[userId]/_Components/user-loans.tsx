@@ -1,9 +1,8 @@
 "use client";
 
-import { ArrowLeftIcon, Calendar, HandCoins } from "lucide-react";
-
 import NoLoanCard from "@/components/entity-specific/loan/no-loan-card";
 import { FormattedNumber } from "@/components/formatted-number";
+import { ArrowLeft, CalendarIcon, LoanIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -45,7 +44,7 @@ function LoanCard({ loan }: { loan: Loan }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="flex size-10 items-center justify-center rounded-lg bg-primary/5">
-            <HandCoins className="size-5 text-primary" />
+            <LoanIcon className="size-5 text-primary" />
           </div>
           <Badge variant="outline" className="text-[10px] font-medium">
             {loan.loanType?.name ?? "نوع نامشخص"}
@@ -60,7 +59,7 @@ function LoanCard({ loan }: { loan: Loan }) {
             <TooltipTrigger asChild>
               <a href={`/admin/loans/${loan.id}`} className="size-9 md:size-10 ">
                 <Button size="icon" variant="outline" className="w-full h-full cursor-pointer">
-                  <ArrowLeftIcon className="size-5" />
+                  <ArrowLeft className="size-5" />
                 </Button>
               </a>
             </TooltipTrigger>
@@ -85,7 +84,7 @@ function LoanCard({ loan }: { loan: Loan }) {
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">تاریخ شروع</span>
           <div className="flex items-center gap-1.5">
-            <Calendar className="size-3.5 text-muted-foreground" />
+            <CalendarIcon className="size-3.5 text-muted-foreground" />
             <span className="text-sm">{formatPersianDate(loan.startDate, DATE_FORMATS.SHORT)}</span>
           </div>
         </div>

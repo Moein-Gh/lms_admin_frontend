@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Calendar, ChevronLeft, Clock, CheckCircle2 } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, ChevronLeft, Clock, CheckCircle2 } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -52,7 +52,7 @@ export function ActiveLoanCard({ loan, href }: ActiveLoanCardProps) {
                   </span>
                 )}
                 <span className="flex items-center gap-1">
-                  <Calendar className="size-4" />
+                  <CalendarIcon className="size-4" />
                   <FormattedDate value={loan.startDate} />
                 </span>
                 {totalInstallments && (

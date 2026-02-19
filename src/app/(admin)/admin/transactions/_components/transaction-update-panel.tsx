@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Pencil } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { EditIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -49,7 +49,7 @@ export function TransactionUpdatePanel({ transaction }: { transaction: Transacti
   return (
     <>
       <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
-        <Pencil />
+        <EditIcon />
         ویرایش
       </Button>
       <ResponsivePanel open={open} onOpenChange={setOpen}>

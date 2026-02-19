@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { ArrowRightIcon, ArrowUpDownIcon, ChevronLeftIcon, SlidersHorizontalIcon } from "lucide-react";
 import { motion } from "motion/react";
+import { ArrowRightIcon, ArrowUpDownIcon, ChevronLeftIcon, SlidersHorizontalIcon } from "@/components/icons";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

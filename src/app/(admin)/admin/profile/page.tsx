@@ -1,6 +1,6 @@
 "use client";
 
-import { User2, ShieldCheck } from "lucide-react";
+import { UserIcon, ShieldCheck } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMe } from "@/hooks/admin/use-user";
 import { EditUserDialog } from "../users/[userId]/_Components/edit-user-dialog";
@@ -39,7 +39,7 @@ export default function ProfilePage() {
         <div className="flex justify-center mb-6">
           <TabsList className="flex gap-2 w-full max-w-md overflow-x-auto px-2">
             <TabsTrigger value="personal" className="flex items-center gap-2">
-              <User2 className="size-4" />
+              <UserIcon className="size-4" />
               اطلاعات شخصی
             </TabsTrigger>
             <TabsTrigger value="roles" className="flex items-center gap-2">

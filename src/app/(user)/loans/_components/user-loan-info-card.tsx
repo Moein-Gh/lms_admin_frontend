@@ -1,8 +1,8 @@
 "use client";
 
-import { Calendar, CalendarClock, DollarSign, Hash, Percent, Tag } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, CalendarClock, CircleDollarSign, Hash, Percent, Tag } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -52,7 +52,7 @@ function LoanSidebar({ amount, paid, paidPercentage }: { amount: string; paid: n
         {/* Total Amount */}
         <div className="space-y-3 flex flex-row items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-            <DollarSign className="h-4 w-4" />
+            <CircleDollarSign className="h-4 w-4" />
             <span>مبلغ وام</span>
           </div>
           <div className="flex items-baseline gap-1.5">
@@ -133,12 +133,12 @@ export function UserLoanInfoCard({ loan }: UserLoanInfoCardProps) {
               <FormattedNumber type="normal" value={months} /> ماه
             </InfoItem>
 
-            <InfoItem icon={Calendar} label="تاریخ شروع">
+            <InfoItem icon={CalendarIcon} label="تاریخ شروع">
               <FormattedDate value={loan.startDate} />
             </InfoItem>
 
             {end && (
-              <InfoItem icon={Calendar} label="تاریخ پایان">
+              <InfoItem icon={CalendarIcon} label="تاریخ پایان">
                 <FormattedDate value={end} />
               </InfoItem>
             )}

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { FilterIcon, XIcon } from "lucide-react";
+import { FilterIcon, XIcon } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import {

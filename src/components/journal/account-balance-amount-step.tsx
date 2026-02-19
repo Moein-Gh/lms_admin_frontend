@@ -1,6 +1,6 @@
 import * as React from "react";
-import { BanknoteIcon } from "lucide-react";
 import AmountInput from "@/components/form/amount-input";
+import { BanknoteIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import type { AllocationFormData } from "./allocate-journal-panel.types";
 

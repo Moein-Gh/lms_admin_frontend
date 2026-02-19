@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Edit2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { EditIcon, DeleteIcon } from "@/components/icons";
 
 import {
   AlertDialog,
@@ -60,13 +60,13 @@ export function LoanTypeCardList() {
     ],
     actions: (item) => [
       {
-        icon: <Edit2 className="size-6" />,
+        icon: <EditIcon className="size-6" />,
         label: "ویرایش",
         onClick: () => setEditingLoanType(item),
         side: "left"
       },
       {
-        icon: <Trash2 className="size-6" />,
+        icon: <DeleteIcon className="size-6" />,
         label: "حذف",
         onClick: () => setDeletingLoanType(item),
         variant: "destructive",

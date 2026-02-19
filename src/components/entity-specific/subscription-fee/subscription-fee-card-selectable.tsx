@@ -1,6 +1,6 @@
-import { Calendar, Check } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, Check } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -37,7 +37,7 @@ export function SubscriptionFeeCardSelectable({ fee, selected, onSelect }: Subsc
 
         <div className="flex-1 min-w-0 flex items-center justify-between gap-4 ">
           <div className="flex items-center gap-3 min-w-0">
-            <Calendar className={cn("w-5 h-5 shrink-0", selected ? "text-primary" : "text-muted-foreground")} />
+            <CalendarIcon className={cn("w-5 h-5 shrink-0", selected ? "text-primary" : "text-muted-foreground")} />
             <div className="min-w-0">
               <div className={cn("font-semibold truncate", selected && "text-primary")}>
                 {fee.code ? `کد: ${fee.code}` : `ماهیانه ${fee.id}`}

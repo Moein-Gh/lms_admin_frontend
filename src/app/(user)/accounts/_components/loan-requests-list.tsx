@@ -1,9 +1,9 @@
 "use client";
 
-import { Calendar, HandCoins } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, LoanIcon } from "@/components/icons";
 import { PaginationControls } from "@/components/pagination-controls";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -39,7 +39,7 @@ export function LoanRequestsList({ accountId }: LoanRequestsListProps) {
   if (!data?.data.length) {
     return (
       <EmptyStateCard
-        icon={<HandCoins className="size-10" />}
+        icon={<LoanIcon className="size-10" />}
         title="هیچ درخواست وامی یافت نشد"
         description="شما می‌توانید با استفاده از این حساب درخواست وام ثبت کنید."
       />
@@ -86,7 +86,7 @@ export function LoanRequestsList({ accountId }: LoanRequestsListProps) {
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                     <span className="flex items-center gap-1">
-                      <Calendar className="size-4" />
+                      <CalendarIcon className="size-4" />
                       <FormattedDate value={request.createdAt} />
                     </span>
                     {request.paymentMonths && (

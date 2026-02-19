@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Pencil } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { EditIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -46,7 +46,7 @@ export function LoanUpdatePanel({ loan }: { loan: Loan }) {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="outline" size="icon" onClick={() => setOpen(true)}>
-            <Pencil className="h-4 w-4" />
+            <EditIcon className="h-4 w-4" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>ویرایش وام</TooltipContent>

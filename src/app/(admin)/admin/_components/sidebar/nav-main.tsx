@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ChevronLeft, PlusCircleIcon } from "lucide-react";
+import { ChevronLeft } from "@/components/icons";
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {

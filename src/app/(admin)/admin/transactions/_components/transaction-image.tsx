@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image as ImageIcon, Download } from "lucide-react";
+import { ImageIcon, Download } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import Image from "@/components/ui/image";

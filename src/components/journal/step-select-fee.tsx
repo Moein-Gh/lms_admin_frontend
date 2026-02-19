@@ -1,5 +1,5 @@
-import { ReceiptIcon } from "lucide-react";
 import SubscriptionFeeCardSelectable from "@/components/entity-specific/subscription-fee/subscription-fee-card-selectable";
+import { InstallmentIcon } from "@/components/icons";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { useSubscriptionFees } from "@/hooks/admin/use-subscription-fee";
 import { OrderDirection } from "@/types/api";
@@ -43,7 +43,7 @@ export function StepSelectFee({
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <ReceiptIcon className="size-4 text-muted-foreground" />
+          <InstallmentIcon className="size-4 text-muted-foreground" />
           <span>انتخاب ماهیانه</span>
         </div>
         {selectedCount > 0 && <div className="text-sm text-muted-foreground">{selectedCount} ماهیانه انتخاب شده</div>}

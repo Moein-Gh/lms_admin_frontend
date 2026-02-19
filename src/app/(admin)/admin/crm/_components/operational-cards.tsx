@@ -1,7 +1,7 @@
 "use client";
 
-import { Clock } from "lucide-react";
 import { FunnelChart, Funnel, LabelList } from "recharts";
+import { Clock } from "@/components/icons";
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from "@/components/ui/card";
 import { ChartContainer } from "@/components/ui/chart";

@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Check, MoreVertical, Pencil, Trash, X } from "lucide-react";
 import { toast } from "sonner";
 
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { Check, MoreVertical, EditIcon, DeleteIcon, X } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -113,7 +113,7 @@ function LoanRequestActions({ loanRequest }: { loanRequest: LoanRequest }) {
                 className="flex justify-between items-center gap-2"
               >
                 <span>ویرایش یادداشت</span>
-                <Pencil className="size-4 shrink-0" />
+                <EditIcon className="size-4 shrink-0" />
               </DropdownMenuItem>
               <DropdownMenuItem
                 disabled={isDeleting}
@@ -121,7 +121,7 @@ function LoanRequestActions({ loanRequest }: { loanRequest: LoanRequest }) {
                 className="flex justify-between items-center gap-2 text-destructive"
               >
                 <span>حذف</span>
-                <Trash className="size-4 shrink-0 text-destructive" />
+                <DeleteIcon className="size-4 shrink-0 text-destructive" />
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

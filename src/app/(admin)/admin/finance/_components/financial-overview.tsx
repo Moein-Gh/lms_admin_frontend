@@ -1,7 +1,7 @@
 "use client";
 
-import { ArrowDownLeft, ArrowUpRight, CalendarCheck } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
+import { ArrowDownLeft, ArrowUpRight, CalendarCheckIcon } from "@/components/icons";
 
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -86,7 +86,7 @@ export function FinancialOverview() {
           <Separator orientation="vertical" className="!h-auto" />
           <div className="flex flex-1 items-center justify-center gap-2">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-full border">
-              <CalendarCheck className="stroke-chart-3 size-6" />
+              <CalendarCheckIcon className="stroke-chart-3 size-6" />
             </div>
             <div>
               <p className="text-muted-foreground text-xs uppercase">Scheduled</p>

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { BadgeCheck, BadgeX, Calendar, Coins } from "lucide-react";
 import { motion } from "motion/react";
 
 import { FormattedNumber } from "@/components/formatted-number";
+import { BadgeCheck, BadgeX, CalendarIcon, Coins } from "@/components/icons";
 import { formatPersianDate, DATE_FORMATS } from "@/lib/date-service";
 import { cn } from "@/lib/utils";
 import { PaymentStatus, PaymentType, type PaymentItemDto } from "@/types/entities/payment.type";
@@ -62,7 +62,7 @@ export function PaymentItemRow({ item }: PaymentItemRowProps) {
       <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="inline-flex items-center gap-1.5 rounded-md bg-accent/50 px-2 py-1 text-muted-foreground">
-            <Calendar className="size-3.5" />
+            <CalendarIcon className="size-3.5" />
             <span>
               سررسید:{" "}
               <span className="tabular-nums font-medium">{formatPersianDate(item.dueDate, DATE_FORMATS.SHORT)}</span>
@@ -71,7 +71,7 @@ export function PaymentItemRow({ item }: PaymentItemRowProps) {
 
           {item.paymentDate && (
             <span className="inline-flex items-center gap-1.5 rounded-md bg-accent/50 px-2 py-1 text-muted-foreground">
-              <Calendar className="size-3.5" />
+              <CalendarIcon className="size-3.5" />
               <span>
                 پرداخت:{" "}
                 <span className="tabular-nums font-medium">

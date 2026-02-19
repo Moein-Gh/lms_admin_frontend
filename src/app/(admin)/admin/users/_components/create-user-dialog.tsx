@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { parsePhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
+import { PlusIcon } from "@/components/icons";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

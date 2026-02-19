@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { XCircle } from "lucide-react";
 import { toast } from "sonner";
+import { RejectIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
@@ -33,7 +33,7 @@ export function TransactionRejectPanel({ transaction }: { transaction: Transacti
   return (
     <>
       <Button variant="outline" size="sm" type="button" aria-label="رد تراکنش" onClick={() => setOpen(true)}>
-        <XCircle className="text-destructive" />
+        <RejectIcon className="text-destructive" />
         رد تراکنش
       </Button>
 

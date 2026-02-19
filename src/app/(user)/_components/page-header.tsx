@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, type LucideIcon } from "lucide-react";
+import { ArrowLeft, type AppIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -10,12 +10,12 @@ interface PageHeaderProps {
   /**
    * The title/label to display on the right side
    */
-  title: string;
+  title: string | React.ReactNode;
 
   /**
    * Optional icon to display with the title
    */
-  icon?: LucideIcon;
+  icon?: AppIcon;
 
   /**
    * Optional subtitle/description below the title

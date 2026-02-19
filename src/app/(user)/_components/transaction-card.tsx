@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowDown, ArrowUp, ArrowLeftRight, CreditCard, ChevronLeft } from "lucide-react";
+
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { ArrowDown, ArrowUp, ChevronLeft, LoanDisbursementIcon, TransactionIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { DATE_FORMATS } from "@/lib/date-service";
@@ -24,9 +25,9 @@ function getTransactionIcon(kind: TransactionKind) {
     case TransactionKind.WITHDRAWAL:
       return <ArrowUp className="size-5 text-destructive" />;
     case TransactionKind.TRANSFER:
-      return <ArrowLeftRight className="size-5 text-warning" />;
+      return <TransactionIcon className="size-5 text-warning" />;
     case TransactionKind.LOAN_DISBURSEMENT:
-      return <CreditCard className="size-5 " />;
+      return <LoanDisbursementIcon className="size-5 " />;
   }
 }
 

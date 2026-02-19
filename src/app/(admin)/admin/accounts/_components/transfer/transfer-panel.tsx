@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
 
 import AccountCardSelectable from "@/components/entity-specific/account/account-card-selectable";
 import AmountInput from "@/components/form/amount-input";
+import { ArrowLeft, ArrowRightIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
@@ -175,7 +175,7 @@ export default function TransferPanel({ open, onOpenChange, sourceAccountId, use
                 {create.isPending ? "در حال ارسال..." : "ارسال انتقال"}
               </Button>
               <Button type="button" variant="outline" onClick={goBack}>
-                <ArrowLeftIcon className="size-4" /> مرحله قبل
+                <ArrowLeft className="size-4" /> مرحله قبل
               </Button>
             </div>
           )}
@@ -220,7 +220,7 @@ export default function TransferPanel({ open, onOpenChange, sourceAccountId, use
                 </Button>
                 <Button type="button" variant="outline" onClick={goBack}>
                   مرحله قبل
-                  <ArrowLeftIcon className="size-4" />
+                  <ArrowLeft className="size-4" />
                 </Button>
               </>
             )}

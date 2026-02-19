@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { FormattedDate } from "@/components/formatted-date";
 import {
-  Calendar,
+  CalendarIcon,
   Mail,
   MessageSquare,
   Bell,
@@ -9,9 +10,8 @@ import {
   CalendarClock,
   CheckCircle2,
   Database
-} from "lucide-react";
+} from "@/components/icons";
 
-import { FormattedDate } from "@/components/formatted-date";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -84,7 +84,7 @@ export function MessageInfoCard({ message }: MessageInfoCardProps) {
             </InfoItem>
           )}
 
-          <InfoItem icon={Calendar} label="تاریخ ایجاد">
+          <InfoItem icon={CalendarIcon} label="تاریخ ایجاد">
             <FormattedDate value={message.createdAt} />
           </InfoItem>
 
@@ -95,7 +95,7 @@ export function MessageInfoCard({ message }: MessageInfoCardProps) {
           )}
 
           {message.sentAt && (
-            <InfoItem icon={Calendar} label="تاریخ ارسال">
+            <InfoItem icon={CalendarIcon} label="تاریخ ارسال">
               <FormattedDate value={message.sentAt} />
             </InfoItem>
           )}

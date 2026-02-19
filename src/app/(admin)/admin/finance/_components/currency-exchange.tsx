@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight, RefreshCw } from "lucide-react";
+import { RefreshCw, TransactionIcon } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,7 +39,7 @@ export function CurrencyExchange() {
               </div>
               <Separator orientation="vertical" className="!h-auto" />
               <div className="flex flex-1 items-center justify-center">
-                <ArrowLeftRight className="text-muted-foreground size-4" />
+                <TransactionIcon className="text-muted-foreground size-4" />
               </div>
               <Separator orientation="vertical" className="!h-auto" />
               <div className="flex flex-1 justify-center">

@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { FileText } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { FileText } from "@/components/icons";
 import { AllocateJournalPanel } from "@/components/journal/allocate-journal-panel";
 import { JournalEntriesTable } from "@/components/journal/journal-entries-table";
 import { Badge } from "@/components/ui/badge";

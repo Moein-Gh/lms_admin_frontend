@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, HandCoins } from "lucide-react";
+import { ChevronLeft, LoanIcon } from "@/components/icons";
 
 import {
   Breadcrumb,
@@ -42,7 +42,7 @@ export function LoansHeader({ total, filterTrigger }: LoansHeaderProps) {
         </Breadcrumb>
         <div className="flex items-center gap-3">
           <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl sm:h-12 sm:w-12">
-            <HandCoins className="size-6 sm:size-7" />
+            <LoanIcon className="size-6 sm:size-7" />
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-bold tracking-tight sm:text-3xl">وام‌ها</h1>

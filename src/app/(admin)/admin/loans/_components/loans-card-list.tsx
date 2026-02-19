@@ -1,9 +1,8 @@
 "use client";
 
-import { Eye } from "lucide-react";
-
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { Eye } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import {
   DataCardConfig,

@@ -1,21 +1,20 @@
 import {
-  ArrowLeftRight,
-  HandCoins,
-  ShieldUser,
-  IdCard,
+  LoanIcon,
+  AdminIcon,
+  CardIcon,
   LayoutDashboard,
   Settings2,
-  User,
+  UserIcon,
   BarChart,
   FileText,
-  MessageSquare,
-  type LucideIcon
-} from "lucide-react";
+  type AppIcon,
+  TransactionIcon
+} from "@/components/icons";
 
 export interface NavSubItem {
   title: string;
   url: string;
-  icon?: LucideIcon;
+  icon?: AppIcon;
   comingSoon?: boolean;
   newTab?: boolean;
   isNew?: boolean;
@@ -24,7 +23,7 @@ export interface NavSubItem {
 export interface NavMainItem {
   title: string;
   url: string;
-  icon?: LucideIcon;
+  icon?: AppIcon;
   subItems?: NavSubItem[];
   comingSoon?: boolean;
   newTab?: boolean;
@@ -61,13 +60,13 @@ export const sidebarItems: NavGroup[] = [
     items: [
       {
         title: "کاربران",
-        url: "/admin/users",
-        icon: User
+        url: "/admin/UserIcons",
+        icon: UserIcon
       },
       {
         title: "نقش‌ها",
         url: "/admin/roles",
-        icon: ShieldUser
+        icon: AdminIcon
       }
     ]
   },
@@ -78,7 +77,7 @@ export const sidebarItems: NavGroup[] = [
       {
         title: "حساب‌ها",
         url: "/admin/accounts",
-        icon: IdCard
+        icon: CardIcon
       }
     ]
   },
@@ -89,7 +88,7 @@ export const sidebarItems: NavGroup[] = [
       {
         title: "وام‌ها",
         url: "/admin/loans",
-        icon: HandCoins
+        icon: LoanIcon
       },
       {
         title: "درخواست‌های وام",
@@ -110,7 +109,7 @@ export const sidebarItems: NavGroup[] = [
       {
         title: "تراکنش‌ها",
         url: "/admin/transactions",
-        icon: ArrowLeftRight
+        icon: TransactionIcon
       }
     ]
   },

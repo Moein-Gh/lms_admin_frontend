@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, FileText } from "lucide-react";
-
 import { FormattedNumber } from "@/components/formatted-number";
+import { ChevronLeft, FileText } from "@/components/icons";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLoanRequests } from "@/hooks/admin/use-loan-request";
 import { LoanRequestStatus } from "@/types/entities/loan-request.type";

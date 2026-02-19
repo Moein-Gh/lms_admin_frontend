@@ -1,4 +1,4 @@
-import { Users } from "lucide-react";
+import { UsersIcon } from "@/components/icons";
 
 import { EntitySummaryCard } from "./entity-summary-card";
 
@@ -7,5 +7,5 @@ type UsersSummaryCardProps = {
 };
 
 export function UsersSummaryCard({ users }: UsersSummaryCardProps) {
-  return <EntitySummaryCard title="کاربران" totalValue={users} icon={<Users />} href="/admin/users" />;
+  return <EntitySummaryCard title="کاربران" totalValue={users} icon={<UsersIcon />} href="/admin/users" />;
 }

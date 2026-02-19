@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { LogOut, AlertTriangle } from "lucide-react";
 import { motion } from "motion/react";
+import { LogoutIcon, AlertTriangle } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -40,7 +40,7 @@ export function MobileNavbarLogout({ onLogoutStart }: MobileNavbarLogoutProps) {
           whileTap={{ scale: 0.95 }}
           className="flex aspect-square w-full items-center justify-center rounded-xl bg-destructive/75 text-white  transition-colors hover:brightness-95"
         >
-          <LogOut className="size-5 text-white" />
+          <LogoutIcon className="size-5 text-white" />
         </motion.div>
       </button>
 

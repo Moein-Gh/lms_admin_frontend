@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { SlidersHorizontalIcon } from "lucide-react";
+import { SlidersHorizontalIcon } from "@/components/icons";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

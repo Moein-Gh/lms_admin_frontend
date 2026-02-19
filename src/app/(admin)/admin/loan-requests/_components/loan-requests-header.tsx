@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { FileText, ChevronLeft } from "lucide-react";
+import { FileText, ChevronLeft } from "@/components/icons";
 import {
   Breadcrumb,
   BreadcrumbItem,

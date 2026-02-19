@@ -2,9 +2,9 @@
 
 import * as React from "react";
 
-import { Edit2, CircleCheckIcon } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
+import { EditIcon, CircleCheckIcon } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -207,7 +207,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <Button size="sm" variant="outline" aria-label="ویرایش">
-            <Edit2 className="size-4" />
+            <EditIcon className="size-4" />
             {!isMobile && <span className="me-2">ویرایش</span>}
           </Button>
         </DrawerTrigger>
@@ -234,7 +234,7 @@ export function EditUserDialog({ user, onUpdated }: Props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm" variant="outline" aria-label="ویرایش">
-          <Edit2 className="size-4" />
+          <EditIcon className="size-4" />
           {<span className="me-2">ویرایش</span>}
         </Button>
       </DialogTrigger>

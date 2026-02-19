@@ -1,8 +1,8 @@
 "use client";
 
-import { TagsIcon } from "lucide-react";
-
 import { EntityFilterConfig, FilterState } from "@/components/filters";
+import { Tag } from "@/components/icons";
+
 import { BANK_NAMES } from "@/lib/bank-names";
 import { AccountStatus, AccountStatusLabels } from "@/types/entities/account.type";
 
@@ -64,7 +64,7 @@ export const accountFilterConfig: EntityFilterConfig<AccountFilters> = {
       type: "radio",
       key: "status",
       label: "وضعیت",
-      icon: <TagsIcon className="size-5" />,
+      icon: <Tag className="size-5" />,
       showAll: true,
       allLabel: "همه حساب‌ها",
       options: [

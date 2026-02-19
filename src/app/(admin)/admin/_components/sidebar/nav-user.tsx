@@ -1,8 +1,7 @@
 "use client";
 
-import { EllipsisVertical, LogOut, User, UserRoundIcon } from "lucide-react";
+import { EllipsisVertical, LogoutIcon, UserRoundIcon } from "@/components/icons";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -72,7 +71,7 @@ export function NavUser({
                 logout.mutate();
               }}
             >
-              <LogOut />
+              <LogoutIcon />
               {logout.isPending ? "خروج..." : "خروج"}
             </DropdownMenuItem>
           </DropdownMenuContent>

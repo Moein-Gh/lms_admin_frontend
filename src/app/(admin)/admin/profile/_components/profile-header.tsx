@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, User } from "lucide-react";
+import { ChevronLeft, UserIcon } from "@/components/icons";
 
 import {
   Breadcrumb,
@@ -34,7 +34,7 @@ export function ProfileHeader() {
         </Breadcrumb>
         <div className="flex items-center gap-3">
           <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-xl sm:h-12 sm:w-12">
-            <User className="size-6 sm:size-7" />
+            <UserIcon className="size-6 sm:size-7" />
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-bold tracking-tight sm:text-3xl">پروفایل کاربری</h1>

@@ -1,6 +1,6 @@
 "use client";
 
-import { LucideIcon, Ellipsis, Folder, Forward, Trash2 } from "lucide-react";
+import { AppIcon, Ellipsis, Folder, Forward, DeleteIcon } from "@/components/icons";
 
 import {
   DropdownMenu,
@@ -25,7 +25,7 @@ export function NavDocuments({
   readonly items: readonly {
     readonly name: string;
     readonly url: string;
-    readonly icon: LucideIcon;
+    readonly icon: AppIcon;
   }[];
 }) {
   const { isMobile } = useSidebar();
@@ -64,7 +64,7 @@ export function NavDocuments({
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive">
-                  <Trash2 />
+                  <DeleteIcon />
                   <span>Delete</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

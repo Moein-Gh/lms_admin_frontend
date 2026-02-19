@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Receipt, HandCoins } from "lucide-react";
+import { Receipt, LoanIcon } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Account } from "@/types/entities/account.type";
 import { LoanRequestsList } from "./loan-requests-list";
@@ -31,7 +31,7 @@ export function AccountTabs({ account }: AccountTabsProps) {
           <span>وام‌ها</span>
         </TabsTrigger>
         <TabsTrigger value="loan-requests" className="gap-2">
-          <HandCoins className="size-4" />
+          <LoanIcon className="size-4" />
           <span>درخواست‌های وام</span>
         </TabsTrigger>
       </TabsList>

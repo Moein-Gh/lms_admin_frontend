@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Landmark, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence, PanInfo } from "motion/react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { Landmark, ChevronLeft, ChevronRight } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Account, AccountStatus, AccountStatusLabels } from "@/types/entities/account.type";

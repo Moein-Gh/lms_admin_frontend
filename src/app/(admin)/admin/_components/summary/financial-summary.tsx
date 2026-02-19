@@ -1,9 +1,16 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Banknote, CreditCard, DollarSign, TrendingUp, Wallet } from "lucide-react";
-
 import { FinancialMetricCard } from "@/components/financial/financial-metric-card";
 import { FormattedDate } from "@/components/formatted-date";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BanknoteIcon,
+  CardIcon,
+  CircleDollarSign,
+  TrendingUp,
+  AccountIcon
+} from "@/components/icons";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useFinancialSummary } from "@/hooks/admin/use-report";
 
@@ -36,10 +43,10 @@ const FinancialSummary = () => {
   }
 
   const cards = [
-    { title: "موجودی نقد", icon: <Wallet className="size-4" />, metric: summary.cashOnHand },
-    { title: "سپرده‌های مشتریان", icon: <Banknote className="size-4" />, metric: summary.customerDeposits },
-    { title: "وام های قابل دریافت", icon: <CreditCard className="size-4" />, metric: summary.loansReceivable },
-    { title: "کمیسیون صندوق", icon: <DollarSign className="size-4" />, metric: summary.totalIncomeEarned }
+    { title: "موجودی نقد", icon: <AccountIcon className="size-4" />, metric: summary.cashOnHand },
+    { title: "سپرده‌های مشتریان", icon: <BanknoteIcon className="size-4" />, metric: summary.customerDeposits },
+    { title: "وام های قابل دریافت", icon: <CardIcon className="size-4" />, metric: summary.loansReceivable },
+    { title: "کمیسیون صندوق", icon: <CircleDollarSign className="size-4" />, metric: summary.totalIncomeEarned }
   ];
 
   return (

@@ -1,8 +1,8 @@
 "use client";
 
-import { CalendarCheck, CalendarDays } from "lucide-react";
-
 import { InstallmentMetricCard } from "@/components/financial/installment-metric-card";
+import { CalendarCheckIcon, CalendarDays } from "@/components/icons";
+
 import { PaginationControls } from "@/components/pagination-controls";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -99,7 +99,7 @@ export function InstallmentDetailsTabs({
               title="ماه آینده"
               count={data.nextMonth.count}
               totalAmount={data.nextMonth.totalAmount}
-              icon={<CalendarCheck className="size-4" />}
+              icon={<CalendarCheckIcon className="size-4" />}
             />
           </div>
           <InstallmentsTable

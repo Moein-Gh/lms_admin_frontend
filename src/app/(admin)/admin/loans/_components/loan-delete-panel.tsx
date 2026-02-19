@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { DeleteIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -63,7 +63,7 @@ export function LoanDeletePanel({ loan, onDelete }: { loan: Loan; onDelete?: (id
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="destructive" size="icon" type="button" aria-label="حذف وام" onClick={() => setOpen(true)}>
-            <Trash2 className="h-4 w-4" />
+            <DeleteIcon className="h-4 w-4" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>حذف وام</TooltipContent>

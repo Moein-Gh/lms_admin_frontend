@@ -1,5 +1,5 @@
 import { UseMutationResult } from "@tanstack/react-query";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,

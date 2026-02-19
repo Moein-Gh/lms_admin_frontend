@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { DeleteIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -69,7 +69,7 @@ export function TransactionDeletePanel({
   return (
     <>
       <Button variant="destructive" size="sm" type="button" aria-label="حذف وام" onClick={() => setOpen(true)}>
-        <Trash2 />
+        <DeleteIcon />
         حذف
       </Button>
 

@@ -1,4 +1,4 @@
-import { Wallet } from "lucide-react";
+import { AccountIcon } from "@/components/icons";
 
 import { EntitySummaryCard } from "./entity-summary-card";
 
@@ -15,7 +15,7 @@ export function AccountsSummaryCard({ accounts }: AccountsSummaryCardProps) {
     <EntitySummaryCard
       title="حساب‌ها"
       totalValue={accounts.total}
-      icon={<Wallet />}
+      icon={<AccountIcon />}
       href="/admin/accounts"
       stats={[
         { label: "فعال", value: accounts.active, variant: "success" },

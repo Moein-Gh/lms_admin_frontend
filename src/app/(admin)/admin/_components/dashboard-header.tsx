@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Home, Bell } from "lucide-react";
+import { ArrowLeft, HomeIcon, Bell } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -47,7 +47,7 @@ export function DashboardHeader({ navbarStyle }: DashboardHeaderProps) {
             aria-label="خانه"
             data-slot="home-button"
           >
-            <Home className="size-4" />
+            <HomeIcon className="size-4" />
           </Button>
 
           <Button

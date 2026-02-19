@@ -1,7 +1,7 @@
 import type { KeyboardEvent } from "react";
-import { Calendar, Check } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, Check } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -95,7 +95,7 @@ export function AccountCardSelectable({ account, selected, onSelect }: AccountCa
           </div>
 
           <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground bg-muted/50 px-2.5 py-1.5 rounded-md transition-colors group-hover:bg-muted/80">
-            <Calendar className="w-3 h-3 opacity-70" />
+            <CalendarIcon className="w-3 h-3 opacity-70" />
             <FormattedDate value={account.createdAt} />
           </div>
         </div>

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { FormattedNumber } from "@/components/formatted-number";
+import { ArrowLeft } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";

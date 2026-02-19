@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { IdCard, Wallet } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
+import { CardIcon, AccountIcon } from "@/components/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/admin/use-current-user";
 import { useUserAccounts } from "@/hooks/user/use-account";
@@ -37,7 +37,7 @@ export default function UserAccountsPage() {
     return (
       <div className="container mx-auto p-4 md:p-6">
         <EmptyStateCard
-          icon={<Wallet className="size-10" />}
+          icon={<AccountIcon className="size-10" />}
           title="هیچ حسابی یافت نشد"
           description="شما هنوز حسابی ندارید. برای ایجاد حساب با پشتیبانی تماس بگیرید."
         />
@@ -48,7 +48,7 @@ export default function UserAccountsPage() {
   return (
     <div className="container mx-auto p-4 md:p-6 space-y-6">
       {/* Header */}
-      <PageHeader icon={IdCard} title="حساب‌های من" />
+      <PageHeader icon={CardIcon} title="حساب‌های من" />
 
       {/* Bank Card Hero */}
       <BankCard accounts={accounts} selectedAccount={selectedAccount} onAccountChange={setSelectedAccountId} />

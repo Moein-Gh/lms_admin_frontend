@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { CheckIcon, ChevronsUpDownIcon, SearchIcon } from "lucide-react";
 import { motion } from "motion/react";
+import { CheckIcon, ChevronsUpDownIcon, SearchIcon } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";

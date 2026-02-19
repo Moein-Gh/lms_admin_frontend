@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { UseMutationResult } from "@tanstack/react-query";
-import { ArrowLeftIcon, ArrowRightIcon, PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -10,6 +9,7 @@ import AmountInput from "@/components/form/amount-input";
 import { SelectUserSection } from "@/components/form/select-user-section";
 import TransactionKindSection from "@/components/form/transaction-kind-section";
 import UploadField from "@/components/form/upload-field";
+import { ArrowLeft, ArrowRightIcon, PlusIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -88,7 +88,7 @@ function DialogWrapper({
             {step === 1 ? (
               <>
                 <Button type="button" onClick={onNextStep} disabled={!canProceed}>
-                  مرحله بعد <ArrowLeftIcon className="size-4" />
+                  مرحله بعد <ArrowLeft className="size-4" />
                 </Button>
                 <DrawerClose asChild>
                   <Button variant="outline">لغو</Button>

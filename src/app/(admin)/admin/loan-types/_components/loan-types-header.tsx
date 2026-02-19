@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, Layers, Plus } from "lucide-react";
+import { ChevronLeft, Layers, Plus } from "@/components/icons";
 
 import {
   Breadcrumb,

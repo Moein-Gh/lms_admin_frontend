@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CircleUser, LogOut, User, UserRoundIcon } from "lucide-react";
+import { UserCircleIcon, LogoutIcon, UserIcon } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,8 +19,8 @@ export function AccountSwitcher() {
   const { data: user } = useMe();
   const logout = useLogout();
 
-  const rawAssignments = (user as any)?.roleAssignments ?? (user as any)?.roleassignments ?? [];
-  const roles = rawAssignments.map((ra: any) => ra?.role?.name).filter(Boolean);
+  const rawAssignments = user?.roleAssignments ?? user?.roleAssignments ?? [];
+  const roles = rawAssignments.map((ra) => ra.role?.name).filter(Boolean);
   const roleText = roles.length ? roles.join("، ") : "مهمان";
 
   const activeUser = {
@@ -33,14 +33,14 @@ export function AccountSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant={"ghost"} size={"icon-lg"}>
-          <CircleUser className="size-5" />
+          <UserCircleIcon className="size-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-56 space-y-1 rounded-lg" side="bottom" align="start" sideOffset={4}>
         <div>
           <div className="flex w-full items-center justify-between gap-2 px-1 py-1.5">
             <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              <UserRoundIcon className="size-4.5" />
+              <UserCircleIcon className="size-4.5" />
             </div>
             <div className="grid flex-1 text-end text-sm leading-tight">
               <span className="truncate font-semibold">{activeUser.name}</span>
@@ -52,7 +52,7 @@ export function AccountSwitcher() {
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href="/admin/profile" className="w-full flex items-center justify-between gap-3">
-              <User />
+              <UserIcon />
               <span className="truncate">حساب کاربری</span>
             </Link>
           </DropdownMenuItem>
@@ -67,7 +67,7 @@ export function AccountSwitcher() {
           }}
           className="w-full flex items-center justify-between gap-3"
         >
-          <LogOut />
+          <LogoutIcon />
           <span>{logout.isPending ? "خروج..." : "خروج"}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

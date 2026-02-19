@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { Command, Home } from "lucide-react";
+import { Command, HomeIcon } from "@/components/icons";
 
 import {
   Sidebar,
@@ -40,7 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {
                 title: "داشبورد کاربری",
                 url: "/",
-                icon: Home
+                icon: HomeIcon
               },
               ...after
             ]

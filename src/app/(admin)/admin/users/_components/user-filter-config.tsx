@@ -1,8 +1,8 @@
 "use client";
 
-import { TagsIcon } from "lucide-react";
-
 import { EntityFilterConfig, FilterState } from "@/components/filters";
+import { Tag } from "@/components/icons";
+
 import { UserStatus, UserStatusLabels } from "@/types/entities/user.type";
 
 // User filter state type
@@ -59,7 +59,7 @@ export const userFilterConfig: EntityFilterConfig<UserFilters> = {
       type: "radio",
       key: "status",
       label: "وضعیت",
-      icon: <TagsIcon className="size-5" />,
+      icon: <Tag className="size-5" />,
       showAll: true,
       allLabel: "همه کاربران",
       options: [

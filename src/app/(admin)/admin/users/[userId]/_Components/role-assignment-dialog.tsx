@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { CalendarIcon, Plus, Trash2, Clock, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
+import { CalendarIcon, Plus, DeleteIcon, Clock, ShieldCheck } from "@/components/icons";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -129,7 +129,7 @@ export function RoleAssignmentDialog({ userId }: Props) {
                   onClick={() => handleDelete(ra)}
                   disabled={remove.isPending}
                 >
-                  <Trash2 className="w-4 h-4" />
+                  <DeleteIcon className="w-4 h-4" />
                   <span className="sr-only">حذف نقش</span>
                 </Button>
               </div>

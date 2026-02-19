@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Loader2, Inbox } from "lucide-react";
+import { Loader, Inbox } from "@/components/icons";
 
 import { useInfiniteMessages } from "@/hooks/admin/use-message";
 import { useMe } from "@/hooks/admin/use-user";
@@ -103,7 +103,7 @@ export default function MessagesPage() {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <Loader className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : allMessages.length ? (
         <div className="space-y-0">
@@ -120,7 +120,7 @@ export default function MessagesPage() {
 
           {/* Infinite scroll trigger */}
           <div ref={observerTarget} className="flex justify-center py-4">
-            {isFetchingNextPage && <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />}
+            {isFetchingNextPage && <Loader className="h-6 w-6 animate-spin text-muted-foreground" />}
           </div>
         </div>
       ) : (

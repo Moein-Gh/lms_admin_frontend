@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Calendar, Clock, ExternalLink, User } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarIcon, Clock, ExternalLink, UserIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 
@@ -96,7 +96,7 @@ export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoC
                 href={`/admin/users/${transaction.user.id}`}
                 className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
               >
-                <User className="h-3 w-3 shrink-0" />
+                <UserIcon className="h-3 w-3 shrink-0" />
                 <span>{transaction.user.identity.name ?? "بدون نام"}</span>
               </Link>
             </>
@@ -116,7 +116,11 @@ export function TransactionInfoCard({ transaction, onApprove }: TransactionInfoC
 
       {/* ── Detail rows ── */}
       <div className="px-5 pt-4 pb-2">
-        <DetailRow icon={<Calendar />} label="تاریخ ایجاد" value={<FormattedDate value={transaction.createdAt} />} />
+        <DetailRow
+          icon={<CalendarIcon />}
+          label="تاریخ ایجاد"
+          value={<FormattedDate value={transaction.createdAt} />}
+        />
         <DetailRow icon={<Clock />} label="آخرین بروزرسانی" value={<FormattedDate value={transaction.updatedAt} />} />
         <DetailRow
           icon={<ExternalLink />}

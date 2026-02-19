@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { SearchIcon, SlidersHorizontalIcon, XIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { SearchIcon, SlidersHorizontalIcon, XIcon } from "@/components/icons";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

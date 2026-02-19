@@ -1,8 +1,18 @@
 import Link from "next/link";
-import { Building2, Calendar, CalendarClock, CheckCircle2, DollarSign, Hash, Percent, Tag, User } from "lucide-react";
 
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import {
+  Building2,
+  CalendarIcon,
+  CalendarClock,
+  CheckCircle2,
+  CircleDollarSign,
+  Hash,
+  Percent,
+  Tag,
+  UserIcon
+} from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -77,7 +87,7 @@ function LoanSidebar({ amount, balanceSummary }: { amount: string; balanceSummar
         {/* Total Amount */}
         <div className="space-y-3 flex flex-row items-center justify-between">
           <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-            <DollarSign className="h-4 w-4" />
+            <CircleDollarSign className="h-4 w-4" />
             <span>مبلغ وام</span>
           </div>
           <div className="flex items-baseline gap-1.5">
@@ -161,7 +171,7 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
               {loan.account?.name ?? "-"}
             </InfoItem>
 
-            <InfoItem icon={User} label="کاربر">
+            <InfoItem icon={UserIcon} label="کاربر">
               {loan.account?.user ? (
                 <Link href={`/admin/users/${loan.account.user.id}`} className="hover:text-primary transition-colors">
                   {loan.account.user.identity.name}
@@ -191,12 +201,12 @@ export function LoanInfoCard({ loan, onApprove }: LoanInfoCardProps) {
               <FormattedNumber type="normal" value={months} /> ماه
             </InfoItem>
 
-            <InfoItem icon={Calendar} label="تاریخ شروع">
+            <InfoItem icon={CalendarIcon} label="تاریخ شروع">
               <FormattedDate value={loan.startDate} />
             </InfoItem>
 
             {end && (
-              <InfoItem icon={Calendar} label="تاریخ پایان">
+              <InfoItem icon={CalendarIcon} label="تاریخ پایان">
                 <FormattedDate value={end} />
               </InfoItem>
             )}

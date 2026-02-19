@@ -1,6 +1,6 @@
-import { CalendarCheckIcon, Check } from "lucide-react";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { CalendarCheckIcon, Check } from "@/components/icons";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { Installment } from "@/types/entities/installment.type";

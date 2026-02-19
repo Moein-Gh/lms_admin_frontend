@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { CheckIcon, SearchIcon } from "lucide-react";
 import { motion } from "motion/react";
+import { CheckIcon, SearchIcon } from "@/components/icons";
 
 import { Input } from "@/components/ui/input";
 import { Pills, type PillOption } from "@/components/ui/pills";

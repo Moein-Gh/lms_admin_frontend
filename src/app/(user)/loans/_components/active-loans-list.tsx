@@ -1,8 +1,8 @@
 "use client";
 
-import { FileText } from "lucide-react";
 import { EmptyStateCard } from "@/components/empty-state-card";
 import { FormattedNumber } from "@/components/formatted-number";
+import { FileText } from "@/components/icons";
 import { PaginationControls } from "@/components/pagination-controls";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";

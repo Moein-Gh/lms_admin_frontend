@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Check, MoreVertical, Pencil, Trash, X } from "lucide-react";
 import { toast } from "sonner";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
+import { Check, MoreVertical, EditIcon, DeleteIcon, X } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -92,7 +92,7 @@ function ActionsCell({ loanRequest }: { loanRequest: LoanRequest }) {
         <DropdownMenuGroup>
           <DropdownMenuItem onSelect={() => setEditNoteOpen(true)} className="flex justify-between items-center">
             <span>ویرایش یادداشت</span>
-            <Pencil className="size-4" />
+            <EditIcon className="size-4" />
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={isDeleting}
@@ -100,7 +100,7 @@ function ActionsCell({ loanRequest }: { loanRequest: LoanRequest }) {
             className="flex justify-between items-center text-destructive"
           >
             <span>حذف</span>
-            <Trash className="size-4" />
+            <DeleteIcon className="size-4" />
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

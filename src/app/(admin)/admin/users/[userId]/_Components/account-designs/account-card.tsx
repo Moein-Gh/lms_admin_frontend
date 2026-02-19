@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeftIcon, Building2, CreditCard } from "lucide-react";
-
 import { FormattedNumber } from "@/components/formatted-number";
+import { ArrowLeft, Building2, CardIcon } from "@/components/icons";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -27,7 +27,7 @@ function AccountCard({ account }: { account: Account }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="flex size-10 items-center justify-center rounded-lg bg-primary/5">
-            <CreditCard className="size-5 text-primary" />
+            <CardIcon className="size-5 text-primary" />
           </div>
           <Badge variant="outline" className="text-[10px] font-medium">
             {account.accountType?.name ?? "نوع نامشخص"}
@@ -41,7 +41,7 @@ function AccountCard({ account }: { account: Account }) {
             <TooltipTrigger asChild>
               <Button size="icon" variant="outline" className="size-9 md:size-10">
                 <Link href={`/admin/accounts/${account.id}`}>
-                  <ArrowLeftIcon className="size-5" />
+                  <ArrowLeft className="size-5" />
                 </Link>
               </Button>
             </TooltipTrigger>

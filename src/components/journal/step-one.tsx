@@ -1,5 +1,5 @@
-import { LayoutGridIcon, UserIcon, WalletIcon } from "lucide-react";
 import { ComboboxFilter } from "@/components/filters/combobox-filter";
+import { LayoutGridIcon, UserIcon, WalletIcon } from "@/components/icons";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { Pills } from "@/components/ui/pills";
 import { Separator } from "@/components/ui/separator";
