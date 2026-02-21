@@ -1,6 +1,8 @@
 import LoanCardSelectable from "@/components/entity-specific/loan/loan-card-selectable";
+import NoLoanCard from "@/components/entity-specific/loan/no-loan-card";
 import { Landmark } from "@/components/icons";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useLoans } from "@/hooks/admin/use-loan";
 import { LoanStatus } from "@/types/entities/loan.type";
 
@@ -23,10 +25,16 @@ export function StepSelectLoan({
         <span>انتخاب وام</span>
       </div>
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">در حال بارگذاری...</p>
+        <div className="grid grid-cols-1 gap-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="h-24 w-full rounded-xl" />
+          ))}
+        </div>
+      ) : !loansData?.data.length ? (
+        <NoLoanCard />
       ) : (
-        <div className="grid grid-cols-1 gap-3 max-h-[420px] overflow-y-auto">
-          {loansData?.data.map((loan) => (
+        <div className="grid grid-cols-1 gap-3 max-h-105 overflow-y-auto">
+          {loansData.data.map((loan) => (
             <LoanCardSelectable
               key={loan.id}
               loan={loan}

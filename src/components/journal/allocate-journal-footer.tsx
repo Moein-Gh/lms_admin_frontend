@@ -10,7 +10,6 @@ export type AllocateJournalFooterProps = {
   onClose: () => void;
   CloseButton: React.ElementType;
   currentStep: number;
-  onBack: () => void;
 };
 
 export function AllocateJournalFooter({
@@ -21,9 +20,10 @@ export function AllocateJournalFooter({
   isNextDisabled,
   onClose,
   CloseButton,
-  currentStep,
-  onBack
+  currentStep
 }: AllocateJournalFooterProps) {
+  if (currentStep === 1) return null;
+
   return (
     <div className="flex gap-2 w-full ">
       {isLastStep ? (
@@ -54,11 +54,6 @@ export function AllocateJournalFooter({
           لغو
         </Button>
       </CloseButton>
-      {currentStep > 1 && (
-        <Button type="button" variant="outline" data-slot="button" data-size="sm" onClick={onBack}>
-          بازگشت
-        </Button>
-      )}
     </div>
   );
 }

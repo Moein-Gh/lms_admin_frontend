@@ -9,6 +9,7 @@ export type AllocationFormData = {
   userId: string;
   allocationType: AllocationType;
   accountId?: string;
+  accountIds?: string[];
   loanId?: string;
   items: AllocationItem[];
 };

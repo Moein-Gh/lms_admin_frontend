@@ -1,3 +1,4 @@
+import * as React from "react";
 import SubscriptionFeeCardSelectable from "@/components/entity-specific/subscription-fee/subscription-fee-card-selectable";
 import { InstallmentIcon } from "@/components/icons";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
@@ -12,10 +13,16 @@ export function StepSelectFee({
   setFormData: (data: Partial<AllocationFormData>) => void;
 }) {
   const { data: feesData, isLoading } = useSubscriptionFees({
-    accountId: formData.accountId,
+    userId: formData.userId,
     pageSize: 100,
     orderDir: OrderDirection.ASC
   });
+
+  const visibleFees = React.useMemo(() => {
+    const fees = feesData?.data ?? [];
+    if (!formData.accountIds?.length) return fees;
+    return fees.filter((fee) => formData.accountIds!.includes(fee.accountId));
+  }, [feesData?.data, formData.accountIds]);
 
   const selectedIds = new Set((formData.items ?? []).map((item) => item.targetId));
   const selectedCount = selectedIds.size;
@@ -53,7 +60,7 @@ export function StepSelectFee({
         <p className="text-sm text-muted-foreground">در حال بارگذاری...</p>
       ) : (
         <div className="grid grid-cols-1 gap-3 max-h-80 overflow-y-auto">
-          {feesData?.data.map((fee) => (
+          {visibleFees.map((fee) => (
             <SubscriptionFeeCardSelectable
               key={fee.id}
               fee={fee}

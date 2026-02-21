@@ -1,6 +1,8 @@
 import InstallmentCardSelectable from "@/components/entity-specific/installment/installment-card-selectable";
+import NoInstallmentCard from "@/components/entity-specific/installment/no-installment-card";
 import { CalendarCheckIcon } from "@/components/icons";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useInstallments } from "@/hooks/admin/use-installment";
 import { OrderDirection } from "@/types/api";
 import { InstallmentStatus } from "@/types/entities/installment.type";
@@ -55,10 +57,16 @@ export function StepSelectInstallment({
         {selectedCount > 0 && <div className="text-sm text-muted-foreground">{selectedCount} قسط انتخاب شده</div>}
       </div>
       {isLoading ? (
-        <p className="text-sm text-muted-foreground">در حال بارگذاری...</p>
+        <div className="grid grid-cols-1 gap-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="h-16 w-full rounded-xl" />
+          ))}
+        </div>
+      ) : !installmentsData?.data.length ? (
+        <NoInstallmentCard />
       ) : (
         <div className="grid grid-cols-1 gap-2 max-h-75 overflow-y-auto">
-          {installmentsData?.data.map((installment) => (
+          {installmentsData.data.map((installment) => (
             <InstallmentCardSelectable
               key={installment.id}
               installment={installment}

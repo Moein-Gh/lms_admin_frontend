@@ -130,6 +130,14 @@ These serve as the fallback; there is no separate default.css file. */
   /* Scrollbar colors (can be themed via .dark or data-theme-preset overrides) */
   --scrollbar-thumb: oklch(0.6 0 0 / 0.5);
   --scrollbar-thumb-hover: oklch(0.6 0 0 / 0.65);
+
+  /* Allocation type card accent colors */
+  --allocation-account: oklch(0.52 0.19 228);
+  --allocation-account-bg: oklch(0.52 0.19 228 / 0.1);
+  --allocation-loan: oklch(0.48 0.16 145);
+  --allocation-loan-bg: oklch(0.48 0.16 145 / 0.1);
+  --allocation-fee: oklch(0.52 0.18 290);
+  --allocation-fee-bg: oklch(0.52 0.18 290 / 0.1);
 }
 
 .dark {
@@ -188,6 +196,14 @@ These serve as the fallback; there is no separate default.css file. */
   --loan-overdue: oklch(63.895% 0.17454 21.41);
   --loan-overdue-foreground: oklch(0.68 0.18 27);
   --loan-future: var(--muted);
+
+  /* Allocation type card accent colors (dark) */
+  --allocation-account: oklch(0.68 0.18 228);
+  --allocation-account-bg: oklch(0.52 0.19 228 / 0.18);
+  --allocation-loan: oklch(0.65 0.17 145);
+  --allocation-loan-bg: oklch(0.48 0.16 145 / 0.18);
+  --allocation-fee: oklch(0.68 0.17 290);
+  --allocation-fee-bg: oklch(0.52 0.18 290 / 0.18);
 }
 
 @layer utilities {
