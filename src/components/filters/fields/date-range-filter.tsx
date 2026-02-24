@@ -105,7 +105,6 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
               <CalendarHijri
-                mode="single"
                 selected={date.from}
                 onSelect={(newDate) => handleSelect({ ...date, from: newDate })}
                 disabled={(day) => {
@@ -114,7 +113,6 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
                   if (date.to && day > date.to) return true;
                   return false;
                 }}
-                initialFocus
               />
             </PopoverContent>
           </Popover>
@@ -135,7 +133,6 @@ export function DateRangeFilter({ value, onChange, minDate, maxDate, presets, cl
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
               <CalendarHijri
-                mode="single"
                 selected={date.to}
                 onSelect={(newDate) => handleSelect({ ...date, to: newDate })}
                 disabled={(day) => {

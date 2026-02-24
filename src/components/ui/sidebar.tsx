@@ -164,7 +164,7 @@ function Sidebar({
       return "right";
     }
 
-    const dir = document.documentElement?.dir || document.dir || "ltr";
+    const dir = document.documentElement.dir || document.dir || "ltr";
     return dir === "rtl" ? "right" : "left";
   }, [side]);
 
@@ -503,9 +503,9 @@ function SidebarMenuButton({
   const Comp = asChild ? SlotPrimitive.Slot : "button";
   const { isMobile, state, setOpenMobile } = useSidebar();
 
-  const { onClick: _onClick, ...restProps } = props as any;
+  const { onClick: _onClick, ...restProps } = props;
 
-  const handleClick = (event: React.MouseEvent) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     _onClick?.(event);
     if (isMobile) setOpenMobile(false);
   };
@@ -552,9 +552,9 @@ function SidebarMenuAction({
   const Comp = asChild ? SlotPrimitive.Slot : "button";
 
   const { isMobile, setOpenMobile } = useSidebar();
-  const { onClick: _onClick, ...rest } = props as any;
+  const { onClick: _onClick, ...rest } = props;
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     _onClick?.(e);
     if (isMobile) setOpenMobile(false);
   };
@@ -681,9 +681,9 @@ function SidebarMenuSubButton({
   const Comp = asChild ? SlotPrimitive.Slot : "a";
 
   const { isMobile, setOpenMobile } = useSidebar();
-  const { onClick: _onClick, ...rest } = props as any;
+  const { onClick: _onClick, ...rest } = props;
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     _onClick?.(e);
     if (isMobile) setOpenMobile(false);
   };

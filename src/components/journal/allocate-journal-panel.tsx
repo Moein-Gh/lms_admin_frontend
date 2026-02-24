@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { ChevronRight } from "@/components/icons/index";
 import { ResponsivePanel } from "@/components/ui/responsive-panel";
 import { useCreateMultipleJournalEntries } from "@/hooks/admin/use-journal-entries";
 import { transactionKeys } from "@/hooks/admin/use-transaction";

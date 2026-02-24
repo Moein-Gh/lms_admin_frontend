@@ -89,7 +89,7 @@ const AmountInput = React.forwardRef<HTMLInputElement, AmountInputProps>(
         try {
           const synthetic = {
             ...e,
-            target: { ...e.target, value: raw, name: (rest as any).name }
+            target: { ...e.target, value: raw, name: rest.name }
           } as unknown as React.ChangeEvent<HTMLInputElement>;
           rest.onChange(synthetic);
         } catch {

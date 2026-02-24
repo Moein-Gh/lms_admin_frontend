@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { Controller, Control, FieldValues, Path, ControllerRenderProps } from "react-hook-form";
+import { Controller, Control, FieldValues, Path, ControllerRenderProps, ControllerFieldState } from "react-hook-form";
 
 type UploadFieldProps<TFieldValues extends FieldValues, TName extends Path<TFieldValues>> = {
   name: TName;
@@ -38,7 +38,13 @@ export function UploadField<TFieldValues extends FieldValues, TName extends Path
     <Controller<TFieldValues, TName>
       control={control}
       name={name}
-      render={({ field, fieldState }: { field: ControllerRenderProps<TFieldValues, TName>; fieldState: any }) => {
+      render={({
+        field,
+        fieldState
+      }: {
+        field: ControllerRenderProps<TFieldValues, TName>;
+        fieldState: ControllerFieldState;
+      }) => {
         const files: File[] = Array.isArray(field.value) ? (field.value as File[]) : [];
 
         const openPicker = () => {

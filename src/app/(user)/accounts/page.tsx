@@ -9,6 +9,7 @@ import { useUserAccounts } from "@/hooks/user/use-account";
 import { PageHeader } from "../_components/page-header";
 import { AccountTabs } from "./_components/account-tabs";
 import { BankCard } from "./_components/bank-card";
+import { CreateLoanRequestButton } from "./_components/create-loan-request-button";
 
 export default function UserAccountsPage() {
   const { data: user } = useAuth();
@@ -48,13 +49,17 @@ export default function UserAccountsPage() {
   return (
     <div className="container mx-auto p-4 md:p-6 space-y-6">
       {/* Header */}
-      <PageHeader icon={CardIcon} title="حساب‌های من" />
+      <PageHeader
+        icon={CardIcon}
+        title="حساب‌های من"
+        actions={<CreateLoanRequestButton accountId={selectedAccount.id} />}
+      />
 
       {/* Bank Card Hero */}
       <BankCard accounts={accounts} selectedAccount={selectedAccount} onAccountChange={setSelectedAccountId} />
 
       {/* Tabs: Transactions & Loan Requests */}
-      {<AccountTabs key={selectedAccount.id} account={selectedAccount} />}
+      <AccountTabs key={selectedAccount.id} account={selectedAccount} />
     </div>
   );
 }

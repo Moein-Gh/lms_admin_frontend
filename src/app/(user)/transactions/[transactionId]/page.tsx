@@ -1,11 +1,10 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { CalendarIcon, Clock, ExternalLink, ReceiptText } from "lucide-react";
 import { TransactionAllocationSummary } from "@/app/(admin)/admin/transactions/_components/transaction-allocation-summary";
 import { FormattedDate } from "@/components/formatted-date";
 import { FormattedNumber } from "@/components/formatted-number";
-import { TransactionIcon } from "@/components/icons";
+import { CalendarIcon, Clock, ExternalLink, ReceiptText, TransactionIcon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";

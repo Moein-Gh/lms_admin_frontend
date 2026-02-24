@@ -16,7 +16,7 @@ function groupMessagesByDate(messages: Message[], currentUserId?: string) {
   const dateMap = new Map<string, Message[]>();
 
   messages.forEach((message) => {
-    const recipient = currentUserId ? message.recipients?.find((r: any) => r.userId === currentUserId) : undefined;
+    const recipient = currentUserId ? message.recipients?.find((r) => r.userId === currentUserId) : undefined;
     const receivedDate = recipient?.createdAt ?? message.createdAt;
     const dateObj = new Date(receivedDate);
     const dateKey = dateObj.toISOString().split("T")[0]; // YYYY-MM-DD

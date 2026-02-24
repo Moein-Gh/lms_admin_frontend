@@ -145,7 +145,7 @@ export function CreateUserDialog() {
               );
             })}
         </div>
-        {errors.roles && <span className="text-xs text-destructive">{(errors.roles as any).message}</span>}
+        {errors.roles && <span className="text-xs text-destructive">{errors.roles.message}</span>}
       </div>
 
       {!isMobile && (

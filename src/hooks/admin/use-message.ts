@@ -1,4 +1,12 @@
-import { useMutation, useQuery, useQueryClient, useInfiniteQuery, type UseQueryOptions } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useInfiniteQuery,
+  type UseQueryOptions,
+  type UseInfiniteQueryOptions,
+  type InfiniteData
+} from "@tanstack/react-query";
 import {
   deleteMessage,
   getMessageById,
@@ -53,7 +61,16 @@ export function useMessages(
  */
 export function useInfiniteMessages(
   params?: Omit<MessageQueryParams, "page">,
-  options?: Omit<any, "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam">
+  options?: Omit<
+    UseInfiniteQueryOptions<
+      PaginatedResponseDto<Message>,
+      Error,
+      InfiniteData<PaginatedResponseDto<Message>>,
+      ReturnType<typeof messageKeys.list>,
+      number
+    >,
+    "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
+  >
 ) {
   return useInfiniteQuery({
     queryKey: messageKeys.list(params),

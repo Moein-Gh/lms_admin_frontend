@@ -162,7 +162,7 @@ This pattern is in `globals.css` - apply to other portaled components if needed.
 
 ### Icons
 
-- Primary: `lucide-react`
+- Primary: `@/components/icons/index`
 - Social: `simple-icons` (via `<SimpleIcon>` component)
 
 ## Common Gotchas

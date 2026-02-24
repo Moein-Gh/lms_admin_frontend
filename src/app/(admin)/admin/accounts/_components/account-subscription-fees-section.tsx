@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus } from "@/components/icons/index";
 import { Button } from "@/components/ui/button";
 import { useCreateNextSubscriptionFees, useSubscriptionFees } from "@/hooks/admin/use-subscription-fee";
 import { OrderDirection } from "@/types/api";

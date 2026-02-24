@@ -8,21 +8,20 @@ import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "@/components
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function CalendarHijri({
-  selected,
-  onSelect,
-  defaultMonth,
-  rootClassName,
-  ...props
-}: Partial<React.ComponentProps<typeof DayPicker>> & {
-  selected?: Date | undefined;
+// Narrow to only the single-mode variant so `selected` and `onSelect` types are unambiguous
+type SingleDayPickerProps = Extract<React.ComponentProps<typeof DayPicker>, { mode: "single" }>;
+
+type CalendarHijriProps = Omit<SingleDayPickerProps, "mode" | "selected" | "onSelect"> & {
+  selected?: Date;
   onSelect?: (date?: Date) => void;
   rootClassName?: string;
-}) {
+};
+
+export function CalendarHijri({ selected, onSelect, defaultMonth, rootClassName, ...props }: CalendarHijriProps) {
   const [internalDate, setInternalDate] = React.useState<Date | undefined>(defaultMonth ?? new Date());
 
   const value = selected ?? internalDate;
-  const handleSelect = (d?: Date) => {
+  const handleSelect = (d: Date | undefined) => {
     if (onSelect) onSelect(d);
     else setInternalDate(d);
   };
@@ -31,14 +30,19 @@ export function CalendarHijri({
     <CalendarPersian
       mode="single"
       defaultMonth={value}
-      selected={value as any}
-      onSelect={handleSelect as any}
+      selected={value}
+      onSelect={handleSelect}
       className="rounded-lg border shadow-sm"
       rootClassName={rootClassName}
-      {...(props as any)}
+      {...props}
     />
   );
 }
+
+type CalendarPersianProps = SingleDayPickerProps & {
+  buttonVariant?: React.ComponentProps<typeof Button>["variant"];
+  rootClassName?: string;
+};
 
 function CalendarPersian({
   className,
@@ -50,10 +54,7 @@ function CalendarPersian({
   formatters,
   components,
   ...props
-}: React.ComponentProps<typeof DayPicker> & {
-  buttonVariant?: React.ComponentProps<typeof Button>["variant"];
-  rootClassName?: string;
-}) {
+}: CalendarPersianProps) {
   const defaultClassNames = getDefaultClassNames();
 
   return (

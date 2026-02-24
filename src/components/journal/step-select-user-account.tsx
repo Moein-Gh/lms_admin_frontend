@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Loader2, Search, UserRound, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { Loader, Search, UserIcon, X } from "@/components/icons/index";
 
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { useUsers } from "@/hooks/admin/use-user";
@@ -47,7 +47,7 @@ function UserSearchInput({
     return (
       <div className="flex items-center gap-3 rounded-md border border-primary bg-primary/5 px-3 py-2.5">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
-          <UserRound className="size-4 text-primary" />
+          <UserIcon className="size-4 text-primary" />
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-foreground">{label}</p>
@@ -77,7 +77,7 @@ function UserSearchInput({
           autoComplete="on"
         />
         <span className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-muted-foreground">
-          {isFetching ? <Loader2 className="size-4 animate-spin" /> : <Search className="size-4" />}
+          {isFetching ? <Loader className="size-4 animate-spin" /> : <Search className="size-4" />}
         </span>
         {query && (
           <button
@@ -108,7 +108,7 @@ function UserSearchInput({
           >
             {results.length === 0 ? (
               <div className="flex flex-col items-center gap-2 py-8 text-center">
-                <UserRound className="size-8 text-muted-foreground/30" />
+                <UserIcon className="size-8 text-muted-foreground/30" />
                 <p className="text-sm text-muted-foreground">کاربری یافت نشد</p>
               </div>
             ) : (
@@ -124,7 +124,7 @@ function UserSearchInput({
                         className="flex w-full items-center gap-3 px-3 py-2.5 text-start transition-colors hover:bg-accent active:bg-accent/70"
                       >
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
-                          <UserRound className="size-4 text-muted-foreground" />
+                          <UserIcon className="size-4 text-muted-foreground" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-medium text-foreground">{name ?? phone}</p>

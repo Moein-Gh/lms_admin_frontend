@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Check } from "lucide-react";
-
 import { FormattedNumber } from "@/components/formatted-number";
+import { Check } from "@/components/icons/index";
+
 import { cn } from "@/lib/utils";
 import { AllocationType } from "@/types/entities/journal-entry.type";
 

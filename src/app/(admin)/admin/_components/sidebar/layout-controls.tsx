@@ -18,10 +18,10 @@ export function LayoutControls() {
   const themePreset = usePreferencesStore((s) => s.themePreset);
   const setThemePreset = usePreferencesStore((s) => s.setThemePreset);
 
-  const handleValueChange = async (key: string, value: any) => {
+  const handleValueChange = async (key: string, value: ThemeMode) => {
     if (key === "theme_mode") {
       updateThemeMode(value);
-      setThemeMode(value as ThemeMode);
+      setThemeMode(value);
     }
 
     if (key === "theme_preset") {
@@ -48,7 +48,10 @@ export function LayoutControls() {
           <div className="space-y-3">
             <div className="space-y-1">
               <Label className="text-xs font-medium">Preset</Label>
-              <Select value={themePreset} onValueChange={(value) => handleValueChange("theme_preset", value)}>
+              <Select
+                value={themePreset}
+                onValueChange={(value: ThemeMode) => handleValueChange("theme_preset", value)}
+              >
                 <SelectTrigger size="sm" className="w-full text-xs">
                   <SelectValue placeholder="Preset" />
                 </SelectTrigger>
@@ -76,7 +79,7 @@ export function LayoutControls() {
                 variant="outline"
                 type="single"
                 value={themeMode}
-                onValueChange={(value) => handleValueChange("theme_mode", value)}
+                onValueChange={(value: ThemeMode) => handleValueChange("theme_mode", value)}
               >
                 <ToggleGroupItem className="text-xs" value="light" aria-label="Toggle inset">
                   Light
