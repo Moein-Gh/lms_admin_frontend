@@ -100,7 +100,7 @@ export const columns: ColumnDef<Transaction>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="تاریخ ایجاد" />,
     cell: ({ row }) => (
       <div className="text-sm text-muted-foreground">
-        <FormattedDate value={row.original.createdAt} format={DATE_FORMATS.SHORT} />
+        <FormattedDate value={row.original.createdAt} format={DATE_FORMATS.SHORT_WITH_TIME} />
       </div>
     )
   },
