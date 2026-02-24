@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/admin/use-current-user";
-import { useUserUpcomingPayments } from "@/hooks/admin/use-user";
+import { useUserUpcomingPayments } from "@/hooks/user/use-user";
 import { PageHeader } from "../_components/page-header";
 
 import { EmptyPaymentsState } from "./_components/empty-payments-state";

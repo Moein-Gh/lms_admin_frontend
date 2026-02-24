@@ -8,12 +8,12 @@ import {
   listUsers,
   registerUser,
   updateUser,
+  getUpcomingPayments,
   type CreateUserRequest,
   type ListUsersParams,
   type RegisterUserInput,
   type UpdateUserRequest
 } from "@/lib/admin-APIs/user-api";
-import { getUserUpcomingPayments } from "@/lib/user-APIs/user-api";
 import type { GetUpcomingPaymentsQueryDto } from "@/types/entities/payment.type";
 import { User, UserStatus } from "@/types/entities/user.type";
 
@@ -129,9 +129,9 @@ export function useUpdateUser() {
       queryClient.invalidateQueries({ queryKey: userKeys.lists() });
       // If the updated user is the current logged-in user, invalidate/refetch the `me` query
       try {
-        const me = queryClient.getQueryData(userKeys.me());
+        const me = queryClient.getQueryData<User>(userKeys.me());
         // me may be undefined or partial; compare by id
-        if ((me as any)?.id === updatedUser.id) {
+        if (me?.id === updatedUser.id) {
           queryClient.invalidateQueries({ queryKey: userKeys.me() });
         }
       } catch (e) {
@@ -183,9 +183,9 @@ export function useUserUpcomingPayments(
   params?: GetUpcomingPaymentsQueryDto,
   options?: Omit<
     UseQueryOptions<
-      Awaited<ReturnType<typeof getUserUpcomingPayments>>,
+      Awaited<ReturnType<typeof getUpcomingPayments>>,
       Error,
-      Awaited<ReturnType<typeof getUserUpcomingPayments>>,
+      Awaited<ReturnType<typeof getUpcomingPayments>>,
       ReturnType<typeof userKeys.upcomingPayments>
     >,
     "queryKey" | "queryFn"
@@ -193,7 +193,7 @@ export function useUserUpcomingPayments(
 ) {
   return useQuery({
     queryKey: userKeys.upcomingPayments(userId, params),
-    queryFn: () => getUserUpcomingPayments(userId, params),
+    queryFn: () => getUpcomingPayments(userId, params),
     enabled: !!userId,
     ...options
   });

@@ -69,3 +69,20 @@ export async function updateSubscriptionFee(id: string, data: UpdateSubscription
 export async function deleteSubscriptionFee(id: string): Promise<void> {
   await api.delete(`/admin/subscription-fees/${id}`);
 }
+
+export interface CreateNextSubscriptionFeesRequest {
+  numberOfMonths?: number;
+}
+
+/**
+ * Create the next subscription fee(s) for an account.
+ * Backend auto-calculates periodStart from the last existing fee (or current month start if none).
+ * Returns an array of newly created SubscriptionFee objects.
+ */
+export async function createNextSubscriptionFees(
+  accountId: string,
+  data?: CreateNextSubscriptionFeesRequest
+): Promise<SubscriptionFee[]> {
+  const response = await api.post<SubscriptionFee[]>(`/admin/subscription-fees/accounts/${accountId}/next`, data ?? {});
+  return response.data;
+}

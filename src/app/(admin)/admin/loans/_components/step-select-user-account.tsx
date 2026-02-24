@@ -43,7 +43,7 @@ export function StepSelectUserAccount({
         }}
         getItemId={(i) => i.id}
         getItemLabel={(i) => i.name}
-        placeholder="کاربر را انتخاب کنید"
+        placeholder=""
         searchPlaceholder="جستجوی کاربر..."
         emptyMessage="کاربری یافت نشد"
         allLabel={""}
