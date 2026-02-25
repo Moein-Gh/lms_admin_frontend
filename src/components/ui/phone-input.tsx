@@ -13,6 +13,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
+const toFarsi = (v: string) => v.replace(/[0-9]/g, (d) => String.fromCharCode(d.charCodeAt(0) + 0x06c0));
+const toEnglish = (v: string) => v.replace(/[\u06F0-\u06F9]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06c0));
+
 type PhoneInputProps = Omit<React.ComponentProps<"input">, "onChange" | "value" | "ref"> &
   Omit<RPNInput.Props<typeof RPNInput.default>, "onChange"> & {
     onChange?: (value: RPNInput.Value) => void;
@@ -28,7 +31,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
     <div dir="ltr" style={{ direction: "ltr" }}>
       <PhoneNumberInput
         ref={ref}
-        className={cn("flex", className)}
+        className={cn("flex placeholder:opacity-50", className)}
         flagComponent={FlagComponent}
         countrySelectComponent={CountrySelect}
         inputComponent={InputComponent}
@@ -43,12 +46,21 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> = React.forwa
 PhoneInput.displayName = "PhoneInput";
 
 const InputComponent = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, ...props }, ref) => (
+  ({ className, value, onChange, ...props }, ref) => (
     <Input
-      className={cn("[direction:ltr] rounded-l-none rounded-r-lg", className)}
+      className={cn("[direction:ltr] rounded-l-none rounded-r-lg placeholder:opacity-50", className)}
       style={{ direction: "ltr", textAlign: "left" }}
       {...props}
       ref={ref}
+      value={toFarsi(String(value ?? ""))}
+      onChange={(e) => {
+        if (onChange) {
+          onChange({
+            ...e,
+            target: { ...e.target, value: toEnglish(e.target.value) }
+          } as React.ChangeEvent<HTMLInputElement>);
+        }
+      }}
     />
   )
 );

@@ -1,11 +1,13 @@
 "use client";
 
+import * as React from "react";
 import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
+import { OTPInputContext } from "input-otp";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
@@ -13,13 +15,39 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-// Replaced OTP component with a simple input for reliability
-import { Input } from "@/components/ui/input";
+import { InputOTP, InputOTPGroup } from "@/components/ui/input-otp";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { useRequestSms, useVerifySms } from "@/hooks/auth/use-auth";
 import { getMe } from "@/lib/admin-APIs/user-api";
+import { cn } from "@/lib/utils";
 import type { ProblemDetails } from "@/types/api";
 import { RoleAssignmentStatus } from "@/types/entities/role-assignment.type";
+
+const toFarsi = (v: string) => v.replace(/[0-9]/g, (d) => String.fromCharCode(d.charCodeAt(0) + 0x06c0));
+
+function OTPSlot({ index }: { index: number }) {
+  const ctx = React.useContext(OTPInputContext);
+  const slot = ctx.slots.at(index);
+  const char = slot?.char;
+  const hasFakeCaret = slot?.hasFakeCaret;
+  const isActive = slot?.isActive;
+  return (
+    <div
+      className={cn(
+        "relative flex h-11 w-9 items-end justify-center pb-1 text-lg transition-colors",
+        "border-b-2 border-muted-foreground/25",
+        isActive && "border-b-foreground"
+      )}
+    >
+      {char != null ? toFarsi(char) : null}
+      {hasFakeCaret && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="animate-caret-blink h-5 w-px bg-foreground duration-1000" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 const PhoneSchema = z.object({
   phone: z
@@ -150,7 +178,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
 
             // fallback to user dashboard
             router.push("/");
-          } catch (err) {
+          } catch {
             // If fetching user fails, fall back to admin route (legacy behavior)
             router.push("/admin");
           }
@@ -175,7 +203,7 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
               <FormItem>
                 <FormLabel>شماره موبایل</FormLabel>
                 <FormControl>
-                  <PhoneInput placeholder="9xxxxxxxxx" defaultCountry="IR" required {...field} />
+                  <PhoneInput placeholder="۹۱۲۳۴۵۶۷۸۹" defaultCountry="IR" required {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -197,34 +225,40 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
           name="code"
           render={() => (
             <FormItem>
-              <FormLabel>کد تایید</FormLabel>
               <FormControl>
-                <Input
-                  dir="ltr"
-                  type="text"
-                  className="text-foreground"
-                  placeholder="123456"
-                  value={rawCode}
-                  required
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setRawCode(val);
-                    // Keep RHF in sync without triggering validation while typing
-                    codeForm.setValue("code", val, {
-                      shouldValidate: false,
-                      shouldDirty: true
-                    });
-                    // Hide any prior validation error until submit
-                    codeForm.clearErrors("code");
-                  }}
-                  autoFocus
-                />
+                <div dir="ltr" style={{ direction: "ltr" }}>
+                  <InputOTP
+                    maxLength={6}
+                    value={rawCode}
+                    autoFocus
+                    pattern="[0-9]*"
+                    inputMode="numeric"
+                    containerClassName="[direction:ltr]"
+                    style={{ direction: "ltr" }}
+                    onChange={(val) => {
+                      setRawCode(val);
+                      codeForm.setValue("code", val, { shouldValidate: false, shouldDirty: true });
+                      codeForm.clearErrors("code");
+                    }}
+                  >
+                    <InputOTPGroup className="w-full justify-center gap-4">
+                      {[0, 1, 2, 3, 4, 5].map((i) => (
+                        <OTPSlot key={i} index={i} />
+                      ))}
+                    </InputOTPGroup>
+                  </InputOTP>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit" disabled={verifySmsMutation.isPending || rawCode.length !== 6}>
+        <Button
+          className="w-full mt-6"
+          type="submit"
+          variant="outline"
+          disabled={verifySmsMutation.isPending || rawCode.length !== 6}
+        >
           {verifySmsMutation.isPending ? "در حال ورود..." : "ورود"}
         </Button>
         <Button
