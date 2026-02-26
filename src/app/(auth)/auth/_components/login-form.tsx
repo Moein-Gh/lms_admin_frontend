@@ -236,8 +236,9 @@ export function LoginForm({ onTitleChange }: LoginFormProps) {
                     containerClassName="[direction:ltr]"
                     style={{ direction: "ltr" }}
                     onChange={(val) => {
-                      setRawCode(val);
-                      codeForm.setValue("code", val, { shouldValidate: false, shouldDirty: true });
+                      const digits = val.replace(/\D/g, "");
+                      setRawCode(digits);
+                      codeForm.setValue("code", digits, { shouldValidate: false, shouldDirty: true });
                       codeForm.clearErrors("code");
                     }}
                   >
