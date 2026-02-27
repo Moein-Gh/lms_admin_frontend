@@ -4,6 +4,7 @@ import { InstallmentIcon } from "@/components/icons";
 import type { AllocationFormData } from "@/components/journal/allocate-journal-panel.types";
 import { useSubscriptionFees } from "@/hooks/admin/use-subscription-fee";
 import { OrderDirection } from "@/types/api";
+import { SubscriptionFeeStatus } from "@/types/entities/subscription-fee.type";
 
 export function StepSelectFee({
   formData,
@@ -14,6 +15,7 @@ export function StepSelectFee({
 }) {
   const { data: feesData, isLoading } = useSubscriptionFees({
     userId: formData.userId,
+    status: SubscriptionFeeStatus.DUE,
     pageSize: 100,
     orderDir: OrderDirection.ASC
   });
