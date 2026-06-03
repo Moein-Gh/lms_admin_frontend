@@ -4,7 +4,17 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { MoreVertical, UserIcon, Moon, Sun, Bell, HomeIcon, LoanIcon, AccountIcon } from "@/components/icons";
+import {
+  MoreVertical,
+  UserIcon,
+  Moon,
+  Sun,
+  Bell,
+  HomeIcon,
+  LoanIcon,
+  AccountIcon,
+  TransactionIcon
+} from "@/components/icons";
 
 import { MobileNavbarLogout } from "@/components/mobile-navbar-logout";
 import { NavItem } from "@/components/nav-item";
@@ -30,6 +40,11 @@ const userNavItems = [
     title: "وام‌ها",
     url: "/loans",
     icon: LoanIcon
+  },
+  {
+    title: "تراکنش‌ها",
+    url: "/transactions",
+    icon: TransactionIcon
   }
 ];
 
@@ -139,17 +154,17 @@ export function UserNavbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="mb-2 w-full overflow-hidden rounded-3xl border border-border/40 bg-navbar-bg shadow-nice shadow-black/20 backdrop-blur-sm dark:border-border/20 dark:shadow-black/50"
+                className="mb-2 w-full overflow-hidden rounded-xl border border-border/40 bg-navbar-bg shadow-nice shadow-black/20 backdrop-blur-sm dark:border-border/20 dark:shadow-black/50"
               >
                 <div className="flex flex-col gap-3 p-4">
                   {/* User Info Banner */}
-                  <div className="rounded-2xl border border-primary/20 bg-linear-to-br from-primary/10 via-primary/5 to-transparent p-4 shadow-sm">
+                  <div className="rounded-xl border border-primary/20 bg-linear-to-br from-primary/10 via-primary/5 to-transparent p-4 shadow-sm">
                     <div className="relative flex items-center justify-between gap-3">
                       <div className="min-w-0 flex-1">
                         <h3 className="truncate text-base font-bold leading-tight text-background">
                           {user?.identity.name ?? "کاربر"}
                         </h3>
-                        <p className="text-xs text-muted-backgroundn">{roleText}</p>
+                        <p className="text-xs text-muted-background">{roleText}</p>
                       </div>
                       <div className="shrink-0 text-left">
                         <p className="text-sm font-semibold text-background">
@@ -211,11 +226,11 @@ export function UserNavbar() {
               opacity: isVisible ? 1 : 0
             }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="flex h-16 md:h-20 w-full items-center justify-between gap-1 rounded-[1.75rem] bg-navbar-bg px-3 shadow-md shadow-black/15 backdrop-blur-sm dark:bg-navbar-bg dark:shadow-white/10 md:min-w-96"
+            className="flex h-16 md:h-20 w-full items-center justify-between gap-1 rounded-xl bg-navbar-bg px-3 shadow-md shadow-black/15 backdrop-blur-sm dark:bg-navbar-bg dark:shadow-white/10 md:min-w-96"
             style={{ color: "var(--color-navbar-text)" }}
           >
             {/* Floating active indicator */}
-            <div className="absolute inset-0 rounded-[1.75rem] pointer-events-none" />
+            <div className="absolute inset-0 rounded-xl pointer-events-none" />
 
             {userNavItems.map((item, index) => {
               const isActive =
@@ -244,7 +259,7 @@ export function UserNavbar() {
               className="group relative flex flex-1 min-w-0 items-center justify-center transition-opacity duration-200 hover:opacity-100"
               style={{ opacity: isExpanded ? 1 : 0.7 }}
             >
-              <div className="relative flex w-full max-w-14 md:max-w-none aspect-square md:aspect-auto items-center justify-center">
+              <div className="relative flex w-full max-w-14 md:max-w-none aspect-square md:aspect-auto items-center justify-center cursor-pointer">
                 <div className="relative flex w-full h-full flex-col items-center justify-center gap-1">
                   <div
                     style={{

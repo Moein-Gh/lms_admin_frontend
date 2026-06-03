@@ -10,6 +10,7 @@
 
 @theme inline {
   --font-display: "Vazirmatn", "sans-serif";
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -89,7 +90,7 @@ These serve as the fallback; there is no separate default.css file. */
   --destructive: oklch(44.945% 0.18122 23.838);
   --border: oklch(84.522% 0.0001 271.152);
   --input: oklch(0.922 0 0);
-  --navbar-bg: rgba(0, 73, 94, 0.376);
+  --navbar-bg: #2b5987;
   --navbar-text: oklch(100% 0.00011 271.152);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
@@ -109,7 +110,17 @@ These serve as the fallback; there is no separate default.css file. */
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --background: #f5f8ff;
+  --background: #ebf4f6;
+  --page-background: linear-gradient(to bottom, #7caece59, #7caece12);
+  /* --background-gradient: linear-gradient(
+    180deg,
+    #dee6ea 0%,
+    #cbd2df 20%,
+    #b8bfce 40%,
+    #a5aebc 60%,
+    #929eab 80%,
+    #8090a1 100%
+  ); */
   --foreground: oklch(0.145 0 0);
   /* Toaster color variables (light) */
   --toaster-popover-bg: var(--popover);
@@ -142,8 +153,9 @@ These serve as the fallback; there is no separate default.css file. */
 
 .dark {
   --background: oklch(0.145 0 0);
+  --page-background: #000000b5;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: #292929;
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -207,6 +219,10 @@ These serve as the fallback; there is no separate default.css file. */
 }
 
 @layer utilities {
+  .bg-page-background {
+    background: var(--page-background);
+  }
+
   [data-theme-preset]:not([data-theme-preset="default"]) .shadow-2xs {
     box-shadow: var(--shadow-2xs);
   }
@@ -314,7 +330,8 @@ These serve as the fallback; there is no separate default.css file. */
   }
 
   body {
-    @apply bg-background text-foreground overscroll-none;
+    background: var(--page-background);
+    @apply text-foreground overscroll-none;
   }
 
   /* Prevent body scroll lock from Radix Select component */

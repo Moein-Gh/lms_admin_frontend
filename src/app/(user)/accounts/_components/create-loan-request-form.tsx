@@ -1,10 +1,11 @@
 import * as React from "react";
 import type { UseMutationResult } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { useUserAccounts } from "@/hooks/user/use-account";
 import { getApiErrorMessage } from "@/lib/api-error";
 import type { CreateLoanRequestDto } from "@/lib/user-APIs/loan-request-api";
+import { AccountStatus } from "@/types/entities/account.type";
 import type { LoanRequest } from "@/types/entities/loan-request.type";
 import { LoanRequestFormFooter } from "./loan-request-form-footer";
 import { StepLoanRequestFields } from "./step-loan-request-fields";
@@ -14,14 +15,30 @@ export type CreateLoanRequestFormProps = {
   defaultAccountId?: string;
   create: UseMutationResult<LoanRequest, unknown, CreateLoanRequestDto, unknown>;
   setOpen: (open: boolean) => void;
+  formRef?: React.RefObject<HTMLFormElement | null>;
+  hideFooter?: boolean;
+  step: number;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  selectedAccountId: string | undefined;
+  setSelectedAccountId: (id: string | undefined) => void;
 };
 
-export function CreateLoanRequestForm({ defaultAccountId, create, setOpen }: CreateLoanRequestFormProps) {
+export function CreateLoanRequestForm({
+  defaultAccountId,
+  create,
+  setOpen,
+  formRef,
+  hideFooter = false,
+  step,
+  setStep,
+  selectedAccountId,
+  setSelectedAccountId
+}: CreateLoanRequestFormProps) {
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
+    control,
     reset,
     formState: { errors }
   } = useForm<CreateLoanRequestDto>({
@@ -33,18 +50,19 @@ export function CreateLoanRequestForm({ defaultAccountId, create, setOpen }: Cre
     }
   });
 
-  const [step, setStep] = React.useState(1);
-  const [selectedAccountId, setSelectedAccountId] = React.useState<string | undefined>(defaultAccountId);
   const [calOpen, setCalOpen] = React.useState(false);
 
-  const { data: accountsData, isLoading: accountsLoading } = useUserAccounts();
+  const { data: accountsData, isLoading: accountsLoading } = useUserAccounts({
+    status: AccountStatus.ACTIVE
+  });
   const accounts = accountsData?.data ?? [];
 
-  const selectedStartDateString = watch("startDate");
-  const selectedStartDate = selectedStartDateString ? new Date(selectedStartDateString) : undefined;
+  const startDateStr = useWatch({ control, name: "startDate" }) as string | undefined;
+  const selectedStartDate = startDateStr ? new Date(startDateStr) : undefined;
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit((data) => {
         const payload: CreateLoanRequestDto = {
           ...data,
@@ -76,6 +94,7 @@ export function CreateLoanRequestForm({ defaultAccountId, create, setOpen }: Cre
       )}
       {step === 2 && (
         <StepLoanRequestFields
+          control={control}
           setValue={setValue}
           register={register}
           errors={errors}
@@ -84,14 +103,16 @@ export function CreateLoanRequestForm({ defaultAccountId, create, setOpen }: Cre
           setCalOpen={setCalOpen}
         />
       )}
-      <LoanRequestFormFooter
-        step={step}
-        setStep={setStep}
-        selectedAccountId={selectedAccountId}
-        reset={reset}
-        setOpen={setOpen}
-        create={create}
-      />
+      {!hideFooter && (
+        <LoanRequestFormFooter
+          step={step}
+          setStep={setStep}
+          selectedAccountId={selectedAccountId}
+          reset={reset}
+          setOpen={setOpen}
+          create={create}
+        />
+      )}
     </form>
   );
 }

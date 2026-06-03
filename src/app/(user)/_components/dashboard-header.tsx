@@ -48,7 +48,7 @@ export function DashboardHeader() {
   return (
     <div
       className={cn(
-        "sticky top-0 z-10 -mx-4 -mt-4 px-4 pt-4 transition-all duration-200 md:-mx-6 md:-mt-6 md:px-6 md:pt-6",
+        "sticky top-0 z-40 -mx-4 -mt-4 px-4 pt-4 transition-all duration-200 md:-mx-6 md:-mt-6 md:px-6 md:pt-6 ",
         isScrolled && "border-b bg-background/80 shadow-sm backdrop-blur-md"
       )}
     >

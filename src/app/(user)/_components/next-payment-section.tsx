@@ -1,110 +1,195 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { FormattedDate } from "@/components/formatted-date";
+import { AnimatePresence, motion } from "motion/react";
 import { FormattedNumber } from "@/components/formatted-number";
-import { AlertCircle, ArrowLeft, CalendarIcon } from "@/components/icons";
+import { ArrowLeft, CalendarClock, ChevronDown } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserPaymentSummary } from "@/hooks/user/use-dashboard";
+import { formatPersianDate } from "@/lib/date-service";
 import { cn } from "@/lib/utils";
+import type { PaymentSummaryDto } from "@/types/entities/payment.type";
+
+const SHOW_TEMP_PREVIEW = process.env.NODE_ENV !== "production";
+
+type PaymentScenario = PaymentSummaryDto & {
+  name: string;
+};
+
+const TEMP_PAYMENT_SCENARIOS = [
+  {
+    name: "حالت معوقه + قسط پیش رو",
+    totalDueAmount: "78,500,000",
+    overdueAmount: "24,000,000",
+    upcomingAmount: "54,500,000",
+    upcomingDueDate: new Date("2026-03-18")
+  },
+  {
+    name: "فقط پرداخت زمان‌بندی‌شده",
+    totalDueAmount: "31,200,000",
+    overdueAmount: "0",
+    upcomingAmount: "31,200,000",
+    upcomingDueDate: new Date("2026-03-25")
+  },
+  {
+    name: "تسویه‌شده",
+    totalDueAmount: "0",
+    overdueAmount: "0",
+    upcomingAmount: "0",
+    upcomingDueDate: null
+  }
+] as const satisfies readonly PaymentScenario[];
+
+function parseAmount(value?: string) {
+  if (!value) return 0;
+
+  const parsedValue = Number(String(value).replace(/[^0-9.-]+/g, ""));
+  return Number.isNaN(parsedValue) ? 0 : parsedValue;
+}
 
 export function NextPaymentSection() {
   const { data, isLoading } = useUserPaymentSummary();
+  const [previewName, setPreviewName] = useState<PaymentScenario["name"]>(TEMP_PAYMENT_SCENARIOS[0].name);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   if (isLoading) {
     return (
       <Card className="border-border/60">
-        <CardHeader className="pb-3">
-          <Skeleton className="h-6 w-40" />
-        </CardHeader>
-        <CardContent className="space-y-3">
+        <div className="space-y-3 p-4">
           <Skeleton className="h-20" />
           <Skeleton className="h-10" />
-        </CardContent>
+        </div>
       </Card>
     );
   }
 
-  if (!data) return null;
+  if (!data && !SHOW_TEMP_PREVIEW) return null;
 
-  const parseAmount = (v?: string) => {
-    if (!v) return 0;
-    const n = Number(String(v).replace(/[^0-9.-]+/g, ""));
-    return isNaN(n) ? 0 : n;
-  };
+  const previewSummary =
+    TEMP_PAYMENT_SCENARIOS.find((scenario) => scenario.name === previewName) ?? TEMP_PAYMENT_SCENARIOS[0];
+  const summary = data ?? previewSummary;
 
-  const totalDue = parseAmount(data.totalDueAmount);
-  if (totalDue === 0) return null;
-
-  const overdue = parseAmount(data.overdueAmount);
-  const upcoming = parseAmount(data.upcomingAmount);
-  const hasOverdue = overdue > 0;
+  const overdueAmount = parseAmount(summary.overdueAmount);
+  const upcomingAmount = parseAmount(summary.upcomingAmount);
+  const dueDateDay = summary.upcomingDueDate ? formatPersianDate(summary.upcomingDueDate, "dd") : "—";
+  const dueDateMonth = summary.upcomingDueDate ? formatPersianDate(summary.upcomingDueDate, "MMMM") : "بدون سررسید";
+  const dueDateYear = summary.upcomingDueDate ? formatPersianDate(summary.upcomingDueDate, "yyyy") : "";
 
   return (
-    <Card className="border-border/60 overflow-hidden py-4">
-      <CardHeader>
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3 flex-1 min-w-0 ">
-            <div
-              className={cn(
-                "rounded-lg p-2.5 shrink-0",
-                hasOverdue ? "bg-destructive/10 text-destructive" : "bg-primary/10 text-primary"
-              )}
+    <div className="space-y-4">
+      {SHOW_TEMP_PREVIEW && !data && (
+        <div className="flex flex-wrap gap-2">
+          {TEMP_PAYMENT_SCENARIOS.map((scenario) => (
+            <Button
+              key={scenario.name}
+              type="button"
+              size="sm"
+              variant={previewName === scenario.name ? "secondary" : "outline"}
+              className="rounded-full"
+              onClick={() => {
+                setPreviewName(scenario.name);
+              }}
             >
-              {hasOverdue ? <AlertCircle className="size-5" /> : <CalendarIcon className="size-5" />}
+              {scenario.name}
+            </Button>
+          ))}
+        </div>
+      )}
+
+      <Card className="overflow-hidden border border-border/60 shadow-sm">
+        <div className="space-y-3 p-4">
+          <div className="flex items-center gap-4">
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500/30 to-blue-500/10 text-blue-600 shadow-md ring-1 ring-blue-500/20 dark:text-blue-500">
+              <CalendarClock className="size-7" />
             </div>
-            <h3 className="font-bold text-base">پرداخت‌ پیش رو</h3>
-          </div>
-          <div className="text-end shrink-0">
-            <p className="text-[10px] text-muted-foreground mb-0.5">مجموع</p>
-            <p className="font-bold text-lg tabular-nums">
-              <FormattedNumber type="price" value={data.totalDueAmount} />
-            </p>
-          </div>
-        </div>
-      </CardHeader>
 
-      <CardContent className="pt-0  space-y-3">
-        {(hasOverdue || upcoming > 0) && (
-          <div className="flex flex-col md:flex-row gap-2">
-            {hasOverdue && (
-              <div className="flex items-center justify-between p-3 rounded-lg bg-destructive/5 border border-destructive/20 flex-1 min-w-0">
-                <span className="text-xs text-muted-foreground">معوقه</span>
-                <span className="font-bold text-sm text-destructive tabular-nums">
-                  <FormattedNumber type="price" value={data.overdueAmount} />
-                </span>
+            <div className="flex flex-1 items-center gap-3 md:gap-4">
+              <div className="flex-1">
+                <p className="text-base font-medium text-muted-foreground">پرداخت پیش رو</p>
+                <p className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">
+                  <FormattedNumber type="price" value={summary.totalDueAmount} />
+                </p>
               </div>
-            )}
 
-            {upcoming > 0 && (
-              <div className="flex items-center justify-between p-3 rounded-lg bg-primary/5 border border-primary/20 flex-1 min-w-0">
-                <div className="flex flex-col min-w-0">
-                  <span className="text-xs text-muted-foreground">پیش رو</span>
-                  {data.upcomingDueDate && (
-                    <span className="text-xs text-muted-foreground">
-                      <FormattedDate value={data.upcomingDueDate} />
+              <Separator orientation="vertical" className="mx-1 data-[orientation=vertical]:h-12 bg-border" />
+              <div className="flex w-[30%] shrink-0 flex-col items-center gap-1 rounded-xl bg-card/40 px-3 py-2 text-center md:w-[10%] md:px-4 md:py-2.5">
+                <span className="text-lg font-bold text-primary md:text-xl">{dueDateDay}</span>
+                <span className="text-xs text-muted-foreground">{dueDateMonth}</span>
+              </div>
+            </div>
+          </div>
+
+          <AnimatePresence initial={false}>
+            {isDetailsOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.24, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="space-y-3 border-t border-border/70 pt-3 text-sm">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-muted-foreground">بدهی ماه‌های قبل</span>
+                    <span className={cn("font-semibold", overdueAmount > 0 && "text-destructive")}>
+                      {overdueAmount > 0 ? <FormattedNumber type="price" value={summary.overdueAmount} /> : "ندارد"}
                     </span>
-                  )}
-                </div>
-                <span className="font-bold text-sm text-primary tabular-nums">
-                  <FormattedNumber type="price" value={data.upcomingAmount} />
-                </span>
-              </div>
-            )}
-          </div>
-        )}
+                  </div>
 
-        <div className="mt-2 flex md:justify-end">
-          <Button variant="outline" size="sm" asChild className="w-full md:w-auto">
-            <Link href="/payments" className="inline-flex items-center gap-2 px-3">
-              مشاهده جزئیات کامل
-              <ArrowLeft className="size-4" />
-            </Link>
-          </Button>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-muted-foreground">پرداخت پیش رو</span>
+                    <span className={cn("font-semibold", upcomingAmount > 0 && "text-primary")}>
+                      {upcomingAmount > 0 ? (
+                        <FormattedNumber type="price" value={summary.upcomingAmount} />
+                      ) : (
+                        "ثبت نشده"
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="flex items-center justify-between border-t border-border/70 pt-3">
+            <button
+              type="button"
+              className="flex items-center gap-1.5 text-sm font-medium"
+              onClick={() => setIsDetailsOpen((prev) => !prev)}
+            >
+              <motion.span
+                animate={{ rotate: isDetailsOpen ? 180 : 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="inline-flex"
+              >
+                <ChevronDown className="size-4 text-muted-foreground" />
+              </motion.span>
+              <span>مشاهده جزئیات</span>
+            </button>
+            <AnimatePresence initial={false}>
+              {isDetailsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                >
+                  <Button variant="secondary" size="sm" asChild>
+                    <Link href="/payments" className="inline-flex items-center gap-2">
+                      مشاهده جزئیات کامل
+                      <ArrowLeft className="size-4" />
+                    </Link>
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }

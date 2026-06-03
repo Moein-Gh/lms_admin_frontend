@@ -18,10 +18,16 @@ type AmountInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "onCha
   chunks?: number;
   /** Number of digits per chunk when `chunks` > 1 */
   chunkLength?: number;
+  /** Display digits in Persian (Farsi) numerals */
+  persianDigits?: boolean;
 };
 
 function persianToLatinDigits(s: string) {
   return s.replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 1776));
+}
+
+function latinToPersianDigits(s: string) {
+  return s.replace(/[0-9]/g, (d) => String.fromCharCode(d.charCodeAt(0) + 1728));
 }
 
 function formatWithSeparator(raw: string, separator = ",") {
@@ -50,6 +56,7 @@ const AmountInput = React.forwardRef<HTMLInputElement, AmountInputProps>(
       className,
       chunks = 1,
       chunkLength = 3,
+      persianDigits = false,
       ...rest
     },
     ref
@@ -220,7 +227,7 @@ const AmountInput = React.forwardRef<HTMLInputElement, AmountInputProps>(
           {...rest}
           ref={ref}
           name={rest.name ? undefined : rest.name}
-          value={display}
+          value={persianDigits ? latinToPersianDigits(display) : display}
           onChange={handleChange}
           inputMode={allowDecimals ? "decimal" : "numeric"}
           className={className}

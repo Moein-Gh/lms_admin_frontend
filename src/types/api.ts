@@ -3,14 +3,19 @@ export enum OrderDirection {
   DESC = "desc"
 }
 
+export type IsoDateString = string;
+
+export type ProblemDetailsExtensions = Record<string, unknown>;
+
 export interface ProblemDetails {
   type: string;
   title: string;
   detail?: string;
   instance?: string;
-  extensions?: Record<string, string>;
+  extensions?: ProblemDetailsExtensions;
   statusCode: number;
-  occuredAt: Date;
+  occurredAt?: IsoDateString;
+  occuredAt?: IsoDateString;
   // errors?: Array<{ field: string; message: string }>; Add later
 }
 
@@ -38,14 +43,23 @@ export interface PaginatedResponseDto<T> {
   links?: PageLinksDto;
 }
 
-export interface PaginationParams {
-  page?: number;
-  pageSize?: number;
+export interface SortParams {
   orderBy?: string;
   orderDir?: OrderDirection;
+}
+
+export interface CreatedAtRangeParams {
+  minCreatedAt?: IsoDateString;
+  maxCreatedAt?: IsoDateString;
+}
+
+export interface UpdatedAtRangeParams {
+  minUpdatedAt?: IsoDateString;
+  maxUpdatedAt?: IsoDateString;
+}
+
+export interface PaginationParams extends SortParams, CreatedAtRangeParams, UpdatedAtRangeParams {
+  page?: number;
+  pageSize?: number;
   search?: string;
-  minCreatedAt?: string; // ISO date string
-  maxCreatedAt?: string; // ISO date string
-  minUpdatedAt?: string; // ISO date string
-  maxUpdatedAt?: string; // ISO date string
 }

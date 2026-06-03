@@ -15,7 +15,7 @@ export default async function UserDashboardLayout({ children }: Readonly<{ child
   }
 
   return (
-    <div className="min-h-screen bg-background pb-24 md:pb-28">
+    <div className="min-h-screen bg-page-background pb-24 md:pb-28">
       {children}
       <UserNavbar />
     </div>

@@ -1,76 +1,34 @@
 "use client";
 
-import Link from "next/link";
-import { EmptyStateCard } from "@/components/empty-state-card";
-import { ArrowLeft } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/admin/use-current-user";
-import { useUserTransactions } from "@/hooks/user/use-transaction";
-import { CreateDepositDialog } from "./_components/create-deposit-dialog";
+import { LayoutGroup, motion } from "motion/react";
 import { DashboardHeader } from "./_components/dashboard-header";
+import { DashboardQuickActions } from "./_components/dashboard-quick-actions";
 import { NextPaymentSection } from "./_components/next-payment-section";
 import { CompactMetricsTabsLayout } from "./_components/overview-layouts/tabs-variations/compact-metrics-tabs-layout";
-import { TransactionCard } from "./_components/transaction-card";
 
 export default function UserDashboardPage() {
-  const { data: user } = useAuth();
-
-  // Fetch last 3 transactions for the current user
-  const { data: transactionsData, isLoading } = useUserTransactions({
-    page: 1,
-    pageSize: 3,
-    userId: user?.id
-  });
-
   return (
     <div className="container mx-auto p-4 md:p-6">
-      <div className="space-y-6">
-        {/* Header */}
-        <DashboardHeader />
+      <LayoutGroup>
+        <div className="space-y-3">
+          {/* Header */}
+          <DashboardHeader />
 
-        {/* Main Content */}
-        <CompactMetricsTabsLayout />
+          {/* Main Content */}
+          <motion.div layout="position" transition={{ layout: { duration: 0.28, ease: "easeInOut" } }}>
+            <CompactMetricsTabsLayout />
+          </motion.div>
 
-        {/* Next Payment Section */}
-        <NextPaymentSection />
+          {/* Next Payment Section */}
+          <motion.div layout transition={{ layout: { duration: 0.28, ease: "easeInOut" } }}>
+            <NextPaymentSection />
+          </motion.div>
 
-        {/* Recent Transactions */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-semibold md:text-xl">تراکنش‌های اخیر</h2>
-            <CreateDepositDialog />
-          </div>
-
-          {/* Loading State */}
-          {isLoading && (
-            <div className="space-y-3">
-              {Array.from({ length: 3 }, (_, i) => (
-                <div key={`loading-skeleton-${i}`} className="h-24 rounded-lg bg-card animate-pulse" />
-              ))}
-            </div>
-          )}
-
-          {/* Empty State */}
-          {!isLoading && (!transactionsData || transactionsData.data.length === 0) && (
-            <EmptyStateCard title="تراکنشی یافت نشد" description="هنوز هیچ تراکنشی ثبت نشده است." />
-          )}
-
-          {/* Transactions List */}
-          {!isLoading && transactionsData && transactionsData.data.length > 0 && (
-            <div className="space-y-3">
-              {transactionsData.data.map((transaction) => (
-                <TransactionCard key={transaction.id} transaction={transaction} />
-              ))}
-              <Button variant="outline" size="sm" asChild className="w-full">
-                <Link href="/transactions" className="gap-2">
-                  مشاهده تمام تراکنش‌ها
-                  <ArrowLeft className="size-4" />
-                </Link>
-              </Button>
-            </div>
-          )}
+          <motion.div layout transition={{ layout: { duration: 0.28, ease: "easeInOut" } }}>
+            <DashboardQuickActions />
+          </motion.div>
         </div>
-      </div>
+      </LayoutGroup>
     </div>
   );
 }
