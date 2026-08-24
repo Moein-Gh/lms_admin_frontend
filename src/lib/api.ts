@@ -7,15 +7,13 @@ type AuthResponse = {
 };
 
 const api = axios.create({
-  // CRITICAL CHANGE:
-  // We point to '/api' so requests go to Next.js (localhost:3000/api),
-  // allowing the Rewrite Proxy to forward them to the Backend.
-  // If you point directly to localhost:3200, cookies will fail due to domain mismatch.
-  baseURL: "/api",
+  // Calls the backend directly, bypassing the Next.js rewrite proxy.
+  // Requires the backend to send proper CORS headers (specific origin, not '*') for
+  // credentialed cross-origin requests to work.
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
-    "ngrok-skip-browser-warning": "true"
+    "Content-Type": "application/json"
   }
 });
 
