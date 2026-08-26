@@ -50,7 +50,7 @@ export async function listUsers(params?: ListUsersParams): Promise<PaginatedResp
  * Get the current logged in user
  */
 export async function getMe(): Promise<User> {
-  const response = await api.get<User>(`/admin/auth/me`);
+  const response = await api.get<User>(`/auth/me`);
   return response.data;
 }
 
