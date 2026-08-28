@@ -91,8 +91,9 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      // The browser automatically includes the cookie in this request
-      // because we are hitting '/apiadmin/auth/refresh' (Same-Origin)
+      // This is a cross-origin request when the frontend is accessed via a LAN IP
+      // (different origin than NEXT_PUBLIC_API_BASE_URL). The browser only attaches
+      // the httpOnly cookies here because `withCredentials: true` is set above.
       const refreshResponse = await api.post<AuthResponse>("/auth/refresh");
 
       // Handle notification state from refresh response
